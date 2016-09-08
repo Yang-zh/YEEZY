@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginRight="72dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/action_bar_title_size"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout_productDetail"
+        style="@style/TabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager_productDetail"
+        android:layout_width="match_parent"
+        android:background="@android:color/white"
+        android:layout_above="@+id/bottomBar"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tabLayout_productDetail" />
+    <RelativeLayout
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/tv_price"
+            android:text="￥1500.90"
+            android:textSize="17sp"
+            android:textColor="@color/product_list_background_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="14dp" />
+
+        <TextView
+            android:id="@+id/tv_price_original"
+            android:layout_width="wrap_content"
+            android:textSize="15sp"
+            android:text="￥3001.80"
+            android:textColor="@color/product_list_item_subText_color"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@+id/tv_price" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/bt_buy"
+            android:foreground="?selectableItemBackgroundBorderless"
+            app:cardCornerRadius="2dp"
+            app:cardUseCompatPadding="true"
+            app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/colorAccent"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" >
+            <TextView
+                android:textColor="@color/product_list_background_color"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:text="@string/buy"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </android.support.v7.widget.CardView>
+    </RelativeLayout>
+    <FrameLayout
+        android:visibility="gone"
+        android:id="@+id/popup_background"
+        android:background="@color/popup_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</RelativeLayout>

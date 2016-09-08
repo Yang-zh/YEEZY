@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:stepper="http://schemas.android.com/apk/res-auto"
+    android:background="@color/popup_background"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <View
+        android:id="@+id/top_holder"
+        android:background="@android:color/transparent"
+        android:layout_width="match_parent"
+        android:layout_height="11dp"/>
+
+    <RelativeLayout
+        android:layout_below="@+id/top_holder"
+        android:id="@+id/dialog_content"
+        android:background="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:id="@+id/bt_close"
+            android:src="@mipmap/close_black"
+            android:padding="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+        <TextView
+            android:id="@+id/tv_productPrice"
+            android:text="￥1058.94"
+            android:textColor="@color/colorAccent"
+            android:textSize="13sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="120dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_productInventory"
+            android:text="Inventory:917"
+            android:textColor="@color/tab_layout_select_color"
+            android:textSize="12sp"
+            android:layout_below="@+id/tv_productPrice"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="118dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_productSize"
+            android:text="Chosen : “Gray”, “Women US5/UK3.5/EUR36”"
+            android:textColor="@color/tab_layout_select_color"
+            android:textSize="12sp"
+            android:layout_below="@+id/tv_productInventory"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="118dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <View
+            android:layout_marginTop="84dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/cut_line_color"/>
+        <TextView
+            android:id="@+id/tv_color"
+            android:text="@string/Color"
+            android:textSize="12sp"
+            android:textColor="@color/tab_layout_select_color"
+            android:layout_marginTop="92.5dp"
+            android:layout_marginLeft="8.5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_color"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_below="@+id/tv_color"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+        </android.support.v7.widget.RecyclerView>
+        <View
+            android:id="@+id/line_second"
+            android:layout_marginTop="7.5dp"
+            android:layout_below="@+id/rv_color"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/cut_line_color"/>
+        <TextView
+            android:id="@+id/tv_size"
+            android:text="@string/Size"
+            android:textSize="12sp"
+            android:textColor="@color/tab_layout_select_color"
+            android:layout_below="@+id/line_second"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="8.5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_size"
+            android:layout_below="@+id/tv_size"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+        </android.support.v7.widget.RecyclerView>
+        <View
+            android:id="@+id/line_third"
+            android:layout_marginTop="7.5dp"
+            android:layout_below="@+id/rv_size"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/cut_line_color"/>
+        <TextView
+            android:id="@+id/tv_quantity"
+            android:text="@string/Quantity"
+            android:textSize="12sp"
+            android:textColor="@color/tab_layout_select_color"
+            android:layout_below="@+id/line_third"
+            android:layout_marginTop="7dp"
+            android:layout_marginLeft="8.5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <com.bigkoo.snappingstepper.SnappingStepper
+            android:id="@+id/quantity_view"
+            stepper:stepper_background="@android:color/white"
+            stepper:stepper_leftButtonBackground="@drawable/background_edittext"
+            stepper:stepper_rightButtonBackground="@drawable/background_edittext"
+            stepper:stepper_contentBackground="@android:color/white"
+            stepper:stepper_contentTextColor="@color/tab_layout_select_color"
+            stepper:stepper_contentTextSize="12"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/line_third"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="18dp"
+            android:layout_width="78dp"
+            android:layout_height="22dp"/>
+        <Button
+            android:foreground="?selectableItemBackgroundBorderless"
+            android:textStyle="bold"
+            android:text="@string/buy"
+            android:background="@color/colorAccent"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/tv_quantity"
+            android:layout_width="match_parent"
+            android:layout_height="45dp" />
+    </RelativeLayout>
+
+    <ImageView
+        android:src="@mipmap/product_image_placeholder"
+        android:layout_marginLeft="7dp"
+        android:layout_width="92dp"
+        android:scaleType="centerCrop"
+        android:layout_height="92dp" />
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,43 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+    </style>
+
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="gapBetweenBars">5dp</item>
+        <item name="thickness">1dp</item>
+        <item name="color">@android:color/white</item>
+    </style>
+
+    <style name="RoomRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/rating_bar</item>
+        <item name="android:minHeight">15dp</item>
+        <item name="android:maxHeight">15dp</item>
+    </style>
+    
+    <style name="Dialog" parent="Animation.Design.BottomSheetDialog">
+    </style>
+
+    <style name="EditText" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">@color/tab_layout_select_color</item>
+        <item name="android:textColorHint">@color/text_color_grey</item>
+        <item name="android:background">@drawable/background_edittext</item>
+    </style>
+
+    <style name="TabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabBackground">@color/tab_layout_background_color</item>
+        <item name="tabTextColor">@color/tab_layout_unSelect_color</item>
+        <item name="tabSelectedTextColor">@color/tab_layout_select_color</item>
+        <item name="tabIndicatorColor">@color/colorPrimaryDark</item>
+    </style>
+
+</resources>

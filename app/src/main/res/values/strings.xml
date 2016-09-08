@@ -1,0 +1,75 @@
+<resources>
+    <string name="app_name">YEEZY</string>
+    <string name="CloseDrawer">Close drawer</string>
+    <string name="OpenDrawer">Open Drawer</string>
+    <string name="Filter">Filter</string>
+    <string name="Search">Search</string>
+    <string name="Browse">Browse</string>
+    <string name="Notify">Notify</string>
+    <string name="ShoppingCart">Shopping Cart</string>
+    <string name="OrderHistory">Order History</string>
+    <string name="Currency">Currency</string>
+    <string name="AboutUs">About us</string>
+    <string name="ContactUs">Contact us</string>
+    <string name="CustomerSupport">Customer Support</string>
+    <string name="Settings">Settings</string>
+
+
+    <string name="UserInfo">UserInfo</string>
+    <string name="IntroduceYourself">IntroduceYourself</string>
+    <string name="WeWillProvideProductsYouLike">WeWillProvideProductsYouLike</string>
+    <string name="Birthday">Birthday</string>
+    <string name="Change">Change</string>
+    <string name="Sex">Sex</string>
+    <string name="Male">Male</string>
+    <string name="Female">Female</string>
+    <string name="Complete">Complete</string>
+
+
+    <string name="ProductDetail">ProductDetail</string>
+
+
+    <string name="OverView">OverView</string>
+    <string name="Related">Related</string>
+    <string name="Description">Description</string>
+    <string name="Rating">Rating</string>
+    <string name="ShippingInfo">ShippingInfo</string>
+    <string name="ProductName">Adidas Yeezy 350 Boost Moonrock Women</string>
+    <string name="ProductPrice">￥1500.90</string>
+    <string name="ProductOriginalPrice">￥3001.80</string>
+    <string name="ProductSellVolume">1000购买了</string>
+    <string name="Username">Khorium</string>
+    <string name="Cancel">Cancel</string>
+    <string name="PopularSearches">Popular Searches</string>
+    <string name="PleaseSetYourFirstChoiceOfCurrency">Please Set Your First Choice Of Language</string>
+    <string name="ChooseLanguageType">Choose Language Type</string>
+    <string name="ChangeSuccess">Change Language Success</string>
+    <string name="ContinueShopping">CONTINUE SHOPPING</string>
+    <string name="BillTo">Bill To:</string>
+    <string name="CreditCard">Credit Card</string>
+    <string name="CardNumber">Card Number</string>
+    <string name="SecurityCode">Security Code</string>
+    <string name="CVV">CVV</string>
+    <string name="SecurityDetail">The 3 or 4 digit security code on the front or back of your credit card</string>
+    <string name="ExpiryDate">Expiry Date</string>
+    <string name="MMYY">MM/YY</string>
+    <string name="BillingPostalCode">Billing Zip/Postal Code</string>
+    <string name="ZipPostalCode">Zip/Postal Code</string>
+    <string name="BillingPostalCodeDetail">The zip or postal code from the address registered for this credit card</string>
+    <string name="SavePaymentInfo">Save Payment Info</string>
+    <string name="SecurePayment">Secure Payment</string>
+    <string name="SecurePaymentInfo">Trusted by over 100 million shoppers in 50 countries</string>
+    <string name="buy">Buy</string>
+    <string name="Color">Color</string>
+    <string name="Size">Size</string>
+    <string name="Quantity">Quantity</string>
+    <string name="All">ALL</string>
+    <string name="Deals">DEALS</string>
+    <string name="YourOrders">YOUR ORDERS</string>
+    <string name="Other">OTHER</string>
+
+    <string-array name = "currencies">
+        <item>CNY(￥)</item>
+        <item>USD($)</item>
+    </string-array>
+</resources>

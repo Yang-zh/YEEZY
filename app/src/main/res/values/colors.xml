@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#32303D</color>
+    <color name="colorPrimaryDark">#32303D</color>
+    <color name="colorAccent">#DC483E</color>
+    <color name="textColorWhite">#FDFDFD</color>
+    <color name="textColorBlack">#2A2A2A</color>
+    <color name="backgroundGray">#57636F</color>
+    <color name="buttonColorGray">#BBBBBB</color>
+
+    <color name="tab_layout_select_color">#333333</color>
+    <color name="tab_layout_unSelect_color">#666666</color>
+    <color name="tab_layout_background_color">#E5E5E5</color>
+    <color name="dialog_button_cancel">#555555</color>
+
+    <color name="product_list_background_color">#FEFEFE</color>
+    <color name="product_list_item_text_color">#000000</color>
+    <color name="product_list_item_subText_color">#888888</color>
+    <color name="popular_searches_background_color">#464450</color>
+    <color name="spinner_background">#F3F4F6</color>
+    <color name="cut_line_color">#D2D2D2</color>
+    <color name="text_color_grey">#999999</color>
+    <color name="popup_background">#80000000</color>
+</resources>
