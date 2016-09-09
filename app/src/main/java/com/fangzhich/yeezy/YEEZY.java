@@ -2,6 +2,8 @@ package com.fangzhich.yeezy;
 
 import android.app.Application;
 
+import com.blankj.utilcode.utils.PhoneUtils;
+import com.fangzhich.yeezy.net.Api;
 import com.fangzhich.yeezy.util.LogUtils;
 
 /**
@@ -14,5 +16,6 @@ public class YEEZY extends Application {
     public void onCreate() {
         super.onCreate();
         LogUtils.init(getApplicationContext());
+        Api.IMEI = PhoneUtils.getPhoneIMEI(getApplicationContext());
     }
 }

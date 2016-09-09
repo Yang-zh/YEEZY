@@ -12,13 +12,13 @@ import rx.Observable;
  * Created by Khorium on 2016/9/8.
  */
 public interface APIService {
-//    $data = [
-//            'token' => '64e1b8d34f425d19e1ee2ea7236d3028',
-//            'email' => 'admin@admin.com',
-//            'password' => '123456'
-//            ];
     @FormUrlEncoded
-    @POST("index.php?route=account/login")
-    Observable<LoginResult> login(@Field("token") String token, @Field("email") String email, @Field("password") String password);
-
+    @POST("index.php?route=api/login")
+    Observable<LoginResult> login(
+            @Field("apiKey") String appKey,
+            @Field("equipment_id") String equipment_id,
+            @Field("timestamp") String timestamp,
+            @Field("email") String email,
+            @Field("password") String password,
+            @Field("signature") String signature);
 }

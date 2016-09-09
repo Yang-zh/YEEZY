@@ -16,13 +16,11 @@
 
 
     <string name="UserInfo">UserInfo</string>
-    <string name="IntroduceYourself">IntroduceYourself</string>
-    <string name="WeWillProvideProductsYouLike">WeWillProvideProductsYouLike</string>
+    <string name="TellUsAboutYourself">Tell us about yourself</string>
+    <string name="WeWillFindProductsYouLike">We\'ll find products you like</string>
     <string name="Birthday">Birthday</string>
     <string name="Change">Change</string>
-    <string name="Sex">Sex</string>
-    <string name="Male">Male</string>
-    <string name="Female">Female</string>
+    <string name="Gender">Gender</string>
     <string name="Complete">Complete</string>
 
 
@@ -67,9 +65,31 @@
     <string name="Deals">DEALS</string>
     <string name="YourOrders">YOUR ORDERS</string>
     <string name="Other">OTHER</string>
+    <string name="Edit"><u>Edit</u></string>
+    <string name="ItemTotal">Item Total</string>
+    <string name="EstimatedShipping">Estimated Shipping</string>
+    <string name="OrderTotal">Order Total</string>
+    <string name="ReturnPolicy">Return Policy</string>
+    <string name="Personalize">Personalize</string>
+    <string name="Next">Next</string>
+    <string name="Skip">Skip</string>
+    <string name="Confirm">Confirm</string>
+    <string name="Date">{year}-{month}-{day}</string>
+    <string name="CreateYourAccount">Create Your Account</string>
+    <string name="FirstName">First Name</string>
+    <string name="LastName">Last Name</string>
+    <string name="CreateAccount">Create Account</string>
+    <string name="Email">Email</string>
+    <string name="ConfirmPassword">Confirm Password</string>
+    <string name="Or">OR</string>
+    <string name="JoinWithFacebook">Join with Facebook</string>
 
     <string-array name = "currencies">
         <item>CNY(￥)</item>
         <item>USD($)</item>
+    </string-array>
+    <string-array name = "genders">
+        <item>Female</item>
+        <item>Male</item>
     </string-array>
 </resources>

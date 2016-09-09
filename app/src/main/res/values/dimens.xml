@@ -9,4 +9,9 @@
     <dimen name="product_list_item_text_size">11sp</dimen>
     <dimen name="product_list_item_subText_size">9sp</dimen>
 
+    <!--spinner-->
+    <dimen name="three_grid_unit">24dp</dimen>
+    <dimen name="one_and_a_half_grid_unit">12dp</dimen>
+
+
 </resources>

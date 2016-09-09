@@ -10,6 +10,7 @@
         <item name="colorControlNormal">@android:color/white</item>
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="actionMenuTextColor">@android:color/white</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
@@ -30,7 +31,7 @@
     <style name="EditText" parent="Widget.AppCompat.EditText">
         <item name="android:textColor">@color/tab_layout_select_color</item>
         <item name="android:textColorHint">@color/text_color_grey</item>
-        <item name="android:background">@drawable/background_edittext</item>
+        <item name="android:background">@drawable/background_edit_text</item>
     </style>
 
     <style name="TabLayout" parent="Widget.Design.TabLayout">

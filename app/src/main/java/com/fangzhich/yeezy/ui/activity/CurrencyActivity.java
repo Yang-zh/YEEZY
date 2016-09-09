@@ -11,7 +11,11 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.utils.SPUtils;
 import com.fangzhich.yeezy.R;
+import com.fangzhich.yeezy.ui.widget.spinner.NiceSpinner;
 import com.fangzhich.yeezy.util.LogUtils;
+
+import java.util.Arrays;
+import java.util.LinkedList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -28,15 +32,13 @@ public class CurrencyActivity extends BaseActivity{
     TextView title;
 
     @BindView(R.id.spinner_Currency)
-    Spinner languageSpinner;
-    ArrayAdapter<CharSequence> adapter;
-    String[] currencies;
+    NiceSpinner languageSpinner;
     SPUtils utils;
 
     @OnClick(R.id.bt_Currency)
     void chooseCurrency() {
-        if (utils!=null&&currencies!=null&&languageSpinner!=null) {
-            utils.putInt("currency", languageSpinner.getSelectedItemPosition());
+        if (utils!=null&&languageSpinner!=null) {
+            utils.putInt("currency", languageSpinner.getSelectedIndex());
             LogUtils.getInstance().toastInfo("Change Language Success");
         }
         onBackPressed();
@@ -67,23 +69,7 @@ public class CurrencyActivity extends BaseActivity{
 
     private void initSpinner() {
         utils = new SPUtils(CurrencyActivity.this,"YEEZY");
-        currencies = getResources().getStringArray(R.array.currencies);
-
-        adapter = ArrayAdapter.createFromResource(this,R.array.currencies,android.R.layout.simple_spinner_dropdown_item);
-        languageSpinner.setAdapter(adapter);
-        languageSpinner.setPrompt("Currency");
-        languageSpinner.setSelection(utils.getInt("currency"));
-        languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                LogUtils.getInstance().toastInfo("Please Choose Currency");
-            }
-        });
+        languageSpinner.attachDataSource(new LinkedList<>(Arrays.asList(getResources().getStringArray(R.array.currencies))));
     }
 
     @Override

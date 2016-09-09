@@ -2,6 +2,8 @@ package com.fangzhich.yeezy.net.framework;
 
 import android.util.Base64;
 
+import com.fangzhich.yeezy.net.Api;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -25,13 +27,13 @@ public class OauthServiceGenerator {
             new Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .baseUrl(NetClientConfig.BASE_URL);
+                    .baseUrl(Api.BASE_URL);
 
 
 
     public static <S> S createService(Class<S> serviceClass) {
         OkHttpClient client = httpClient.build();
-        httpClient.connectTimeout(NetClientConfig.TIME_OUT, TimeUnit.SECONDS);
+        httpClient.connectTimeout(Api.TIME_OUT, TimeUnit.SECONDS);
         Retrofit retrofit = builder.client(client).build();
         return retrofit.create(serviceClass);
     }

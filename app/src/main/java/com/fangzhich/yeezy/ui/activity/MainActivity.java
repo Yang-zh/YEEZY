@@ -21,13 +21,18 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.PhoneUtils;
+import com.blankj.utilcode.utils.TimeUtils;
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.net.Api;
 import com.fangzhich.yeezy.net.Bean.LoginResult;
 import com.fangzhich.yeezy.ui.fragment.ProductListFragment;
+import com.fangzhich.yeezy.ui.widget.CreditCardDialog;
+import com.fangzhich.yeezy.ui.widget.ShoppingCartDialog;
 import com.fangzhich.yeezy.util.LogUtils;
 import com.fangzhich.yeezy.util.MyUtils;
 import com.google.gson.Gson;
+import com.google.gson.internal.bind.TimeTypeAdapter;
 
 import java.util.ArrayList;
 
@@ -205,21 +210,6 @@ public class MainActivity extends BaseActivity {
         headImage.setImageResource(R.mipmap.headshot_true);
         userName.setText(R.string.Username);
         adapter.notifyDataSetChanged();
-            Api.login("64e1b8d34f425d19e1ee2ea7236d3028", "admin@admin.com", "123456", new Subscriber<LoginResult>() {
-                @Override
-                public void onCompleted() {
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    e.printStackTrace();
-                }
-
-                @Override
-                public void onNext(LoginResult loginResult) {
-                    LogUtils.getInstance().logTestError("Login", new Gson().toJson(loginResult));
-                }
-            });
     }
     @Override
     public void onBackPressed() {
@@ -251,14 +241,33 @@ public class MainActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.filter:
                 LogUtils.getInstance().toastInfo("Filter");
+                startActivity(new Intent(MainActivity.this,LoginActivity.class));
                 break;
             case R.id.search:
-                startActivity(new Intent(MainActivity.this,SearchActivity.class));
+//                startActivity(new Intent(MainActivity.this,SearchActivity.class));
+                Api.login(String.valueOf(TimeUtils.string2Milliseconds(TimeUtils.getCurTimeString())), "admin@admin.com", "123456", new Subscriber<LoginResult>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtils.getInstance().logTestError("Login", "Login Problem");
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(LoginResult loginResult) {
+                        LogUtils.getInstance().logTestError("Login", new Gson().toJson(loginResult));
+                        LogUtils.getInstance().toastInfo("Login Result Get");
+                    }
+                });
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
-
+//    93153283701D7AB550CDBDBF26561207A97D3920
+//    93153283701D7AB550CDBDBF26561207A97D3920
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);

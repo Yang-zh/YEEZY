@@ -125,8 +125,8 @@
         <com.bigkoo.snappingstepper.SnappingStepper
             android:id="@+id/quantity_view"
             stepper:stepper_background="@android:color/white"
-            stepper:stepper_leftButtonBackground="@drawable/background_edittext"
-            stepper:stepper_rightButtonBackground="@drawable/background_edittext"
+            stepper:stepper_leftButtonBackground="@drawable/background_edit_text"
+            stepper:stepper_rightButtonBackground="@drawable/background_edit_text"
             stepper:stepper_contentBackground="@android:color/white"
             stepper:stepper_contentTextColor="@color/tab_layout_select_color"
             stepper:stepper_contentTextSize="12"

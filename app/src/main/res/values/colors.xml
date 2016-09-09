@@ -21,4 +21,8 @@
     <color name="cut_line_color">#D2D2D2</color>
     <color name="text_color_grey">#999999</color>
     <color name="popup_background">#80000000</color>
+    <color name="buttonColorBlue">#2FB7EB</color>
+
+    <!--spinner-->
+    <color name="light_gray">#fff5f5f5</color>
 </resources>
