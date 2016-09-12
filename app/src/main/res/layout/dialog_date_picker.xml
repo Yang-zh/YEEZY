@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/popup_background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:background="@color/product_list_background_color"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content">
+        <DatePicker
+            android:id="@+id/datePicker"
+            android:layout_gravity="center_horizontal"
+            android:startYear="1900"
+            android:endYear="2050"
+            android:calendarViewShown="true"
+            android:spinnersShown="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/bt_save_date"
+            android:layout_below="@+id/datePicker"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            app:cardCornerRadius="3dp"
+            app:cardUseCompatPadding="true"
+            app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/colorAccent"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp" >
+            <TextView
+                android:textColor="@color/product_list_background_color"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:text="@string/Confirm"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </android.support.v7.widget.CardView>
+    </RelativeLayout>
+</RelativeLayout>

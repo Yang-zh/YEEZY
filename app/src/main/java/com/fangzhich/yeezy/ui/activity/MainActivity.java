@@ -21,18 +21,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.blankj.utilcode.utils.PhoneUtils;
 import com.blankj.utilcode.utils.TimeUtils;
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.net.Api;
 import com.fangzhich.yeezy.net.Bean.LoginResult;
 import com.fangzhich.yeezy.ui.fragment.ProductListFragment;
-import com.fangzhich.yeezy.ui.widget.CreditCardDialog;
 import com.fangzhich.yeezy.ui.widget.ShoppingCartDialog;
 import com.fangzhich.yeezy.util.LogUtils;
 import com.fangzhich.yeezy.util.MyUtils;
 import com.google.gson.Gson;
-import com.google.gson.internal.bind.TimeTypeAdapter;
 
 import java.util.ArrayList;
 
@@ -241,7 +238,7 @@ public class MainActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.filter:
                 LogUtils.getInstance().toastInfo("Filter");
-                startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                startActivity(new Intent(MainActivity.this,SignUpActivity.class));
                 break;
             case R.id.search:
 //                startActivity(new Intent(MainActivity.this,SearchActivity.class));

@@ -100,15 +100,15 @@ public class Api {
         return SHA1;
     }
 
-    private static class HttpResultFunc<T> implements Func1<HttpResult<T>, T> {
-
-        @Override
-        public T call(HttpResult<T> httpResult) {
-            if (httpResult.code != 200) {
-                throw new HttpException(httpResult.msg);
-            }
-            return httpResult.data;
-        }
-    }
+//    private static class HttpResultFunc<T> implements Func1<HttpResult<T>, T> {
+//
+//        @Override
+//        public T call(HttpResult<T> httpResult) {
+//            if (httpResult.code != 200) {
+//                throw new HttpException(httpResult.msg);
+//            }
+//            return httpResult.data;
+//        }
+//    }
 
 }

@@ -1,6 +1,5 @@
 package com.fangzhich.yeezy.ui.activity;
 
-import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -23,7 +22,6 @@ import java.util.Calendar;
 import java.util.LinkedList;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -137,14 +135,7 @@ public class UserInfoActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_user_info, menu);
+        getMenuInflater().inflate(R.menu.menu_skip, menu);
         return true;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
     }
 }

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginRight="72dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/action_bar_title_size"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+    <RelativeLayout
+        android:id="@+id/login_content"
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/create_your_account"
+            android:text="@string/CreateYourAccount"
+            android:textSize="16sp"
+            android:textColor="@color/tab_layout_select_color"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:id="@+id/name_layout"
+            android:layout_marginTop="13dp"
+            android:layout_below="@+id/create_your_account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+        <EditText
+            android:id="@+id/first_name"
+            android:hint="@string/FirstName"
+            android:inputType="textPersonName"
+            android:textColorHint="@color/text_color_grey"
+            android:textColor="@color/tab_layout_select_color"
+            android:background="@drawable/background_edit_text"
+            android:padding="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp" />
+        <EditText
+            android:id="@+id/last_name"
+            android:hint="@string/LastName"
+            android:inputType="textPersonName"
+            android:textColorHint="@color/text_color_grey"
+            android:textColor="@color/tab_layout_select_color"
+            android:background="@drawable/background_edit_text"
+            android:padding="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp" />
+        </LinearLayout>
+        <EditText
+            android:id="@+id/email"
+            android:hint="@string/Email"
+            android:inputType="textEmailAddress"
+            android:textColorHint="@color/text_color_grey"
+            android:textColor="@color/tab_layout_select_color"
+            android:background="@drawable/background_edit_text"
+            android:padding="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_below="@+id/name_layout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+        <EditText
+            android:id="@+id/password"
+            android:hint="@string/FirstName"
+            android:inputType="textPassword"
+            android:textColorHint="@color/text_color_grey"
+            android:textColor="@color/tab_layout_select_color"
+            android:background="@drawable/background_edit_text"
+            android:padding="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_below="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+        <EditText
+            android:id="@+id/confirmPassword"
+            android:hint="@string/ConfirmPassword"
+            android:inputType="textPassword"
+            android:textColorHint="@color/text_color_grey"
+            android:textColor="@color/tab_layout_select_color"
+            android:background="@drawable/background_edit_text"
+            android:padding="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_below="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+        <android.support.v7.widget.CardView
+            android:id="@+id/bt_create_account"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            app:cardCornerRadius="3dp"
+            app:cardUseCompatPadding="true"
+            app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/colorAccent"
+            android:layout_below="@+id/confirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp" >
+            <TextView
+                android:textColor="@color/product_list_background_color"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:text="@string/CreateAccount"
+                android:textSize="14sp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </android.support.v7.widget.CardView>
+        <TextView
+            android:id="@+id/or"
+            android:text="@string/Or"
+            android:textSize="18sp"
+            android:textColor="@color/tab_layout_select_color"
+            android:layout_marginTop="14dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/bt_create_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.CardView
+            android:id="@+id/bt_facebook"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            app:cardCornerRadius="3dp"
+            app:cardUseCompatPadding="true"
+            app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/colorAccent"
+            android:layout_below="@+id/or"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="14dp" >
+            <TextView
+                android:textColor="@color/product_list_background_color"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:text="@string/JoinWithFacebook"
+                android:textSize="14sp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </android.support.v7.widget.CardView>
+    </RelativeLayout>
+</RelativeLayout>

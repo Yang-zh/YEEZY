@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/iv_productImage"
+        android:layout_margin="10dp"
+        android:layout_width="120dp"
+        android:layout_height="185dp" />
+    <TextView
+        android:id="@+id/tv_productName"
+        android:text="@string/ProductNameSample"
+        android:textColor="@color/tab_layout_select_color"
+        android:textSize="16sp"
+        android:layout_toRightOf="@+id/iv_productImage"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/color_is"
+        android:text="@string/ColorIs"
+        android:textColor="@color/text_color_grey"
+        android:textSize="14sp"
+        android:layout_below="@+id/tv_productName"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="14dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/color_detail"
+        android:text="@string/Blue"
+        android:textColor="@color/tab_layout_select_color"
+        android:textSize="14sp"
+        android:layout_toRightOf="@+id/color_is"
+        android:layout_below="@+id/tv_productName"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="14dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/quantity_is"
+        android:text="@string/QuantityIs"
+        android:textColor="@color/text_color_grey"
+        android:textSize="14sp"
+        android:layout_below="@+id/color_is"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/quantity_detail"
+        android:text="@string/_1"
+        android:textColor="@color/tab_layout_select_color"
+        android:textSize="14sp"
+        android:layout_toRightOf="@+id/quantity_is"
+        android:layout_below="@+id/color_is"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/shipping_is"
+        android:text="@string/ShippingIs"
+        android:textColor="@color/text_color_grey"
+        android:textSize="14sp"
+        android:layout_below="@+id/quantity_is"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/shipping_detail"
+        android:text="@string/ShippingDetail"
+        android:textColor="@color/tab_layout_select_color"
+        android:textSize="14sp"
+        android:layout_toRightOf="@+id/shipping_is"
+        android:layout_below="@+id/quantity_is"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tv_productPrice"
+        android:text="@string/money"
+        android:textColor="@color/tab_layout_select_color"
+        android:textSize="14sp"
+        android:layout_below="@+id/shipping_is"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tv_productOriginalPrice"
+        android:text="@string/moneyDetail"
+        android:textColor="@color/text_color_grey"
+        android:textSize="14sp"
+        android:layout_toRightOf="@+id/tv_productPrice"
+        android:layout_below="@+id/shipping_is"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

@@ -83,6 +83,22 @@
     <string name="ConfirmPassword">Confirm Password</string>
     <string name="Or">OR</string>
     <string name="JoinWithFacebook">Join with Facebook</string>
+    <string name="SignIn">Sign In</string>
+    <string name="ForgetPassword">Forget Password</string>
+    <string name="SignInWithFaceBook">Sign in with Facebook</string>
+    <string name="Welcome">Welcome</string>
+    <string name="WhatDoYouLikeToShoppingFor">What do you like to shopping for?</string>
+    <string name="PickAtLeastOneCategory">Pick at least one category</string>
+    <string name="ReturnPolicyDetail">We want to be completely satisfied with your purchase on Wish.</string>
+    <string name="ProductNameSample">Hots Fashion Triple USB Port Wall Home Travel AC Power Charger Adapter Sale</string>
+    <string name="ColorIs">Color:</string>
+    <string name="Blue">Blue</string>
+    <string name="QuantityIs">Quantity:</string>
+    <string name="_1">1</string>
+    <string name="ShippingIs">Shipping:</string>
+    <string name="ShippingDetail">US$2.04\nSep 19 - Sep 22</string>
+    <string name="money">US$3.04</string>
+    <string name="moneyDetail">US$30.04</string>
 
     <string-array name = "currencies">
         <item>CNY(￥)</item>
