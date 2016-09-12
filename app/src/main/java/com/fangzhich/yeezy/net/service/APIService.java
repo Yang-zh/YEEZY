@@ -8,6 +8,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 import rx.Observable;
+import rx.Single;
 
 /**
  * API
@@ -17,7 +18,7 @@ public interface APIService {
 
     @FormUrlEncoded
     @POST("index.php?route=api/login")
-    Observable<HttpResult<LoginEntity>> login(
+    Single<HttpResult<LoginEntity>> login(
             @Field("apiKey") String apiKey,
             @Field("equipment_id") String equipment_id,
             @Field("timestamp") String timestamp,
@@ -27,7 +28,7 @@ public interface APIService {
 
     @FormUrlEncoded
     @POST("index.php?route=api/register")
-    Observable<HttpResult<RegisterEntity>> register(
+    Single<HttpResult<RegisterEntity>> register(
             @Field("apiKey") String apiKey,
             @Field("equipment_id") String equipment_id,
             @Field("timestamp") String timestamp,

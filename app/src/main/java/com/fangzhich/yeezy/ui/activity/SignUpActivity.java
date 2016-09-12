@@ -7,10 +7,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.fangzhich.yeezy.R;
+import com.fangzhich.yeezy.net.Api;
+import com.fangzhich.yeezy.net.Bean.RegisterEntity;
 import com.fangzhich.yeezy.util.LogUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.SingleSubscriber;
+import rx.Subscriber;
 
 /**
  * SignUpActivity
@@ -35,7 +39,22 @@ public class SignUpActivity extends BaseActivity {
 
     @OnClick(R.id.bt_create_account)
     void createAccount() {
-        LogUtils.getInstance().toastInfo("Create Account");
+        Api.register(firstName.getText().toString(),
+                lastName.getText().toString(),
+                email.getText().toString(),
+                password.getText().toString(),
+                new SingleSubscriber<RegisterEntity>() {
+                    @Override
+                    public void onSuccess(RegisterEntity value) {
+                        LogUtils.getInstance().toastInfo("Create Account Success!");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        LogUtils.getInstance().toastInfo(e.getMessage());
+                    }
+                });
     }
 
     @OnClick(R.id.bt_facebook)

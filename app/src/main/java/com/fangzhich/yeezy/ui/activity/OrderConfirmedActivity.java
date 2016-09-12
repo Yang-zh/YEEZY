@@ -1,6 +1,7 @@
 package com.fangzhich.yeezy.ui.activity;
 
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,6 +11,7 @@ import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.util.LogUtils;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * OrderConfirmedActivity
@@ -21,6 +23,24 @@ public class OrderConfirmedActivity extends BaseActivity {
     Toolbar toolbar;
     @BindView(R.id.title)
     TextView title;
+    @BindView(R.id.brand)
+    TextView brand;
+    @BindView(R.id.item_total)
+    TextView itemTotal;
+    @BindView(R.id.shipping)
+    TextView shipping;
+    @BindView(R.id.order_total)
+    TextView orderTotal;
+    @OnClick(R.id.bt_viewOrders)
+    void viewOrders() {
+
+    }
+    @OnClick(R.id.bt_continue_shipping)
+    void continueShipping() {
+
+    }
+    @BindView(R.id.rv_related_list)
+    RecyclerView rvRelatedList;
 
     @Override
     public int setContentLayout() {

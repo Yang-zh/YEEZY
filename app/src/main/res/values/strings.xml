@@ -102,6 +102,12 @@
     <string name="moneyDetail">US$30.04</string>
     <string name="OrderConfirmed">Order Confirmed</string>
     <string name="PowerByIs">Power by :</string>
+    <string name="Jodan">Jodan</string>
+    <string name="Summary">Summary</string>
+    <string name="Shipping">Shipping</string>
+    <string name="ViewOrders">View Orders</string>
+    <string name="ContinueShipping">Continue Shipping</string>
+    <string name="RELATED">RELATED</string>
 
     <string-array name = "currencies">
         <item>CNY(￥)</item>

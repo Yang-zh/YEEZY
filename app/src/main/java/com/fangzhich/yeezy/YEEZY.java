@@ -5,6 +5,7 @@ import android.app.Application;
 import com.blankj.utilcode.utils.PhoneUtils;
 import com.fangzhich.yeezy.net.Api;
 import com.fangzhich.yeezy.util.LogUtils;
+import com.squareup.leakcanary.LeakCanary;
 
 /**
  * BaseApplication
@@ -15,6 +16,7 @@ public class YEEZY extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        LeakCanary.install(this);
         LogUtils.init(getApplicationContext());
         Api.IMEI = PhoneUtils.getPhoneIMEI(getApplicationContext());
     }

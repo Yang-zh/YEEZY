@@ -33,6 +33,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import rx.SingleSubscriber;
 import rx.Subscriber;
 
 public class MainActivity extends BaseActivity {
@@ -241,21 +242,17 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.search:
 //                startActivity(new Intent(MainActivity.this,SearchActivity.class));
-                Api.login("11@admin.com", "123456", new Subscriber<LoginEntity>() {
+                Api.login("11@admin.com", "123456", new SingleSubscriber<LoginEntity>() {
                     @Override
-                    public void onCompleted() {
+                    public void onSuccess(LoginEntity value) {
+                        LogUtils.getInstance().logTestError("Login", new Gson().toJson(value));
+                        LogUtils.getInstance().toastInfo("Login Result Get");
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         LogUtils.getInstance().logTestError("Login", "Login Problem");
                         e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(LoginEntity loginResult) {
-                        LogUtils.getInstance().logTestError("Login", new Gson().toJson(loginResult));
-                        LogUtils.getInstance().toastInfo("Login Result Get");
                     }
                 });
                 break;

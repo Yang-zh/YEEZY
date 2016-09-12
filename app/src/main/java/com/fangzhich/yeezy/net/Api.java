@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import rx.SingleSubscriber;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
@@ -50,8 +51,9 @@ public class Api {
                 .createService(APIService.class);
     }
 
-    public static void login(String email,String password , Subscriber<LoginEntity> subscriber) {
-        String timestamp = String.valueOf(System.currentTimeMillis());HashMap<String,String> params = new HashMap<>();
+    public static void login(String email,String password , SingleSubscriber<LoginEntity> subscriber) {
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        HashMap<String,String> params = new HashMap<>();
         params.put("timestamp",timestamp);
 
         params.put("email",email);
@@ -61,12 +63,11 @@ public class Api {
                 .login(API_KEY,IMEI,timestamp,email,password,getSignature(params))
                 .map(new HttpResultFunc<LoginEntity>())
                 .subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
 
-    public static void register(String firstname, String lastname, String email, String password, Subscriber<RegisterEntity> subscriber) {
+    public static void register(String firstname, String lastname, String email, String password, SingleSubscriber<RegisterEntity> subscriber) {
         String timestamp = String.valueOf(System.currentTimeMillis());
         HashMap<String,String> params = new HashMap<>();
         params.put("timestamp",timestamp);
@@ -80,7 +81,6 @@ public class Api {
                 .register(API_KEY,IMEI,timestamp,firstname,lastname,email,password,getSignature(params))
                 .map(new HttpResultFunc<RegisterEntity>())
                 .subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
