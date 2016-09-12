@@ -2,20 +2,16 @@ package com.fangzhich.yeezy.net;
 
 
 import com.blankj.utilcode.utils.EncryptUtils;
-import com.blankj.utilcode.utils.TimeUtils;
 import com.fangzhich.yeezy.net.Bean.HttpResult;
-import com.fangzhich.yeezy.net.Bean.LoginResult;
-import com.fangzhich.yeezy.net.framework.HttpException;
+import com.fangzhich.yeezy.net.Bean.LoginEntity;
+import com.fangzhich.yeezy.net.Bean.RegisterEntity;
+import com.fangzhich.yeezy.net.framework.HttpResultException;
 import com.fangzhich.yeezy.net.framework.OauthServiceGenerator;
 import com.fangzhich.yeezy.net.service.APIService;
-import com.fangzhich.yeezy.util.LogUtils;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -54,31 +50,45 @@ public class Api {
                 .createService(APIService.class);
     }
 
-    public static void login(String timestamp, String email,String password , Subscriber<LoginResult> subscriber) {
+    public static void login(String email,String password , Subscriber<LoginEntity> subscriber) {
+        String timestamp = String.valueOf(System.currentTimeMillis());HashMap<String,String> params = new HashMap<>();
+        params.put("timestamp",timestamp);
+
+        params.put("email",email);
+        params.put("password",password);
+
         Api.createClientAuthorizedService(APIService.class)
-                .login(API_KEY,IMEI,timestamp,email,password,getSignature(getLoginMap(APP_KEY,API_KEY,IMEI,timestamp,email,password)))
+                .login(API_KEY,IMEI,timestamp,email,password,getSignature(params))
+                .map(new HttpResultFunc<LoginEntity>())
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
 
-    private static Map<String,String> getLoginMap(String appKey,String apiKey, String imei, String timestamp, String email, String password) {
+    public static void register(String firstname, String lastname, String email, String password, Subscriber<RegisterEntity> subscriber) {
+        String timestamp = String.valueOf(System.currentTimeMillis());
         HashMap<String,String> params = new HashMap<>();
-        params.put("appKey",appKey);
-        params.put("apiKey",apiKey);
-        params.put("equipment_id",imei);
         params.put("timestamp",timestamp);
+
+        params.put("firstname",firstname);
+        params.put("lastname",lastname);
         params.put("email",email);
         params.put("password",password);
-        return params;
+
+        Api.createClientAuthorizedService(APIService.class)
+                .register(API_KEY,IMEI,timestamp,firstname,lastname,email,password,getSignature(params))
+                .map(new HttpResultFunc<RegisterEntity>())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
     }
 
-    private static String getTimeStamp() {
-        return String.valueOf(TimeUtils.getCurTimeMills());
-    }
-
-    private static String getSignature(Map<String,String> params) {
+    private static String getSignature(HashMap<String,String> params) {
+        params.put("appKey",APP_KEY);
+        params.put("apiKey",API_KEY);
+        params.put("equipment_id",IMEI);
         List<String> list = new ArrayList<>(params.keySet());
 
         Collections.sort(list);
@@ -91,24 +101,16 @@ public class Api {
 
         String origin = builder.toString();
 
-        String MD5 = EncryptUtils.encryptMD5ToString(origin);
-
-        String SHA1 = EncryptUtils.encryptSHA1ToString(MD5);
-
-        LogUtils.getInstance().logTestError("network",SHA1);
-
-        return SHA1;
+        return EncryptUtils.encryptSHA1ToString(EncryptUtils.encryptMD5ToString(origin));
     }
 
-//    private static class HttpResultFunc<T> implements Func1<HttpResult<T>, T> {
-//
-//        @Override
-//        public T call(HttpResult<T> httpResult) {
-//            if (httpResult.code != 200) {
-//                throw new HttpException(httpResult.msg);
-//            }
-//            return httpResult.data;
-//        }
-//    }
-
+    protected static class HttpResultFunc<T> implements Func1<HttpResult<T>,T>{
+        @Override
+        public T call(HttpResult<T> HttpResult) {
+            if (HttpResult.status_code!=0) {
+                throw new HttpResultException(HttpResult.message);
+            }
+            return HttpResult.data;
+        }
+    }
 }

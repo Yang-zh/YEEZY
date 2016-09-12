@@ -3,6 +3,7 @@ package com.fangzhich.yeezy.net.framework;
 import android.util.Base64;
 
 import com.fangzhich.yeezy.net.Api;
+import com.fangzhich.yeezy.util.LogUtils;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -32,8 +33,8 @@ public class OauthServiceGenerator {
 
 
     public static <S> S createService(Class<S> serviceClass) {
-        OkHttpClient client = httpClient.build();
         httpClient.connectTimeout(Api.TIME_OUT, TimeUnit.SECONDS);
+        OkHttpClient client = httpClient.build();
         Retrofit retrofit = builder.client(client).build();
         return retrofit.create(serviceClass);
     }
@@ -105,5 +106,27 @@ public class OauthServiceGenerator {
 
         return createService(serviceClass);
     }
+    public class AccessToken {
+
+        public AccessToken() {
+        }
+
+        public AccessToken(String tokenType, String accessToken) {
+            this.tokenType = tokenType;
+            this.accessToken = accessToken;
+        }
+
+        private String tokenType;
+        private String accessToken;
+
+        public String getTokenType() {
+            return tokenType;
+        }
+
+        public String getAccessToken() {
+            return accessToken;
+        }
+    }
+
 
 }

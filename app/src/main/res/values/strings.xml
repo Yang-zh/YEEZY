@@ -65,6 +65,7 @@
     <string name="Deals">DEALS</string>
     <string name="YourOrders">YOUR ORDERS</string>
     <string name="Other">OTHER</string>
+    <string name="Remove"><u>Remove</u></string>
     <string name="Edit"><u>Edit</u></string>
     <string name="ItemTotal">Item Total</string>
     <string name="EstimatedShipping">Estimated Shipping</string>
@@ -99,6 +100,8 @@
     <string name="ShippingDetail">US$2.04\nSep 19 - Sep 22</string>
     <string name="money">US$3.04</string>
     <string name="moneyDetail">US$30.04</string>
+    <string name="OrderConfirmed">Order Confirmed</string>
+    <string name="PowerByIs">Power by :</string>
 
     <string-array name = "currencies">
         <item>CNY(￥)</item>

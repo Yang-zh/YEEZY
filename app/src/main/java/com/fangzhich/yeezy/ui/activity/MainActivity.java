@@ -2,6 +2,7 @@ package com.fangzhich.yeezy.ui.activity;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -12,7 +13,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,10 +21,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.blankj.utilcode.utils.TimeUtils;
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.net.Api;
-import com.fangzhich.yeezy.net.Bean.LoginResult;
+import com.fangzhich.yeezy.net.Bean.LoginEntity;
 import com.fangzhich.yeezy.ui.fragment.ProductListFragment;
 import com.fangzhich.yeezy.ui.widget.ShoppingCartDialog;
 import com.fangzhich.yeezy.util.LogUtils;
@@ -242,7 +241,7 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.search:
 //                startActivity(new Intent(MainActivity.this,SearchActivity.class));
-                Api.login(String.valueOf(TimeUtils.string2Milliseconds(TimeUtils.getCurTimeString())), "admin@admin.com", "123456", new Subscriber<LoginResult>() {
+                Api.login("11@admin.com", "123456", new Subscriber<LoginEntity>() {
                     @Override
                     public void onCompleted() {
                     }
@@ -254,7 +253,7 @@ public class MainActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNext(LoginResult loginResult) {
+                    public void onNext(LoginEntity loginResult) {
                         LogUtils.getInstance().logTestError("Login", new Gson().toJson(loginResult));
                         LogUtils.getInstance().toastInfo("Login Result Get");
                     }
@@ -263,8 +262,7 @@ public class MainActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-//    93153283701D7AB550CDBDBF26561207A97D3920
-//    93153283701D7AB550CDBDBF26561207A97D3920
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);

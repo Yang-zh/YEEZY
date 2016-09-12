@@ -1,12 +1,11 @@
 package com.fangzhich.yeezy.net.Bean;
 
 /**
- *
- * Created by Khorium on 2016/8/30.
+ * HttpResult
+ * Created by Khorium on 2016/9/12.
  */
 public class HttpResult<T> {
-
-    public String msg;
-    public int code;
+    public int status_code;
+    public String message;
     public T data;
 }
