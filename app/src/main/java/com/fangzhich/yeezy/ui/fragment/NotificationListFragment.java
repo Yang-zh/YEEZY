@@ -1,17 +1,10 @@
 package com.fangzhich.yeezy.ui.fragment;
 
-import android.graphics.drawable.GradientDrawable;
-import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
-import com.blankj.utilcode.utils.SizeUtils;
 import com.fangzhich.yeezy.R;
-import com.fangzhich.yeezy.net.Bean.NotificationEntity;
+import com.fangzhich.yeezy.data.net.Bean.NotificationEntity;
 import com.fangzhich.yeezy.ui.adapter.LinearLayoutItemDecoration;
 import com.fangzhich.yeezy.ui.adapter.NotificationListAdapter;
 

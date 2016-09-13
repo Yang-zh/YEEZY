@@ -123,7 +123,7 @@ public class NiceSpinner extends TextView {
 
 
         listView = new ListView(context);
-        // Set the spinner's id into the listview to make it pretend to be the right parent in
+        // Set the spinner's product_id into the listview to make it pretend to be the right parent in
         // onItemClick
         listView.setId(getId());
         listView.setDivider(null);

@@ -81,7 +81,7 @@ public class ProductDetailActivity extends BaseActivity{
 
     @Override
     protected void initContentView() {
-        String id = getIntent().getStringExtra("id");
+        String id = getIntent().getStringExtra("product_id");
         initToolbar();
         initViewPager();
         initBottomBarAndPopup();

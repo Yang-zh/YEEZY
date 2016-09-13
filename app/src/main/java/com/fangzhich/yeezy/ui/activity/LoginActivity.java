@@ -7,64 +7,42 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.fangzhich.yeezy.R;
-import com.fangzhich.yeezy.net.Api;
-import com.fangzhich.yeezy.net.Bean.RegisterEntity;
 import com.fangzhich.yeezy.util.LogUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import rx.SingleSubscriber;
-import rx.Subscriber;
 
 /**
- * SignUpActivity
- * Created by Khorium on 2016/9/9.
+ * LoginActivity
+ * Created by Khorium on 2016/9/12.
  */
-public class SignUpActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.title)
     TextView title;
-    @BindView(R.id.first_name)
-    EditText firstName;
-    @BindView(R.id.last_name)
-    EditText lastName;
     @BindView(R.id.email)
     EditText email;
     @BindView(R.id.password)
     EditText password;
-    @BindView(R.id.confirmPassword)
-    EditText confirmPassword;
+    @OnClick(R.id.bt_sign_in)
+    void signIn() {
+        LogUtils.getInstance().toastInfo("Sign in");
 
-    @OnClick(R.id.bt_create_account)
-    void createAccount() {
-        Api.register(firstName.getText().toString(),
-                lastName.getText().toString(),
-                email.getText().toString(),
-                password.getText().toString(),
-                new SingleSubscriber<RegisterEntity>() {
-                    @Override
-                    public void onSuccess(RegisterEntity value) {
-                        LogUtils.getInstance().toastInfo("Create Account Success!");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                        LogUtils.getInstance().toastInfo(e.getMessage());
-                    }
-                });
     }
-
+    @OnClick(R.id.forget_password)
+    void forgetPassword() {
+        LogUtils.getInstance().toastInfo("Forget Password");
+    }
     @OnClick(R.id.bt_facebook)
-    void joinWithFaceBook() {
-        LogUtils.getInstance().toastInfo("Join with Facebook");
+    void signInWithFacebook() {
+        LogUtils.getInstance().toastInfo("Sign in with Facebook");
     }
 
     @Override
     public int setContentLayout() {
-        return R.layout.activity_sign_up;
+        return R.layout.activity_sign_in;
     }
 
     @Override
@@ -80,7 +58,7 @@ public class SignUpActivity extends BaseActivity {
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        title.setText(R.string.CreateAccount);
+        title.setText(R.string.SignIn);
     }
 
     @Override

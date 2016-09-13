@@ -22,8 +22,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fangzhich.yeezy.R;
-import com.fangzhich.yeezy.net.Api;
-import com.fangzhich.yeezy.net.Bean.LoginEntity;
+import com.fangzhich.yeezy.data.net.Api;
+import com.fangzhich.yeezy.data.net.Bean.CategoryEntity;
+import com.fangzhich.yeezy.data.net.Bean.LoginEntity;
 import com.fangzhich.yeezy.ui.fragment.ProductListFragment;
 import com.fangzhich.yeezy.ui.widget.ShoppingCartDialog;
 import com.fangzhich.yeezy.util.LogUtils;
@@ -34,7 +35,6 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import rx.SingleSubscriber;
-import rx.Subscriber;
 
 public class MainActivity extends BaseActivity {
 
@@ -152,61 +152,63 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initViewPager() {
-        fragments.add(new ProductListFragment());
-        fragments.add(new ProductListFragment());
-        fragments.add(new ProductListFragment());
-        fragments.add(new ProductListFragment());
-        fragments.add(new ProductListFragment());
-        fragments.add(new ProductListFragment());
-        fragmentTitles.add("Yeezy 350 Boost");
-        fragmentTitles.add("Yeezy 750 Boost");
-        fragmentTitles.add("Adidas NMD");
-        fragmentTitles.add("Yeezy 350 Boost");
-        fragmentTitles.add("Yeezy 750 Boost");
-        fragmentTitles.add("Adidas NMD");
-        adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+        Api.getCategories(new SingleSubscriber<ArrayList<CategoryEntity>>() {
             @Override
-            public Fragment getItem(int position) {
-                return fragments.get(position);
+            public void onSuccess(ArrayList<CategoryEntity> categoryList) {
+                for (CategoryEntity category:categoryList) {
+                    fragments.add(new ProductListFragment());
+                    fragmentTitles.add(category.name);
+                }
+                adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+                    @Override
+                    public Fragment getItem(int position) {
+                        return fragments.get(position);
+                    }
+
+                    @Override
+                    public int getCount() {
+                        return fragments.size();
+                    }
+
+                    @Override
+                    public CharSequence getPageTitle(int position) {
+                        return fragmentTitles.get(position);
+                    }
+                };
+                viewPager.setAdapter(adapter);
+                viewPager.setOffscreenPageLimit(1);
+                tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        viewPager.setCurrentItem(tab.getPosition());
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+                    }
+                });
+                tabLayout.setupWithViewPager(viewPager);
+                MyUtils.dynamicSetTabLayoutMode(tabLayout,MainActivity.this);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
-            public int getCount() {
-                return fragments.size();
-            }
-
-            @Override
-            public CharSequence getPageTitle(int position) {
-                return fragmentTitles.get(position);
-            }
-        };
-
-        viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(2);
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+            public void onError(Throwable error) {
+                LogUtils.getInstance().toastInfo(error.getMessage());
+                LogUtils.getInstance().logTestError("getCategoriesError",error.getMessage());
             }
         });
-        tabLayout.setupWithViewPager(viewPager);
-        MyUtils.dynamicSetTabLayoutMode(tabLayout,this);
     }
 
     @Override
     protected void loadData() {
         headImage.setImageResource(R.mipmap.headshot_true);
         userName.setText(R.string.Username);
-        adapter.notifyDataSetChanged();
     }
     @Override
     public void onBackPressed() {
@@ -238,11 +240,11 @@ public class MainActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.filter:
                 LogUtils.getInstance().toastInfo("Filter");
-                startActivity(new Intent(MainActivity.this,SignUpActivity.class));
+                startActivity(new Intent(MainActivity.this,RegisterActivity.class));
                 break;
             case R.id.search:
 //                startActivity(new Intent(MainActivity.this,SearchActivity.class));
-                Api.login("11@admin.com", "123456", new SingleSubscriber<LoginEntity>() {
+                Api.login("test@qq.com", "123456", new SingleSubscriber<LoginEntity>() {
                     @Override
                     public void onSuccess(LoginEntity value) {
                         LogUtils.getInstance().logTestError("Login", new Gson().toJson(value));
@@ -251,8 +253,7 @@ public class MainActivity extends BaseActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        LogUtils.getInstance().logTestError("Login", "Login Problem");
-                        e.printStackTrace();
+                        LogUtils.getInstance().logTestError("Login", e.getMessage());
                     }
                 });
                 break;

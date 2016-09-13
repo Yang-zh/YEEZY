@@ -76,7 +76,7 @@
                     </RelativeLayout>
                 </RelativeLayout>
                 <!--<Button-->
-                    <!--android:id="@+id/bt_left"-->
+                    <!--android:product_id="@+product_id/bt_left"-->
                     <!--android:textColor="@color/tab_layout_unSelect_color"-->
                     <!--android:layout_marginRight="3dp"-->
                     <!--android:background="@color/tab_layout_background_color"-->
@@ -87,7 +87,7 @@
                     <!--android:layout_weight="1"-->
                     <!--android:drawableLeft="@mipmap/like"/>-->
                 <!--<Button-->
-                    <!--android:id="@+id/bt_right"-->
+                    <!--android:product_id="@+product_id/bt_right"-->
                     <!--android:textColor="@color/tab_layout_unSelect_color"-->
                     <!--android:layout_marginLeft="3dp"-->
                     <!--android:paddingRight="30dp"-->
@@ -281,7 +281,7 @@
 
             </RelativeLayout>
             <!--<android.support.v7.widget.RecyclerView-->
-                <!--android:id="@+id/rv_comments"-->
+                <!--android:product_id="@+product_id/rv_comments"-->
                 <!--android:layout_width="wrap_content"-->
                 <!--android:layout_height="wrap_content"/>-->
 

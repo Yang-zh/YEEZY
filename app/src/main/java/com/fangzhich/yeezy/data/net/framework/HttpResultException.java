@@ -1,6 +1,4 @@
-package com.fangzhich.yeezy.net.framework;
-
-import java.io.PrintStream;
+package com.fangzhich.yeezy.data.net.framework;
 
 /**
  * Created by Khorium on 2016/9/12.

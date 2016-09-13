@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.ui.activity.ProductDetailActivity;
-import com.fangzhich.yeezy.net.Bean.ProductEntity;
+import com.fangzhich.yeezy.data.net.Bean.ProductEntity;
 
 import java.util.ArrayList;
 
@@ -52,7 +52,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(),ProductDetailActivity.class);
-                intent.putExtra("id",products.get(holder.getAdapterPosition()).id);
+                intent.putExtra("product_id",products.get(holder.getAdapterPosition()).product_id);
                 v.getContext().startActivity(intent);
             }
         });

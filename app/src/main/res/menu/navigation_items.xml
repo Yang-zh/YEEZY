@@ -44,15 +44,15 @@
     <!--<item android:title="SubItems">-->
         <!--<menu>-->
             <!--<item-->
-                <!--android:id="@+id/SubItem1"-->
+                <!--android:product_id="@+product_id/SubItem1"-->
                 <!--android:icon="@mipmap/ic_launcher"-->
                 <!--android:title="SubItem1"/>-->
             <!--<item-->
-                <!--android:id="@+id/SubItem2"-->
+                <!--android:product_id="@+product_id/SubItem2"-->
                 <!--android:icon="@mipmap/ic_launcher"-->
                 <!--android:title="SubItem2"/>-->
             <!--<item-->
-                <!--android:id="@+id/SubItem3"-->
+                <!--android:product_id="@+product_id/SubItem3"-->
                 <!--android:icon="@mipmap/ic_launcher"-->
                 <!--android:title="SubItem3"/>-->
         <!--</menu>-->

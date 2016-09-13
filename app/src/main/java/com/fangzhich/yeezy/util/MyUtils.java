@@ -19,17 +19,6 @@ import java.lang.reflect.Method;
  */
 public class MyUtils {
 
-
-    public static int getStatusBarHeight(Activity activity) {
-        int height = 0;
-        int resourceId = activity.getResources().getIdentifier("status_bar_height", "dimen",
-                "android");
-        if (resourceId > 0) {
-            height = activity.getResources().getDimensionPixelSize(resourceId);
-        }
-        return height;
-    }
-
     public static void dynamicSetTabLayoutMode(TabLayout tabLayout, Context context) {
         int tabWidth = calculateTabWidth(tabLayout);
         int screenWidth = context.getResources().getDisplayMetrics().widthPixels;

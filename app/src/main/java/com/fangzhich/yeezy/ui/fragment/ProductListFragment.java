@@ -1,16 +1,12 @@
 package com.fangzhich.yeezy.ui.fragment;
 
-import android.animation.Animator;
-import android.animation.ValueAnimator;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SimpleItemAnimator;
 
 import com.blankj.utilcode.utils.SizeUtils;
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.ui.adapter.ProductListAdapter;
-import com.fangzhich.yeezy.net.Bean.ProductEntity;
+import com.fangzhich.yeezy.data.net.Bean.ProductEntity;
 import com.fangzhich.yeezy.ui.adapter.GridSpaceItemDecoration;
 
 import java.util.ArrayList;

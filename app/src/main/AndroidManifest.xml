@@ -23,10 +23,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.SignUpActivity"
+            android:name=".ui.activity.RegisterActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.activity.SignInActivity"
+            android:name=".ui.activity.LoginActivity"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.activity.ReturnPolicyActivity"

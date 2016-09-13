@@ -4,23 +4,23 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * TagFormat
+ * TagFormatUtil
  * Created by Khorium on 2016/9/9.
  */
-public class TagFormat {
+public class TagFormatUtil {
 
-    public static TagFormat from(String format) {
-        return new TagFormat(format);
+    public static TagFormatUtil from(String format) {
+        return new TagFormatUtil(format);
     }
 
     private final String format;
     private final Map<String, Object> tags = new LinkedHashMap<String, Object>();
 
-    private TagFormat(String format) {
+    private TagFormatUtil(String format) {
         this.format = format;
     }
 
-    public TagFormat with(String key, Object value) {
+    public TagFormatUtil with(String key, Object value) {
         tags.put("\\{" + key + "\\}", value);
         return this;
     }

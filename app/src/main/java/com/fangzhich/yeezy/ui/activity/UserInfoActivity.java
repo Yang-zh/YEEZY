@@ -15,7 +15,7 @@ import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.ui.widget.CustomDialog;
 import com.fangzhich.yeezy.ui.widget.spinner.NiceSpinner;
 import com.fangzhich.yeezy.util.LogUtils;
-import com.fangzhich.yeezy.util.TagFormat;
+import com.fangzhich.yeezy.util.TagFormatUtil;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -58,7 +58,7 @@ public class UserInfoActivity extends BaseActivity {
                         btConfirm.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                tvBirthday.setText(TagFormat
+                                tvBirthday.setText(TagFormatUtil
                                         .from(getResources().getString(R.string.Date))
                                         .with("year",picker.getYear())
                                         .with("month",picker.getMonth())
@@ -79,7 +79,6 @@ public class UserInfoActivity extends BaseActivity {
 
     @BindView(R.id.spinner_sex)
     NiceSpinner sexSpinner;
-    //    ArrayAdapter<CharSequence> adapter;
     SPUtils utils;
 
     @OnClick(R.id.bt_facebook)

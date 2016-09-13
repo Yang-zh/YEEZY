@@ -1,4 +1,4 @@
-package com.fangzhich.yeezy.net.Bean;
+package com.fangzhich.yeezy.data.net.Bean;
 
 /**
  * NotificationEntity

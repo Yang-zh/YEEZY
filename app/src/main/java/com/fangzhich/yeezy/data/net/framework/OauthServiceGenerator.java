@@ -1,8 +1,8 @@
-package com.fangzhich.yeezy.net.framework;
+package com.fangzhich.yeezy.data.net.framework;
 
 import android.util.Base64;
 
-import com.fangzhich.yeezy.net.Api;
+import com.fangzhich.yeezy.data.net.Api;
 import com.fangzhich.yeezy.util.LogUtils;
 
 import java.io.IOException;
@@ -34,6 +34,14 @@ public class OauthServiceGenerator {
 
     public static <S> S createService(Class<S> serviceClass) {
         httpClient.connectTimeout(Api.TIME_OUT, TimeUnit.SECONDS);
+//        httpClient.addInterceptor(new Interceptor() {
+//            @Override
+//            public Response intercept(Chain chain) throws IOException {
+//                Response response = chain.proceed(chain.request());
+//                LogUtils.getInstance().logTestError("response",response.body().string());
+//                return response;
+//            }
+//        });
         OkHttpClient client = httpClient.build();
         Retrofit retrofit = builder.client(client).build();
         return retrofit.create(serviceClass);
