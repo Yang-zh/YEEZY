@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="sqlite-1.10.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.pushtorefresh.storio/sqlite/1.10.0/b915f535cd6d5b9f4b3350df7f6598a428806c98/sqlite-1.10.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.pushtorefresh.storio/sqlite/1.10.0/db35cfe68e9168669ff2e5635a6b3b8c5712af1f/sqlite-1.10.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="snappingstepper-1.0.2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.bigkoo/snappingstepper/1.0.2/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.bigkoo/snappingstepper/1.0.2/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.bigkoo/snappingstepper/1.0.2/bc95bc6b7d66f15e0681889052ff322c73d37bec/snappingstepper-1.0.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
