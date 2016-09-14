@@ -15,6 +15,9 @@ android {
     buildTypes {
         debug {
             buildConfigField "boolean", "LOG_DEBUG", "true"
+            buildConfigField "String", "BASE_URL", BASE_URL
+            buildConfigField "String", "APP_KEY", APP_KEY
+            buildConfigField "String", "API_KEY", API_KEY
         }
 
         release {

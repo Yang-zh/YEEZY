@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.fangzhich.yeezy.R;
+import com.fangzhich.yeezy.base.ui.BaseActivity;
 
 import butterknife.BindView;
 
@@ -13,7 +14,7 @@ import butterknife.BindView;
  * HistoryActivity
  * Created by Khorium on 2016/9/1.
  */
-public class HistoryActivity extends BaseActivity{
+public class HistoryActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;

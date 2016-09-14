@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.ui.activity.ProductDetailActivity;
-import com.fangzhich.yeezy.data.net.Bean.ProductEntity;
+import com.fangzhich.yeezy.data.net.Bean.ProductItemEntity;
 
 import java.util.ArrayList;
 
@@ -23,9 +23,9 @@ import butterknife.ButterKnife;
  */
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ProductListViewHolder> {
 
-    private ArrayList<ProductEntity> products = new ArrayList<>();
+    private ArrayList<ProductItemEntity> products = new ArrayList<>();
 
-    public void setData(ArrayList<ProductEntity> products) {
+    public void setData(ArrayList<ProductItemEntity> products) {
         this.products = products;
     }
 

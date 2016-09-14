@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.fangzhich.yeezy.R;
+import com.fangzhich.yeezy.base.ui.BaseActivity;
 import com.fangzhich.yeezy.util.LogUtils;
 
 import butterknife.BindView;

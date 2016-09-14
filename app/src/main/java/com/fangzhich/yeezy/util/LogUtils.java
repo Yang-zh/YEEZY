@@ -1,6 +1,7 @@
 package com.fangzhich.yeezy.util;
 
 import android.content.Context;
+import android.support.compat.BuildConfig;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -10,7 +11,6 @@ import android.widget.Toast;
  */
 public class LogUtils {
 
-    private final static boolean DEBUG = true;
     private static Context context;
 
     private LogUtils() {}
@@ -29,8 +29,12 @@ public class LogUtils {
 
     private static Toast toast;
 
-    public void toastInfo(String message) {
+    public static void toastInfo(String message) {
         if (toast == null) {
+            if (context==null) {
+                logTestError("LogUtils","LogUtils needs initialization");
+                return;
+            }
             toast = Toast.makeText(context,message,Toast.LENGTH_SHORT);
         } else {
             toast.setText(message);
@@ -38,18 +42,20 @@ public class LogUtils {
         toast.show();
     }
 
-    public void logTestInfo(String tag, String message) {
-        if (DEBUG){
+
+    public static void logTestInfo(String tag, String message) {
+        if (BuildConfig.DEBUG){
             Log.i(tag,message);
         }
     }
 
-    public void logInfo(String tag, String message) {
+    public static void logInfo(String tag, String message) {
             Log.i(tag,message);
     }
 
-    public void logTestError(String tag, String message) {
-        if (DEBUG){
+
+    public static void logTestError(String tag, String message) {
+        if (BuildConfig.DEBUG){
             Log.e(tag,message);
         }
     }

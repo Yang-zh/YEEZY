@@ -2,6 +2,7 @@ package com.fangzhich.yeezy.ui.fragment;
 
 
 import com.fangzhich.yeezy.R;
+import com.fangzhich.yeezy.base.ui.BaseFragment;
 
 /**
  * Rating

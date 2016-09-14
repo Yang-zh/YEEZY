@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.fangzhich.yeezy.R;
+import com.fangzhich.yeezy.base.ui.BaseActivity;
 import com.fangzhich.yeezy.ui.fragment.NotificationListFragment;
 import com.fangzhich.yeezy.util.MyUtils;
 
@@ -21,7 +22,7 @@ import butterknife.BindView;
  * NotificationActivity
  * Created by Khorium on 2016/9/1.
  */
-public class NotificationActivity extends BaseActivity{
+public class NotificationActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;

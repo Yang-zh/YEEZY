@@ -22,14 +22,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fangzhich.yeezy.R;
+import com.fangzhich.yeezy.base.ui.BaseActivity;
 import com.fangzhich.yeezy.data.net.Api;
 import com.fangzhich.yeezy.data.net.Bean.CategoryEntity;
-import com.fangzhich.yeezy.data.net.Bean.LoginEntity;
+import com.fangzhich.yeezy.data.net.Bean.ProductItemEntity;
 import com.fangzhich.yeezy.ui.fragment.ProductListFragment;
 import com.fangzhich.yeezy.ui.widget.ShoppingCartDialog;
+import com.fangzhich.yeezy.user.ui.RegisterActivity;
 import com.fangzhich.yeezy.util.LogUtils;
 import com.fangzhich.yeezy.util.MyUtils;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -80,7 +81,7 @@ public class MainActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle("");
         title.setText(R.string.app_name);
-        drawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.OpenDrawer,R.string.CloseDrawer) {
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.OpenDrawer, R.string.CloseDrawer) {
             @Override
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
@@ -100,14 +101,14 @@ public class MainActivity extends BaseActivity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,SearchActivity.class));
+                startActivity(new Intent(MainActivity.this, SearchActivity.class));
             }
         });
         userInfoButton = (RelativeLayout) navigationView.getHeaderView(0).findViewById(R.id.bt_userInfo);
         userInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,UserInfoActivity.class));
+                startActivity(new Intent(MainActivity.this, UserInfoActivity.class));
             }
         });
 
@@ -120,29 +121,29 @@ public class MainActivity extends BaseActivity {
                         drawerLayout.closeDrawers();
                         break;
                     case R.id.notify:
-                        startActivity(new Intent(MainActivity.this,NotificationActivity.class));
+                        startActivity(new Intent(MainActivity.this, NotificationActivity.class));
                         break;
                     case R.id.shoppingCart:
                         ShoppingCartDialog dialog = new ShoppingCartDialog();
                         dialog.initPopup(MainActivity.this).showPopup(getWindow().getDecorView());
                         break;
                     case R.id.history:
-                        startActivity(new Intent(MainActivity.this,HistoryActivity.class));
+                        startActivity(new Intent(MainActivity.this, HistoryActivity.class));
                         break;
                     case R.id.currency:
-                        startActivity(new Intent(MainActivity.this,CurrencyActivity.class));
+                        startActivity(new Intent(MainActivity.this, CurrencyActivity.class));
                         break;
                     case R.id.about:
-                        startActivity(new Intent(MainActivity.this,AboutActivity.class));
+                        startActivity(new Intent(MainActivity.this, AboutActivity.class));
                         break;
                     case R.id.contact:
-                        startActivity(new Intent(MainActivity.this,ContactActivity.class));
+                        startActivity(new Intent(MainActivity.this, ContactActivity.class));
                         break;
                     case R.id.support:
-                        startActivity(new Intent(MainActivity.this,SupportActivity.class));
+                        startActivity(new Intent(MainActivity.this, SupportActivity.class));
                         break;
                     case R.id.settings:
-                        startActivity(new Intent(MainActivity.this,SettingActivity.class));
+                        startActivity(new Intent(MainActivity.this, SettingActivity.class));
                         break;
                 }
                 drawerLayout.closeDrawers();
@@ -152,64 +153,111 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initViewPager() {
-        Api.getCategories(new SingleSubscriber<ArrayList<CategoryEntity>>() {
+        ArrayList<CategoryEntity> categoryList = new ArrayList<CategoryEntity>();
+        CategoryEntity categoryEntity = new CategoryEntity();
+        categoryEntity.name = "test";
+        categoryList.add(categoryEntity);
+        for (CategoryEntity category : categoryList) {
+            fragments.add(new ProductListFragment());
+            fragmentTitles.add(category.name);
+        }
+        adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
-            public void onSuccess(ArrayList<CategoryEntity> categoryList) {
-                for (CategoryEntity category:categoryList) {
-                    fragments.add(new ProductListFragment());
-                    fragmentTitles.add(category.name);
-                }
-                adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
-                    @Override
-                    public Fragment getItem(int position) {
-                        return fragments.get(position);
-                    }
-
-                    @Override
-                    public int getCount() {
-                        return fragments.size();
-                    }
-
-                    @Override
-                    public CharSequence getPageTitle(int position) {
-                        return fragmentTitles.get(position);
-                    }
-                };
-                viewPager.setAdapter(adapter);
-                viewPager.setOffscreenPageLimit(1);
-                tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                    @Override
-                    public void onTabSelected(TabLayout.Tab tab) {
-                        viewPager.setCurrentItem(tab.getPosition());
-                    }
-
-                    @Override
-                    public void onTabUnselected(TabLayout.Tab tab) {
-
-                    }
-
-                    @Override
-                    public void onTabReselected(TabLayout.Tab tab) {
-                    }
-                });
-                tabLayout.setupWithViewPager(viewPager);
-                MyUtils.dynamicSetTabLayoutMode(tabLayout,MainActivity.this);
-                adapter.notifyDataSetChanged();
+            public Fragment getItem(int position) {
+                return fragments.get(position);
             }
 
             @Override
-            public void onError(Throwable error) {
-                LogUtils.getInstance().toastInfo(error.getMessage());
-                LogUtils.getInstance().logTestError("getCategoriesError",error.getMessage());
+            public int getCount() {
+                return fragments.size();
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return fragmentTitles.get(position);
+            }
+        };
+        viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(1);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+        tabLayout.setupWithViewPager(viewPager);
+        MyUtils.dynamicSetTabLayoutMode(tabLayout, MainActivity.this);
+        adapter.notifyDataSetChanged();
+
+//        Api.getCategories(new SingleSubscriber<ArrayList<CategoryEntity>>() {
+//            @Override
+//            public void onSuccess(ArrayList<CategoryEntity> categoryList) {
+//                for (CategoryEntity category:categoryList) {
+//                    fragments.add(new ProductListFragment());
+//                    fragmentTitles.add(category.name);
+//                }
+//                adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+//                    @Override
+//                    public Fragment getItem(int position) {
+//                        return fragments.get(position);
+//                    }
+//
+//                    @Override
+//                    public int getCount() {
+//                        return fragments.size();
+//                    }
+//
+//                    @Override
+//                    public CharSequence getPageTitle(int position) {
+//                        return fragmentTitles.get(position);
+//                    }
+//                };
+//                viewPager.setAdapter(adapter);
+//                viewPager.setOffscreenPageLimit(1);
+//                tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+//                    @Override
+//                    public void onTabSelected(TabLayout.Tab tab) {
+//                        viewPager.setCurrentItem(tab.getPosition());
+//                    }
+//
+//                    @Override
+//                    public void onTabUnselected(TabLayout.Tab tab) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onTabReselected(TabLayout.Tab tab) {
+//                    }
+//                });
+//                tabLayout.setupWithViewPager(viewPager);
+//                MyUtils.dynamicSetTabLayoutMode(tabLayout,MainActivity.this);
+//                adapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onError(Throwable error) {
+//                LogUtils.toastInfo(error.getMessage());
+//                LogUtils.logTestError("getCategoriesError",error.getMessage());
+//            }
+//        });
     }
+
 
     @Override
     protected void loadData() {
         headImage.setImageResource(R.mipmap.headshot_true);
         userName.setText(R.string.Username);
     }
+
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -228,7 +276,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main,menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -239,21 +287,33 @@ public class MainActivity extends BaseActivity {
         }
         switch (item.getItemId()) {
             case R.id.filter:
-                LogUtils.getInstance().toastInfo("Filter");
-                startActivity(new Intent(MainActivity.this,RegisterActivity.class));
+                LogUtils.toastInfo("Filter");
+                startActivity(new Intent(MainActivity.this, RegisterActivity.class));
                 break;
             case R.id.search:
 //                startActivity(new Intent(MainActivity.this,SearchActivity.class));
-                Api.login("test@qq.com", "123456", new SingleSubscriber<LoginEntity>() {
+//                Api.login("test@qq.com", "123456", new SingleSubscriber<LoginEntity>() {
+//                    @Override
+//                    public void onSuccess(LoginEntity value) {
+//                        LogUtils.getInstance().logTestError("login", new Gson().toJson(value));
+//                        LogUtils.getInstance().toastInfo("login Result Get");
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        LogUtils.getInstance().logTestError("login", e.getMessage());
+//                    }
+//                });
+                Api.getProducts(new SingleSubscriber<ArrayList<ProductItemEntity>>() {
                     @Override
-                    public void onSuccess(LoginEntity value) {
-                        LogUtils.getInstance().logTestError("Login", new Gson().toJson(value));
-                        LogUtils.getInstance().toastInfo("Login Result Get");
+                    public void onSuccess(ArrayList<ProductItemEntity> value) {
+                        LogUtils.toastInfo("getProducts Success");
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        LogUtils.getInstance().logTestError("Login", e.getMessage());
+                    public void onError(Throwable error) {
+                        LogUtils.toastInfo(error.getMessage());
+                        LogUtils.logTestError("products", error.getMessage());
                     }
                 });
                 break;

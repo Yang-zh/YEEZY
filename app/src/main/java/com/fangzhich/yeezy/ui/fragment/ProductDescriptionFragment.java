@@ -3,6 +3,7 @@ package com.fangzhich.yeezy.ui.fragment;
 import android.widget.TextView;
 
 import com.fangzhich.yeezy.R;
+import com.fangzhich.yeezy.base.ui.BaseFragment;
 
 import butterknife.BindView;
 

@@ -5,8 +5,9 @@ import android.support.v7.widget.RecyclerView;
 
 import com.blankj.utilcode.utils.SizeUtils;
 import com.fangzhich.yeezy.R;
+import com.fangzhich.yeezy.base.ui.BaseFragment;
 import com.fangzhich.yeezy.ui.adapter.ProductListAdapter;
-import com.fangzhich.yeezy.data.net.Bean.ProductEntity;
+import com.fangzhich.yeezy.data.net.Bean.ProductItemEntity;
 import com.fangzhich.yeezy.ui.adapter.GridSpaceItemDecoration;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class ProductListFragment extends BaseFragment {
     ProductListAdapter adapter;
     GridLayoutManager manager;
 
-    ArrayList<ProductEntity> products = new ArrayList<>();
+    ArrayList<ProductItemEntity> products = new ArrayList<>();
 
     @Override
     public int setContentLayout() {
@@ -64,7 +65,7 @@ public class ProductListFragment extends BaseFragment {
 //            }
 //        });
         for (int i=0;i<20;i++) {
-            products.add(new ProductEntity());
+            products.add(new ProductItemEntity());
         }
         adapter.setData(products);
         adapter.notifyDataSetChanged();

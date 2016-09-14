@@ -1,4 +1,4 @@
-package com.fangzhich.yeezy.ui.activity;
+package com.fangzhich.yeezy.base.ui;
 
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
@@ -11,7 +11,7 @@ import butterknife.ButterKnife;
  * 模板Activity
  * Created by Khorium on 2016/8/30.
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +35,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * load Activity's Data
      */
-    protected abstract void loadData();
+    protected void loadData(){}
 
 }

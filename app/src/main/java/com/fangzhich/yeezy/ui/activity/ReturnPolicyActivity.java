@@ -1,6 +1,7 @@
 package com.fangzhich.yeezy.ui.activity;
 
 import com.fangzhich.yeezy.R;
+import com.fangzhich.yeezy.base.ui.BaseActivity;
 
 /**
  * ReturnPolicyActivity

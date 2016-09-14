@@ -2,9 +2,11 @@ package com.fangzhich.yeezy.data.net;
 
 
 import com.blankj.utilcode.utils.EncryptUtils;
+import com.fangzhich.yeezy.BuildConfig;
 import com.fangzhich.yeezy.YEEZY;
 import com.fangzhich.yeezy.data.net.Bean.CategoryEntity;
 import com.fangzhich.yeezy.data.net.Bean.ProductEntity;
+import com.fangzhich.yeezy.data.net.Bean.ProductItemEntity;
 import com.fangzhich.yeezy.data.net.framework.HttpResult;
 import com.fangzhich.yeezy.data.net.Bean.LoginEntity;
 import com.fangzhich.yeezy.data.net.Bean.RegisterEntity;
@@ -27,11 +29,11 @@ import rx.schedulers.Schedulers;
  */
 public class Api {
 
-    public final static String BASE_URL = "http://192.168.0.105/";
+    public final static String BASE_URL = BuildConfig.BASE_URL;
 
-    private final static String APP_KEY = "NDk4ZWNhOGNiZGExY2Y5MjhmYzdhYTljMzU2OTQwMDg";
+    private final static String APP_KEY = BuildConfig.APP_KEY;
 
-    private static final String API_KEY = "ok9FUxp8YADCQyPmjfPthKcE9tkKHgoRXvFtzaPQAM9GVsIFZkpPZzfvc3I4bVywJxnIhkOwiF94EvpgsANpwbxtuTN0aVL18ro1oNtiMBqbPaiT4mLuljWc76jcip4ZijUsFHRnaQIdSfTKHJueVEdCaARwAf3XLZYcRWS5hafhAnSMujmkgdZcuOfpUGy0K8sUeTswEUiVBiBq8qzMzp8GpfKRdjJmgxEsjBOpsKVDEWbY4vaOW5lomG14KtxP";
+    private static final String API_KEY = BuildConfig.API_KEY;
 
     public final static int TIME_OUT = 5;
 
@@ -53,7 +55,7 @@ public class Api {
     }
 
     /**
-     * Login Request
+     * login Request
      *
      * @param email email
      * @param password password
@@ -126,23 +128,40 @@ public class Api {
      * @param category_id product's category_id
      * @param singleSubscriber SingleSubscriber in RxJava (Callback)
      */
-    public static void getProducts(int page, int limit, int category_id, SingleSubscriber<ArrayList<ProductEntity>> singleSubscriber) {
+    public static void getProducts(int page, int limit, int category_id, SingleSubscriber<ArrayList<ProductItemEntity>> singleSubscriber) {
         String timestamp = getTimeStamp();
         String signature = getSignature(page,limit,category_id,timestamp);
         createClientAuthorizedService(APIService.class)
                 .getProducts(page,limit,category_id,timestamp,signature,API_KEY,YEEZY.IMEI)
-                .map(new HttpResultFunc<ArrayList<ProductEntity>>())
+                .map(new HttpResultFunc<ArrayList<ProductItemEntity>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(singleSubscriber);
     }
 
-    public static void getProducts(SingleSubscriber<ArrayList<ProductEntity>> singleSubscriber) {
+    public static void getProducts(SingleSubscriber<ArrayList<ProductItemEntity>> singleSubscriber) {
         getProducts(1,20,singleSubscriber);
     }
 
-    public static void getProducts(int page, int limit, SingleSubscriber<ArrayList<ProductEntity>> singleSubscriber) {
+    public static void getProducts(int page, int limit, SingleSubscriber<ArrayList<ProductItemEntity>> singleSubscriber) {
         getProducts(page,limit,0,singleSubscriber);
+    }
+
+    /**
+     * Product request
+     *
+     * @param product_id product's category_id
+     * @param singleSubscriber SingleSubscriber in RxJava (Callback)
+     */
+    public static void getProduct(int product_id, SingleSubscriber<ProductEntity> singleSubscriber) {
+        String timestamp = getTimeStamp();
+        String signature = getSignature(product_id,timestamp);
+        createClientAuthorizedService(APIService.class)
+                .getProduct(product_id,timestamp,signature,API_KEY,YEEZY.IMEI)
+                .map(new HttpResultFunc<ProductEntity>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(singleSubscriber);
     }
 
     /**
@@ -187,16 +206,16 @@ public class Api {
 
         for (String arg:params) {
             builder.append(arg);
-            LogUtils.getInstance().logTestError("param",arg);
+            LogUtils.logTestError("param",arg);
         }
 
         String origin = builder.toString();
-        LogUtils.getInstance().logTestError("origin",origin);
+        LogUtils.logTestError("origin",origin);
         //MD5
         String MD5 = bytes2HexString(EncryptUtils.encryptMD5(origin.getBytes()));
 
         String SHA1 = bytes2HexString(EncryptUtils.encryptSHA1(MD5.getBytes()));
-        LogUtils.getInstance().logTestError("SHA1",SHA1);
+        LogUtils.logTestError("SHA1",SHA1);
 
         return SHA1;
     }

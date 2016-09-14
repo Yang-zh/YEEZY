@@ -1,7 +1,5 @@
 package com.fangzhich.yeezy.ui.activity;
 
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.TabLayout;
@@ -14,13 +12,13 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bigkoo.snappingstepper.SnappingStepper;
 import com.bigkoo.snappingstepper.listener.SnappingStepperValueChangeListener;
 import com.fangzhich.yeezy.R;
+import com.fangzhich.yeezy.base.ui.BaseActivity;
 import com.fangzhich.yeezy.ui.fragment.ProductDescriptionFragment;
 import com.fangzhich.yeezy.ui.fragment.ProductListFragment;
 import com.fangzhich.yeezy.ui.fragment.ProductOverViewFragment;
@@ -38,7 +36,7 @@ import butterknife.OnClick;
  * ProductDetail Activity
  * Created by Khorium on 2016/8/31.
  */
-public class ProductDetailActivity extends BaseActivity{
+public class ProductDetailActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;

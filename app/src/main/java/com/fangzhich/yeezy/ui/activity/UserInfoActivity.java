@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.utils.SPUtils;
 import com.fangzhich.yeezy.R;
+import com.fangzhich.yeezy.base.ui.BaseActivity;
 import com.fangzhich.yeezy.ui.widget.CustomDialog;
 import com.fangzhich.yeezy.ui.widget.spinner.NiceSpinner;
 import com.fangzhich.yeezy.util.LogUtils;

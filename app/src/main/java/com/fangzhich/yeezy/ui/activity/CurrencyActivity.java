@@ -3,14 +3,11 @@ package com.fangzhich.yeezy.ui.activity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.blankj.utilcode.utils.SPUtils;
 import com.fangzhich.yeezy.R;
+import com.fangzhich.yeezy.base.ui.BaseActivity;
 import com.fangzhich.yeezy.ui.widget.spinner.NiceSpinner;
 import com.fangzhich.yeezy.util.LogUtils;
 
@@ -24,7 +21,7 @@ import butterknife.OnClick;
  * CurrencyActivity
  * Created by Khorium on 2016/9/1.
  */
-public class CurrencyActivity extends BaseActivity{
+public class CurrencyActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -39,7 +36,7 @@ public class CurrencyActivity extends BaseActivity{
     void chooseCurrency() {
         if (utils!=null&&languageSpinner!=null) {
             utils.putInt("currency", languageSpinner.getSelectedIndex());
-            LogUtils.getInstance().toastInfo("Change Language Success");
+            LogUtils.toastInfo("Change Language Success");
         }
         onBackPressed();
     }

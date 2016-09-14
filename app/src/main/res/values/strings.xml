@@ -108,6 +108,7 @@
     <string name="ViewOrders">View Orders</string>
     <string name="ContinueShipping">Continue Shipping</string>
     <string name="RELATED">RELATED</string>
+    <string name="Password">Password</string>
 
     <string-array name = "currencies">
         <item>CNY(￥)</item>

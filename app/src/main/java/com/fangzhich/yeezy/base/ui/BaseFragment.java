@@ -1,4 +1,4 @@
-package com.fangzhich.yeezy.ui.fragment;
+package com.fangzhich.yeezy.base.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

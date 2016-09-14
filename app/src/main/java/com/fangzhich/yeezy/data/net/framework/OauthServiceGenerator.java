@@ -24,6 +24,12 @@ public class OauthServiceGenerator {
 
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
+    private static int TIME_OUT = 5;
+
+    public static void setTimeOut(int timeOut) {
+        TIME_OUT = timeOut;
+    }
+
     private static Retrofit.Builder builder =
             new Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create())
@@ -33,7 +39,7 @@ public class OauthServiceGenerator {
 
 
     public static <S> S createService(Class<S> serviceClass) {
-        httpClient.connectTimeout(Api.TIME_OUT, TimeUnit.SECONDS);
+        httpClient.connectTimeout(TIME_OUT, TimeUnit.SECONDS);
 //        httpClient.addInterceptor(new Interceptor() {
 //            @Override
 //            public Response intercept(Chain chain) throws IOException {

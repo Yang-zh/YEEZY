@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.fangzhich.yeezy.R;
+import com.fangzhich.yeezy.base.ui.BaseActivity;
 import com.fangzhich.yeezy.util.LogUtils;
 
 import butterknife.BindView;
@@ -76,7 +77,7 @@ public class OrderConfirmedActivity extends BaseActivity {
         }
         switch (item.getItemId()) {
             case R.id.skip:
-                LogUtils.getInstance().toastInfo("Skip");
+                LogUtils.toastInfo("Skip");
                 break;
         }
         return super.onOptionsItemSelected(item);

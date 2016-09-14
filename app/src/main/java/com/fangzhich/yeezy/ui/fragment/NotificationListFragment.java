@@ -4,6 +4,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.fangzhich.yeezy.R;
+import com.fangzhich.yeezy.base.ui.BaseFragment;
 import com.fangzhich.yeezy.data.net.Bean.NotificationEntity;
 import com.fangzhich.yeezy.ui.adapter.LinearLayoutItemDecoration;
 import com.fangzhich.yeezy.ui.adapter.NotificationListAdapter;

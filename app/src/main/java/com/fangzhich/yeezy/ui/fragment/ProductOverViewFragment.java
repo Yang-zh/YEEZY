@@ -1,23 +1,14 @@
 package com.fangzhich.yeezy.ui.fragment;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.ColorDrawable;
-import android.support.design.widget.BottomSheetDialog;
-import android.support.v7.app.AppCompatDialog;
-import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.fangzhich.yeezy.R;
+import com.fangzhich.yeezy.base.ui.BaseFragment;
 import com.fangzhich.yeezy.ui.activity.PhotoViewPagerActivity;
 import com.fangzhich.yeezy.util.LogUtils;
-import com.flipboard.bottomsheet.BottomSheetLayout;
 
 import java.util.ArrayList;
 
