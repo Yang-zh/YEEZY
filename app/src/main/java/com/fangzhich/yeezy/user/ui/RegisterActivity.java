@@ -8,10 +8,10 @@ import android.widget.TextView;
 
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.base.ui.BaseActivity;
-import com.fangzhich.yeezy.data.net.Bean.RegisterEntity;
+import com.fangzhich.yeezy.user.data.entity.RegisterEntity;
 import com.fangzhich.yeezy.user.presentation.contract.UserRegisterContract;
 import com.fangzhich.yeezy.user.presentation.presenter.UserRegisterPresenter;
-import com.fangzhich.yeezy.util.C;
+import com.fangzhich.yeezy.util.Constants;
 import com.fangzhich.yeezy.util.LogUtils;
 
 import butterknife.BindView;
@@ -49,7 +49,7 @@ public class RegisterActivity extends BaseActivity implements UserRegisterContra
 
     @OnClick(R.id.bt_facebook)
     void joinWithFaceBook() {
-        LogUtils.getInstance().toastInfo("Join with Facebook");
+        LogUtils.toastInfo("Join with Facebook");
     }
 
     @Override
@@ -59,6 +59,7 @@ public class RegisterActivity extends BaseActivity implements UserRegisterContra
 
     @Override
     protected void initContentView() {
+        setPresenter(new UserRegisterPresenter(this));
         initToolbar();
     }
 
@@ -70,14 +71,15 @@ public class RegisterActivity extends BaseActivity implements UserRegisterContra
     public void setPresenter(UserRegisterContract.Presenter presenter) {
         mPresenter = (UserRegisterPresenter) presenter;
     }
+
     @Override
     public void onRegisterSuccess(RegisterEntity entity) {
-        LogUtils.toastInfo(C.User.REGISTER_SUCCESS);
+        LogUtils.toastInfo(Constants.User.REGISTER_SUCCESS);
     }
 
     @Override
     public void onRegisterFailed(Throwable throwable) {
-        LogUtils.toastInfo(C.User.REGISTER_FAILED);
+        LogUtils.toastInfo(Constants.User.REGISTER_FAILED);
     }
 
 

@@ -149,7 +149,7 @@
                 android:layout_alignBaseline="@+id/recent_comments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_color_grey"
+                android:textColor="@color/text_color_gray"
                 android:layout_toRightOf="@+id/recent_comments"/>
             <RelativeLayout
                 android:id="@+id/comment1_layout"
@@ -183,7 +183,7 @@
                     android:layout_marginTop="5dp"
                     android:id="@+id/name_comment1"
                     android:textSize="12sp"
-                    android:textColor="@color/text_color_grey"
+                    android:textColor="@color/text_color_gray"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <View
@@ -226,7 +226,7 @@
                     android:layout_marginTop="5dp"
                     android:textSize="12sp"
                     android:id="@+id/name_comment2"
-                    android:textColor="@color/text_color_grey"
+                    android:textColor="@color/text_color_gray"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <View
@@ -269,7 +269,7 @@
                     android:layout_marginTop="5dp"
                     android:textSize="12sp"
                     android:id="@+id/name_comment3"
-                    android:textColor="@color/text_color_grey"
+                    android:textColor="@color/text_color_gray"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <View
@@ -326,7 +326,7 @@
                 android:layout_alignBaseline="@+id/tv_arriveTime"
                 android:textSize="12sp"
                 android:text="View all"
-                android:textColor="@color/text_color_grey"
+                android:textColor="@color/text_color_gray"
                 android:id="@+id/tv_arriveTime_view_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -359,7 +359,7 @@
                 android:layout_alignBaseline="@+id/tv_postage"
                 android:textSize="12sp"
                 android:text="View all"
-                android:textColor="@color/text_color_grey"
+                android:textColor="@color/text_color_gray"
                 android:id="@+id/tv_postage_view_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

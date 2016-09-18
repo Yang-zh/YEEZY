@@ -109,6 +109,20 @@
     <string name="ContinueShipping">Continue Shipping</string>
     <string name="RELATED">RELATED</string>
     <string name="Password">Password</string>
+    <string name="Shipping_underLine" ><u>Shipping</u></string>
+    <string name="OrderPlacedIs">Order Placed:</string>
+    <string name="OrderDate">Sep 5,2016</string>
+    <string name="Gray">Gray</string>
+    <string name="SizeIs">Size:</string>
+    <string name="SizeDetail">Women US5/UK3.5/EUR37</string>
+    <string name="priceDetail">$ 1509.00</string>
+    <string name="detail">detail</string>
+    <string name="empty">empty</string>
+    <string name="nulll">null</string>
+    <string name="LikeFormat">Like({LikeCount})</string>
+    <string name="ShareFormat">Share({ShareCount})</string>
+    <string name="BracketsFormat">({content})</string>
+    <string name="Reviews">Reviews</string>
 
     <string-array name = "currencies">
         <item>CNY(￥)</item>

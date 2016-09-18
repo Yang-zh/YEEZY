@@ -2,9 +2,9 @@ package com.fangzhich.yeezy.user.data.net;
 
 
 import com.fangzhich.yeezy.YEEZY;
-import com.fangzhich.yeezy.base.data.BaseApi;
-import com.fangzhich.yeezy.data.net.Bean.LoginEntity;
-import com.fangzhich.yeezy.data.net.Bean.RegisterEntity;
+import com.fangzhich.yeezy.base.data.net.BaseApi;
+import com.fangzhich.yeezy.user.data.entity.LoginEntity;
+import com.fangzhich.yeezy.user.data.entity.RegisterEntity;
 
 import rx.SingleSubscriber;
 import rx.android.schedulers.AndroidSchedulers;

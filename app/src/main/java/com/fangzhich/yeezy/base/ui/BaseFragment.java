@@ -40,5 +40,5 @@ public abstract class BaseFragment extends Fragment {
     /**
      * load Fragment's Data
      */
-    protected abstract void loadData();
+    protected void loadData() {}
 }

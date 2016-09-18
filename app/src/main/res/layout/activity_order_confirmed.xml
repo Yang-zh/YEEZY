@@ -51,7 +51,7 @@
             android:id="@+id/brand_name"
             android:text="@string/PowerByIs"
             android:textSize="16sp"
-            android:textColor="@color/text_color_grey"
+            android:textColor="@color/text_color_gray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -87,7 +87,7 @@
         <TextView
             android:text="@string/ItemTotal"
             android:textSize="16sp"
-            android:textColor="@color/text_color_grey"
+            android:textColor="@color/text_color_gray"
             android:layout_marginLeft="7dp"
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
@@ -96,7 +96,7 @@
             android:id="@+id/item_total"
             android:text="$1.00"
             android:textSize="16sp"
-            android:textColor="@color/text_color_grey"
+            android:textColor="@color/text_color_gray"
             android:layout_marginRight="7dp"
             android:layout_marginTop="10dp"
             android:layout_alignParentRight="true"
@@ -105,7 +105,7 @@
         <TextView
             android:text="@string/Shipping"
             android:textSize="16sp"
-            android:textColor="@color/text_color_grey"
+            android:textColor="@color/text_color_gray"
             android:layout_marginLeft="7dp"
             android:layout_marginTop="15dp"
             android:layout_below="@+id/item_total"
@@ -115,7 +115,7 @@
             android:id="@+id/shipping"
             android:text="$1.00"
             android:textSize="16sp"
-            android:textColor="@color/text_color_grey"
+            android:textColor="@color/text_color_gray"
             android:layout_marginRight="7dp"
             android:layout_marginTop="15dp"
             android:layout_alignParentRight="true"
@@ -202,7 +202,7 @@
         android:id="@+id/related"
         android:background="@color/another_gray"
         android:text="@string/RELATED"
-        android:textColor="@color/text_color_grey"
+        android:textColor="@color/text_color_gray"
         android:textSize="17sp"
         android:gravity="center"
         android:layout_below="@+id/button_layout"

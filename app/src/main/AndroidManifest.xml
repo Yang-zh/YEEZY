@@ -14,8 +14,16 @@
         android:largeHeap="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name=".main.ui.MainActivity"
             android:theme="@style/AppTheme">
+        </activity>
+        <activity
+            android:name=".user.ui.LoginActivity"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name=".user.ui.UserAccountActivity"
+            android:theme="@style/AppTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,46 +34,40 @@
             android:name=".user.ui.RegisterActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".user.ui.LoginActivity"
+            android:name=".user.ui.WelcomeActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.activity.ReturnPolicyActivity"
+            android:name=".product.ui.ProductDetailActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.activity.WelcomeActivity"
+            android:name=".product.ui.PhotoViewPagerActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.activity.ProductDetailActivity"
+            android:name=".user.ui.UserInfoActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.activity.PhotoViewPagerActivity"
+            android:name=".main.ui.SearchActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.activity.UserInfoActivity"
+            android:name=".user.ui.NotificationActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.activity.SearchActivity"
+            android:name=".order.ui.HistoryActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.activity.NotificationActivity"
+            android:name=".main.ui.CurrencyActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.activity.HistoryActivity"
+            android:name=".main.ui.AboutActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.activity.CurrencyActivity"
+            android:name=".main.ui.ContactActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.activity.AboutActivity"
+            android:name=".main.ui.SupportActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.activity.ContactActivity"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".ui.activity.SupportActivity"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".ui.activity.SettingActivity"
+            android:name=".main.ui.SettingActivity"
             android:theme="@style/AppTheme" />
     </application>
 

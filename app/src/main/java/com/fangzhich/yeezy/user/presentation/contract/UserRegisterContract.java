@@ -2,8 +2,7 @@ package com.fangzhich.yeezy.user.presentation.contract;
 
 import com.fangzhich.yeezy.base.presentation.BasePresenter;
 import com.fangzhich.yeezy.base.presentation.BaseView;
-import com.fangzhich.yeezy.data.net.Bean.RegisterEntity;
-import com.fangzhich.yeezy.ui.adapter.BaseRecyclerViewAdapter;
+import com.fangzhich.yeezy.user.data.entity.RegisterEntity;
 
 /**
  * UserRegisterContract

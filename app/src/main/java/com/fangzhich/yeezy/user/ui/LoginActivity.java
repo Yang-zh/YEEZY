@@ -1,16 +1,20 @@
 package com.fangzhich.yeezy.user.ui;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.SPUtils;
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.base.ui.BaseActivity;
+import com.fangzhich.yeezy.user.data.entity.LoginEntity;
+import com.fangzhich.yeezy.main.ui.MainActivity;
 import com.fangzhich.yeezy.user.presentation.contract.UserLoginContract;
 import com.fangzhich.yeezy.user.presentation.presenter.UserLoginPresenter;
-import com.fangzhich.yeezy.util.C;
+import com.fangzhich.yeezy.util.Constants;
 import com.fangzhich.yeezy.util.LogUtils;
 
 import butterknife.BindView;
@@ -51,7 +55,7 @@ public class LoginActivity extends BaseActivity implements UserLoginContract.Vie
 
     @Override
     protected void initContentView() {
-        setPresenter(new UserLoginPresenter());
+        setPresenter(new UserLoginPresenter(this));
         initToolbar();
     }
 
@@ -64,13 +68,19 @@ public class LoginActivity extends BaseActivity implements UserLoginContract.Vie
     }
 
     @Override
-    public void onLoginSuccess() {
-        LogUtils.toastInfo(C.User.LOGIN_SUCCESS);
+    public void onLoginSuccess(LoginEntity entity) {
+        LogUtils.toastInfo(Constants.User.LOGIN_SUCCESS);
+        new SPUtils(this,"YEEZY").putBoolean("isLogin",true);
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 
     @Override
-    public void onLoginFailed() {
-        LogUtils.toastInfo(C.User.LOGIN_FAILED);
+    public void onLoginFailed(Throwable throwable) {
+        LogUtils.toastInfo(Constants.User.LOGIN_FAILED);
+        LogUtils.logTestError("onLoginFailed",throwable.getMessage());
+        throwable.printStackTrace();
+
     }
 
     private void initToolbar() {

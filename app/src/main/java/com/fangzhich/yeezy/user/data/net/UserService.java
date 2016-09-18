@@ -1,8 +1,8 @@
 package com.fangzhich.yeezy.user.data.net;
 
-import com.fangzhich.yeezy.data.net.Bean.LoginEntity;
-import com.fangzhich.yeezy.data.net.Bean.RegisterEntity;
-import com.fangzhich.yeezy.data.net.framework.HttpResult;
+import com.fangzhich.yeezy.user.data.entity.LoginEntity;
+import com.fangzhich.yeezy.user.data.entity.RegisterEntity;
+import com.fangzhich.yeezy.base.data.net.HttpResult;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;

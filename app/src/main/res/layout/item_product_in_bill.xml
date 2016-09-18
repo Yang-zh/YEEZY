@@ -21,7 +21,7 @@
     <TextView
         android:id="@+id/color_is"
         android:text="@string/ColorIs"
-        android:textColor="@color/text_color_grey"
+        android:textColor="@color/text_color_gray"
         android:textSize="14sp"
         android:layout_below="@+id/tv_productName"
         android:layout_toRightOf="@+id/iv_productImage"
@@ -43,7 +43,7 @@
     <TextView
         android:id="@+id/quantity_is"
         android:text="@string/QuantityIs"
-        android:textColor="@color/text_color_grey"
+        android:textColor="@color/text_color_gray"
         android:textSize="14sp"
         android:layout_below="@+id/color_is"
         android:layout_toRightOf="@+id/iv_productImage"
@@ -65,7 +65,7 @@
     <TextView
         android:id="@+id/shipping_is"
         android:text="@string/ShippingIs"
-        android:textColor="@color/text_color_grey"
+        android:textColor="@color/text_color_gray"
         android:textSize="14sp"
         android:layout_below="@+id/quantity_is"
         android:layout_toRightOf="@+id/iv_productImage"
@@ -98,7 +98,7 @@
     <TextView
         android:id="@+id/tv_productOriginalPrice"
         android:text="@string/moneyDetail"
-        android:textColor="@color/text_color_grey"
+        android:textColor="@color/text_color_gray"
         android:textSize="14sp"
         android:layout_toRightOf="@+id/tv_productPrice"
         android:layout_below="@+id/shipping_detail"
