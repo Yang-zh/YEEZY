@@ -27,8 +27,6 @@ public class ReviewListActivity extends BaseActivity {
     Toolbar toolbar;
     @BindView(R.id.rv_reviews)
     RecyclerView recyclerView;
-    private LinearLayoutManager manager;
-    private ReviewListAdapter adapter;
 
     @Override
     public int setContentLayout() {
@@ -54,8 +52,8 @@ public class ReviewListActivity extends BaseActivity {
 
     private void initRecyclerView() {
 
-        manager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-        adapter = new ReviewListAdapter();
+        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        ReviewListAdapter adapter = new ReviewListAdapter();
         recyclerView.setLayoutManager(manager);
         recyclerView.addItemDecoration(new LinearLayoutItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(adapter);

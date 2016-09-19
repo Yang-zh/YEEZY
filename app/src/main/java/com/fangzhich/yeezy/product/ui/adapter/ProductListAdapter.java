@@ -15,7 +15,7 @@ import com.fangzhich.yeezy.product.presentation.ProductListContract;
 import com.fangzhich.yeezy.product.presentation.ProductListPresenter;
 import com.fangzhich.yeezy.product.ui.ProductDetailActivity;
 import com.fangzhich.yeezy.product.data.entity.ProductItemEntity;
-import com.fangzhich.yeezy.util.LogUtils;
+import com.fangzhich.yeezy.util.ToastUtil;
 
 import java.util.ArrayList;
 
@@ -65,8 +65,8 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
 
     @Override
     public void onLoadError(Throwable throwable) {
-        LogUtils.toastInfo(throwable.getMessage());
-        LogUtils.logTestError("onLoadError",throwable.getMessage());
+        ToastUtil.toast(throwable.getMessage());
+        ToastUtil.logTestError("onLoadError",throwable.getMessage());
     }
 
     @Override

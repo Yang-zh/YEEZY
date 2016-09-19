@@ -1,14 +1,15 @@
 package com.fangzhich.yeezy.product.data.net;
 
-import com.fangzhich.yeezy.YEEZY;
 import com.fangzhich.yeezy.base.data.net.BaseApi;
 import com.fangzhich.yeezy.product.data.entity.BannerImageEntity;
 import com.fangzhich.yeezy.product.data.entity.ProductEntity;
 import com.fangzhich.yeezy.product.data.entity.ProductItemEntity;
 import com.fangzhich.yeezy.product.data.entity.RecommendProductEntity;
 import com.fangzhich.yeezy.product.data.entity.ReviewEntity;
+import com.fangzhich.yeezy.util.Constants;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import rx.SingleSubscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -30,9 +31,17 @@ public class ProductApi extends BaseApi {
      */
     public static void getProducts(int page, int limit, int category_id, SingleSubscriber<ArrayList<ProductItemEntity>> singleSubscriber) {
         String timestamp = getTimeStamp();
-        String signature = getSignature(page,limit,category_id,timestamp);
+
+        HashMap<String,String> params = new HashMap<>();
+        params.put("page", String.valueOf(page));
+        params.put("limit", String.valueOf(limit));
+        params.put("category_id", String.valueOf(category_id));
+        params.put("timestamp", String.valueOf(timestamp));
+
+        String signature = getSignature(params);
+
         createClientAuthorizedService(ProductService.class)
-                .getProducts(page,limit,category_id,timestamp,signature,API_KEY, YEEZY.IMEI)
+                .getProducts(page,limit,category_id,timestamp,signature,API_KEY, Constants.IMEI)
                 .map(new HttpResultFunc<ArrayList<ProductItemEntity>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -47,9 +56,15 @@ public class ProductApi extends BaseApi {
      */
     public static void getProduct(int product_id, SingleSubscriber<ProductEntity> singleSubscriber) {
         String timestamp = getTimeStamp();
-        String signature = getSignature(product_id,timestamp);
+
+        HashMap<String,String> params = new HashMap<>();
+        params.put("product_id", String.valueOf(product_id));
+        params.put("timestamp", String.valueOf(timestamp));
+
+        String signature = getSignature(params);
+
         createClientAuthorizedService(ProductService.class)
-                .getProduct(product_id,timestamp,signature,API_KEY,YEEZY.IMEI)
+                .getProduct(product_id,timestamp,signature,API_KEY, Constants.IMEI)
                 .map(new HttpResultFunc<ProductEntity>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -66,9 +81,17 @@ public class ProductApi extends BaseApi {
      */
     public static void getReviews(int page, int limit, int product_id, SingleSubscriber<ArrayList<ReviewEntity>> singleSubscriber) {
         String timestamp = getTimeStamp();
-        String signature = getSignature(page,limit,product_id,timestamp);
+
+        HashMap<String,String> params = new HashMap<>();
+        params.put("page", String.valueOf(page));
+        params.put("limit", String.valueOf(limit));
+        params.put("product_id", String.valueOf(product_id));
+        params.put("timestamp", String.valueOf(timestamp));
+
+        String signature = getSignature(params);
+
         createClientAuthorizedService(ProductService.class)
-                .getReviews(page,limit,product_id,timestamp,signature,API_KEY,YEEZY.IMEI)
+                .getReviews(page,limit,product_id,timestamp,signature,API_KEY, Constants.IMEI)
                 .map(new HttpResultFunc<ArrayList<ReviewEntity>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -84,9 +107,16 @@ public class ProductApi extends BaseApi {
      */
     public static void getPopularProducts(int page, int limit, SingleSubscriber<ArrayList<RecommendProductEntity>> singleSubscriber) {
         String timestamp = getTimeStamp();
-        String signature = getSignature(page,limit,timestamp);
+
+        HashMap<String,String> params = new HashMap<>();
+        params.put("page", String.valueOf(page));
+        params.put("limit", String.valueOf(limit));
+        params.put("timestamp", String.valueOf(timestamp));
+
+        String signature = getSignature(params);
+
         createClientAuthorizedService(ProductService.class)
-                .getPopularProducts(page,limit,timestamp,signature,API_KEY,YEEZY.IMEI)
+                .getPopularProducts(page,limit,timestamp,signature,API_KEY, Constants.IMEI)
                 .map(new HttpResultFunc<ArrayList<RecommendProductEntity>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -102,9 +132,16 @@ public class ProductApi extends BaseApi {
      */
     public static void getBannerImages(String width, String height, SingleSubscriber<ArrayList<BannerImageEntity>> singleSubscriber) {
         String timestamp = getTimeStamp();
-        String signature = getSignature(width,height,timestamp);
+
+        HashMap<String,String> params = new HashMap<>();
+        params.put("width", String.valueOf(width));
+        params.put("height", String.valueOf(height));
+        params.put("timestamp", String.valueOf(timestamp));
+
+        String signature = getSignature(params);
+
         createClientAuthorizedService(ProductService.class)
-                .getBannerImages(width,height,timestamp,signature,API_KEY,YEEZY.IMEI)
+                .getBannerImages(width,height,timestamp,signature,API_KEY, Constants.IMEI)
                 .map(new HttpResultFunc<ArrayList<BannerImageEntity>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

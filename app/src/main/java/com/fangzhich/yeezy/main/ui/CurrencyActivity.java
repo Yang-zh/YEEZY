@@ -9,7 +9,7 @@ import com.blankj.utilcode.utils.SPUtils;
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.base.ui.BaseActivity;
 import com.fangzhich.yeezy.base.widget.spinner.NiceSpinner;
-import com.fangzhich.yeezy.util.LogUtils;
+import com.fangzhich.yeezy.util.ToastUtil;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -36,7 +36,7 @@ public class CurrencyActivity extends BaseActivity {
     void chooseCurrency() {
         if (utils!=null&&languageSpinner!=null) {
             utils.putInt("currency", languageSpinner.getSelectedIndex());
-            LogUtils.toastInfo("Change Language Success");
+            ToastUtil.toast("Change Language Success");
         }
         onBackPressed();
     }
@@ -65,7 +65,7 @@ public class CurrencyActivity extends BaseActivity {
     }
 
     private void initSpinner() {
-        utils = new SPUtils(CurrencyActivity.this,"YEEZY");
+        utils = new SPUtils(CurrencyActivity.this,"App");
         languageSpinner.attachDataSource(new LinkedList<>(Arrays.asList(getResources().getStringArray(R.array.currencies))));
     }
 

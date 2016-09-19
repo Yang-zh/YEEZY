@@ -21,7 +21,7 @@ public class ProductListPresenter implements ProductListContract.Presenter {
 
     @Override
     public void getProductList() {
-        getProductList(1,20);
+        getProductList(0,20);
     }
 
     @Override

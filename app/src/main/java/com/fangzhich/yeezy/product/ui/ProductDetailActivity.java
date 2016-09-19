@@ -20,8 +20,8 @@ import com.bigkoo.snappingstepper.SnappingStepper;
 import com.bigkoo.snappingstepper.listener.SnappingStepperValueChangeListener;
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.base.ui.BaseActivity;
-import com.fangzhich.yeezy.util.LogUtils;
-import com.fangzhich.yeezy.util.MyUtils;
+import com.fangzhich.yeezy.util.ToastUtil;
+import com.fangzhich.yeezy.util.MyUtil;
 
 import java.util.ArrayList;
 
@@ -143,7 +143,7 @@ public class ProductDetailActivity extends BaseActivity {
             }
         });
         tabLayout.setupWithViewPager(viewPager);
-        MyUtils.dynamicSetTabLayoutMode(tabLayout,this);
+        MyUtil.dynamicSetTabLayoutMode(tabLayout,this);
     }
 
     private void initBottomBarAndPopup() {
@@ -163,16 +163,11 @@ public class ProductDetailActivity extends BaseActivity {
         stepper.setOnValueChangeListener(new SnappingStepperValueChangeListener() {
             @Override
             public void onValueChange(View view, int value) {
-                LogUtils.getInstance().logTestError("SizeDialog", String.valueOf(value));
+                ToastUtil.logTestError("SizeDialog", String.valueOf(value));
             }
         });
         mPopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         mPopupWindow.setAnimationStyle(R.style.Dialog);
-    }
-
-    @Override
-    protected void loadData() {
-
     }
 
     @Override

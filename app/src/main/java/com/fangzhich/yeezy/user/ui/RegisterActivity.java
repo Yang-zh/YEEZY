@@ -12,7 +12,7 @@ import com.fangzhich.yeezy.user.data.entity.RegisterEntity;
 import com.fangzhich.yeezy.user.presentation.contract.UserRegisterContract;
 import com.fangzhich.yeezy.user.presentation.presenter.UserRegisterPresenter;
 import com.fangzhich.yeezy.util.Constants;
-import com.fangzhich.yeezy.util.LogUtils;
+import com.fangzhich.yeezy.util.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -49,7 +49,7 @@ public class RegisterActivity extends BaseActivity implements UserRegisterContra
 
     @OnClick(R.id.bt_facebook)
     void joinWithFaceBook() {
-        LogUtils.toastInfo("Join with Facebook");
+        ToastUtil.toast("Join with Facebook");
     }
 
     @Override
@@ -74,12 +74,12 @@ public class RegisterActivity extends BaseActivity implements UserRegisterContra
 
     @Override
     public void onRegisterSuccess(RegisterEntity entity) {
-        LogUtils.toastInfo(Constants.User.REGISTER_SUCCESS);
+        ToastUtil.toast(Constants.User.REGISTER_SUCCESS);
     }
 
     @Override
     public void onRegisterFailed(Throwable throwable) {
-        LogUtils.toastInfo(Constants.User.REGISTER_FAILED);
+        ToastUtil.toast(Constants.User.REGISTER_FAILED);
     }
 
 

@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fangzhich.yeezy.R;
-import com.fangzhich.yeezy.main.data.net.Bean.NotificationEntity;
+import com.fangzhich.yeezy.main.data.net.entity.NotificationEntity;
 
 import java.util.ArrayList;
 

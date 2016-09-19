@@ -15,7 +15,7 @@ import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.base.ui.BaseActivity;
 import com.fangzhich.yeezy.base.widget.CustomDialog;
 import com.fangzhich.yeezy.base.widget.spinner.NiceSpinner;
-import com.fangzhich.yeezy.util.LogUtils;
+import com.fangzhich.yeezy.util.ToastUtil;
 import com.fangzhich.yeezy.util.TagFormatUtil;
 
 import java.util.Arrays;
@@ -127,7 +127,7 @@ public class UserInfoActivity extends BaseActivity {
         }
         switch (item.getItemId()) {
             case R.id.skip:
-                LogUtils.getInstance().toastInfo("Skip");
+                ToastUtil.toast("Skip");
                 break;
         }
         return super.onOptionsItemSelected(item);

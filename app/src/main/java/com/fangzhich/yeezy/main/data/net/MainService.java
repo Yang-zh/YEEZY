@@ -1,11 +1,7 @@
 package com.fangzhich.yeezy.main.data.net;
 
-import com.fangzhich.yeezy.main.data.net.Bean.CategoryEntity;
-import com.fangzhich.yeezy.product.data.entity.ProductEntity;
-import com.fangzhich.yeezy.product.data.entity.ProductItemEntity;
+import com.fangzhich.yeezy.main.data.net.entity.CategoryEntity;
 import com.fangzhich.yeezy.base.data.net.HttpResult;
-import com.fangzhich.yeezy.user.data.entity.LoginEntity;
-import com.fangzhich.yeezy.user.data.entity.RegisterEntity;
 
 import java.util.ArrayList;
 
@@ -15,7 +11,7 @@ import retrofit2.http.POST;
 import rx.Single;
 
 /**
- * API
+ * MainAPI
  * Created by Khorium on 2016/9/8.
  */
 public interface MainService {

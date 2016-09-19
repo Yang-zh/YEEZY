@@ -2,11 +2,14 @@ package com.fangzhich.yeezy.base.data.net;
 
 import com.blankj.utilcode.utils.EncryptUtils;
 import com.fangzhich.yeezy.BuildConfig;
-import com.fangzhich.yeezy.YEEZY;
-import com.fangzhich.yeezy.util.LogUtils;
+import com.fangzhich.yeezy.util.Constants;
+import com.fangzhich.yeezy.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 import rx.functions.Func1;
 
@@ -21,8 +24,6 @@ public abstract class BaseApi {
     private final static String APP_KEY = BuildConfig.APP_KEY;
 
     public static final String API_KEY = BuildConfig.API_KEY;
-
-    public final static int TIME_OUT = 5;
 
     /**
      * create Retrofit's service of class (not Authorized now)
@@ -57,37 +58,75 @@ public abstract class BaseApi {
     /**
      * get Signature of a concrete request
      *
-     * @param args params of request
+     * @param params params of request in HashMap
      * @return Signature
      */
-    protected static String getSignature(Object ...args) {
+
+    protected static String getSignature(HashMap<String, String> params) {
+        params.put("apiKey",API_KEY);
+        params.put("appKey",APP_KEY);
+        params.put("equipment_id", Constants.IMEI);
+
+        ArrayList<Map.Entry<String,String>> paramList = new ArrayList<>(params.entrySet());
+
+        //dict sort
+        Collections.sort(paramList, new Comparator<Map.Entry<String, String>>() {
+            public int compare(Map.Entry<String, String> o1, Map.Entry<String, String> o2) {
+                return (o1.getKey()).compareTo(o2.getKey());
+            }
+        });
+
+        StringBuilder builder = new StringBuilder();
+
+        for (Map.Entry entry:paramList) {
+            builder.append(entry.getKey());
+            builder.append(entry.getValue());
+            ToastUtil.logTestError("param", (String) entry.getValue());
+        }
+
+        String origin = builder.toString();
+        ToastUtil.logTestError("origin",origin);
+        //MD5
+        String MD5 = bytes2HexString(EncryptUtils.encryptMD5(origin.getBytes()));
+
+        String SHA1 = bytes2HexString(EncryptUtils.encryptSHA1(MD5.getBytes()));
+        ToastUtil.logTestError("SHA1",SHA1);
+
+        return SHA1;
+    }
+
+    /**
+     * get Signature of a concrete request
+     *
+     * @param args params of request in String[]
+     * @return Signature
+     */
+    @Deprecated
+    protected static String getSignature(String ...args) {
         ArrayList<String> params = new ArrayList<>();
 
-        for (Object arg:args) {
-            String param = arg instanceof String ? (String)arg : String.valueOf(arg);
-            params.add(param);
-        }
+        Collections.addAll(params, args);
         params.add(API_KEY);
         params.add(APP_KEY);
-        params.add(YEEZY.IMEI);
+        params.add(Constants.IMEI);
 
         //dict sort
         Collections.sort(params);
 
         StringBuilder builder = new StringBuilder();
 
-        for (String arg:params) {
-            builder.append(arg);
-            LogUtils.logTestError("param",arg);
+            for (String arg:params) {
+                builder.append(arg);
+            ToastUtil.logTestError("param",arg);
         }
 
         String origin = builder.toString();
-        LogUtils.logTestError("origin",origin);
+        ToastUtil.logTestError("origin",origin);
         //MD5
         String MD5 = bytes2HexString(EncryptUtils.encryptMD5(origin.getBytes()));
 
         String SHA1 = bytes2HexString(EncryptUtils.encryptSHA1(MD5.getBytes()));
-        LogUtils.logTestError("SHA1",SHA1);
+        ToastUtil.logTestError("SHA1",SHA1);
 
         return SHA1;
     }

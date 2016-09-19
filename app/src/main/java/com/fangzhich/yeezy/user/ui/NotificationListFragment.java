@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.base.ui.BaseFragment;
-import com.fangzhich.yeezy.main.data.net.Bean.NotificationEntity;
+import com.fangzhich.yeezy.main.data.net.entity.NotificationEntity;
 import com.fangzhich.yeezy.base.ui.recyclerview.LinearLayoutItemDecoration;
 import com.fangzhich.yeezy.user.ui.adapter.NotificationListAdapter;
 
@@ -22,7 +22,6 @@ public class NotificationListFragment extends BaseFragment {
 
     @BindView(R.id.recyclerView_notificationList)
     RecyclerView recyclerView;
-    private LinearLayoutManager manager;
     private NotificationListAdapter adapter;
 
     ArrayList<NotificationEntity> notifications = new ArrayList<>();
@@ -33,7 +32,7 @@ public class NotificationListFragment extends BaseFragment {
 
     @Override
     protected void initContentView() {
-        manager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         adapter = new NotificationListAdapter();
         recyclerView.setLayoutManager(manager);
         recyclerView.addItemDecoration(new LinearLayoutItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));

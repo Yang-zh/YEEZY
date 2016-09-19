@@ -17,7 +17,7 @@ import java.lang.reflect.Method;
  * other utils
  * Created by Khorium on 2016/9/1.
  */
-public class MyUtils {
+public class MyUtil {
 
     public static void dynamicSetTabLayoutMode(TabLayout tabLayout, Context context) {
         int tabWidth = calculateTabWidth(tabLayout);

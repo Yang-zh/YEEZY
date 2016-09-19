@@ -123,6 +123,7 @@
     <string name="ShareFormat">Share({ShareCount})</string>
     <string name="BracketsFormat">({content})</string>
     <string name="Reviews">Reviews</string>
+    <string name="ApplicationCrash">Application crashed and will exit at once.</string>
 
     <string-array name = "currencies">
         <item>CNY(￥)</item>

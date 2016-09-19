@@ -11,7 +11,7 @@ import com.fangzhich.yeezy.base.ui.BaseFragment;
 import com.fangzhich.yeezy.product.data.entity.ProductEntity;
 import com.fangzhich.yeezy.product.presentation.ProductOverviewContract;
 import com.fangzhich.yeezy.product.presentation.ProductOverviewPresenter;
-import com.fangzhich.yeezy.util.LogUtils;
+import com.fangzhich.yeezy.util.ToastUtil;
 import com.fangzhich.yeezy.util.TagFormatUtil;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class ProductOverviewFragment extends BaseFragment implements ProductOver
 
     @OnClick(R.id.bt_left)
     void btLeft() {
-        LogUtils.toastInfo("like");
+        ToastUtil.toast("like");
     }
 
     @BindView(R.id.shareText)
@@ -40,7 +40,7 @@ public class ProductOverviewFragment extends BaseFragment implements ProductOver
 
     @OnClick(R.id.bt_right)
     void btRight() {
-        LogUtils.toastInfo("share");
+        ToastUtil.toast("share");
     }
 
     @BindView(R.id.product_name)
@@ -54,7 +54,7 @@ public class ProductOverviewFragment extends BaseFragment implements ProductOver
     TextView commentCount;
     @OnClick(R.id.view_all)
     void viewAllComments() {
-        LogUtils.toastInfo("view all comments");
+        ToastUtil.toast("view all comments");
     }
 
     @BindView(R.id.sub_rating_bar1)
@@ -83,7 +83,7 @@ public class ProductOverviewFragment extends BaseFragment implements ProductOver
     @OnClick(R.id.tv_arriveTime_view_all)
     void viewAllArriveTime() {
         ((ProductDetailActivity)getActivity()).onTabClick("Shipping");
-        LogUtils.toastInfo("view all arriveTime");
+        ToastUtil.toast("view all arriveTime");
     }
 
     @BindView(R.id.tv_arriveTime_detail)
@@ -91,7 +91,7 @@ public class ProductOverviewFragment extends BaseFragment implements ProductOver
     @OnClick(R.id.tv_postage_view_all)
     void viewAllPostage() {
         ((ProductDetailActivity)getActivity()).onTabClick("Shipping");
-        LogUtils.toastInfo("view all postage");
+        ToastUtil.toast("view all postage");
     }
 
     @BindView(R.id.tv_postage_detail)
@@ -160,7 +160,7 @@ public class ProductOverviewFragment extends BaseFragment implements ProductOver
 
     @Override
     public void onGetProductOverviewFailed(Throwable throwable) {
-        LogUtils.toastInfo(throwable.getMessage());
-        LogUtils.logTestError("OnGetProductOverview",throwable.getMessage());
+        ToastUtil.toast(throwable.getMessage());
+        ToastUtil.logTestError("OnGetProductOverview",throwable.getMessage());
     }
 }

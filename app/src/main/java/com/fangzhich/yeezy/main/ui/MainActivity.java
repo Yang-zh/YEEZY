@@ -25,15 +25,15 @@ import com.blankj.utilcode.utils.SPUtils;
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.base.ui.BaseActivity;
 import com.fangzhich.yeezy.main.data.net.MainApi;
-import com.fangzhich.yeezy.main.data.net.Bean.CategoryEntity;
+import com.fangzhich.yeezy.main.data.net.entity.CategoryEntity;
 import com.fangzhich.yeezy.product.ui.ProductListFragment;
 import com.fangzhich.yeezy.order.ui.HistoryActivity;
 import com.fangzhich.yeezy.user.ui.NotificationActivity;
 import com.fangzhich.yeezy.user.ui.UserInfoActivity;
 import com.fangzhich.yeezy.order.widget.ShoppingCartDialog;
 import com.fangzhich.yeezy.user.ui.RegisterActivity;
-import com.fangzhich.yeezy.util.LogUtils;
-import com.fangzhich.yeezy.util.MyUtils;
+import com.fangzhich.yeezy.util.ToastUtil;
+import com.fangzhich.yeezy.util.MyUtil;
 
 import java.util.ArrayList;
 
@@ -147,9 +147,9 @@ public class MainActivity extends BaseActivity {
                         break;
                     case R.id.settings:
 //                        startActivity(new Intent(MainActivity.this, SettingActivity.class));
-                        SPUtils spUtils = new SPUtils(MainActivity.this,"YEEZY");
-                        spUtils.putBoolean("isLogin",false);
-                        LogUtils.toastInfo("sign out success");
+                        SPUtils spUtils = new SPUtils(MainActivity.this, "App");
+                        spUtils.putBoolean("isLogin", false);
+                        ToastUtil.toast("sign out success");
                         break;
                 }
                 drawerLayout.closeDrawers();
@@ -162,6 +162,10 @@ public class MainActivity extends BaseActivity {
         MainApi.getCategories(new SingleSubscriber<ArrayList<CategoryEntity>>() {
             @Override
             public void onSuccess(ArrayList<CategoryEntity> categoryList) {
+                if (categoryList == null || categoryList.size() <= 0) {
+                    ToastUtil.toast("category 0");
+                    return;
+                }
                 for (CategoryEntity category : categoryList) {
                     ProductListFragment fragment = new ProductListFragment();
                     Bundle args = new Bundle();
@@ -171,6 +175,7 @@ public class MainActivity extends BaseActivity {
 
                     fragments.add(fragment);
                     fragmentTitles.add(category.name);
+                    ToastUtil.toast("add category "+category.name);
                 }
                 adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
                     @Override
@@ -206,14 +211,15 @@ public class MainActivity extends BaseActivity {
                     }
                 });
                 tabLayout.setupWithViewPager(viewPager);
-                MyUtils.dynamicSetTabLayoutMode(tabLayout, MainActivity.this);
+                MyUtil.dynamicSetTabLayoutMode(tabLayout, MainActivity.this);
                 adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onError(Throwable error) {
-                LogUtils.toastInfo(error.getMessage());
-                LogUtils.logTestError("getCategoriesError", error.getMessage());
+                ToastUtil.toast(error.getMessage());
+                error.printStackTrace();
+                ToastUtil.logError("getCategoriesError", error.getMessage());
             }
         });
     }
@@ -254,11 +260,11 @@ public class MainActivity extends BaseActivity {
         }
         switch (item.getItemId()) {
             case R.id.filter:
-                LogUtils.toastInfo("Filter");
+                ToastUtil.toast("Filter");
                 startActivity(new Intent(MainActivity.this, RegisterActivity.class));
                 break;
             case R.id.search:
-                startActivity(new Intent(MainActivity.this,SearchActivity.class));
+                startActivity(new Intent(MainActivity.this, SearchActivity.class));
                 break;
         }
         return super.onOptionsItemSelected(item);

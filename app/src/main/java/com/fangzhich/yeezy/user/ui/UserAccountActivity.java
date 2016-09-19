@@ -41,7 +41,7 @@ public class UserAccountActivity extends BaseActivity {
 
     @Override
     protected void initContentView() {
-        if (new SPUtils(this,"YEEZY").getBoolean("isLogin", false)){
+        if (new SPUtils(this,"App").getBoolean("isLogin", false)){
             startActivity(new Intent(this, MainActivity.class));
             finish();
         }

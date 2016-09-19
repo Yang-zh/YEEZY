@@ -1,4 +1,4 @@
-package com.fangzhich.yeezy.main.data.net.Bean;
+package com.fangzhich.yeezy.main.data.net.entity;
 
 import com.fangzhich.yeezy.base.data.net.HttpResult;
 
@@ -7,7 +7,6 @@ import com.fangzhich.yeezy.base.data.net.HttpResult;
  * Created by Khorium on 2016/9/13.
  */
 public class CategoryEntity extends HttpResult {
-
     public String category_id;
     public String image;
     public String parent_id;

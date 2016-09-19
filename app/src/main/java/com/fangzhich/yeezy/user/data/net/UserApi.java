@@ -1,10 +1,12 @@
 package com.fangzhich.yeezy.user.data.net;
 
 
-import com.fangzhich.yeezy.YEEZY;
 import com.fangzhich.yeezy.base.data.net.BaseApi;
 import com.fangzhich.yeezy.user.data.entity.LoginEntity;
 import com.fangzhich.yeezy.user.data.entity.RegisterEntity;
+import com.fangzhich.yeezy.util.Constants;
+
+import java.util.HashMap;
 
 import rx.SingleSubscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -25,10 +27,16 @@ public class UserApi extends BaseApi{
      */
     public static void login(String email,String password,SingleSubscriber<LoginEntity> singleSubscriber) {
         String timestamp = getTimeStamp();
-        String signature = getSignature(email,password,timestamp);
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("email", email);
+        params.put("password", password);
+        params.put("timestamp", timestamp);
+
+        String signature = getSignature(params);
 
         UserApi.createClientAuthorizedService(UserService.class)
-                .login(email,password,timestamp,signature,API_KEY,YEEZY.IMEI)
+                .login(email,password,timestamp,signature,API_KEY, Constants.IMEI)
                 .map(new HttpResultFunc<LoginEntity>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -46,10 +54,18 @@ public class UserApi extends BaseApi{
      */
     public static void register(String firstname, String lastname, String email, String password, SingleSubscriber<RegisterEntity> singleSubscriber) {
         String timestamp = getTimeStamp();
-        String signature = getSignature(firstname,lastname,email,password,timestamp);
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("firstname", firstname);
+        params.put("lastname", lastname);
+        params.put("email", email);
+        params.put("password", password);
+        params.put("timestamp", timestamp);
+
+        String signature = getSignature(params);
 
         UserApi.createClientAuthorizedService(UserService.class)
-                .register(firstname,lastname,email,password,timestamp,signature,API_KEY,YEEZY.IMEI)
+                .register(firstname,lastname,email,password,timestamp,signature,API_KEY, Constants.IMEI)
                 .map(new HttpResultFunc<RegisterEntity>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

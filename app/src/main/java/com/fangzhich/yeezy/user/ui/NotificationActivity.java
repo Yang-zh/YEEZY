@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.base.ui.BaseActivity;
-import com.fangzhich.yeezy.util.MyUtils;
+import com.fangzhich.yeezy.util.MyUtil;
 
 import java.util.ArrayList;
 
@@ -102,7 +102,7 @@ public class NotificationActivity extends BaseActivity {
             }
         });
         tabLayout.setupWithViewPager(viewPager);
-        MyUtils.dynamicSetTabLayoutMode(tabLayout,this);
+        MyUtil.dynamicSetTabLayoutMode(tabLayout,this);
     }
 
     @Override

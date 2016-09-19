@@ -5,6 +5,9 @@ package com.fangzhich.yeezy.util;
  * Created by Khorium on 2016/9/14.
  */
 public class Constants {
+
+    public static String IMEI;
+
     public class User{
         public final static String LOGIN_SUCCESS = "Login Success!";
         public static final String LOGIN_FAILED = "Login failed";

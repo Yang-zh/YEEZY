@@ -15,7 +15,7 @@ import com.fangzhich.yeezy.main.ui.MainActivity;
 import com.fangzhich.yeezy.user.presentation.contract.UserLoginContract;
 import com.fangzhich.yeezy.user.presentation.presenter.UserLoginPresenter;
 import com.fangzhich.yeezy.util.Constants;
-import com.fangzhich.yeezy.util.LogUtils;
+import com.fangzhich.yeezy.util.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -35,14 +35,15 @@ public class LoginActivity extends BaseActivity implements UserLoginContract.Vie
     @BindView(R.id.password)
     EditText password;
     @OnClick(R.id.bt_sign_in)
-
     void signIn() {
         mPresenter.login(email.getText().toString(),password.getText().toString());
     }
+
     @OnClick(R.id.forget_password)
     void forgetPassword() {
         mPresenter.forgetPassword();
     }
+
     @OnClick(R.id.bt_facebook)
     void signInWithFacebook() {
         mPresenter.loginByFaceBook();
@@ -69,16 +70,16 @@ public class LoginActivity extends BaseActivity implements UserLoginContract.Vie
 
     @Override
     public void onLoginSuccess(LoginEntity entity) {
-        LogUtils.toastInfo(Constants.User.LOGIN_SUCCESS);
-        new SPUtils(this,"YEEZY").putBoolean("isLogin",true);
+        ToastUtil.toast(Constants.User.LOGIN_SUCCESS);
+        new SPUtils(this,"App").putBoolean("isLogin",true);
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 
     @Override
     public void onLoginFailed(Throwable throwable) {
-        LogUtils.toastInfo(Constants.User.LOGIN_FAILED);
-        LogUtils.logTestError("onLoginFailed",throwable.getMessage());
+        ToastUtil.toast(Constants.User.LOGIN_FAILED);
+        ToastUtil.logTestError("onLoginFailed",throwable.getMessage());
         throwable.printStackTrace();
 
     }

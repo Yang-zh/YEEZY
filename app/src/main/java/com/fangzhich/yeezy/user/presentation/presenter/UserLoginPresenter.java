@@ -4,6 +4,7 @@ package com.fangzhich.yeezy.user.presentation.presenter;
 import com.fangzhich.yeezy.user.data.entity.LoginEntity;
 import com.fangzhich.yeezy.user.data.net.UserApi;
 import com.fangzhich.yeezy.user.presentation.contract.UserLoginContract;
+import com.fangzhich.yeezy.util.ToastUtil;
 
 import rx.SingleSubscriber;
 
@@ -40,6 +41,6 @@ public class UserLoginPresenter implements UserLoginContract.Presenter {
 
     @Override
     public void forgetPassword() {
-
+        ToastUtil.toast("forgetPassword");
     }
 }

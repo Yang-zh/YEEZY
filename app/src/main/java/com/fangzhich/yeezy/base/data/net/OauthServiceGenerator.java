@@ -11,6 +11,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -29,24 +30,19 @@ public class OauthServiceGenerator {
         TIME_OUT = timeOut;
     }
 
-    private static Retrofit.Builder builder =
-            new Retrofit.Builder()
+    private static Retrofit.Builder builder = new Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .baseUrl(MainApi.BASE_URL);
 
 
 
+
     public static <S> S createService(Class<S> serviceClass) {
         httpClient.connectTimeout(TIME_OUT, TimeUnit.SECONDS);
-//        httpClient.addInterceptor(new Interceptor() {
-//            @Override
-//            public Response intercept(Chain chain) throws IOException {
-//                Response response = chain.proceed(chain.request());
-//                LogUtils.logTestError("response",response.body().string());
-//                return response;
-//            }
-//        });
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        httpClient.addInterceptor(interceptor);
         OkHttpClient client = httpClient.build();
         Retrofit retrofit = builder.client(client).build();
         return retrofit.create(serviceClass);
