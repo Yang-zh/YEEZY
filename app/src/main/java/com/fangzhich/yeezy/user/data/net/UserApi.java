@@ -35,7 +35,7 @@ public class UserApi extends BaseApi{
 
         String signature = getSignature(params);
 
-        UserApi.createClientAuthorizedService(UserService.class)
+        createService(UserService.class)
                 .login(email,password,timestamp,signature,API_KEY, Constants.IMEI)
                 .map(new HttpResultFunc<LoginEntity>())
                 .subscribeOn(Schedulers.io())
@@ -64,7 +64,7 @@ public class UserApi extends BaseApi{
 
         String signature = getSignature(params);
 
-        UserApi.createClientAuthorizedService(UserService.class)
+        createService(UserService.class)
                 .register(firstname,lastname,email,password,timestamp,signature,API_KEY, Constants.IMEI)
                 .map(new HttpResultFunc<RegisterEntity>())
                 .subscribeOn(Schedulers.io())

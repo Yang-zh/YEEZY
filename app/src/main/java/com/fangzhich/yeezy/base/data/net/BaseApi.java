@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import rx.functions.Func1;
+import timber.log.Timber;
 
 /**
  * BaseApi
@@ -19,22 +20,55 @@ import rx.functions.Func1;
  */
 public abstract class BaseApi {
 
-    public final static String BASE_URL = BuildConfig.BASE_URL;
+    final static String BASE_URL = BuildConfig.BASE_URL;
 
     private final static String APP_KEY = BuildConfig.APP_KEY;
 
-    public static final String API_KEY = BuildConfig.API_KEY;
+    protected static final String API_KEY = BuildConfig.API_KEY;
+
+    private static HashMap<Class,Object> services = new HashMap<>();
 
     /**
-     * create Retrofit's service of class (not Authorized now)
+     * create Retrofit's service of class
+     *
+     * @param serviceClass class object
+     * @param <S> class
+     * @return Retrofit's service of class
+     */
+    protected static <S> S createService(Class<S> serviceClass) {
+        S service = isServiceExist(serviceClass);
+        if (service == null) {
+            service = ServiceGenerator.createService(serviceClass);
+            services.put(serviceClass,service);
+        }
+        return service;
+    }
+
+    /**
+     * create Retrofit's Authorized service of class
      *
      * @param serviceClass class object
      * @param <S> class
      * @return Retrofit's service of class
      */
     protected static <S> S createClientAuthorizedService(Class<S> serviceClass) {
-        return OauthServiceGenerator
-                .createService(serviceClass);
+        return ServiceGenerator.createService(serviceClass);
+    }
+
+    /**
+     * check if service created
+     * @param serviceClass service class need to be checked
+     * @param <S> service
+     * @return existing service or null
+     */
+    private static <S> S isServiceExist(Class<S> serviceClass) {
+        for (Map.Entry serviceSet:services.entrySet()) {
+            if (serviceSet.getKey().equals(serviceClass)) {
+                //todo how to manage unknown amount kinds of objects?
+                return (S) serviceSet.getValue();
+            }
+        }
+        return null;
     }
 
     /**
@@ -81,18 +115,15 @@ public abstract class BaseApi {
         for (Map.Entry entry:paramList) {
             builder.append(entry.getKey());
             builder.append(entry.getValue());
-            ToastUtil.logTestError("param", (String) entry.getValue());
         }
 
         String origin = builder.toString();
-        ToastUtil.logTestError("origin",origin);
+        Timber.d(origin);
         //MD5
         String MD5 = bytes2HexString(EncryptUtils.encryptMD5(origin.getBytes()));
 
-        String SHA1 = bytes2HexString(EncryptUtils.encryptSHA1(MD5.getBytes()));
-        ToastUtil.logTestError("SHA1",SHA1);
 
-        return SHA1;
+        return bytes2HexString(EncryptUtils.encryptSHA1(MD5.getBytes()));
     }
 
     /**
@@ -117,18 +148,13 @@ public abstract class BaseApi {
 
             for (String arg:params) {
                 builder.append(arg);
-            ToastUtil.logTestError("param",arg);
         }
 
         String origin = builder.toString();
-        ToastUtil.logTestError("origin",origin);
         //MD5
         String MD5 = bytes2HexString(EncryptUtils.encryptMD5(origin.getBytes()));
 
-        String SHA1 = bytes2HexString(EncryptUtils.encryptSHA1(MD5.getBytes()));
-        ToastUtil.logTestError("SHA1",SHA1);
-
-        return SHA1;
+        return bytes2HexString(EncryptUtils.encryptSHA1(MD5.getBytes()));
     }
 
     private static final char hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
@@ -138,7 +164,7 @@ public abstract class BaseApi {
      * @param bytes byte数组
      * @return 16进制字符串
      */
-    public static String bytes2HexString(byte[] bytes) {
+    private static String bytes2HexString(byte[] bytes) {
         char[] res = new char[bytes.length << 1];
         for (int i = 0, j = 0; i < bytes.length; i++) {
             res[j++] = hexDigits[bytes[i] >>> 4 & 0x0f];

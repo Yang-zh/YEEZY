@@ -11,6 +11,7 @@ import com.fangzhich.yeezy.product.ui.adapter.ProductListAdapter;
 import com.fangzhich.yeezy.base.ui.recyclerview.GridSpaceItemDecoration;
 
 import butterknife.BindView;
+import timber.log.Timber;
 
 /**
  *

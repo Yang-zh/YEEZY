@@ -4,15 +4,15 @@ import com.fangzhich.yeezy.base.presentation.BaseView;
 import com.fangzhich.yeezy.product.data.entity.ProductEntity;
 
 /**
- * ProductOverviewContract
+ * ProductDetailContract
  * Created by Khorium on 2016/9/18.
  */
-public class ProductOverviewContract {
+public class ProductDetailContract {
     public interface Presenter {
         void getProductOverview(int product_id);
     }
     public interface View extends BaseView<Presenter> {
-        void onGetProductOverviewSuccess(ProductEntity product);
-        void onGetProductOverviewFailed(Throwable throwable);
+        void onGetProductDetailSuccess(ProductEntity product);
+        void onGetProductDetailFailed(Throwable throwable);
     }
 }

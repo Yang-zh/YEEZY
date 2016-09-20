@@ -36,7 +36,7 @@ public class MainApi extends BaseApi {
 
         String signature = getSignature(params);
 
-        createClientAuthorizedService(MainService.class)
+        createService(MainService.class)
                 .getCategories(page, limit, parent_id, timestamp, signature, API_KEY, Constants.IMEI)
                 .map(new HttpResultFunc<ArrayList<CategoryEntity>>())
                 .subscribeOn(Schedulers.io())

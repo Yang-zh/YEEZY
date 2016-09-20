@@ -9,8 +9,6 @@ import com.bumptech.glide.Glide;
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.base.ui.BaseFragment;
 import com.fangzhich.yeezy.product.data.entity.ProductEntity;
-import com.fangzhich.yeezy.product.presentation.ProductOverviewContract;
-import com.fangzhich.yeezy.product.presentation.ProductOverviewPresenter;
 import com.fangzhich.yeezy.util.ToastUtil;
 import com.fangzhich.yeezy.util.TagFormatUtil;
 
@@ -23,7 +21,7 @@ import butterknife.OnClick;
  * OverView
  * Created by Khorium on 2016/8/31.
  */
-public class ProductOverviewFragment extends BaseFragment implements ProductOverviewContract.View {
+public class ProductOverviewFragment extends BaseFragment {
 
     ArrayList<String> imageUrls = new ArrayList<>();
 
@@ -97,7 +95,7 @@ public class ProductOverviewFragment extends BaseFragment implements ProductOver
     @BindView(R.id.tv_postage_detail)
     TextView postage;
 
-    private int productId;
+    private ProductEntity mProduct;
 
     @OnClick(R.id.iv_productImage)
     void openPhotoViewPager() {
@@ -107,8 +105,6 @@ public class ProductOverviewFragment extends BaseFragment implements ProductOver
         getActivity().overridePendingTransition(0, 0);
     }
 
-    private ProductOverviewPresenter mPresenter;
-
 
     @Override
     public int setContentLayout() {
@@ -117,50 +113,33 @@ public class ProductOverviewFragment extends BaseFragment implements ProductOver
 
     @Override
     protected void initContentView() {
-        productId = getArguments().getInt("product_id");
-        setPresenter(new ProductOverviewPresenter(this));
-    }
-
-    @Override
-    public void setPresenter(ProductOverviewContract.Presenter presenter) {
-        mPresenter = (ProductOverviewPresenter) presenter;
+        mProduct = getArguments().getParcelable("product");
     }
 
     @Override
     protected void loadData() {
-        mPresenter.getProductOverview(productId);
-    }
-
-    @Override
-    public void onGetProductOverviewSuccess(ProductEntity product) {
 
         Glide.with(getContext())
-                .load(product.images.get(0))
+                .load(mProduct.images.get(0))
                 .centerCrop()
                 .crossFade()
                 .into(productImage);
         imageUrls.clear();
-        imageUrls.addAll(product.images);
+        imageUrls.addAll(mProduct.images);
 
         likeText.setText(TagFormatUtil.from(getResources().getString(R.string.LikeFormat))
-                .with("LikeCount", product.points)
+                .with("LikeCount", mProduct.points)
                 .format());
         shareText.setText(TagFormatUtil.from(getResources().getString(R.string.ShareFormat))
                 .with("ShareCount", getResources().getString(R.string.nulll))
                 .format());
-        product_name.setText(product.name);
-        ratingBar.setNumStars(product.rating);
+        product_name.setText(mProduct.name);
+        ratingBar.setNumStars(mProduct.rating);
         commentCount.setText(TagFormatUtil.from(getResources().getString(R.string.BracketsFormat))
-                .with("content", product.reviews)
+                .with("content", mProduct.reviews)
                 .format());
 
         size.setText(getResources().getString(R.string.nulll));
         postage.setText(getResources().getString(R.string.nulll));
-    }
-
-    @Override
-    public void onGetProductOverviewFailed(Throwable throwable) {
-        ToastUtil.toast(throwable.getMessage());
-        ToastUtil.logTestError("OnGetProductOverview",throwable.getMessage());
     }
 }

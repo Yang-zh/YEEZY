@@ -13,9 +13,7 @@ public abstract class BaseRecyclerViewAdapter<T,VH extends RecyclerView.ViewHold
 
     ArrayList<T> mData;
 
-    public BaseRecyclerViewAdapter() {
-        mData = loadData();
-    }
+    public BaseRecyclerViewAdapter() {}
 
     public abstract ArrayList<T> loadData();
 

@@ -48,7 +48,6 @@
 
         <TextView
             android:id="@+id/tv_price"
-            android:text="￥1500.90"
             android:textSize="17sp"
             android:textColor="@color/product_list_background_color"
             android:layout_width="wrap_content"
@@ -61,7 +60,6 @@
             android:id="@+id/tv_price_original"
             android:layout_width="wrap_content"
             android:textSize="15sp"
-            android:text="￥3001.80"
             android:textColor="@color/product_list_item_subText_color"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

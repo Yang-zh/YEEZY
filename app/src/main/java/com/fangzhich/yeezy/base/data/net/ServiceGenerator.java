@@ -2,8 +2,6 @@ package com.fangzhich.yeezy.base.data.net;
 
 import android.util.Base64;
 
-import com.fangzhich.yeezy.main.data.net.MainApi;
-
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -11,41 +9,45 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import timber.log.Timber;
 
 /**
  * Oauth Service Generator
  * Created by Khorium on 2016/8/30.
  */
-public class OauthServiceGenerator {
+class ServiceGenerator {
 
-    private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
+    //Connection time out
     private static int TIME_OUT = 5;
 
-    public static void setTimeOut(int timeOut) {
-        TIME_OUT = timeOut;
-    }
+    private static OkHttpClient.Builder mOkHttpBuilder = new OkHttpClient.Builder()
+            .addInterceptor(new HttpLogInterceptor(new HttpLogInterceptor.Logger() {
+                @Override
+                public void log(String message) {
+                    Timber.d(message);
+                }
+            }).setLevel(HttpLogInterceptor.Level.BODY))
+            .connectTimeout(TIME_OUT, TimeUnit.SECONDS);
 
-    private static Retrofit.Builder builder = new Retrofit.Builder()
+    private static Retrofit.Builder mRetrofitBuilder = new Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .baseUrl(MainApi.BASE_URL);
+                    .baseUrl(BaseApi.BASE_URL);
+
+    public static Class<ServiceGenerator> setTimeOut(int timeOut) {
+        TIME_OUT = timeOut;
+        return ServiceGenerator.class;
+    }
 
 
-
-
-    public static <S> S createService(Class<S> serviceClass) {
-        httpClient.connectTimeout(TIME_OUT, TimeUnit.SECONDS);
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        httpClient.addInterceptor(interceptor);
-        OkHttpClient client = httpClient.build();
-        Retrofit retrofit = builder.client(client).build();
-        return retrofit.create(serviceClass);
+    static <S> S createService(Class<S> serviceClass) {
+        return mRetrofitBuilder
+                .client(mOkHttpBuilder.build())
+                .build()
+                .create(serviceClass);
     }
 
     public static <S> S createService(Class<S> serviceClass, String username, String password) {
@@ -54,7 +56,7 @@ public class OauthServiceGenerator {
             final String basic =
                     "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
 
-            httpClient.addInterceptor(new Interceptor() {
+            mOkHttpBuilder.addInterceptor(new Interceptor() {
                 @Override
                 public Response intercept(Interceptor.Chain chain) throws IOException {
                     Request original = chain.request();
@@ -74,7 +76,7 @@ public class OauthServiceGenerator {
 
     public static <S> S createService(Class<S> serviceClass, final AccessToken token) {
         if (token != null) {
-            httpClient.addInterceptor(new Interceptor() {
+            mOkHttpBuilder.addInterceptor(new Interceptor() {
                 @Override
                 public Response intercept(Interceptor.Chain chain) throws IOException {
                     Request original = chain.request();
@@ -96,7 +98,7 @@ public class OauthServiceGenerator {
 
     public static <S> S createService(Class<S> serviceClass, final String clientAccessToken) {
         if (clientAccessToken != null) {
-            httpClient.addInterceptor(new Interceptor() {
+            mOkHttpBuilder.addInterceptor(new Interceptor() {
                 @Override
                 public Response intercept(Interceptor.Chain chain) throws IOException {
                     Request original = chain.request();
@@ -115,7 +117,8 @@ public class OauthServiceGenerator {
 
         return createService(serviceClass);
     }
-    public class AccessToken {
+
+    private class AccessToken {
 
         public AccessToken() {
         }
@@ -128,11 +131,11 @@ public class OauthServiceGenerator {
         private String tokenType;
         private String accessToken;
 
-        public String getTokenType() {
+        String getTokenType() {
             return tokenType;
         }
 
-        public String getAccessToken() {
+        String getAccessToken() {
             return accessToken;
         }
     }

@@ -14,7 +14,7 @@ import rx.Single;
  * MainAPI
  * Created by Khorium on 2016/9/8.
  */
-public interface MainService {
+interface MainService {
     @FormUrlEncoded
     @POST("index.php?route=api/category")
     Single<HttpResult<ArrayList<CategoryEntity>>> getCategories(

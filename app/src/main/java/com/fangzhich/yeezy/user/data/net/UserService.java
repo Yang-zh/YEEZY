@@ -13,7 +13,7 @@ import rx.Single;
  * UserService
  * Created by Khorium on 2016/9/14.
  */
-public interface UserService {
+interface UserService {
 
     @FormUrlEncoded
     @POST("index.php?route=api/login")

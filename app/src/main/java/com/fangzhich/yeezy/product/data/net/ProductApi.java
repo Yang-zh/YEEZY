@@ -14,6 +14,7 @@ import java.util.HashMap;
 import rx.SingleSubscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 /**
  * ProductApi
@@ -36,11 +37,12 @@ public class ProductApi extends BaseApi {
         params.put("page", String.valueOf(page));
         params.put("limit", String.valueOf(limit));
         params.put("category_id", String.valueOf(category_id));
-        params.put("timestamp", String.valueOf(timestamp));
+        params.put("timestamp", timestamp);
 
         String signature = getSignature(params);
 
-        createClientAuthorizedService(ProductService.class)
+        Timber.d("sendProductListRequest");
+        createService(ProductService.class)
                 .getProducts(page,limit,category_id,timestamp,signature,API_KEY, Constants.IMEI)
                 .map(new HttpResultFunc<ArrayList<ProductItemEntity>>())
                 .subscribeOn(Schedulers.io())
@@ -63,7 +65,7 @@ public class ProductApi extends BaseApi {
 
         String signature = getSignature(params);
 
-        createClientAuthorizedService(ProductService.class)
+        createService(ProductService.class)
                 .getProduct(product_id,timestamp,signature,API_KEY, Constants.IMEI)
                 .map(new HttpResultFunc<ProductEntity>())
                 .subscribeOn(Schedulers.io())
@@ -90,7 +92,7 @@ public class ProductApi extends BaseApi {
 
         String signature = getSignature(params);
 
-        createClientAuthorizedService(ProductService.class)
+        createService(ProductService.class)
                 .getReviews(page,limit,product_id,timestamp,signature,API_KEY, Constants.IMEI)
                 .map(new HttpResultFunc<ArrayList<ReviewEntity>>())
                 .subscribeOn(Schedulers.io())
@@ -115,7 +117,7 @@ public class ProductApi extends BaseApi {
 
         String signature = getSignature(params);
 
-        createClientAuthorizedService(ProductService.class)
+        createService(ProductService.class)
                 .getPopularProducts(page,limit,timestamp,signature,API_KEY, Constants.IMEI)
                 .map(new HttpResultFunc<ArrayList<RecommendProductEntity>>())
                 .subscribeOn(Schedulers.io())
@@ -140,7 +142,7 @@ public class ProductApi extends BaseApi {
 
         String signature = getSignature(params);
 
-        createClientAuthorizedService(ProductService.class)
+        createService(ProductService.class)
                 .getBannerImages(width,height,timestamp,signature,API_KEY, Constants.IMEI)
                 .map(new HttpResultFunc<ArrayList<BannerImageEntity>>())
                 .subscribeOn(Schedulers.io())

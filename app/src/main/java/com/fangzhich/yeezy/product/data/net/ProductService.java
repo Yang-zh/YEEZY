@@ -18,7 +18,7 @@ import rx.Single;
  * ProductService
  * Created by Khorium on 2016/9/18.
  */
-public interface ProductService {
+interface ProductService {
         @FormUrlEncoded
         @POST("index.php?route=api/product")
         Single<HttpResult<ArrayList<ProductItemEntity>>> getProducts(
@@ -28,7 +28,7 @@ public interface ProductService {
                 @Field("timestamp") String timestamp,
                 @Field("signature") String signature,
                 @Field("apiKey") String apiKey,
-                @Field("imei") String imei);
+                @Field("equipment_id") String imei);
 
         @FormUrlEncoded
         @POST("index.php?route=api/product/getProduct")
@@ -37,7 +37,7 @@ public interface ProductService {
                 @Field("timestamp") String timestamp,
                 @Field("signature") String signature,
                 @Field("apiKey") String apiKey,
-                @Field("imei") String imei);
+                @Field("equipment_id") String imei);
 
         @FormUrlEncoded
         @POST("index.php?route=api/product/getReview")
@@ -48,7 +48,7 @@ public interface ProductService {
                 @Field("timestamp") String timestamp,
                 @Field("signature") String signature,
                 @Field("apiKey") String apiKey,
-                @Field("imei") String imei);
+                @Field("equipment_id") String imei);
 
         @FormUrlEncoded
         @POST("index.php?route=api/product/getPopularProducts")
@@ -58,7 +58,7 @@ public interface ProductService {
                 @Field("timestamp") String timestamp,
                 @Field("signature") String signature,
                 @Field("apiKey") String apiKey,
-                @Field("imei") String imei);
+                @Field("equipment_id") String imei);
 
         @FormUrlEncoded
         @POST("index.php?route=api/banner")
@@ -68,5 +68,5 @@ public interface ProductService {
                 @Field("timestamp") String timestamp,
                 @Field("signature") String signature,
                 @Field("apiKey") String apiKey,
-                @Field("imei") String imei);
+                @Field("equipment_id") String imei);
 }

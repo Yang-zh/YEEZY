@@ -39,6 +39,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import rx.SingleSubscriber;
+import timber.log.Timber;
 
 public class MainActivity extends BaseActivity {
 
@@ -163,19 +164,18 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onSuccess(ArrayList<CategoryEntity> categoryList) {
                 if (categoryList == null || categoryList.size() <= 0) {
-                    ToastUtil.toast("category 0");
+                    Timber.e("no categories");
                     return;
                 }
                 for (CategoryEntity category : categoryList) {
                     ProductListFragment fragment = new ProductListFragment();
                     Bundle args = new Bundle();
 
-                    args.putInt("category_id", Integer.parseInt(category.category_id));
+                    args.putInt("category_id", category.category_id);
                     fragment.setArguments(args);
 
                     fragments.add(fragment);
                     fragmentTitles.add(category.name);
-                    ToastUtil.toast("add category "+category.name);
                 }
                 adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
                     @Override
@@ -194,7 +194,7 @@ public class MainActivity extends BaseActivity {
                     }
                 };
                 viewPager.setAdapter(adapter);
-                viewPager.setOffscreenPageLimit(1);
+                viewPager.setOffscreenPageLimit(0);
                 tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
@@ -212,14 +212,13 @@ public class MainActivity extends BaseActivity {
                 });
                 tabLayout.setupWithViewPager(viewPager);
                 MyUtil.dynamicSetTabLayoutMode(tabLayout, MainActivity.this);
-                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onError(Throwable error) {
                 ToastUtil.toast(error.getMessage());
                 error.printStackTrace();
-                ToastUtil.logError("getCategoriesError", error.getMessage());
+                Timber.e(error.getMessage());
             }
         });
     }

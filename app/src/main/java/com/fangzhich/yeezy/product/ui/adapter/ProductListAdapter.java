@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 /**
  * productListAdapter
@@ -37,8 +38,8 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
     public ProductListAdapter(int category_id) {
         this.categoryId = category_id;
         setPresenter(new ProductListPresenter(this));
+        loadData();
     }
-
     @Override
     public void setPresenter(ProductListContract.Presenter presenter) {
         mPresenter = (ProductListPresenter) presenter;
@@ -46,7 +47,7 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
 
     @Override
     public ArrayList<ProductItemEntity> loadData() {
-        mPresenter.getProductList(1,20,categoryId);
+        mPresenter.getProductList(0,20,categoryId);
         totalPage = 1;
         return mProductList;
     }
@@ -66,7 +67,7 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
     @Override
     public void onLoadError(Throwable throwable) {
         ToastUtil.toast(throwable.getMessage());
-        ToastUtil.logTestError("onLoadError",throwable.getMessage());
+        Timber.e(throwable.getMessage());
     }
 
     @Override
@@ -82,7 +83,7 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
     }
 
     @Override
-    protected void onBindHolder(final ViewHolder holder, int position) {
+    protected void onBindHolder(final ViewHolder holder, final int position) {
         ProductItemEntity productItem = mProductList.get(position);
 
         Glide.with(holder.itemView.getContext())
@@ -98,6 +99,7 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Timber.d("On Item " + position + " Click");
                 Intent intent = new Intent(v.getContext(),ProductDetailActivity.class);
                 intent.putExtra("product_id", Integer.parseInt(mProductList.get(holder.getAdapterPosition()).product_id));
                 v.getContext().startActivity(intent);
@@ -123,7 +125,7 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
         @BindView(R.id.tv_productSellVolume)
         TextView productSellVolume;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
         }

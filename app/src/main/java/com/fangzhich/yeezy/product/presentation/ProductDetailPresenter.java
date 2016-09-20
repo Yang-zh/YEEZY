@@ -6,14 +6,14 @@ import com.fangzhich.yeezy.product.data.net.ProductApi;
 import rx.SingleSubscriber;
 
 /**
- * ProductOverviewPresenter
+ * ProductDetailPresenter
  * Created by Khorium on 2016/9/18.
  */
-public class ProductOverviewPresenter implements ProductOverviewContract.Presenter {
+public class ProductDetailPresenter implements ProductDetailContract.Presenter {
 
-    ProductOverviewContract.View mView;
+    ProductDetailContract.View mView;
 
-    public ProductOverviewPresenter(ProductOverviewContract.View view) {
+    public ProductDetailPresenter(ProductDetailContract.View view) {
         mView = view;
     }
 
@@ -22,12 +22,12 @@ public class ProductOverviewPresenter implements ProductOverviewContract.Present
         ProductApi.getProduct(product_id, new SingleSubscriber<ProductEntity>() {
             @Override
             public void onSuccess(ProductEntity product) {
-                mView.onGetProductOverviewSuccess(product);
+                mView.onGetProductDetailSuccess(product);
             }
 
             @Override
             public void onError(Throwable throwable) {
-                mView.onGetProductOverviewFailed(throwable);
+                mView.onGetProductDetailFailed(throwable);
             }
         });
     }

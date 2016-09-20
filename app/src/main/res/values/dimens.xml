@@ -6,8 +6,8 @@
 
     <dimen name="action_bar_title_size">18sp</dimen>
     <dimen name="navigation_header_username_size">16sp</dimen>
-    <dimen name="product_list_item_text_size">11sp</dimen>
-    <dimen name="product_list_item_subText_size">9sp</dimen>
+    <dimen name="product_list_item_text_size">14sp</dimen>
+    <dimen name="product_list_item_subText_size">12sp</dimen>
 
     <!--spinner-->
     <dimen name="three_grid_unit">24dp</dimen>

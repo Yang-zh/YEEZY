@@ -20,6 +20,9 @@ import com.bigkoo.snappingstepper.SnappingStepper;
 import com.bigkoo.snappingstepper.listener.SnappingStepperValueChangeListener;
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.base.ui.BaseActivity;
+import com.fangzhich.yeezy.product.data.entity.ProductEntity;
+import com.fangzhich.yeezy.product.presentation.ProductDetailContract;
+import com.fangzhich.yeezy.product.presentation.ProductDetailPresenter;
 import com.fangzhich.yeezy.util.ToastUtil;
 import com.fangzhich.yeezy.util.MyUtil;
 
@@ -27,12 +30,13 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 /**
  * ProductDetail Activity
  * Created by Khorium on 2016/8/31.
  */
-public class ProductDetailActivity extends BaseActivity {
+public class ProductDetailActivity extends BaseActivity implements ProductDetailContract.View{
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -72,11 +76,18 @@ public class ProductDetailActivity extends BaseActivity {
         return R.layout.activity_product_detail;
     }
 
+    private ProductDetailPresenter mPresenter;
+
+    @Override
+    public void setPresenter(ProductDetailContract.Presenter presenter) {
+        mPresenter = (ProductDetailPresenter) presenter;
+    }
+
     @Override
     protected void initContentView() {
+        setPresenter(new ProductDetailPresenter(this));
         productId = getIntent().getIntExtra("product_id", 0);
         initToolbar();
-        initViewPager();
         initBottomBarAndPopup();
         priceOriginal.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
     }
@@ -92,17 +103,26 @@ public class ProductDetailActivity extends BaseActivity {
         title.setText(R.string.ProductDetail);
     }
 
-    private void initViewPager() {
-        ProductOverviewFragment fragment = new ProductOverviewFragment();
+    private void initViewPager(ProductEntity product) {
         Bundle args = new Bundle();
-        args.putInt("product_id", productId);
-        fragment.setArguments(args);
+        args.putParcelable("product",product);
 
-        fragments.add(fragment);
-        fragments.add(new ProductListFragment());
-        fragments.add(new ProductDescriptionFragment());
-        fragments.add(new ProductRatingFragment());
-        fragments.add(new ProductShippingInfoFragment());
+        ProductOverviewFragment productOverviewFragment = new ProductOverviewFragment();
+        productOverviewFragment.setArguments(args);
+        ProductDescriptionFragment productRelatedFragment = new ProductDescriptionFragment();
+        productRelatedFragment.setArguments(args);
+        ProductDescriptionFragment ProductDesFragment = new ProductDescriptionFragment();
+        ProductDesFragment.setArguments(args);
+        ProductRatingFragment productRatingFragment = new ProductRatingFragment();
+        productRatingFragment.setArguments(args);
+        ProductShippingInfoFragment productShippingInfoFragment = new ProductShippingInfoFragment();
+        productShippingInfoFragment.setArguments(args);
+
+        fragments.add(productOverviewFragment);
+        fragments.add(productRelatedFragment);
+        fragments.add(ProductDesFragment);
+        fragments.add(productRatingFragment);
+        fragments.add(productShippingInfoFragment);
         fragmentTitles.add(getResources().getString(R.string.OverView));
         fragmentTitles.add(getResources().getString(R.string.Related));
         fragmentTitles.add(getResources().getString(R.string.Description));
@@ -171,13 +191,20 @@ public class ProductDetailActivity extends BaseActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
+    protected void loadData() {
+        mPresenter.getProductOverview(productId);
+    }
+
+    @Override
+    public void onGetProductDetailSuccess(ProductEntity product) {
+        initViewPager(product);
+        price.setText(product.price);
+        priceOriginal.setText(getResources().getString(R.string.nulll));
+    }
+
+    @Override
+    public void onGetProductDetailFailed(Throwable throwable) {
+        Timber.e(throwable.getMessage());
     }
 
     public void onTabClick(String tabTitle) {
@@ -198,5 +225,15 @@ public class ProductDetailActivity extends BaseActivity {
                 viewPager.setCurrentItem(4);
                 break;
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

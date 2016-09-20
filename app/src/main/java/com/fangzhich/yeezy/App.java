@@ -44,7 +44,7 @@ public class App extends Application {
             Timber.plant(new Timber.DebugTree() {
                 @Override
                 protected void log(int priority, String tag, String message, Throwable t) {
-                    Logger.log(priority, tag, message, t);
+                    Logger.t(0).log(priority, tag, message, t);
                 }
             });
 
