@@ -3,10 +3,10 @@ package com.fangzhich.yeezy.product.data.entity;
 import java.util.List;
 
 /**
- * RecommendProductEntity
+ * PopularProductEntity
  * Created by Khorium on 2016/9/18.
  */
-public class RecommendProductEntity {
+public class PopularProductEntity {
     public String product_id;
     public String name;
     public String model;

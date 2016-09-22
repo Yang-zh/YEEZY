@@ -10,6 +10,11 @@ import android.widget.PopupWindow;
 
 import com.fangzhich.yeezy.R;
 
+import java.util.ArrayList;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -19,7 +24,7 @@ import butterknife.ButterKnife;
  */
 public class ShoppingCartDialog {
 
-    PopupWindow mPopupWindow;
+    private PopupWindow mPopupWindow;
     @BindView(R.id.bt_cancel)
     LinearLayout btCancel;
 
@@ -30,13 +35,7 @@ public class ShoppingCartDialog {
         mPopupWindow = new PopupWindow(mPopupContent, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
         mPopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         mPopupWindow.setAnimationStyle(R.style.Dialog);
-
-        btCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPopupWindow.dismiss();
-            }
-        });
+        btCancel.setOnClickListener(view -> mPopupWindow.dismiss());
         return this;
     }
 

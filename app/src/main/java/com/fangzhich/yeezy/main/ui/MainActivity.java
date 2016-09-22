@@ -27,7 +27,7 @@ import com.fangzhich.yeezy.base.ui.BaseActivity;
 import com.fangzhich.yeezy.main.data.net.MainApi;
 import com.fangzhich.yeezy.main.data.net.entity.CategoryEntity;
 import com.fangzhich.yeezy.product.ui.ProductListFragment;
-import com.fangzhich.yeezy.order.ui.HistoryActivity;
+import com.fangzhich.yeezy.order.ui.OrderHistoryActivity;
 import com.fangzhich.yeezy.user.ui.NotificationActivity;
 import com.fangzhich.yeezy.user.ui.UserInfoActivity;
 import com.fangzhich.yeezy.order.widget.ShoppingCartDialog;
@@ -132,7 +132,7 @@ public class MainActivity extends BaseActivity {
                         dialog.initPopup(MainActivity.this).showPopup(getWindow().getDecorView());
                         break;
                     case R.id.history:
-                        startActivity(new Intent(MainActivity.this, HistoryActivity.class));
+                        startActivity(new Intent(MainActivity.this, OrderHistoryActivity.class));
                         break;
                     case R.id.currency:
                         startActivity(new Intent(MainActivity.this, CurrencyActivity.class));

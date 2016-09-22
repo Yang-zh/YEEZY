@@ -2,9 +2,9 @@ package com.fangzhich.yeezy.product.data.net;
 
 import com.fangzhich.yeezy.base.data.net.BaseApi;
 import com.fangzhich.yeezy.product.data.entity.BannerImageEntity;
+import com.fangzhich.yeezy.product.data.entity.PopularProductEntity;
 import com.fangzhich.yeezy.product.data.entity.ProductEntity;
 import com.fangzhich.yeezy.product.data.entity.ProductItemEntity;
-import com.fangzhich.yeezy.product.data.entity.RecommendProductEntity;
 import com.fangzhich.yeezy.product.data.entity.ReviewEntity;
 import com.fangzhich.yeezy.util.Constants;
 
@@ -107,7 +107,7 @@ public class ProductApi extends BaseApi {
      * @param limit limit per page
      * @param singleSubscriber SingleSubscriber in RxJava (Callback)
      */
-    public static void getPopularProducts(int page, int limit, SingleSubscriber<ArrayList<RecommendProductEntity>> singleSubscriber) {
+    public static void getPopularProducts(int page, int limit, SingleSubscriber<ArrayList<PopularProductEntity>> singleSubscriber) {
         String timestamp = getTimeStamp();
 
         HashMap<String,String> params = new HashMap<>();
@@ -119,7 +119,7 @@ public class ProductApi extends BaseApi {
 
         createService(ProductService.class)
                 .getPopularProducts(page,limit,timestamp,signature,API_KEY, Constants.IMEI)
-                .map(new HttpResultFunc<ArrayList<RecommendProductEntity>>())
+                .map(new HttpResultFunc<ArrayList<PopularProductEntity>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(singleSubscriber);

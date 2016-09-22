@@ -1,4 +1,4 @@
-package com.fangzhich.yeezy.product.ui.adapter;
+package com.fangzhich.yeezy.order.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.base.ui.recyclerview.BaseRecyclerViewAdapter;
+import com.fangzhich.yeezy.order.presentation.OrderListContract;
+import com.fangzhich.yeezy.order.presentation.OrderListPresenter;
 import com.fangzhich.yeezy.product.data.entity.ReviewEntity;
 import com.fangzhich.yeezy.product.presentation.ProductReviewListContract;
 import com.fangzhich.yeezy.product.presentation.ProductReviewListPresenter;
@@ -22,52 +24,66 @@ import timber.log.Timber;
  * OrderHistoryAdapter
  * Created by Khorium on 2016/9/18.
  */
-public class ReviewListAdapter extends BaseRecyclerViewAdapter<ReviewEntity,ReviewListAdapter.ViewHolder> implements ProductReviewListContract.View{
+public class OrderHistoryAdapter extends BaseRecyclerViewAdapter<ReviewEntity,OrderHistoryAdapter.ViewHolder> implements OrderListContract.View{
 
+    //todo wait for api
     private final int mProduct_id;
-    private ProductReviewListContract.Presenter mPresenter;
+    private OrderListContract.Presenter mPresenter;
     private ArrayList<ReviewEntity> mReviews = new ArrayList<>();
     private int mTotalPage = -1;
 
-    public ReviewListAdapter(int product_id) {
+    public OrderHistoryAdapter(int product_id) {
         mProduct_id = product_id;
-        setPresenter(new ProductReviewListPresenter(this));
+        setPresenter(new OrderListPresenter(this));
         loadData();
     }
 
     @Override
-    public void setPresenter(ProductReviewListContract.Presenter presenter) {
+    public void setPresenter(OrderListContract.Presenter presenter) {
         mPresenter = presenter;
     }
 
     public ArrayList<ReviewEntity> loadData() {
-        mPresenter.getProductReviewList(mProduct_id);
+        mPresenter.getOrderList(mProduct_id);
         mTotalPage = 0;
         return mReviews;
     }
 
+//    @Override
+//    public void onLoadReviewListSuccess(ArrayList<ReviewEntity> reviewList) {
+//        mReviews = reviewList;
+//        notifyDataSetChanged();
+//    }
     @Override
-    public void onLoadReviewListSuccess(ArrayList<ReviewEntity> reviewList) {
-        mReviews = reviewList;
-        notifyDataSetChanged();
-    }
+    public void onLoadOrderListSuccess(ArrayList<ReviewEntity> reviewList) {
 
+    }
+//    @Override
+//    public void onLoadReviewListFailed(Throwable throwable) {
+//        Timber.e(throwable.getMessage());
+//    }
+//
     @Override
-    public void onLoadReviewListFailed(Throwable throwable) {
-        Timber.e(throwable.getMessage());
+    public void onLoadOrderListFailed(Throwable throwable) {
+
     }
 
     @Override
     public void loadMore() {
-        mPresenter.getProductReviewList(++mTotalPage,20,mProduct_id);
+//        mPresenter.getProductReviewList(++mTotalPage,20,mProduct_id);
         notifyDataSetChanged();
     }
 
+//    @Override
+//    public void onLoadMoreReviewListSuccess(ArrayList<ReviewEntity> reviewList) {
+//        int positionStart = mReviews.size() + 1;
+//        mReviews.addAll(reviewList);
+//        notifyItemRangeChanged(positionStart, mReviews.size());
+//    }
+//
     @Override
-    public void onLoadMoreReviewListSuccess(ArrayList<ReviewEntity> reviewList) {
-        int positionStart = mReviews.size() + 1;
-        mReviews.addAll(reviewList);
-        notifyItemRangeChanged(positionStart, mReviews.size());
+    public void onLoadOrderListMoreSuccess(ArrayList<ReviewEntity> reviewList) {
+
     }
 
     @Override
@@ -87,7 +103,6 @@ public class ReviewListAdapter extends BaseRecyclerViewAdapter<ReviewEntity,Revi
     public int getItemCount() {
         return mReviews.size();
     }
-
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.rating_bar)

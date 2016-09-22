@@ -27,12 +27,7 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     protected void initContentView() {
-        CancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        CancelButton.setOnClickListener(v -> onBackPressed());
     }
 
     @Override

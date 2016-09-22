@@ -10,22 +10,20 @@ import com.fangzhich.yeezy.main.ui.MainActivity;
 import butterknife.OnClick;
 
 /**
- * UserAccountActivity
+ * SplashActivity
  * Created by Khorium on 2016/9/18.
  */
-public class UserAccountActivity extends BaseActivity {
+public class SplashActivity extends BaseActivity {
 
 
     @OnClick(R.id.bt_sign_up)
     void startSignUpActivity() {
         startActivity(new Intent(this,RegisterActivity.class));
-        finish();
     }
 
     @OnClick(R.id.bt_sign_in)
     void startSignInActivity() {
         startActivity(new Intent(this,LoginActivity.class));
-        finish();
     }
 
     @OnClick(R.id.skip)
@@ -43,7 +41,6 @@ public class UserAccountActivity extends BaseActivity {
     protected void initContentView() {
         if (new SPUtils(this,"App").getBoolean("isLogin", false)){
             startActivity(new Intent(this, MainActivity.class));
-            finish();
         }
     }
 }

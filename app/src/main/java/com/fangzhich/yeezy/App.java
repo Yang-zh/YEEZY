@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 
 import com.blankj.utilcode.utils.PhoneUtils;
+import com.crashlytics.android.Crashlytics;
 import com.fangzhich.yeezy.util.Constants;
 import com.fangzhich.yeezy.util.ToastUtil;
 import com.orhanobut.logger.Logger;
@@ -11,6 +12,7 @@ import com.squareup.leakcanary.LeakCanary;
 
 import java.util.HashSet;
 
+import io.fabric.sdk.android.Fabric;
 import timber.log.Timber;
 
 /**
@@ -21,7 +23,7 @@ public class App extends Application {
 
     private static App instance;
 
-    private final  HashSet<Activity> allActivities = new HashSet<>();
+    private final HashSet<Activity> allActivities = new HashSet<>();
 
     public static App getInstance() {
         return instance;
@@ -68,7 +70,12 @@ public class App extends Application {
         //IMEI
         Constants.IMEI = PhoneUtils.getPhoneIMEI(getApplicationContext());
 
-    }
+        Fabric.with(this, new Crashlytics());
+        Crashlytics.setUserIdentifier("12345");
+        Crashlytics.setUserEmail("khorium@qq.com");
+        Crashlytics.setUserName("khorium");
+
+     }
 
 
     public void addActivity(Activity act) {

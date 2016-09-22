@@ -15,8 +15,8 @@ import com.fangzhich.yeezy.R;
  */
 public class CustomDialog {
 
-    PopupWindow mPopupWindow;
-    View mPopupContent;
+    private PopupWindow mPopupWindow;
+    private View mPopupContent;
 
     public CustomDialog initPopup(Context context, int layout, final Listener listener) {
         mPopupContent = View.inflate(context, layout, null);

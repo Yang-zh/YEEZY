@@ -67,7 +67,7 @@ public class PhotoViewPagerActivity extends BaseActivity {
             ImageView itemView = (ImageView) View.inflate(container.getContext(),R.layout.item_photo_view_pager,null);
             Glide.with(itemView.getContext())
                     .load(imageUrls.get(position))
-                    .centerCrop()
+                    .fitCenter()
                     .crossFade()
                     .into(itemView);
 //            itemView.setImageResource(R.mipmap.product_image_placeholder);

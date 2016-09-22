@@ -4,7 +4,7 @@ import com.fangzhich.yeezy.product.data.entity.BannerImageEntity;
 import com.fangzhich.yeezy.product.data.entity.ProductEntity;
 import com.fangzhich.yeezy.product.data.entity.ProductItemEntity;
 import com.fangzhich.yeezy.base.data.net.HttpResult;
-import com.fangzhich.yeezy.product.data.entity.RecommendProductEntity;
+import com.fangzhich.yeezy.product.data.entity.PopularProductEntity;
 import com.fangzhich.yeezy.product.data.entity.ReviewEntity;
 
 import java.util.ArrayList;
@@ -52,7 +52,7 @@ interface ProductService {
 
         @FormUrlEncoded
         @POST("index.php?route=api/product/getPopularProducts")
-        Single<HttpResult<ArrayList<RecommendProductEntity>>> getPopularProducts(
+        Single<HttpResult<ArrayList<PopularProductEntity>>> getPopularProducts(
                 @Field("page") int page,
                 @Field("limit") int limit,
                 @Field("timestamp") String timestamp,

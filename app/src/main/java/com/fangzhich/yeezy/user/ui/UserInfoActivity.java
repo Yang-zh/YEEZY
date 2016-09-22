@@ -1,5 +1,6 @@
 package com.fangzhich.yeezy.user.ui;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -15,6 +16,7 @@ import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.base.ui.BaseActivity;
 import com.fangzhich.yeezy.base.widget.CustomDialog;
 import com.fangzhich.yeezy.base.widget.spinner.NiceSpinner;
+import com.fangzhich.yeezy.main.ui.MainActivity;
 import com.fangzhich.yeezy.util.ToastUtil;
 import com.fangzhich.yeezy.util.TagFormatUtil;
 
@@ -82,9 +84,10 @@ public class UserInfoActivity extends BaseActivity {
     NiceSpinner sexSpinner;
     SPUtils utils;
 
-    @OnClick(R.id.bt_facebook)
+    @OnClick(R.id.bt_next)
     void next() {
-        //todo
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 
 

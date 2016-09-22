@@ -11,10 +11,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.base.ui.recyclerview.BaseRecyclerViewAdapter;
+import com.fangzhich.yeezy.product.data.entity.PopularProductEntity;
+import com.fangzhich.yeezy.product.data.entity.ProductItemEntity;
 import com.fangzhich.yeezy.product.presentation.ProductListContract;
 import com.fangzhich.yeezy.product.presentation.ProductListPresenter;
+import com.fangzhich.yeezy.product.presentation.RelateProductListContract;
+import com.fangzhich.yeezy.product.presentation.RelateProductListPresenter;
 import com.fangzhich.yeezy.product.ui.ProductDetailActivity;
-import com.fangzhich.yeezy.product.data.entity.ProductItemEntity;
 import com.fangzhich.yeezy.util.ToastUtil;
 
 import java.util.ArrayList;
@@ -27,38 +30,36 @@ import timber.log.Timber;
  * productListAdapter
  * Created by Khorium on 2016/8/30.
  */
-public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntity,ProductListAdapter.ViewHolder> implements ProductListContract.View{
+public class RelateProductListAdapter extends BaseRecyclerViewAdapter<PopularProductEntity,RelateProductListAdapter.ViewHolder> implements RelateProductListContract.View{
 
-    private ProductListPresenter mPresenter;
+    private RelateProductListPresenter mPresenter;
 
-    private ArrayList<ProductItemEntity> mProductList = new ArrayList<>();
+    private ArrayList<PopularProductEntity> mProductList = new ArrayList<>();
 
     //后台API页码从0开始，因此初始为-1而不是0
     private int totalPage = -1;
-    private int pageCount = 60;
-    private int categoryId;
 
-    public ProductListAdapter(int category_id) {
-        this.categoryId = category_id;
-        setPresenter(new ProductListPresenter(this));
+    public RelateProductListAdapter() {
+        setPresenter(new RelateProductListPresenter(this));
         loadData();
     }
     @Override
-    public void setPresenter(ProductListContract.Presenter presenter) {
-        mPresenter = (ProductListPresenter) presenter;
+    public void setPresenter(RelateProductListContract.Presenter presenter) {
+        mPresenter = (RelateProductListPresenter) presenter;
     }
 
     @Override
-    public ArrayList<ProductItemEntity> loadData() {
-        mPresenter.getProductList(0,pageCount,categoryId);
+    public ArrayList<PopularProductEntity> loadData() {
+        mPresenter.getPopularProductList(0,20);
         totalPage = 0;
         return mProductList;
     }
 
     @Override
-    public void onLoadDataSuccess(ArrayList<ProductItemEntity> productList) {
-        mProductList = productList;
+    public void onLoadDataSuccess(ArrayList<PopularProductEntity> popularProductList) {
+        mProductList = popularProductList;
         notifyDataSetChanged();
+
     }
 
     @Override
@@ -69,15 +70,16 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
 
     @Override
     public void loadMore() {
-        mPresenter.getProductListMore(++totalPage,pageCount,categoryId);
+        mPresenter.getPopularProductListMore(++totalPage,20);
         notifyDataSetChanged();
     }
 
     @Override
-    public void onLoadMoreSuccess(ArrayList<ProductItemEntity> productList) {
+    public void onLoadMoreSuccess(ArrayList<PopularProductEntity> popularProductList) {
         int positionStart = mProductList.size() + 1;
-        mProductList.addAll(productList);
-        notifyItemRangeChanged(positionStart, productList.size());
+        mProductList.addAll(popularProductList);
+        notifyItemRangeChanged(positionStart, popularProductList.size());
+
     }
 
     @Override
@@ -87,23 +89,24 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
 
     @Override
     protected void onBindHolder(final ViewHolder holder, final int position) {
-        ProductItemEntity productItem = mProductList.get(position);
+        PopularProductEntity productItem = mProductList.get(position);
 
         Glide.with(holder.itemView.getContext())
-                .load(productItem.image)
+                .load(productItem.images.get(0))
+                .centerCrop()
                 .fitCenter()
                 .crossFade()
                 .into(holder.productImage);
         holder.productName.setText(productItem.name);
-        holder.productPrice.setText(String.valueOf(productItem.price));
+        holder.productPrice.setText(productItem.price);
         holder.productOriginalPrice.setText(R.string.nulll);
         holder.productOriginalPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         holder.productSellVolume.setText(R.string.nulll);
-        holder.itemView.setOnClickListener(v -> {
+        holder.itemView.setOnClickListener(view -> {
             Timber.d("On Item %d Click",position);
-            Intent intent = new Intent(v.getContext(),ProductDetailActivity.class);
+            Intent intent = new Intent(view.getContext(),ProductDetailActivity.class);
             intent.putExtra("product_id", Integer.parseInt(mProductList.get(holder.getAdapterPosition()).product_id));
-            v.getContext().startActivity(intent);
+            view.getContext().startActivity(intent);
         });
     }
 

@@ -1,13 +1,16 @@
 package com.fangzhich.yeezy.user.ui;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.SPUtils;
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.base.ui.BaseActivity;
+import com.fangzhich.yeezy.main.ui.MainActivity;
 import com.fangzhich.yeezy.user.data.entity.RegisterEntity;
 import com.fangzhich.yeezy.user.presentation.contract.UserRegisterContract;
 import com.fangzhich.yeezy.user.presentation.presenter.UserRegisterPresenter;
@@ -75,6 +78,9 @@ public class RegisterActivity extends BaseActivity implements UserRegisterContra
     @Override
     public void onRegisterSuccess(RegisterEntity entity) {
         ToastUtil.toast(Constants.User.REGISTER_SUCCESS);
+        new SPUtils(this,"App").putBoolean("isLogin",true);
+        startActivity(new Intent(this, UserInfoActivity.class));
+        finish();
     }
 
     @Override

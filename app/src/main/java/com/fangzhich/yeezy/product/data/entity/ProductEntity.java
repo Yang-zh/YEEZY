@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class ProductEntity implements Parcelable {
 
-    public String product_id;
+    public int product_id;
     public String name;
     public String description;
     public String tag;
@@ -51,7 +51,7 @@ public class ProductEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.product_id);
+        dest.writeInt(this.product_id);
         dest.writeString(this.name);
         dest.writeString(this.description);
         dest.writeString(this.tag);
@@ -86,7 +86,7 @@ public class ProductEntity implements Parcelable {
     }
 
     private ProductEntity(Parcel in) {
-        this.product_id = in.readString();
+        this.product_id = in.readInt();
         this.name = in.readString();
         this.description = in.readString();
         this.tag = in.readString();

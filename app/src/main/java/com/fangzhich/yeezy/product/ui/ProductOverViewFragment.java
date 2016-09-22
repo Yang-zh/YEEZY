@@ -52,7 +52,9 @@ public class ProductOverviewFragment extends BaseFragment {
     TextView commentCount;
     @OnClick(R.id.view_all)
     void viewAllComments() {
-        ToastUtil.toast("view all comments");
+        Intent intent = new Intent(getActivity(),ReviewListActivity.class);
+        intent.putExtra("product_id",mProduct.product_id);
+        startActivity(intent);
     }
 
     @BindView(R.id.sub_rating_bar1)
@@ -113,7 +115,7 @@ public class ProductOverviewFragment extends BaseFragment {
 
     @Override
     protected void initContentView() {
-        mProduct = getArguments().getParcelable("product");
+        mProduct = getArguments().getParcelable("mProduct");
     }
 
     @Override
@@ -121,7 +123,7 @@ public class ProductOverviewFragment extends BaseFragment {
 
         Glide.with(getContext())
                 .load(mProduct.images.get(0))
-                .centerCrop()
+                .fitCenter()
                 .crossFade()
                 .into(productImage);
         imageUrls.clear();

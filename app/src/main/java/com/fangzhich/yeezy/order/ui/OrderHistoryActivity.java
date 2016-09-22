@@ -11,10 +11,10 @@ import com.fangzhich.yeezy.base.ui.BaseActivity;
 import butterknife.BindView;
 
 /**
- * HistoryActivity
+ * OrderHistoryActivity
  * Created by Khorium on 2016/9/1.
  */
-public class HistoryActivity extends BaseActivity {
+public class OrderHistoryActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;

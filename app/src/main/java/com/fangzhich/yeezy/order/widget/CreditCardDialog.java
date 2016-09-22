@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
  */
 public class CreditCardDialog {
 
-    PopupWindow mPopupWindow;
+    private PopupWindow mPopupWindow;
 
     @BindView(R.id.bt_cancel)
     LinearLayout btCancel;
@@ -32,12 +32,7 @@ public class CreditCardDialog {
         mPopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         mPopupWindow.setAnimationStyle(R.style.Dialog);
 
-        btCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPopupWindow.dismiss();
-            }
-        });
+        btCancel.setOnClickListener(v -> mPopupWindow.dismiss());
         return this;
     }
 

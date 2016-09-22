@@ -38,7 +38,7 @@ public class MainApi extends BaseApi {
 
         createService(MainService.class)
                 .getCategories(page, limit, parent_id, timestamp, signature, API_KEY, Constants.IMEI)
-                .map(new HttpResultFunc<ArrayList<CategoryEntity>>())
+                .map(new HttpResultFunc<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(singleSubscriber);

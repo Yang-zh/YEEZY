@@ -105,12 +105,12 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
 
     private void initViewPager(ProductEntity product) {
         Bundle args = new Bundle();
-        args.putParcelable("product",product);
+        args.putParcelable("mProduct",product);
 
         ProductOverviewFragment productOverviewFragment = new ProductOverviewFragment();
         productOverviewFragment.setArguments(args);
-        ProductDescriptionFragment productRelatedFragment = new ProductDescriptionFragment();
-        productRelatedFragment.setArguments(args);
+        ProductRelateListFragment productRelateListFragment = new ProductRelateListFragment();
+        productRelateListFragment.setArguments(args);
         ProductDescriptionFragment ProductDesFragment = new ProductDescriptionFragment();
         ProductDesFragment.setArguments(args);
         ProductRatingFragment productRatingFragment = new ProductRatingFragment();
@@ -119,7 +119,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
         productShippingInfoFragment.setArguments(args);
 
         fragments.add(productOverviewFragment);
-        fragments.add(productRelatedFragment);
+        fragments.add(productRelateListFragment);
         fragments.add(ProductDesFragment);
         fragments.add(productRatingFragment);
         fragments.add(productShippingInfoFragment);

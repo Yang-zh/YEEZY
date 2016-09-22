@@ -18,13 +18,16 @@
 
         <ImageView
             android:id="@+id/iv_productImage"
-            android:layout_width="173dp"
-            android:layout_height="235dp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
             tools:ignore="ContentDescription" />
 
         <TextView
-            android:layout_marginTop="5dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="5dp"
             android:id="@+id/tv_productName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -35,9 +38,10 @@
             android:textSize="@dimen/product_list_item_text_size" />
 
         <LinearLayout
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:id="@+id/price"
             android:layout_width="match_parent"
-            android:layout_marginLeft="8dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_productName"
             android:orientation="horizontal">
@@ -63,16 +67,17 @@
         </LinearLayout>
 
         <TextView
-            android:layout_marginTop="8dp"
-            android:id="@+id/tv_productSellVolume"
             android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="5dp"
+            android:id="@+id/tv_productSellVolume"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/price"
             android:ellipsize="end"
             android:lines="1"
             android:textColor="@color/product_list_item_subText_color"
-            android:textSize="@dimen/product_list_item_subText_size"
-            android:layout_marginBottom="5dp"/>
+            android:textSize="@dimen/product_list_item_subText_size"/>
     </RelativeLayout>
 </android.support.v7.widget.CardView>
