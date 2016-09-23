@@ -1,5 +1,6 @@
 package com.fangzhich.yeezy.product.presentation;
 
+import com.fangzhich.yeezy.base.presentation.BasePresenter;
 import com.fangzhich.yeezy.base.presentation.BaseView;
 import com.fangzhich.yeezy.product.data.entity.ProductEntity;
 import com.fangzhich.yeezy.product.data.entity.ReviewEntity;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
  */
 
 public class ProductReviewListContract {
-    public interface Presenter {
+    public interface Presenter extends BasePresenter{
         void getProductReviewList(int product_id);
         void getProductReviewList(int page, int limit, int product_id);
     }

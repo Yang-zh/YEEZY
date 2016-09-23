@@ -34,7 +34,7 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
     private ArrayList<ProductItemEntity> mProductList = new ArrayList<>();
 
     //后台API页码从0开始，因此初始为-1而不是0
-    private int totalPage = -1;
+    private int totalPage = 0;
     private int pageCount = 60;
     private int categoryId;
 
@@ -43,6 +43,7 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
         setPresenter(new ProductListPresenter(this));
         loadData();
     }
+
     @Override
     public void setPresenter(ProductListContract.Presenter presenter) {
         mPresenter = (ProductListPresenter) presenter;
@@ -50,8 +51,8 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
 
     @Override
     public ArrayList<ProductItemEntity> loadData() {
-        mPresenter.getProductList(0,pageCount,categoryId);
-        totalPage = 0;
+        mPresenter.getProductList(1,pageCount,categoryId);
+        totalPage = 1;
         return mProductList;
     }
 

@@ -11,14 +11,11 @@ import com.fangzhich.yeezy.base.ui.recyclerview.BaseRecyclerViewAdapter;
 import com.fangzhich.yeezy.order.presentation.OrderListContract;
 import com.fangzhich.yeezy.order.presentation.OrderListPresenter;
 import com.fangzhich.yeezy.product.data.entity.ReviewEntity;
-import com.fangzhich.yeezy.product.presentation.ProductReviewListContract;
-import com.fangzhich.yeezy.product.presentation.ProductReviewListPresenter;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 /**
  * OrderHistoryAdapter

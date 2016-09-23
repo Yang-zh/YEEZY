@@ -4,7 +4,7 @@ package com.fangzhich.yeezy.user.data.entity;
  *
  * Created by Khorium on 2016/9/8.
  */
-public class LoginEntity {
+public class UserInfoEntity {
     public int status_code;
     public String message;
     public Data data;

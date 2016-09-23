@@ -2,9 +2,9 @@ package com.fangzhich.yeezy.user.data.net;
 
 
 import com.fangzhich.yeezy.base.data.net.BaseApi;
-import com.fangzhich.yeezy.user.data.entity.LoginEntity;
+import com.fangzhich.yeezy.user.data.entity.UserInfoEntity;
 import com.fangzhich.yeezy.user.data.entity.RegisterEntity;
-import com.fangzhich.yeezy.util.Constants;
+import com.fangzhich.yeezy.util.Const;
 
 import java.util.HashMap;
 
@@ -25,7 +25,7 @@ public class UserApi extends BaseApi{
      * @param password password
      * @param singleSubscriber SingleSubscriber in RxJava (Callback)
      */
-    public static void login(String email,String password,SingleSubscriber<LoginEntity> singleSubscriber) {
+    public static void login(String email,String password,SingleSubscriber<UserInfoEntity> singleSubscriber) {
         String timestamp = getTimeStamp();
 
         HashMap<String, String> params = new HashMap<>();
@@ -36,8 +36,8 @@ public class UserApi extends BaseApi{
         String signature = getSignature(params);
 
         createService(UserService.class)
-                .login(email,password,timestamp,signature,API_KEY, Constants.IMEI)
-                .map(new HttpResultFunc<LoginEntity>())
+                .login(email,password,timestamp,signature,API_KEY, Const.IMEI)
+                .map(new HttpResultFunc<UserInfoEntity>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(singleSubscriber);
@@ -65,7 +65,7 @@ public class UserApi extends BaseApi{
         String signature = getSignature(params);
 
         createService(UserService.class)
-                .register(firstname,lastname,email,password,timestamp,signature,API_KEY, Constants.IMEI)
+                .register(firstname,lastname,email,password,timestamp,signature,API_KEY, Const.IMEI)
                 .map(new HttpResultFunc<RegisterEntity>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

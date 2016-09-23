@@ -3,7 +3,7 @@ package com.fangzhich.yeezy.main.data.net;
 
 import com.fangzhich.yeezy.base.data.net.BaseApi;
 import com.fangzhich.yeezy.main.data.net.entity.CategoryEntity;
-import com.fangzhich.yeezy.util.Constants;
+import com.fangzhich.yeezy.util.Const;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +37,7 @@ public class MainApi extends BaseApi {
         String signature = getSignature(params);
 
         createService(MainService.class)
-                .getCategories(page, limit, parent_id, timestamp, signature, API_KEY, Constants.IMEI)
+                .getCategories(page, limit, parent_id, timestamp, signature, API_KEY, Const.IMEI)
                 .map(new HttpResultFunc<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -45,7 +45,7 @@ public class MainApi extends BaseApi {
     }
 
     public static void getCategories(SingleSubscriber<ArrayList<CategoryEntity>> singleSubscriber) {
-        getCategories(0, 20, singleSubscriber);
+        getCategories(1, 20, singleSubscriber);
     }
 
     public static void getCategories(int page, int limit, SingleSubscriber<ArrayList<CategoryEntity>> singleSubscriber) {

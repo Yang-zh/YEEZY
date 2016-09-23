@@ -10,11 +10,10 @@ import android.widget.TextView;
 import com.blankj.utilcode.utils.SPUtils;
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.base.ui.BaseActivity;
-import com.fangzhich.yeezy.main.ui.MainActivity;
 import com.fangzhich.yeezy.user.data.entity.RegisterEntity;
 import com.fangzhich.yeezy.user.presentation.contract.UserRegisterContract;
 import com.fangzhich.yeezy.user.presentation.presenter.UserRegisterPresenter;
-import com.fangzhich.yeezy.util.Constants;
+import com.fangzhich.yeezy.util.Const;
 import com.fangzhich.yeezy.util.ToastUtil;
 
 import butterknife.BindView;
@@ -77,15 +76,15 @@ public class RegisterActivity extends BaseActivity implements UserRegisterContra
 
     @Override
     public void onRegisterSuccess(RegisterEntity entity) {
-        ToastUtil.toast(Constants.User.REGISTER_SUCCESS);
-        new SPUtils(this,"App").putBoolean("isLogin",true);
+        ToastUtil.toast(Const.User.REGISTER_SUCCESS);
+        new SPUtils(this,"APP").putBoolean("isLogin",true);
         startActivity(new Intent(this, UserInfoActivity.class));
         finish();
     }
 
     @Override
     public void onRegisterFailed(Throwable throwable) {
-        ToastUtil.toast(Constants.User.REGISTER_FAILED);
+        ToastUtil.toast(Const.User.REGISTER_FAILED);
     }
 
 

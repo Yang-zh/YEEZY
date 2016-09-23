@@ -11,14 +11,14 @@ import rx.SingleSubscriber;
  */
 public class ProductDetailPresenter implements ProductDetailContract.Presenter {
 
-    ProductDetailContract.View mView;
+    private ProductDetailContract.View mView;
 
     public ProductDetailPresenter(ProductDetailContract.View view) {
         mView = view;
     }
 
     @Override
-    public void getProductOverview(int product_id) {
+    public void getProductDetail(int product_id) {
         ProductApi.getProduct(product_id, new SingleSubscriber<ProductEntity>() {
             @Override
             public void onSuccess(ProductEntity product) {

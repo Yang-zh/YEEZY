@@ -2,7 +2,7 @@ package com.fangzhich.yeezy.user.presentation.contract;
 
 import com.fangzhich.yeezy.base.presentation.BasePresenter;
 import com.fangzhich.yeezy.base.presentation.BaseView;
-import com.fangzhich.yeezy.user.data.entity.LoginEntity;
+import com.fangzhich.yeezy.user.data.entity.UserInfoEntity;
 
 /**
  * UserLoginContract
@@ -16,7 +16,7 @@ public interface UserLoginContract {
     }
 
     interface View extends BaseView<Presenter> {
-        void onLoginSuccess(LoginEntity entity);
+        void onLoginSuccess(UserInfoEntity entity);
         void onLoginFailed(Throwable throwable);
     }
 }

@@ -6,7 +6,7 @@ import com.fangzhich.yeezy.product.data.entity.PopularProductEntity;
 import com.fangzhich.yeezy.product.data.entity.ProductEntity;
 import com.fangzhich.yeezy.product.data.entity.ProductItemEntity;
 import com.fangzhich.yeezy.product.data.entity.ReviewEntity;
-import com.fangzhich.yeezy.util.Constants;
+import com.fangzhich.yeezy.util.Const;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,7 +43,7 @@ public class ProductApi extends BaseApi {
 
         Timber.d("sendProductListRequest");
         createService(ProductService.class)
-                .getProducts(page,limit,category_id,timestamp,signature,API_KEY, Constants.IMEI)
+                .getProducts(page,limit,category_id,timestamp,signature,API_KEY, Const.IMEI)
                 .map(new HttpResultFunc<ArrayList<ProductItemEntity>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -66,7 +66,7 @@ public class ProductApi extends BaseApi {
         String signature = getSignature(params);
 
         createService(ProductService.class)
-                .getProduct(product_id,timestamp,signature,API_KEY, Constants.IMEI)
+                .getProduct(product_id,timestamp,signature,API_KEY, Const.IMEI)
                 .map(new HttpResultFunc<ProductEntity>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -93,7 +93,7 @@ public class ProductApi extends BaseApi {
         String signature = getSignature(params);
 
         createService(ProductService.class)
-                .getReviews(page,limit,product_id,timestamp,signature,API_KEY, Constants.IMEI)
+                .getReviews(page,limit,product_id,timestamp,signature,API_KEY, Const.IMEI)
                 .map(new HttpResultFunc<ArrayList<ReviewEntity>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -118,7 +118,7 @@ public class ProductApi extends BaseApi {
         String signature = getSignature(params);
 
         createService(ProductService.class)
-                .getPopularProducts(page,limit,timestamp,signature,API_KEY, Constants.IMEI)
+                .getPopularProducts(page,limit,timestamp,signature,API_KEY, Const.IMEI)
                 .map(new HttpResultFunc<ArrayList<PopularProductEntity>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -143,7 +143,7 @@ public class ProductApi extends BaseApi {
         String signature = getSignature(params);
 
         createService(ProductService.class)
-                .getBannerImages(width,height,timestamp,signature,API_KEY, Constants.IMEI)
+                .getBannerImages(width,height,timestamp,signature,API_KEY, Const.IMEI)
                 .map(new HttpResultFunc<ArrayList<BannerImageEntity>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

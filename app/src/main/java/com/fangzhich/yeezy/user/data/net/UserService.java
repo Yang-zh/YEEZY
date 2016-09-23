@@ -1,6 +1,6 @@
 package com.fangzhich.yeezy.user.data.net;
 
-import com.fangzhich.yeezy.user.data.entity.LoginEntity;
+import com.fangzhich.yeezy.user.data.entity.UserInfoEntity;
 import com.fangzhich.yeezy.user.data.entity.RegisterEntity;
 import com.fangzhich.yeezy.base.data.net.HttpResult;
 
@@ -17,7 +17,7 @@ interface UserService {
 
     @FormUrlEncoded
     @POST("index.php?route=api/login")
-    Single<HttpResult<LoginEntity>> login(
+    Single<HttpResult<UserInfoEntity>> login(
             @Field("email") String email,
             @Field("password") String password,
             @Field("timestamp") String timestamp,

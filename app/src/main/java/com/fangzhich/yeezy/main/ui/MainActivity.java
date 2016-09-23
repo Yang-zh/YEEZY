@@ -24,13 +24,13 @@ import android.widget.TextView;
 import com.blankj.utilcode.utils.SPUtils;
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.base.ui.BaseActivity;
+import com.fangzhich.yeezy.cart.ui.ShoppingCartDialog;
 import com.fangzhich.yeezy.main.data.net.MainApi;
 import com.fangzhich.yeezy.main.data.net.entity.CategoryEntity;
 import com.fangzhich.yeezy.product.ui.ProductListFragment;
 import com.fangzhich.yeezy.order.ui.OrderHistoryActivity;
 import com.fangzhich.yeezy.user.ui.NotificationActivity;
 import com.fangzhich.yeezy.user.ui.UserInfoActivity;
-import com.fangzhich.yeezy.order.widget.ShoppingCartDialog;
 import com.fangzhich.yeezy.user.ui.RegisterActivity;
 import com.fangzhich.yeezy.util.ToastUtil;
 import com.fangzhich.yeezy.util.MyUtil;
@@ -148,7 +148,7 @@ public class MainActivity extends BaseActivity {
                         break;
                     case R.id.settings:
 //                        startActivity(new Intent(MainActivity.this, SettingActivity.class));
-                        SPUtils spUtils = new SPUtils(MainActivity.this, "App");
+                        SPUtils spUtils = new SPUtils(MainActivity.this, "APP");
                         spUtils.putBoolean("isLogin", false);
                         ToastUtil.toast("sign out success");
                         break;

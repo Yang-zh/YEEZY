@@ -192,7 +192,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
 
     @Override
     protected void loadData() {
-        mPresenter.getProductOverview(productId);
+        mPresenter.getProductDetail(productId);
     }
 
     @Override

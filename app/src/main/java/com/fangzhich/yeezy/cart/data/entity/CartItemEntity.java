@@ -1,12 +1,12 @@
-package com.fangzhich.yeezy.order.data.entity;
+package com.fangzhich.yeezy.cart.data.entity;
 
 import java.util.List;
 
 /**
- * CartEntity
+ * CartItemEntity
  * Created by Khorium on 2016/9/21.
  */
-public class CartEntity {
+public class CartItemEntity {
 
 
     public List<Products> products;

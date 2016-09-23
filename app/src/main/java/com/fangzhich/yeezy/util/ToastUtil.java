@@ -19,7 +19,7 @@ public class ToastUtil {
         private static ToastUtil INSTANCE = new ToastUtil();
     }
 
-    public static ToastUtil getInstance() {
+    private static ToastUtil getInstance() {
         return SingletonHolder.INSTANCE;
     }
 

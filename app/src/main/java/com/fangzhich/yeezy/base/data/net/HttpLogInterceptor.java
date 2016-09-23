@@ -1,5 +1,9 @@
 package com.fangzhich.yeezy.base.data.net;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.EOFException;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -19,6 +23,7 @@ import okhttp3.internal.http.HttpHeaders;
 import okhttp3.internal.platform.Platform;
 import okio.Buffer;
 import okio.BufferedSource;
+import timber.log.Timber;
 
 import static okhttp3.internal.platform.Platform.INFO;
 
@@ -262,7 +267,14 @@ class HttpLogInterceptor implements Interceptor {
                 if (contentLength != 0) {
 //                    logger.log("");
 //                    logger.log(buffer.clone().readString(charset));
-                    message.append("\n").append("").append("\n").append(buffer.clone().readString(charset));
+
+                    if (contentType!=null && contentType.toString().equals("application/json")) {
+                        String json = formatJson(buffer.clone().readString(charset));
+                        message.append("\n").append("").append("\n").append(json);
+                    } else {
+                        message.append("\n").append("").append("\n").append(buffer.clone().readString(charset));
+                    }
+
                 }
 
 //                logger.log("<-- END HTTP (" + buffer.size() + "-byte body)");
@@ -301,6 +313,26 @@ class HttpLogInterceptor implements Interceptor {
     private boolean bodyEncoded(Headers headers) {
         String contentEncoding = headers.get("Content-Encoding");
         return contentEncoding != null && !contentEncoding.equalsIgnoreCase("identity");
+    }
+
+    private static String formatJson(String json) {
+        if (json==null || json.length()==0) {
+            return "Empty/Null json content";
+        }
+        try {
+            json = json.trim();
+            if (json.startsWith("{")) {
+                JSONObject jsonObject = new JSONObject(json);
+                return jsonObject.toString(2);
+            }
+            if (json.startsWith("[")) {
+                JSONArray jsonArray = new JSONArray(json);
+                return jsonArray.toString(2);
+            }
+            return "Invalid Json";
+        } catch (JSONException e) {
+            return "Invalid Json";
+        }
     }
 
 }

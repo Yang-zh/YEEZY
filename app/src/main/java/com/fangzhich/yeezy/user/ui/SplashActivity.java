@@ -39,7 +39,7 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void initContentView() {
-        if (new SPUtils(this,"App").getBoolean("isLogin", false)){
+        if (new SPUtils(this,"APP").getBoolean("isLogin", false)){
             startActivity(new Intent(this, MainActivity.class));
         }
     }

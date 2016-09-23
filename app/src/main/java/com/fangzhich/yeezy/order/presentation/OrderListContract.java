@@ -1,5 +1,6 @@
 package com.fangzhich.yeezy.order.presentation;
 
+import com.fangzhich.yeezy.base.presentation.BasePresenter;
 import com.fangzhich.yeezy.base.presentation.BaseView;
 import com.fangzhich.yeezy.product.data.entity.ReviewEntity;
 
@@ -11,7 +12,7 @@ import java.util.ArrayList;
  */
 
 public class OrderListContract {
-    public interface Presenter {
+    public interface Presenter extends BasePresenter{
         void getOrderList(int product_id);
         void getOrderList(int page, int limit, int product_id);
     }

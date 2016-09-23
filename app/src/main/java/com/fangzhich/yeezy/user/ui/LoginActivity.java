@@ -7,18 +7,18 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.blankj.utilcode.utils.SPUtils;
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.base.ui.BaseActivity;
-import com.fangzhich.yeezy.user.data.entity.LoginEntity;
+import com.fangzhich.yeezy.user.data.entity.UserInfoEntity;
 import com.fangzhich.yeezy.main.ui.MainActivity;
 import com.fangzhich.yeezy.user.presentation.contract.UserLoginContract;
 import com.fangzhich.yeezy.user.presentation.presenter.UserLoginPresenter;
-import com.fangzhich.yeezy.util.Constants;
+import com.fangzhich.yeezy.util.Const;
 import com.fangzhich.yeezy.util.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 /**
  * LoginActivity
@@ -69,18 +69,22 @@ public class LoginActivity extends BaseActivity implements UserLoginContract.Vie
     }
 
     @Override
-    public void onLoginSuccess(LoginEntity entity) {
-        ToastUtil.toast(Constants.User.LOGIN_SUCCESS);
-        new SPUtils(this,"App").putBoolean("isLogin",true);
+    public void onLoginSuccess(UserInfoEntity entity) {
+        ToastUtil.toast(Const.User.LOGIN_SUCCESS);
+        //save login status
+        Const.Obj.AppSp.putBoolean(Const.SP.IS_LOGIN,true);
+        //save userInfo in SharedPreference
+        Const.Obj.AppSp.putString(Const.SP.USER_INFO,Const.Obj.gson.toJson(entity));
+        //save userInfo in RAM
+        Const.Obj.userInfo = entity;
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 
     @Override
     public void onLoginFailed(Throwable throwable) {
-        ToastUtil.toast(Constants.User.LOGIN_FAILED);
-        ToastUtil.logTestError("onLoginFailed",throwable.getMessage());
-        throwable.printStackTrace();
+        ToastUtil.toast(Const.User.LOGIN_FAILED);
+        Timber.e(throwable.getMessage());
 
     }
 

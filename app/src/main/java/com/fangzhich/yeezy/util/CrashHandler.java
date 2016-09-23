@@ -17,7 +17,7 @@ import timber.log.Timber;
  * CrashHandler
  * Created by Khorium on 2016/9/19.
  */
-public class CrashHandler implements Thread.UncaughtExceptionHandler {
+class CrashHandler implements Thread.UncaughtExceptionHandler {
 
     private Context mContext;
 
@@ -41,10 +41,9 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         Timber.e(TAG, getCrashInfo(e));
         mDefaultHandler.uncaughtException(t,e);
         ToastUtil.toast(mContext.getResources().getString(R.string.ApplicationCrash));
-        App.getInstance().exitApp();
     }
 
-    public String getCrashInfo(Throwable ex) {
+    private String getCrashInfo(Throwable ex) {
         Writer result = new StringWriter();
         PrintWriter printWriter = new PrintWriter(result);
         ex.setStackTrace(ex.getStackTrace());
@@ -52,7 +51,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         return result.toString();
     }
 
-    public String collectCrashDeviceInfo() {
+    private String collectCrashDeviceInfo() {
         try {
             PackageManager pm = mContext.getPackageManager();
             PackageInfo pi = pm.getPackageInfo(mContext.getPackageName(), PackageManager.GET_ACTIVITIES);

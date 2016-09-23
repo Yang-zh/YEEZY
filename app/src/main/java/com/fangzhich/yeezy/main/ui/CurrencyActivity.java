@@ -65,7 +65,7 @@ public class CurrencyActivity extends BaseActivity {
     }
 
     private void initSpinner() {
-        utils = new SPUtils(CurrencyActivity.this,"App");
+        utils = new SPUtils(CurrencyActivity.this,"APP");
         languageSpinner.attachDataSource(new LinkedList<>(Arrays.asList(getResources().getStringArray(R.array.currencies))));
     }
 

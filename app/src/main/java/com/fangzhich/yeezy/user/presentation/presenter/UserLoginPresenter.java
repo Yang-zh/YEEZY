@@ -1,7 +1,7 @@
 package com.fangzhich.yeezy.user.presentation.presenter;
 
 
-import com.fangzhich.yeezy.user.data.entity.LoginEntity;
+import com.fangzhich.yeezy.user.data.entity.UserInfoEntity;
 import com.fangzhich.yeezy.user.data.net.UserApi;
 import com.fangzhich.yeezy.user.presentation.contract.UserLoginContract;
 import com.fangzhich.yeezy.util.ToastUtil;
@@ -21,9 +21,9 @@ public class UserLoginPresenter implements UserLoginContract.Presenter {
     }
 
     public void login(String email, String password) {
-        UserApi.login(email, password, new SingleSubscriber<LoginEntity>() {
+        UserApi.login(email, password, new SingleSubscriber<UserInfoEntity>() {
             @Override
-            public void onSuccess(LoginEntity entity) {
+            public void onSuccess(UserInfoEntity entity) {
                 mView.onLoginSuccess(entity);
             }
 

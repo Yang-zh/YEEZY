@@ -5,7 +5,7 @@ import android.app.Application;
 
 import com.blankj.utilcode.utils.PhoneUtils;
 import com.crashlytics.android.Crashlytics;
-import com.fangzhich.yeezy.util.Constants;
+import com.fangzhich.yeezy.util.Const;
 import com.fangzhich.yeezy.util.ToastUtil;
 import com.orhanobut.logger.Logger;
 import com.squareup.leakcanary.LeakCanary;
@@ -21,19 +21,12 @@ import timber.log.Timber;
  */
 public class App extends Application {
 
-    private static App instance;
-
-    private final HashSet<Activity> allActivities = new HashSet<>();
-
-    public static App getInstance() {
-        return instance;
-    }
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        instance = this;
+        Const.init(this);
 
         //LeakCanary
         LeakCanary.install(this);
@@ -68,7 +61,7 @@ public class App extends Application {
         ToastUtil.init(getApplicationContext(), BuildConfig.DEBUG);
 
         //IMEI
-        Constants.IMEI = PhoneUtils.getPhoneIMEI(getApplicationContext());
+        Const.IMEI = PhoneUtils.getPhoneIMEI(getApplicationContext());
 
         Fabric.with(this, new Crashlytics());
         Crashlytics.setUserIdentifier("12345");
@@ -78,21 +71,21 @@ public class App extends Application {
      }
 
 
-    public void addActivity(Activity act) {
-        allActivities.add(act);
-    }
-
-    public void removeActivity(Activity act) {
-        allActivities.remove(act);
-    }
-
-    public void exitApp() {
-        synchronized (allActivities) {
-            for (Activity act : allActivities) {
-                act.finish();
-            }
-        }
-        android.os.Process.killProcess(android.os.Process.myPid());
-        System.exit(0);
-    }
+//    public void addActivity(Activity act) {
+//        allActivities.add(act);
+//    }
+//
+//    public void removeActivity(Activity act) {
+//        allActivities.remove(act);
+//    }
+//
+//    public void exitApp() {
+//        synchronized (allActivities) {
+//            for (Activity act : allActivities) {
+//                act.finish();
+//            }
+//        }
+//        android.os.Process.killProcess(android.os.Process.myPid());
+//        System.exit(0);
+//    }
 }

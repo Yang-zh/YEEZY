@@ -1,12 +1,8 @@
-package com.fangzhich.yeezy.order.data.net;
+package com.fangzhich.yeezy.cart.data.net;
 
 import com.fangzhich.yeezy.base.data.net.HttpResult;
-import com.fangzhich.yeezy.order.data.entity.CartEntity;
-import com.fangzhich.yeezy.product.data.entity.BannerImageEntity;
-import com.fangzhich.yeezy.product.data.entity.PopularProductEntity;
-import com.fangzhich.yeezy.product.data.entity.ProductEntity;
-import com.fangzhich.yeezy.product.data.entity.ProductItemEntity;
-import com.fangzhich.yeezy.product.data.entity.ReviewEntity;
+import com.fangzhich.yeezy.cart.data.entity.CartItemEntity;
+import com.fangzhich.yeezy.util.Const;
 
 import java.util.ArrayList;
 
@@ -22,7 +18,7 @@ import rx.Single;
 interface CartService {
         @FormUrlEncoded
         @POST("index.php?route=api/cart")
-        Single<HttpResult<ArrayList<CartEntity>>> getCartList(
+        Single<HttpResult<ArrayList<CartItemEntity>>> getCartList(
                 @Field("email") String email,
                 @Field("token") String token,
                 @Field("timestamp") String timestamp,
@@ -32,7 +28,7 @@ interface CartService {
 
         @FormUrlEncoded
         @POST("index.php?route=api/card/add")
-        Single<HttpResult> addCart(
+        Single<HttpResult<Object>> addItemToCart(
                 @Field("product_id") String product_id,
                 @Field("quantity") String quantity,
                 @Field("option") String options,
@@ -46,7 +42,7 @@ interface CartService {
 
         @FormUrlEncoded
         @POST("index.php?route=api/cart/edit")
-        Single<HttpResult> editCart(
+        Single<HttpResult<Object>> editItemInCart(
                 @Field("cart_id") String cart_id,
                 @Field("quantity") String quantity,
                 @Field("email") String email,
@@ -58,7 +54,7 @@ interface CartService {
 
         @FormUrlEncoded
         @POST("index.php?route=api/cart/remove")
-        Single<HttpResult> removeCart(
+        Single<HttpResult<Object>> removeItemFromCart(
                 @Field("cart_id") String cart_id,
                 @Field("email") String email,
                 @Field("token") String token,

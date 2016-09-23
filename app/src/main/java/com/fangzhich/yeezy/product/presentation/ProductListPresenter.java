@@ -6,7 +6,6 @@ import com.fangzhich.yeezy.product.data.net.ProductApi;
 import java.util.ArrayList;
 
 import rx.SingleSubscriber;
-import timber.log.Timber;
 
 /**
  * ProductListPresenter

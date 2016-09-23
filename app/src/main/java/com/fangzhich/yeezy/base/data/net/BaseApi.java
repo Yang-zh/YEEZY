@@ -2,8 +2,7 @@ package com.fangzhich.yeezy.base.data.net;
 
 import com.blankj.utilcode.utils.EncryptUtils;
 import com.fangzhich.yeezy.BuildConfig;
-import com.fangzhich.yeezy.util.Constants;
-import com.fangzhich.yeezy.util.ToastUtil;
+import com.fangzhich.yeezy.util.Const;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -74,7 +73,7 @@ public abstract class BaseApi {
     /**
      * Handle HttpResult status.
      *
-     * if everything ok, return concrete Entity in Result
+     * if everything ok, return concrete Entity in Result,
      * else throw HttpResultException with Message.
      *
      * @param <T>
@@ -99,16 +98,12 @@ public abstract class BaseApi {
     protected static String getSignature(HashMap<String, String> params) {
         params.put("apiKey",API_KEY);
         params.put("appKey",APP_KEY);
-        params.put("equipment_id", Constants.IMEI);
+        params.put("equipment_id", Const.IMEI);
 
         ArrayList<Map.Entry<String,String>> paramList = new ArrayList<>(params.entrySet());
 
         //dict sort
-        Collections.sort(paramList, new Comparator<Map.Entry<String, String>>() {
-            public int compare(Map.Entry<String, String> o1, Map.Entry<String, String> o2) {
-                return (o1.getKey()).compareTo(o2.getKey());
-            }
-        });
+        Collections.sort(paramList, (o1, o2) -> (o1.getKey()).compareTo(o2.getKey()));
 
         StringBuilder builder = new StringBuilder();
 
@@ -139,7 +134,7 @@ public abstract class BaseApi {
         Collections.addAll(params, args);
         params.add(API_KEY);
         params.add(APP_KEY);
-        params.add(Constants.IMEI);
+        params.add(Const.IMEI);
 
         //dict sort
         Collections.sort(params);
