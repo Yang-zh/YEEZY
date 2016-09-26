@@ -1,8 +1,7 @@
 package com.fangzhich.yeezy.cart.data.net;
 
 import com.fangzhich.yeezy.base.data.net.HttpResult;
-import com.fangzhich.yeezy.cart.data.entity.CartItemEntity;
-import com.fangzhich.yeezy.util.Const;
+import com.fangzhich.yeezy.cart.data.entity.CartEntity;
 
 import java.util.ArrayList;
 
@@ -18,7 +17,7 @@ import rx.Single;
 interface CartService {
         @FormUrlEncoded
         @POST("index.php?route=api/cart")
-        Single<HttpResult<ArrayList<CartItemEntity>>> getCartList(
+        Single<HttpResult<CartEntity>> getCartList(
                 @Field("email") String email,
                 @Field("token") String token,
                 @Field("timestamp") String timestamp,
@@ -27,7 +26,7 @@ interface CartService {
                 @Field("equipment_id") String imei);
 
         @FormUrlEncoded
-        @POST("index.php?route=api/card/add")
+        @POST("index.php?route=api/cart/add")
         Single<HttpResult<Object>> addItemToCart(
                 @Field("product_id") String product_id,
                 @Field("quantity") String quantity,

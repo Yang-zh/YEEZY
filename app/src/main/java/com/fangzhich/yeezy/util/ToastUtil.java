@@ -1,8 +1,9 @@
 package com.fangzhich.yeezy.util;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
+
+import timber.log.Timber;
 
 /**
  *
@@ -11,21 +12,11 @@ import android.widget.Toast;
 public class ToastUtil {
 
     private static Context context;
-    private static boolean DEBUG = true;
 
     private ToastUtil() {}
 
-    private static class SingletonHolder {
-        private static ToastUtil INSTANCE = new ToastUtil();
-    }
-
-    private static ToastUtil getInstance() {
-        return SingletonHolder.INSTANCE;
-    }
-
     public static void init(Context context, boolean isDebug){
         ToastUtil.context = context;
-        ToastUtil.DEBUG = isDebug;
     }
 
     private static Toast toast;
@@ -33,7 +24,7 @@ public class ToastUtil {
     public static void toast(String message) {
         if (toast == null) {
             if (context==null) {
-                logTestError("ToastUtil","ToastUtil needs initialization");
+                Timber.e("ToastUtil needs initialization");
                 return;
             }
             toast = Toast.makeText(context,message,Toast.LENGTH_SHORT);
@@ -41,27 +32,5 @@ public class ToastUtil {
             toast.setText(message);
         }
         toast.show();
-    }
-
-
-    public static void logTestInfo(String tag, String message) {
-        if (DEBUG) {
-            Log.i(tag,message);
-        }
-    }
-
-    public static void logInfo(String tag, String message) {
-            Log.i(tag,message);
-    }
-
-
-    public static void logTestError(String tag, String message) {
-        if (DEBUG) {
-            Log.e(tag,message);
-        }
-    }
-
-    public static void logError(String tag, String message) {
-        Log.e(tag,message);
     }
 }

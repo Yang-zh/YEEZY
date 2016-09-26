@@ -71,12 +71,7 @@ public class LoginActivity extends BaseActivity implements UserLoginContract.Vie
     @Override
     public void onLoginSuccess(UserInfoEntity entity) {
         ToastUtil.toast(Const.User.LOGIN_SUCCESS);
-        //save login status
-        Const.Obj.AppSp.putBoolean(Const.SP.IS_LOGIN,true);
-        //save userInfo in SharedPreference
-        Const.Obj.AppSp.putString(Const.SP.USER_INFO,Const.Obj.gson.toJson(entity));
-        //save userInfo in RAM
-        Const.Obj.userInfo = entity;
+        Const.setUserInfo(entity);
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }

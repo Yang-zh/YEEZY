@@ -1,6 +1,5 @@
 package com.fangzhich.yeezy.product.presentation;
 
-import com.fangzhich.yeezy.product.data.entity.ProductItemEntity;
 import com.fangzhich.yeezy.product.data.entity.PopularProductEntity;
 import com.fangzhich.yeezy.product.data.net.ProductApi;
 

@@ -2,10 +2,8 @@ package com.fangzhich.yeezy.cart.presentation;
 
 import com.fangzhich.yeezy.base.presentation.BasePresenter;
 import com.fangzhich.yeezy.base.presentation.BaseView;
-import com.fangzhich.yeezy.cart.data.entity.CartItemEntity;
-import com.fangzhich.yeezy.cart.data.entity.CartItemEntity.Products.Option;
-
-import java.util.ArrayList;
+import com.fangzhich.yeezy.cart.data.entity.CartEntity;
+import com.fangzhich.yeezy.cart.data.entity.CartEntity.CartItem.Option;
 
 /**
  * CartListContract
@@ -24,9 +22,9 @@ public class CartContract {
     }
 
     public interface View extends BaseView<Presenter> {
-        void onLoadCartListSuccess(ArrayList<CartItemEntity> cartList);
+        void onLoadCartListSuccess(CartEntity cartList);
         void onLoadCartListFailed(Throwable throwable);
-        void onLoadCartListMoreSuccess(ArrayList<CartItemEntity> cartList);
+        void onLoadCartListMoreSuccess(CartEntity cart);
 
         void onAddItemSuccess();
         void onAddItemFailed(Throwable throwable);

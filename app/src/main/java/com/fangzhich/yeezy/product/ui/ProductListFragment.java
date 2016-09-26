@@ -6,12 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import com.blankj.utilcode.utils.SizeUtils;
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.base.ui.BaseFragment;
+import com.fangzhich.yeezy.base.ui.recyclerview.GridSpaceItemDecoration;
 import com.fangzhich.yeezy.base.ui.recyclerview.OnScrollLoadMoreHelper;
 import com.fangzhich.yeezy.product.ui.adapter.ProductListAdapter;
-import com.fangzhich.yeezy.base.ui.recyclerview.GridSpaceItemDecoration;
 
 import butterknife.BindView;
-import timber.log.Timber;
 
 /**
  *

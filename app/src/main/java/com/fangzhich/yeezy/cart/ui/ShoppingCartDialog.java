@@ -2,7 +2,6 @@ package com.fangzhich.yeezy.cart.ui;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -12,8 +11,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.fangzhich.yeezy.R;
-import com.fangzhich.yeezy.cart.data.entity.CartItemEntity;
-import com.fangzhich.yeezy.cart.data.entity.CartItemEntity.Products.Option;
+import com.fangzhich.yeezy.cart.data.entity.CartEntity;
+import com.fangzhich.yeezy.cart.data.entity.CartEntity.CartItem.Option;
 
 import java.util.ArrayList;
 
@@ -116,7 +115,7 @@ public class ShoppingCartDialog {
     private void loadData() {
         cartManager.getCartList(new CartManager.CartListCallBack() {
             @Override
-            public void onSuccess(ArrayList<CartItemEntity> cartList) {
+            public void onSuccess(CartEntity cartList) {
                 rvShoppingCartList.setLayoutManager(layoutManager);
             }
 

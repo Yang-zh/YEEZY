@@ -41,7 +41,9 @@ public class ReviewListAdapter extends BaseRecyclerViewAdapter<ReviewEntity,Revi
     }
 
     public ArrayList<ReviewEntity> loadData() {
-        mPresenter.getProductReviewList(mProduct_id);
+        if (mPresenter!=null) {
+            mPresenter.getProductReviewList(mProduct_id);
+        }
         mTotalPage = 0;
         return mReviews;
     }

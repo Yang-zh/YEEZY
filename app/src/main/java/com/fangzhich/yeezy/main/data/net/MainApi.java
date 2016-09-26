@@ -2,6 +2,7 @@ package com.fangzhich.yeezy.main.data.net;
 
 
 import com.fangzhich.yeezy.base.data.net.BaseApi;
+import com.fangzhich.yeezy.cart.data.entity.CartEntity;
 import com.fangzhich.yeezy.main.data.net.entity.CategoryEntity;
 import com.fangzhich.yeezy.util.Const;
 
@@ -38,7 +39,7 @@ public class MainApi extends BaseApi {
 
         createService(MainService.class)
                 .getCategories(page, limit, parent_id, timestamp, signature, API_KEY, Const.IMEI)
-                .map(new HttpResultFunc<>())
+                .map(new HttpResultFunc<ArrayList<CategoryEntity>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(singleSubscriber);

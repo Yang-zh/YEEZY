@@ -51,7 +51,9 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
 
     @Override
     public ArrayList<ProductItemEntity> loadData() {
-        mPresenter.getProductList(1,pageCount,categoryId);
+        if (mPresenter!=null) {
+            mPresenter.getProductList(1,pageCount,categoryId);
+        }
         totalPage = 1;
         return mProductList;
     }
@@ -100,11 +102,14 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
         holder.productOriginalPrice.setText(R.string.nulll);
         holder.productOriginalPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         holder.productSellVolume.setText(R.string.nulll);
-        holder.itemView.setOnClickListener(v -> {
-            Timber.d("On Item %d Click",position);
-            Intent intent = new Intent(v.getContext(),ProductDetailActivity.class);
-            intent.putExtra("product_id", Integer.parseInt(mProductList.get(holder.getAdapterPosition()).product_id));
-            v.getContext().startActivity(intent);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Timber.d("On Item %d Click",position);
+                Intent intent = new Intent(v.getContext(),ProductDetailActivity.class);
+                intent.putExtra("product_id", Integer.parseInt(mProductList.get(holder.getAdapterPosition()).product_id));
+                v.getContext().startActivity(intent);
+            }
         });
     }
 

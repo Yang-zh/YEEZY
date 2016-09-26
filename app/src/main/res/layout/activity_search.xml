@@ -26,13 +26,13 @@
             android:drawableLeft="@mipmap/search_page"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="40dp"/>
+            android:layout_height="27dp"/>
         <TextView
             android:id="@+id/bt_cancel"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:background="?attr/selectableItemBackground"
             android:text="@string/Cancel"
             android:textColor="@android:color/white"
@@ -40,7 +40,7 @@
             android:layout_marginLeft="7dp"
             android:layout_marginRight="4dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent" />
     </LinearLayout>
     <TextView
         android:layout_marginTop="5dp"
@@ -59,7 +59,7 @@
         android:layout_margin="10dp"
         android:paddingTop="20dp"
         android:layout_below="@id/popular_search"
-        android:id="@+id/recyclerView_popularSearches"
+        android:id="@+id/rv_popularSearches"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

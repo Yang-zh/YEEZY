@@ -9,7 +9,8 @@ import android.widget.TextView;
 
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.base.ui.recyclerview.BaseRecyclerViewAdapter;
-import com.fangzhich.yeezy.cart.data.entity.CartItemEntity;
+import com.fangzhich.yeezy.cart.data.entity.CartEntity;
+import com.fangzhich.yeezy.cart.data.entity.CartEntity.CartItem;
 import com.fangzhich.yeezy.util.ToastUtil;
 
 import java.util.ArrayList;
@@ -22,23 +23,18 @@ import timber.log.Timber;
  * CartListAdapter
  * Created by Khorium on 2016/9/23.
  */
-class CartListAdapter extends BaseRecyclerViewAdapter<CartItemEntity, CartListAdapter.ViewHolder> {
+class CartListAdapter extends BaseRecyclerViewAdapter<CartItem, CartListAdapter.ViewHolder> {
 
     private CartManager cartManager = new CartManager();
 
-    private ArrayList<CartItemEntity> mCartList;
+    private CartEntity mCart;
 
     @Override
-    public ArrayList<CartItemEntity> loadData() {
-        return null;
-    }
-
-    @Override
-    public void loadMore() {
+    public ArrayList<CartItem> loadData() {
         cartManager.getCartList(new CartManager.CartListCallBack() {
             @Override
-            public void onSuccess(ArrayList<CartItemEntity> cartList) {
-                mCartList = cartList;
+            public void onSuccess(CartEntity cart) {
+                mCart = cart;
                 notifyDataSetChanged();
             }
 
@@ -48,6 +44,11 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartItemEntity, CartListAd
                 Timber.e(throwable.getMessage());
             }
         });
+        return mCart.products;
+    }
+
+    @Override
+    public void loadMore() {
     }
 
     @Override
@@ -57,7 +58,37 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartItemEntity, CartListAd
     }
 
     @Override
-    protected void onBindHolder(ViewHolder holder, int position) {
+    protected void onBindHolder(ViewHolder holder, final int position) {
+        final CartItem cartItem = mCart.products.get(position);
+        holder.tvProductName.setText(cartItem.name);
+        holder.ivProductImage.setImageResource(R.mipmap.product_image_placeholder);
+        holder.shippingDetail.setText(cartItem.shipping);
+        holder.tvProductPrice.setText(cartItem.price);
+        holder.remove.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        cartManager.removeCartItem(cartItem.cart_id, new CartManager.RemoveItemCallBack() {
+                            @Override
+                            public void onSuccess() {
+                                mCart.products.remove(position);
+                                notifyItemChanged(position);
+                            }
+
+                            @Override
+                            public void onError(Throwable throwable) {
+                                Timber.e(throwable.getMessage());
+                                ToastUtil.toast(throwable.getMessage());
+                            }
+                        });
+                    }
+                });
+        holder.edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
     }
 

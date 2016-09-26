@@ -2,6 +2,7 @@ package com.fangzhich.yeezy.user.data.net;
 
 
 import com.fangzhich.yeezy.base.data.net.BaseApi;
+import com.fangzhich.yeezy.user.data.entity.PersonalInfoEntity;
 import com.fangzhich.yeezy.user.data.entity.UserInfoEntity;
 import com.fangzhich.yeezy.user.data.entity.RegisterEntity;
 import com.fangzhich.yeezy.util.Const;
@@ -70,4 +71,51 @@ public class UserApi extends BaseApi{
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(singleSubscriber);
-    }}
+    }
+
+    /**
+     * Sign out request
+     * @param singleSubscriber SingleSubscriber in RxJava (Callback)
+     */
+    public static void signOut(SingleSubscriber<Object> singleSubscriber) {
+        String timestamp = getTimeStamp();
+
+        HashMap<String,String> params = new HashMap<>();
+        params.put("email",Const.User.email);
+        params.put("token",Const.User.token);
+        params.put("timestamp",timestamp);
+
+        String signature = getSignature(params);
+
+        createService(UserService.class)
+                .signOut(Const.User.email,Const.User.token,timestamp,signature,API_KEY,Const.IMEI)
+                .map(new HttpResultFunc<Object>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(singleSubscriber);
+    }
+
+    /**
+     * Personal info request
+     * @param singleSubscriber SingleSubscriber in RxJava (Callback)
+     */
+    public static void getPersonalInfo(SingleSubscriber<PersonalInfoEntity> singleSubscriber) {
+        String timestamp = getTimeStamp();
+
+        HashMap<String,String> params = new HashMap<>();
+        params.put("email",Const.User.email);
+        params.put("token",Const.User.token);
+        params.put("timestamp",timestamp);
+
+        String signature = getSignature(params);
+
+        createService(UserService.class)
+                .getPersonalInfo(Const.User.email,Const.User.token,timestamp,signature,API_KEY,Const.IMEI)
+                .map(new HttpResultFunc<PersonalInfoEntity>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(singleSubscriber);
+    }
+}
+
+

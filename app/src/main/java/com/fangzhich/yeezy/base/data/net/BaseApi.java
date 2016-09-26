@@ -103,13 +103,21 @@ public abstract class BaseApi {
         ArrayList<Map.Entry<String,String>> paramList = new ArrayList<>(params.entrySet());
 
         //dict sort
-        Collections.sort(paramList, (o1, o2) -> (o1.getKey()).compareTo(o2.getKey()));
+        Collections.sort(paramList, new Comparator<Map.Entry<String, String>>() {
+            @Override
+            public int compare(Map.Entry<String, String> o1, Map.Entry<String, String> o2) {
+                return o1.getKey().compareTo(o2.getKey());
+            }
+        });
 
         StringBuilder builder = new StringBuilder();
 
         for (Map.Entry entry:paramList) {
             builder.append(entry.getKey());
-            builder.append(entry.getValue());
+
+            if (!(entry.getValue()==null)) {
+                builder.append(entry.getValue());
+            }
         }
 
         String origin = builder.toString();

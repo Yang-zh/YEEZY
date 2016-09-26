@@ -8,7 +8,7 @@ import java.util.List;
  * @author angelo.marchesin
  */
 
-public class NiceSpinnerAdapter<T> extends NiceSpinnerBaseAdapter {
+public class NiceSpinnerAdapter<T> extends NiceSpinnerBaseAdapter<T> {
 
     private final List<T> mItems;
 

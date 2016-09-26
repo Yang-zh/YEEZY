@@ -1,11 +1,9 @@
 package com.fangzhich.yeezy.cart.data.net;
 
 import com.fangzhich.yeezy.base.data.net.BaseApi;
-import com.fangzhich.yeezy.cart.data.entity.CartItemEntity;
-import com.fangzhich.yeezy.product.data.entity.ProductEntity;
+import com.fangzhich.yeezy.cart.data.entity.CartEntity;
 import com.fangzhich.yeezy.util.Const;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import rx.SingleSubscriber;
@@ -13,6 +11,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static com.fangzhich.yeezy.util.Const.Obj.gson;
+import static com.fangzhich.yeezy.util.Const.User.email;
+import static com.fangzhich.yeezy.util.Const.User.token;
 
 /**
  * CartApi
@@ -21,16 +21,12 @@ import static com.fangzhich.yeezy.util.Const.Obj.gson;
 
 public class CartApi extends BaseApi {
 
-
-    private static final String email = Const.getUserInfo().data.user_info.email;
-    private static final String token = Const.getUserInfo().data.token;
-
     /**
      * CartList request
      *
      * @param singleSubscriber SingleSubscriber in RxJava (Callback)
      */
-    public static void getCartList(SingleSubscriber<ArrayList<CartItemEntity>> singleSubscriber) {
+    public static void getCartList(SingleSubscriber<CartEntity> singleSubscriber) {
         String timestamp = getTimeStamp();
 
         HashMap<String,String> params = new HashMap<>();
@@ -42,7 +38,7 @@ public class CartApi extends BaseApi {
 
         createService(CartService.class)
                 .getCartList(email,token,timestamp,signature,API_KEY, Const.IMEI)
-                .map(new HttpResultFunc<>())
+                .map(new HttpResultFunc<CartEntity>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(singleSubscriber);
@@ -57,7 +53,7 @@ public class CartApi extends BaseApi {
      * @param recurring_id recurring_id of this item
      * @param singleSubscriber SingleSubscriber in RxJava (Callback)
      */
-    public static void addItemToCart(String product_id, String quantity, CartItemEntity.Products.Option option, String recurring_id, SingleSubscriber<Object> singleSubscriber) {
+    public static void addItemToCart(String product_id, String quantity, CartEntity.CartItem.Option option, String recurring_id, SingleSubscriber<Object> singleSubscriber) {
         String timestamp = getTimeStamp();
 
         HashMap<String,String> params = new HashMap<>();

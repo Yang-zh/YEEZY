@@ -1,5 +1,6 @@
 package com.fangzhich.yeezy.user.data.net;
 
+import com.fangzhich.yeezy.user.data.entity.PersonalInfoEntity;
 import com.fangzhich.yeezy.user.data.entity.UserInfoEntity;
 import com.fangzhich.yeezy.user.data.entity.RegisterEntity;
 import com.fangzhich.yeezy.base.data.net.HttpResult;
@@ -32,6 +33,26 @@ interface UserService {
             @Field("lastname") String lastname,
             @Field("email") String email,
             @Field("password") String password,
+            @Field("timestamp") String timestamp,
+            @Field("signature") String signature,
+            @Field("apiKey") String apiKey,
+            @Field("equipment_id") String imei);
+
+    @FormUrlEncoded
+    @POST("index.php?route=api/signout")
+    Single<HttpResult<Object>> signOut(
+            @Field("email") String email,
+            @Field("token") String token,
+            @Field("timestamp") String timestamp,
+            @Field("signature") String signature,
+            @Field("apiKey") String apiKey,
+            @Field("equipment_id") String imei);
+
+    @FormUrlEncoded
+    @POST("index.php?route=api/customer")
+    Single<HttpResult<PersonalInfoEntity>> getPersonalInfo(
+            @Field("email") String email,
+            @Field("token") String token,
             @Field("timestamp") String timestamp,
             @Field("signature") String signature,
             @Field("apiKey") String apiKey,

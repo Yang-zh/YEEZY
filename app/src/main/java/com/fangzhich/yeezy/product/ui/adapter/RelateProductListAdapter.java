@@ -50,8 +50,10 @@ public class RelateProductListAdapter extends BaseRecyclerViewAdapter<PopularPro
 
     @Override
     public ArrayList<PopularProductEntity> loadData() {
-        mPresenter.getPopularProductList(0,20);
-        totalPage = 0;
+        if (mPresenter!=null) {
+            mPresenter.getPopularProductList(0,20);
+            totalPage = 0;
+        }
         return mProductList;
     }
 
@@ -102,11 +104,14 @@ public class RelateProductListAdapter extends BaseRecyclerViewAdapter<PopularPro
         holder.productOriginalPrice.setText(R.string.nulll);
         holder.productOriginalPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         holder.productSellVolume.setText(R.string.nulll);
-        holder.itemView.setOnClickListener(view -> {
-            Timber.d("On Item %d Click",position);
-            Intent intent = new Intent(view.getContext(),ProductDetailActivity.class);
-            intent.putExtra("product_id", Integer.parseInt(mProductList.get(holder.getAdapterPosition()).product_id));
-            view.getContext().startActivity(intent);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Timber.d("On Item %d Click",position);
+                Intent intent = new Intent(view.getContext(),ProductDetailActivity.class);
+                intent.putExtra("product_id", Integer.parseInt(mProductList.get(holder.getAdapterPosition()).product_id));
+                view.getContext().startActivity(intent);
+            }
         });
     }
 

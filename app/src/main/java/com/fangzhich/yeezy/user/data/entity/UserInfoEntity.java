@@ -5,13 +5,10 @@ package com.fangzhich.yeezy.user.data.entity;
  * Created by Khorium on 2016/9/8.
  */
 public class UserInfoEntity {
-    public int status_code;
-    public String message;
-    public Data data;
-    public static class Data {
         public String token;
         public UserInfo user_info;
         public ShippingAddress shipping_address;
+
         public static class UserInfo {
             public String customer_id;
             public String customer_group_id;
@@ -54,5 +51,4 @@ public class UserInfoEntity {
             public String address_format;
             public Object custom_field;
         }
-    }
 }

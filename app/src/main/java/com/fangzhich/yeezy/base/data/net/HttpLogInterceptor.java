@@ -23,7 +23,6 @@ import okhttp3.internal.http.HttpHeaders;
 import okhttp3.internal.platform.Platform;
 import okio.Buffer;
 import okio.BufferedSource;
-import timber.log.Timber;
 
 import static okhttp3.internal.platform.Platform.INFO;
 

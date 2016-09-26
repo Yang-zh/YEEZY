@@ -21,13 +21,13 @@ import butterknife.ButterKnife;
  * OrderHistoryAdapter
  * Created by Khorium on 2016/9/18.
  */
-public class OrderHistoryAdapter extends BaseRecyclerViewAdapter<ReviewEntity,OrderHistoryAdapter.ViewHolder> implements OrderListContract.View{
+class OrderHistoryAdapter extends BaseRecyclerViewAdapter<ReviewEntity,OrderHistoryAdapter.ViewHolder> implements OrderListContract.View{
 
     //todo wait for api
     private final int mProduct_id;
     private OrderListContract.Presenter mPresenter;
     private ArrayList<ReviewEntity> mReviews = new ArrayList<>();
-    private int mTotalPage = -1;
+//    private int mTotalPage = -1;
 
     public OrderHistoryAdapter(int product_id) {
         mProduct_id = product_id;
@@ -41,8 +41,10 @@ public class OrderHistoryAdapter extends BaseRecyclerViewAdapter<ReviewEntity,Or
     }
 
     public ArrayList<ReviewEntity> loadData() {
-        mPresenter.getOrderList(mProduct_id);
-        mTotalPage = 0;
+        if (mPresenter!=null) {
+            mPresenter.getOrderList(mProduct_id);
+        }
+//        mTotalPage = 0;
         return mReviews;
     }
 

@@ -1,13 +1,23 @@
 package com.fangzhich.yeezy.main.ui;
 
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.base.ui.BaseActivity;
+import com.fangzhich.yeezy.base.ui.recyclerview.BaseRecyclerViewAdapter;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Search
@@ -17,8 +27,17 @@ public class SearchActivity extends BaseActivity {
 
     @BindView(R.id.editText_search)
     EditText searchInput;
-    @BindView(R.id.bt_cancel)
-    TextView CancelButton;
+    @OnClick(R.id.bt_cancel)
+    void cancel() {
+        onBackPressed();
+    }
+    @BindView(R.id.popular_search)
+    TextView popularSearch;
+
+    @BindView(R.id.rv_popularSearches)
+    RecyclerView recyclerView;
+
+    BaseRecyclerViewAdapter<String,ViewHolder> baseRecyclerViewAdapter;
 
     @Override
     public int setContentLayout() {
@@ -27,7 +46,38 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     protected void initContentView() {
-        CancelButton.setOnClickListener(v -> onBackPressed());
+
+        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+
+        final List<String> data = Arrays.asList("Adidas","Yeezy","Nike");
+
+        baseRecyclerViewAdapter = new BaseRecyclerViewAdapter<String,ViewHolder>() {
+            @Override
+            public List<String> loadData() {
+                return data;
+            }
+
+            @Override
+            public ViewHolder onCreateHolder(ViewGroup parent, int viewType) {
+                View itemView = View.inflate(parent.getContext(),R.layout.item_search,null);
+                return new ViewHolder(itemView){};
+            }
+
+            @Override
+            protected void onBindHolder(ViewHolder holder, int position) {
+                View itemView = holder.itemView;
+                ((TextView) itemView.findViewById(R.id.search_text)).setText(data.get(position));
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // todo search text of position
+                    }
+                });
+            }
+        };
+
+        recyclerView.setAdapter(baseRecyclerViewAdapter);
+
     }
 
     @Override

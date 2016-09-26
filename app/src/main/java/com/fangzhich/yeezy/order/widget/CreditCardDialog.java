@@ -32,7 +32,12 @@ public class CreditCardDialog {
         mPopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         mPopupWindow.setAnimationStyle(R.style.Dialog);
 
-        btCancel.setOnClickListener(v -> mPopupWindow.dismiss());
+        btCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPopupWindow.dismiss();
+            }
+        });
         return this;
     }
 

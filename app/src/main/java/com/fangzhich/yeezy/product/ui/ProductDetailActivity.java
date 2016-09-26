@@ -20,10 +20,10 @@ import com.bigkoo.snappingstepper.SnappingStepper;
 import com.bigkoo.snappingstepper.listener.SnappingStepperValueChangeListener;
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.base.ui.BaseActivity;
+import com.fangzhich.yeezy.cart.ui.ShoppingCartDialog;
 import com.fangzhich.yeezy.product.data.entity.ProductEntity;
 import com.fangzhich.yeezy.product.presentation.ProductDetailContract;
 import com.fangzhich.yeezy.product.presentation.ProductDetailPresenter;
-import com.fangzhich.yeezy.util.ToastUtil;
 import com.fangzhich.yeezy.util.MyUtil;
 
 import java.util.ArrayList;
@@ -67,7 +67,8 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
     }
     @OnClick(R.id.bt_buy)
     void buy() {
-        mPopupWindow.showAtLocation(findViewById(android.R.id.content), Gravity.BOTTOM, 0, 0);
+        new ShoppingCartDialog().initPopup(this).addToCart(String.valueOf(productId),"1",null,null).showPopup(this.getWindow().getDecorView());
+//        mPopupWindow.showAtLocation(findViewById(android.R.id.content), Gravity.BOTTOM, 0, 0);
     }
 
 
@@ -183,7 +184,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
         stepper.setOnValueChangeListener(new SnappingStepperValueChangeListener() {
             @Override
             public void onValueChange(View view, int value) {
-                ToastUtil.logTestError("SizeDialog", String.valueOf(value));
+                Timber.e(String.valueOf(value));
             }
         });
         mPopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));

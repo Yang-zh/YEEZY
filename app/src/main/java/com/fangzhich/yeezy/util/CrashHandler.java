@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
-import com.fangzhich.yeezy.App;
 import com.fangzhich.yeezy.R;
 
 import java.io.PrintWriter;

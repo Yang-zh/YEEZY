@@ -1,13 +1,9 @@
 package com.fangzhich.yeezy.cart.ui;
 
-import android.support.v7.widget.CardView;
-
-import com.fangzhich.yeezy.cart.data.entity.CartItemEntity;
-import com.fangzhich.yeezy.cart.data.entity.CartItemEntity.Products.Option;
+import com.fangzhich.yeezy.cart.data.entity.CartEntity;
+import com.fangzhich.yeezy.cart.data.entity.CartEntity.CartItem.Option;
 import com.fangzhich.yeezy.cart.presentation.CartContract;
 import com.fangzhich.yeezy.cart.presentation.CartPresenter;
-
-import java.util.ArrayList;
 
 /**
  * CartManager
@@ -54,8 +50,8 @@ public class CartManager implements CartContract.View{
     private CartListCallBack mCartListCallBack;
 
     @Override
-    public void onLoadCartListSuccess(ArrayList<CartItemEntity> cartList) {
-        mCartListCallBack.onSuccess(cartList);
+    public void onLoadCartListSuccess(CartEntity cart) {
+        mCartListCallBack.onSuccess(cart);
     }
 
     @Override
@@ -64,7 +60,7 @@ public class CartManager implements CartContract.View{
     }
 
     @Override
-    public void onLoadCartListMoreSuccess(ArrayList<CartItemEntity> cartList) {
+    public void onLoadCartListMoreSuccess(CartEntity cart) {
 
     }
 
@@ -107,7 +103,7 @@ public class CartManager implements CartContract.View{
     //-------------Callback interface----------
 
     interface CartListCallBack {
-        void onSuccess(ArrayList<CartItemEntity> cartList);
+        void onSuccess(CartEntity cart);
         void onError(Throwable throwable);
     }
 

@@ -23,7 +23,7 @@ import timber.log.Timber;
 public class ProductApi extends BaseApi {
 
     /**
-     * Products request
+     * CartItem request
      *
      * @param page page
      * @param limit limit per page

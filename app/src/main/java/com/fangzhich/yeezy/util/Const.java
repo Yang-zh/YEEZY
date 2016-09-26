@@ -37,11 +37,22 @@ public class Const {
     }
 
     public static class User {
+        public static String email;
+        public static String token;
         public static final String LOGIN_SUCCESS = "Login Success!";
         public static final String LOGIN_FAILED = "Login failed";
         public static final String REGISTER_FAILED = "Register Failed";
         public static final String REGISTER_SUCCESS = "Register Success!";
     }
+
+    public static boolean isLogin() {
+        return Obj.AppSp.getBoolean(SP.IS_LOGIN);
+    }
+
+    public static void setLogin(boolean isLogin) {
+        Obj.AppSp.putBoolean(SP.IS_LOGIN,isLogin);
+    }
+
 
     public static UserInfoEntity getUserInfo() {
         if (Obj.userInfo!=null) {
@@ -52,6 +63,18 @@ public class Const {
 
         Obj.userInfo = Obj.gson.fromJson(userInfo,UserInfoEntity.class);
         return Obj.userInfo;
+    }
+
+    public static void setUserInfo(UserInfoEntity entity) {
+        //save login status
+        Const.Obj.AppSp.putBoolean(Const.SP.IS_LOGIN,true);
+        //save userInfo in SharedPreference
+        Const.Obj.AppSp.putString(Const.SP.USER_INFO,Const.Obj.gson.toJson(entity));
+        //save userInfo in RAM
+        Const.Obj.userInfo = entity;
+
+        User.email = Obj.userInfo.user_info.email;
+        User.token = Obj.userInfo.token;
     }
 }
 

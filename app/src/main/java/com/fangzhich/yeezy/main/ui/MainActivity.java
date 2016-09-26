@@ -29,9 +29,11 @@ import com.fangzhich.yeezy.main.data.net.MainApi;
 import com.fangzhich.yeezy.main.data.net.entity.CategoryEntity;
 import com.fangzhich.yeezy.product.ui.ProductListFragment;
 import com.fangzhich.yeezy.order.ui.OrderHistoryActivity;
+import com.fangzhich.yeezy.user.ui.LoginActivity;
 import com.fangzhich.yeezy.user.ui.NotificationActivity;
 import com.fangzhich.yeezy.user.ui.UserInfoActivity;
 import com.fangzhich.yeezy.user.ui.RegisterActivity;
+import com.fangzhich.yeezy.util.Const;
 import com.fangzhich.yeezy.util.ToastUtil;
 import com.fangzhich.yeezy.util.MyUtil;
 
@@ -128,8 +130,12 @@ public class MainActivity extends BaseActivity {
                         startActivity(new Intent(MainActivity.this, NotificationActivity.class));
                         break;
                     case R.id.shoppingCart:
-                        ShoppingCartDialog dialog = new ShoppingCartDialog();
-                        dialog.initPopup(MainActivity.this).showPopup(getWindow().getDecorView());
+                        if (!Const.isLogin()) {
+                            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                        } else {
+                            ShoppingCartDialog dialog = new ShoppingCartDialog();
+                            dialog.initPopup(MainActivity.this).showPopup(getWindow().getDecorView());
+                        }
                         break;
                     case R.id.history:
                         startActivity(new Intent(MainActivity.this, OrderHistoryActivity.class));
@@ -148,8 +154,7 @@ public class MainActivity extends BaseActivity {
                         break;
                     case R.id.settings:
 //                        startActivity(new Intent(MainActivity.this, SettingActivity.class));
-                        SPUtils spUtils = new SPUtils(MainActivity.this, "APP");
-                        spUtils.putBoolean("isLogin", false);
+                        Const.setLogin(false);
                         ToastUtil.toast("sign out success");
                         break;
                 }

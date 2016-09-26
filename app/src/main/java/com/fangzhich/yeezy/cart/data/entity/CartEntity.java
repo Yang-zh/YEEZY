@@ -1,18 +1,19 @@
 package com.fangzhich.yeezy.cart.data.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * CartItemEntity
+ * CartEntity
  * Created by Khorium on 2016/9/21.
  */
-public class CartItemEntity {
+public class CartEntity {
 
 
-    public List<Products> products;
-    public List<Totals> totals;
+    public ArrayList<CartItem> products;
+    public ArrayList<Totals> totals;
 
-    public static class Products {
+    public static class CartItem {
         public String cart_id;
         public String product_id;
         public String name;

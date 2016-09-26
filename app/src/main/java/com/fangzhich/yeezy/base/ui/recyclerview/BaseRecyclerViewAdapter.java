@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * BaseRecyclerViewAdapter
@@ -11,13 +12,15 @@ import java.util.ArrayList;
  */
 public abstract class BaseRecyclerViewAdapter<T,VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 
-    private ArrayList<T> mData;
+    private List<T> mData;
 
-    protected BaseRecyclerViewAdapter() {}
+    protected BaseRecyclerViewAdapter() {
+        mData = loadData();
+    }
 
-    public abstract ArrayList<T> loadData();
+    public abstract List<T> loadData();
 
-    public abstract void loadMore();
+    public void loadMore() {}
 
     @Override
     public VH onCreateViewHolder(ViewGroup parent, int viewType) {
