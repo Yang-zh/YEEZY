@@ -53,8 +53,8 @@ public class SearchActivity extends BaseActivity {
 
         baseRecyclerViewAdapter = new BaseRecyclerViewAdapter<String,ViewHolder>() {
             @Override
-            public List<String> loadData() {
-                return data;
+            public void loadData() {
+                mData = data;
             }
 
             @Override
@@ -66,7 +66,7 @@ public class SearchActivity extends BaseActivity {
             @Override
             protected void onBindHolder(ViewHolder holder, int position) {
                 View itemView = holder.itemView;
-                ((TextView) itemView.findViewById(R.id.search_text)).setText(data.get(position));
+                ((TextView) itemView.findViewById(R.id.search_text)).setText(mData.get(position));
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

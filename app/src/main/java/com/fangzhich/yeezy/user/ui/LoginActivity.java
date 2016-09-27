@@ -41,7 +41,7 @@ public class LoginActivity extends BaseActivity implements UserLoginContract.Vie
 
     @OnClick(R.id.forget_password)
     void forgetPassword() {
-        mPresenter.forgetPassword();
+        startActivity(new Intent(this,ForgetPasswordActivity.class));
     }
 
     @OnClick(R.id.bt_facebook)

@@ -5,6 +5,8 @@ import com.fangzhich.yeezy.cart.data.entity.CartEntity.CartItem.Option;
 import com.fangzhich.yeezy.cart.presentation.CartContract;
 import com.fangzhich.yeezy.cart.presentation.CartPresenter;
 
+import java.util.ArrayList;
+
 /**
  * CartManager
  * Created by Khorium on 2016/9/23.
@@ -28,7 +30,7 @@ public class CartManager implements CartContract.View{
         mPresenter.getCartList();
     }
 
-    public void addCartItem(String product_id, String quantity, Option option, String recurring_id, AddItemCallBack callBack) {
+    public void addCartItem(String product_id, String quantity, ArrayList<Integer> option, String recurring_id, AddItemCallBack callBack) {
         mAddItemCallBack = callBack;
         mPresenter.addItemToCart(product_id,quantity,option,recurring_id);
     }

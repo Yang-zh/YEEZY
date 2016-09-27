@@ -26,7 +26,6 @@ public class ReviewListAdapter extends BaseRecyclerViewAdapter<ReviewEntity,Revi
 
     private final int mProduct_id;
     private ProductReviewListContract.Presenter mPresenter;
-    private ArrayList<ReviewEntity> mReviews = new ArrayList<>();
     private int mTotalPage = -1;
 
     public ReviewListAdapter(int product_id) {
@@ -40,17 +39,16 @@ public class ReviewListAdapter extends BaseRecyclerViewAdapter<ReviewEntity,Revi
         mPresenter = presenter;
     }
 
-    public ArrayList<ReviewEntity> loadData() {
+    public void loadData() {
         if (mPresenter!=null) {
             mPresenter.getProductReviewList(mProduct_id);
         }
         mTotalPage = 0;
-        return mReviews;
     }
 
     @Override
     public void onLoadReviewListSuccess(ArrayList<ReviewEntity> reviewList) {
-        mReviews = reviewList;
+        mData = reviewList;
         notifyDataSetChanged();
     }
 
@@ -67,9 +65,9 @@ public class ReviewListAdapter extends BaseRecyclerViewAdapter<ReviewEntity,Revi
 
     @Override
     public void onLoadMoreReviewListSuccess(ArrayList<ReviewEntity> reviewList) {
-        int positionStart = mReviews.size() + 1;
-        mReviews.addAll(reviewList);
-        notifyItemRangeChanged(positionStart, mReviews.size());
+        int positionStart = mData.size() + 1;
+        mData.addAll(reviewList);
+        notifyItemRangeChanged(positionStart, mData.size());
     }
 
     @Override
@@ -79,7 +77,7 @@ public class ReviewListAdapter extends BaseRecyclerViewAdapter<ReviewEntity,Revi
 
     @Override
     protected void onBindHolder(ViewHolder holder, int position) {
-        ReviewEntity review = mReviews.get(position);
+        ReviewEntity review = mData.get(position);
         holder.comment.setText(review.text);
         holder.ratingBar.setNumStars(Integer.parseInt(review.rating));
         holder.author.setText(review.author);
@@ -87,7 +85,7 @@ public class ReviewListAdapter extends BaseRecyclerViewAdapter<ReviewEntity,Revi
 
     @Override
     public int getItemCount() {
-        return mReviews.size();
+        return mData.size();
     }
 
 

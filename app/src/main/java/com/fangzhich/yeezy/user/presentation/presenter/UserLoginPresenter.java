@@ -38,9 +38,4 @@ public class UserLoginPresenter implements UserLoginContract.Presenter {
     public void loginByFaceBook() {
 
     }
-
-    @Override
-    public void forgetPassword() {
-        ToastUtil.toast("forgetPassword");
-    }
 }

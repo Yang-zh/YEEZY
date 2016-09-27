@@ -12,7 +12,6 @@ public interface UserLoginContract {
     interface Presenter extends BasePresenter {
         void login(String email,String password);
         void loginByFaceBook();
-        void forgetPassword();
     }
 
     interface View extends BaseView<Presenter> {

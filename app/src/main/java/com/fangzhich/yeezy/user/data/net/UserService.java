@@ -57,4 +57,31 @@ interface UserService {
             @Field("signature") String signature,
             @Field("apiKey") String apiKey,
             @Field("equipment_id") String imei);
+
+    @FormUrlEncoded
+    @POST("index.php?route=api/customer/edit")
+    Single<HttpResult<Object>> editPersonalInfo(
+            @Field("firstname") String firstname,
+            @Field("lastname") String lastname,
+            @Field("phone") String phone,
+            @Field("sex") String sex,
+            @Field("age") String age,
+            @Field("email") String email,
+            @Field("token") String token,
+            @Field("timestamp") String timestamp,
+            @Field("signature") String signature,
+            @Field("apiKey") String apiKey,
+            @Field("equipment_id") String imei);
+
+    @FormUrlEncoded
+    @POST("index.php?route=api/customer/editPwd")
+    Single<HttpResult<Object>> editPassword(
+            @Field("old_password") String old_password,
+            @Field("new_password") String new_password,
+            @Field("email") String email,
+            @Field("token") String token,
+            @Field("timestamp") String timestamp,
+            @Field("signature") String signature,
+            @Field("apiKey") String apiKey,
+            @Field("equipment_id") String imei);
 }

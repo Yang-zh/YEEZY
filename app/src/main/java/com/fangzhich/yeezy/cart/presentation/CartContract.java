@@ -5,6 +5,8 @@ import com.fangzhich.yeezy.base.presentation.BaseView;
 import com.fangzhich.yeezy.cart.data.entity.CartEntity;
 import com.fangzhich.yeezy.cart.data.entity.CartEntity.CartItem.Option;
 
+import java.util.ArrayList;
+
 /**
  * CartListContract
  * Created by Khorium on 2016/9/23.
@@ -14,7 +16,7 @@ public class CartContract {
     public interface Presenter extends BasePresenter {
         void getCartList();
 
-        void addItemToCart(String product_id, String quantity, Option option, String recurring_id);
+        void addItemToCart(String product_id, String quantity, ArrayList<Integer> option, String recurring_id);
 
         void editItemInCart(String cart_id, String quantity);
 

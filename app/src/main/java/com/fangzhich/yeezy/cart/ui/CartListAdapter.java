@@ -27,24 +27,25 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartItem, CartListAdapter.
 
     private CartManager cartManager = new CartManager();
 
-    private CartEntity mCart;
-
     @Override
-    public ArrayList<CartItem> loadData() {
-        cartManager.getCartList(new CartManager.CartListCallBack() {
-            @Override
-            public void onSuccess(CartEntity cart) {
-                mCart = cart;
-                notifyDataSetChanged();
-            }
+    public void loadData() {
+        Timber.i("loadData");
+        if (cartManager!=null) {
+            cartManager.getCartList(new CartManager.CartListCallBack() {
+                @Override
+                public void onSuccess(CartEntity cart) {
+                    mData = cart.products;
+                    notifyDataSetChanged();
+                    Timber.e(String.valueOf(mData.size()));
+                }
 
-            @Override
-            public void onError(Throwable throwable) {
-                ToastUtil.toast(throwable.getMessage());
-                Timber.e(throwable.getMessage());
-            }
-        });
-        return mCart.products;
+                @Override
+                public void onError(Throwable throwable) {
+                    ToastUtil.toast(throwable.getMessage());
+                    Timber.e(throwable.getMessage());
+                }
+            });
+        }
     }
 
     @Override
@@ -59,7 +60,7 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartItem, CartListAdapter.
 
     @Override
     protected void onBindHolder(ViewHolder holder, final int position) {
-        final CartItem cartItem = mCart.products.get(position);
+        final CartItem cartItem = mData.get(position);
         holder.tvProductName.setText(cartItem.name);
         holder.ivProductImage.setImageResource(R.mipmap.product_image_placeholder);
         holder.shippingDetail.setText(cartItem.shipping);
@@ -71,8 +72,8 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartItem, CartListAdapter.
                         cartManager.removeCartItem(cartItem.cart_id, new CartManager.RemoveItemCallBack() {
                             @Override
                             public void onSuccess() {
-                                mCart.products.remove(position);
-                                notifyItemChanged(position);
+                                mData.remove(position);
+                                notifyItemRemoved(position);
                             }
 
                             @Override
@@ -86,7 +87,6 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartItem, CartListAdapter.
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
             }
         });
 

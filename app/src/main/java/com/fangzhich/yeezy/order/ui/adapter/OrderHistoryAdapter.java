@@ -26,7 +26,6 @@ class OrderHistoryAdapter extends BaseRecyclerViewAdapter<ReviewEntity,OrderHist
     //todo wait for api
     private final int mProduct_id;
     private OrderListContract.Presenter mPresenter;
-    private ArrayList<ReviewEntity> mReviews = new ArrayList<>();
 //    private int mTotalPage = -1;
 
     public OrderHistoryAdapter(int product_id) {
@@ -40,17 +39,16 @@ class OrderHistoryAdapter extends BaseRecyclerViewAdapter<ReviewEntity,OrderHist
         mPresenter = presenter;
     }
 
-    public ArrayList<ReviewEntity> loadData() {
+    public void loadData() {
         if (mPresenter!=null) {
             mPresenter.getOrderList(mProduct_id);
         }
 //        mTotalPage = 0;
-        return mReviews;
     }
 
 //    @Override
 //    public void onLoadReviewListSuccess(ArrayList<ReviewEntity> reviewList) {
-//        mReviews = reviewList;
+//        mData = reviewList;
 //        notifyDataSetChanged();
 //    }
     @Override
@@ -76,7 +74,7 @@ class OrderHistoryAdapter extends BaseRecyclerViewAdapter<ReviewEntity,OrderHist
 //    @Override
 //    public void onLoadMoreReviewListSuccess(ArrayList<ReviewEntity> reviewList) {
 //        int positionStart = mReviews.size() + 1;
-//        mReviews.addAll(reviewList);
+//        mData.addAll(reviewList);
 //        notifyItemRangeChanged(positionStart, mReviews.size());
 //    }
 //
@@ -92,15 +90,10 @@ class OrderHistoryAdapter extends BaseRecyclerViewAdapter<ReviewEntity,OrderHist
 
     @Override
     protected void onBindHolder(ViewHolder holder, int position) {
-        ReviewEntity review = mReviews.get(position);
+        ReviewEntity review = mData.get(position);
         holder.comment.setText(review.text);
         holder.ratingBar.setNumStars(Integer.parseInt(review.rating));
         holder.author.setText(review.author);
-    }
-
-    @Override
-    public int getItemCount() {
-        return mReviews.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

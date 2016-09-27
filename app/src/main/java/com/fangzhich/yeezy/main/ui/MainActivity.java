@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -119,6 +120,7 @@ public class MainActivity extends BaseActivity {
         });
 
         navigationView.setItemIconTintList(null);
+        navigationView.getChildAt(0).setVerticalScrollBarEnabled(false);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -143,19 +145,20 @@ public class MainActivity extends BaseActivity {
                     case R.id.currency:
                         startActivity(new Intent(MainActivity.this, CurrencyActivity.class));
                         break;
-                    case R.id.about:
-                        startActivity(new Intent(MainActivity.this, AboutActivity.class));
-                        break;
                     case R.id.contact:
                         startActivity(new Intent(MainActivity.this, ContactActivity.class));
                         break;
                     case R.id.support:
                         startActivity(new Intent(MainActivity.this, SupportActivity.class));
                         break;
-                    case R.id.settings:
-//                        startActivity(new Intent(MainActivity.this, SettingActivity.class));
-                        Const.setLogin(false);
-                        ToastUtil.toast("sign out success");
+                    case R.id.language:
+                        startActivity(new Intent(MainActivity.this, LanguageActivity.class));
+                        break;
+                    case R.id.about:
+                        startActivity(new Intent(MainActivity.this, AboutActivity.class));
+                        break;
+                    case R.id.return_policy:
+                        startActivity(new Intent(MainActivity.this, ReturnPolicyActivity.class));
                         break;
                 }
                 drawerLayout.closeDrawers();
@@ -264,8 +267,8 @@ public class MainActivity extends BaseActivity {
         }
         switch (item.getItemId()) {
             case R.id.filter:
-                ToastUtil.toast("Filter");
-                startActivity(new Intent(MainActivity.this, RegisterActivity.class));
+                Const.setLogin(false);
+                ToastUtil.toast("sign out success");
                 break;
             case R.id.search:
                 startActivity(new Intent(MainActivity.this, SearchActivity.class));

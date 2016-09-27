@@ -5,8 +5,10 @@ import android.text.TextUtils;
 
 import com.blankj.utilcode.utils.SPUtils;
 import com.fangzhich.yeezy.user.data.entity.UserInfoEntity;
+import com.fangzhich.yeezy.user.data.net.UserApi;
 import com.google.gson.Gson;
 
+import rx.SingleSubscriber;
 import timber.log.Timber;
 
 
@@ -37,8 +39,6 @@ public class Const {
     }
 
     public static class User {
-        public static String email;
-        public static String token;
         public static final String LOGIN_SUCCESS = "Login Success!";
         public static final String LOGIN_FAILED = "Login failed";
         public static final String REGISTER_FAILED = "Register Failed";
@@ -50,6 +50,17 @@ public class Const {
     }
 
     public static void setLogin(boolean isLogin) {
+        UserApi.signOut(new SingleSubscriber<Object>() {
+            @Override
+            public void onSuccess(Object value) {
+                ToastUtil.toast("Sign out success!");
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                ToastUtil.toast(error.getMessage());
+            }
+        });
         Obj.AppSp.putBoolean(SP.IS_LOGIN,isLogin);
     }
 
@@ -72,9 +83,6 @@ public class Const {
         Const.Obj.AppSp.putString(Const.SP.USER_INFO,Const.Obj.gson.toJson(entity));
         //save userInfo in RAM
         Const.Obj.userInfo = entity;
-
-        User.email = Obj.userInfo.user_info.email;
-        User.token = Obj.userInfo.token;
     }
 }
 

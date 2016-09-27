@@ -60,9 +60,9 @@ public class ShoppingCartDialog {
     }
 
     @BindView(R.id.rv_shoppingCart_list)
-    RecyclerView rvShoppingCartList;
-    LinearLayoutManager layoutManager;
-    CartListAdapter adapter;
+    RecyclerView recyclerView;
+
+    private CartListAdapter adapter = new CartListAdapter();
 
     private PopupWindow mPopupWindow;
 
@@ -79,10 +79,12 @@ public class ShoppingCartDialog {
         mPopupWindow = new PopupWindow(mPopupContent, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
         mPopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         mPopupWindow.setAnimationStyle(R.style.Dialog);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
         return this;
     }
 
-    public ShoppingCartDialog addToCart(String product_id, String quantity, Option option, String recurring_id) {
+    public ShoppingCartDialog addToCart(String product_id, String quantity, ArrayList<Integer> option, String recurring_id) {
 
         isAddingToCart = true;
 
@@ -113,16 +115,7 @@ public class ShoppingCartDialog {
     }
 
     private void loadData() {
-        cartManager.getCartList(new CartManager.CartListCallBack() {
-            @Override
-            public void onSuccess(CartEntity cartList) {
-                rvShoppingCartList.setLayoutManager(layoutManager);
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-
-            }
-        });
+        recyclerView.setAdapter(adapter);
+        adapter.loadData();
     }
 }

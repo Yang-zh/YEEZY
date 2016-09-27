@@ -67,7 +67,10 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
     }
     @OnClick(R.id.bt_buy)
     void buy() {
-        new ShoppingCartDialog().initPopup(this).addToCart(String.valueOf(productId),"1",null,null).showPopup(this.getWindow().getDecorView());
+        ArrayList<Integer> option = new ArrayList<>();
+        option.add(1);
+        option.add(2);
+        new ShoppingCartDialog().initPopup(this).addToCart(String.valueOf(productId),"1",option,"0").showPopup(this.getWindow().getDecorView());
 //        mPopupWindow.showAtLocation(findViewById(android.R.id.content), Gravity.BOTTOM, 0, 0);
     }
 

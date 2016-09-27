@@ -28,6 +28,7 @@
     <color name="text_color_gray">#999999</color>
     <color name="popup_background">#80000000</color>
     <color name="buttonColorBlue">#2FB7EB</color>
+    <color name="buttonColorBluePressed">#992FB7EB</color>
     <color name="another_gray">#F2F2F2</color>
     <color name="text_color_red">#DE4536</color>
     <color name="buttonColorRed">#DA493C</color>

@@ -19,6 +19,9 @@ import timber.log.Timber;
  */
 public abstract class BaseApi {
 
+    protected static String email = Const.getUserInfo().user_info.email;
+    protected static String token = Const.getUserInfo().token;
+
     final static String BASE_URL = BuildConfig.BASE_URL;
 
     private final static String APP_KEY = BuildConfig.APP_KEY;

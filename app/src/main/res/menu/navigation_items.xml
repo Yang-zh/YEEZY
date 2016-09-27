@@ -21,12 +21,6 @@
             android:id="@+id/currency"
             android:icon="@mipmap/currency"
             android:title="@string/Currency"/>
-    </group>
-    <group>
-        <item
-            android:id="@+id/about"
-            android:icon="@mipmap/about_us"
-            android:title="@string/AboutUs"/>
         <item
             android:id="@+id/contact"
             android:icon="@mipmap/contact_us"
@@ -36,9 +30,17 @@
             android:icon="@mipmap/support"
             android:title="@string/CustomerSupport"/>
         <item
-            android:id="@+id/settings"
-            android:icon="@mipmap/setting"
-            android:title="@string/Settings"/>
+            android:id="@+id/language"
+            android:icon="@mipmap/language"
+            android:title="@string/Language"/>
+        <item
+            android:id="@+id/about"
+            android:icon="@mipmap/about_us"
+            android:title="@string/AboutUs"/>
+        <item
+            android:id="@+id/return_policy"
+            android:icon="@mipmap/return_policy"
+            android:title="@string/ReturnPolicy"/>
     </group>
 
     <!--<item android:title="SubItems">-->

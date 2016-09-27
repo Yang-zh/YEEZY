@@ -34,8 +34,6 @@ public class RelateProductListAdapter extends BaseRecyclerViewAdapter<PopularPro
 
     private RelateProductListPresenter mPresenter;
 
-    private ArrayList<PopularProductEntity> mProductList = new ArrayList<>();
-
     //后台API页码从0开始，因此初始为-1而不是0
     private int totalPage = -1;
 
@@ -49,17 +47,16 @@ public class RelateProductListAdapter extends BaseRecyclerViewAdapter<PopularPro
     }
 
     @Override
-    public ArrayList<PopularProductEntity> loadData() {
+    public void loadData() {
         if (mPresenter!=null) {
             mPresenter.getPopularProductList(0,20);
             totalPage = 0;
         }
-        return mProductList;
     }
 
     @Override
     public void onLoadDataSuccess(ArrayList<PopularProductEntity> popularProductList) {
-        mProductList = popularProductList;
+        mData = popularProductList;
         notifyDataSetChanged();
 
     }
@@ -78,8 +75,8 @@ public class RelateProductListAdapter extends BaseRecyclerViewAdapter<PopularPro
 
     @Override
     public void onLoadMoreSuccess(ArrayList<PopularProductEntity> popularProductList) {
-        int positionStart = mProductList.size() + 1;
-        mProductList.addAll(popularProductList);
+        int positionStart = mData.size() + 1;
+        mData.addAll(popularProductList);
         notifyItemRangeChanged(positionStart, popularProductList.size());
 
     }
@@ -91,7 +88,7 @@ public class RelateProductListAdapter extends BaseRecyclerViewAdapter<PopularPro
 
     @Override
     protected void onBindHolder(final ViewHolder holder, final int position) {
-        PopularProductEntity productItem = mProductList.get(position);
+        PopularProductEntity productItem = mData.get(position);
 
         Glide.with(holder.itemView.getContext())
                 .load(productItem.images.get(0))
@@ -109,15 +106,10 @@ public class RelateProductListAdapter extends BaseRecyclerViewAdapter<PopularPro
             public void onClick(View view) {
                 Timber.d("On Item %d Click",position);
                 Intent intent = new Intent(view.getContext(),ProductDetailActivity.class);
-                intent.putExtra("product_id", Integer.parseInt(mProductList.get(holder.getAdapterPosition()).product_id));
+                intent.putExtra("product_id", Integer.parseInt(mData.get(holder.getAdapterPosition()).product_id));
                 view.getContext().startActivity(intent);
             }
         });
-    }
-
-    @Override
-    public int getItemCount() {
-        return mProductList.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

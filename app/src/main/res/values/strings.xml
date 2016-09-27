@@ -40,7 +40,7 @@
     <string name="Cancel">Cancel</string>
     <string name="PopularSearches">Popular Searches</string>
     <string name="PleaseSetYourFirstChoiceOfCurrency">Please Set Your First Choice Of Language</string>
-    <string name="ChooseLanguageType">Choose Language Type</string>
+    <string name="ChangeLanguage">Change Language</string>
     <string name="ChangeSuccess">Change Language Success</string>
     <string name="ContinueShopping">CONTINUE SHOPPING</string>
     <string name="BillTo">Bill To:</string>
@@ -71,6 +71,7 @@
     <string name="EstimatedShipping">Estimated Shipping</string>
     <string name="OrderTotal">Order Total</string>
     <string name="ReturnPolicy">Return Policy</string>
+    <string name="ReturnPolicy_u"><u>Return Policy</u></string>
     <string name="Personalize">Personalize</string>
     <string name="Next">Next</string>
     <string name="Skip">Skip</string>
@@ -124,13 +125,23 @@
     <string name="BracketsFormat">({content})</string>
     <string name="Reviews">Reviews</string>
     <string name="ApplicationCrash">Application crashed and will exit at once.</string>
+    <string name="Language">Language</string>
+    <string name="PleaseSetYourDesiredLanguage">PleaseSetYourDesiredLanguage</string>
+    <string name="LanguageSetting">Language Setting</string>
+    <string name="ChangeCurrency">ChangeCurrency</string>
+    <string name="sendSuggest">Send Suggest</string>
+    <string name="serviceEmail"><u>service@fangzhich.com</u></string>
 
     <string-array name = "currencies">
         <item>CNY(￥)</item>
         <item>USD($)</item>
     </string-array>
+    <string-array name = "languages">
+        <item>English</item>
+        <item>Deutsch</item>
+    </string-array>
     <string-array name = "genders">
-        <item>Female</item>
         <item>Male</item>
+        <item>Female</item>
     </string-array>
 </resources>

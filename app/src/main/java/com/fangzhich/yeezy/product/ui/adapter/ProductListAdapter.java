@@ -31,8 +31,6 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
 
     private ProductListPresenter mPresenter;
 
-    private ArrayList<ProductItemEntity> mProductList = new ArrayList<>();
-
     //后台API页码从0开始，因此初始为-1而不是0
     private int totalPage = 0;
     private int pageCount = 60;
@@ -50,17 +48,16 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
     }
 
     @Override
-    public ArrayList<ProductItemEntity> loadData() {
+    public void loadData() {
         if (mPresenter!=null) {
             mPresenter.getProductList(1,pageCount,categoryId);
         }
         totalPage = 1;
-        return mProductList;
     }
 
     @Override
     public void onLoadDataSuccess(ArrayList<ProductItemEntity> productList) {
-        mProductList = productList;
+        mData = productList;
         notifyDataSetChanged();
     }
 
@@ -78,8 +75,8 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
 
     @Override
     public void onLoadMoreSuccess(ArrayList<ProductItemEntity> productList) {
-        int positionStart = mProductList.size() + 1;
-        mProductList.addAll(productList);
+        int positionStart = mData.size() + 1;
+        mData.addAll(productList);
         notifyItemRangeChanged(positionStart, productList.size());
     }
 
@@ -90,7 +87,7 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
 
     @Override
     protected void onBindHolder(final ViewHolder holder, final int position) {
-        ProductItemEntity productItem = mProductList.get(position);
+        ProductItemEntity productItem = mData.get(position);
 
         Glide.with(holder.itemView.getContext())
                 .load(productItem.image)
@@ -107,15 +104,10 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
             public void onClick(View v) {
                 Timber.d("On Item %d Click",position);
                 Intent intent = new Intent(v.getContext(),ProductDetailActivity.class);
-                intent.putExtra("product_id", Integer.parseInt(mProductList.get(holder.getAdapterPosition()).product_id));
+                intent.putExtra("product_id", Integer.parseInt(mData.get(holder.getAdapterPosition()).product_id));
                 v.getContext().startActivity(intent);
             }
         });
-    }
-
-    @Override
-    public int getItemCount() {
-        return mProductList.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

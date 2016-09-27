@@ -13,9 +13,6 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:theme="@style/AppTheme">
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="a9e872039bbf29d43663f1dbde6cc2e69ef763dd" />
 
         <activity
             android:name=".main.ui.MainActivity"
@@ -63,6 +60,9 @@
             android:name=".main.ui.CurrencyActivity"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".main.ui.LanguageActivity"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".main.ui.AboutActivity"
             android:theme="@style/AppTheme" />
         <activity
@@ -70,6 +70,9 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".main.ui.SupportActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".main.ui.ReturnPolicyActivity"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".main.ui.SettingActivity"

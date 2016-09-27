@@ -7,36 +7,28 @@ import android.widget.TextView;
 
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.base.ui.BaseActivity;
-import com.fangzhich.yeezy.util.ToastUtil;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
- * ContactActivity
- * Created by Khorium on 2016/9/1.
+ * Created by Khorium on 2016/9/27.
  */
-public class ContactActivity extends BaseActivity {
-
+public class ReturnPolicyActivity extends BaseActivity{
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.title)
     TextView title;
 
-    @OnClick(R.id.email)
-    void sendEmail() {
-        ToastUtil.toast("sendEmail");
-    }
-
     @Override
     public int setContentLayout() {
-        return R.layout.activity_contact;
+        return R.layout.activity_return_policy;
     }
 
     @Override
     protected void initContentView() {
         initToolbar();
     }
+
     private void initToolbar() {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -45,12 +37,7 @@ public class ContactActivity extends BaseActivity {
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        title.setText(R.string.ContactUs);
-    }
-
-    @Override
-    protected void loadData() {
-
+        title.setText(R.string.ReturnPolicy);
     }
 
     @Override
@@ -62,4 +49,3 @@ public class ContactActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 }
-

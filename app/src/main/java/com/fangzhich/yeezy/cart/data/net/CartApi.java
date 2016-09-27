@@ -4,6 +4,7 @@ import com.fangzhich.yeezy.base.data.net.BaseApi;
 import com.fangzhich.yeezy.cart.data.entity.CartEntity;
 import com.fangzhich.yeezy.util.Const;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import rx.SingleSubscriber;
@@ -11,8 +12,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static com.fangzhich.yeezy.util.Const.Obj.gson;
-import static com.fangzhich.yeezy.util.Const.User.email;
-import static com.fangzhich.yeezy.util.Const.User.token;
 
 /**
  * CartApi
@@ -20,6 +19,7 @@ import static com.fangzhich.yeezy.util.Const.User.token;
  */
 
 public class CartApi extends BaseApi {
+
 
     /**
      * CartList request
@@ -53,7 +53,7 @@ public class CartApi extends BaseApi {
      * @param recurring_id recurring_id of this item
      * @param singleSubscriber SingleSubscriber in RxJava (Callback)
      */
-    public static void addItemToCart(String product_id, String quantity, CartEntity.CartItem.Option option, String recurring_id, SingleSubscriber<Object> singleSubscriber) {
+    public static void addItemToCart(String product_id, String quantity, ArrayList<Integer> option, String recurring_id, SingleSubscriber<Object> singleSubscriber) {
         String timestamp = getTimeStamp();
 
         HashMap<String,String> params = new HashMap<>();

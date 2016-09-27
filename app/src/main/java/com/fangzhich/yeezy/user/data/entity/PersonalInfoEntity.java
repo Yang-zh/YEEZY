@@ -13,8 +13,8 @@ public class PersonalInfoEntity {
     public String lastname;
     public String email;
     public String telephone;
-    public String sex;
-    public String age;
+    public int sex;
+    public int age;
     public String fax;
     public Object cart;
     public Object wishlist;

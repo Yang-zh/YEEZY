@@ -3,6 +3,8 @@ package com.fangzhich.yeezy.cart.presentation;
 import com.fangzhich.yeezy.cart.data.entity.CartEntity;
 import com.fangzhich.yeezy.cart.data.net.CartApi;
 
+import java.util.ArrayList;
+
 import rx.SingleSubscriber;
 
 /**
@@ -35,7 +37,7 @@ public class CartPresenter implements CartContract.Presenter{
     }
 
     @Override
-    public void addItemToCart(String product_id, String quantity, CartEntity.CartItem.Option option, String recurring_id) {
+    public void addItemToCart(String product_id, String quantity, ArrayList<Integer> option, String recurring_id) {
         CartApi.addItemToCart(product_id, quantity, option, recurring_id, new SingleSubscriber<Object>() {
             @Override
             public void onSuccess(Object value) {

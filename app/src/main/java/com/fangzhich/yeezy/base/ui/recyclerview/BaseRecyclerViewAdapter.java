@@ -10,34 +10,38 @@ import java.util.List;
  * BaseRecyclerViewAdapter
  * Created by Khorium on 2016/9/18.
  */
-public abstract class BaseRecyclerViewAdapter<T,VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
+public abstract class BaseRecyclerViewAdapter<T, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 
-    private List<T> mData;
+    protected List<T> mData;
 
     protected BaseRecyclerViewAdapter() {
-        mData = loadData();
     }
 
-    public abstract List<T> loadData();
+    public abstract void loadData();
 
-    public void loadMore() {}
+    public void loadMore() {
+    }
 
     @Override
     public VH onCreateViewHolder(ViewGroup parent, int viewType) {
-        return onCreateHolder(parent,viewType);
+        return onCreateHolder(parent, viewType);
     }
 
     public abstract VH onCreateHolder(ViewGroup parent, int viewType);
 
     @Override
     public void onBindViewHolder(VH holder, int position) {
-        onBindHolder(holder,position);
+        onBindHolder(holder, position);
     }
 
     protected abstract void onBindHolder(VH holder, int position);
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        if (mData != null) {
+            return mData.size();
+        } else {
+            return 0;
+        }
     }
 }
