@@ -1,9 +1,12 @@
 package com.fangzhich.yeezy.product.ui;
 
+import android.text.Html;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.base.ui.BaseFragment;
+import com.fangzhich.yeezy.product.data.entity.ProductEntity;
 
 import butterknife.BindView;
 
@@ -14,7 +17,8 @@ import butterknife.BindView;
 public class ProductDescriptionFragment extends BaseFragment {
 
     @BindView(R.id.tv_productDescription)
-    TextView productDescription;
+    WebView productDescription;
+    private ProductEntity mProduct;
 
     @Override
     public int setContentLayout() {
@@ -23,7 +27,11 @@ public class ProductDescriptionFragment extends BaseFragment {
 
     @Override
     protected void initContentView() {
-        productDescription.setText("productDescription  productDescription  productDescription  productDescription  productDescription  productDescription  productDescription  productDescription  ");
+        mProduct = getArguments().getParcelable("mProduct");
+        if (mProduct!=null) {
+            productDescription.loadData("<html><body>"+Html.fromHtml(mProduct.description)+"</body></html>", "text/html", "utf-8");
+//            productDescription.setText(Html.fromHtml(mProduct.description));
+        }
     }
 
     @Override

@@ -1,12 +1,15 @@
 package com.fangzhich.yeezy.user.ui;
 
 import android.content.Intent;
+import android.widget.TextView;
 
 import com.blankj.utilcode.utils.SPUtils;
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.base.ui.BaseActivity;
 import com.fangzhich.yeezy.main.ui.MainActivity;
+import com.fangzhich.yeezy.util.Const;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -16,14 +19,17 @@ import butterknife.OnClick;
 public class SplashActivity extends BaseActivity {
 
 
+    public static final int SUCCESS = 501;
+    public static final int FAILED = 502;
+
     @OnClick(R.id.bt_sign_up)
     void startSignUpActivity() {
-        startActivity(new Intent(this,RegisterActivity.class));
+        startActivityForResult(new Intent(this,RegisterActivity.class),RegisterActivity.IS_REGISTER);
     }
 
     @OnClick(R.id.bt_sign_in)
     void startSignInActivity() {
-        startActivity(new Intent(this,LoginActivity.class));
+        startActivityForResult(new Intent(this,LoginActivity.class),LoginActivity.IS_LOGIN);
     }
 
     @OnClick(R.id.skip)
@@ -39,8 +45,25 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void initContentView() {
-        if (new SPUtils(this,"APP").getBoolean("isLogin", false)){
+        if (Const.isLogin()){
             startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case LoginActivity.IS_LOGIN: {
+                if (resultCode == SUCCESS) {
+                    finish();
+                }
+            }
+            case RegisterActivity.IS_REGISTER: {
+                if (resultCode == SUCCESS) {
+                    finish();
+                }
+            }
         }
     }
 }

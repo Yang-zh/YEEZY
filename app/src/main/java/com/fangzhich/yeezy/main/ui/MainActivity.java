@@ -34,6 +34,7 @@ import com.fangzhich.yeezy.user.ui.LoginActivity;
 import com.fangzhich.yeezy.user.ui.NotificationActivity;
 import com.fangzhich.yeezy.user.ui.UserInfoActivity;
 import com.fangzhich.yeezy.user.ui.RegisterActivity;
+import com.fangzhich.yeezy.user.ui.WelcomeActivity;
 import com.fangzhich.yeezy.util.Const;
 import com.fangzhich.yeezy.util.ToastUtil;
 import com.fangzhich.yeezy.util.MyUtil;

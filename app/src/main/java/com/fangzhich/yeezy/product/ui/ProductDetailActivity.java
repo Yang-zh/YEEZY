@@ -25,6 +25,8 @@ import com.fangzhich.yeezy.product.data.entity.ProductEntity;
 import com.fangzhich.yeezy.product.presentation.ProductDetailContract;
 import com.fangzhich.yeezy.product.presentation.ProductDetailPresenter;
 import com.fangzhich.yeezy.util.MyUtil;
+import com.fangzhich.yeezy.util.TagFormatUtil;
+import com.fangzhich.yeezy.util.ToastUtil;
 
 import java.util.ArrayList;
 
@@ -201,9 +203,10 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
 
     @Override
     public void onGetProductDetailSuccess(ProductEntity product) {
+        price.setText(TagFormatUtil.from(getResources().getString(R.string.priceFormat))
+                .with("price",String.valueOf(product.price))
+                .format());
         initViewPager(product);
-        price.setText(product.price);
-        priceOriginal.setText(getResources().getString(R.string.nulll));
     }
 
     @Override

@@ -35,7 +35,7 @@ public class RelateProductListAdapter extends BaseRecyclerViewAdapter<PopularPro
     private RelateProductListPresenter mPresenter;
 
     //后台API页码从0开始，因此初始为-1而不是0
-    private int totalPage = -1;
+    private int totalPage = 0;
 
     public RelateProductListAdapter() {
         setPresenter(new RelateProductListPresenter(this));
@@ -49,7 +49,7 @@ public class RelateProductListAdapter extends BaseRecyclerViewAdapter<PopularPro
     @Override
     public void loadData() {
         if (mPresenter!=null) {
-            mPresenter.getPopularProductList(0,20);
+            mPresenter.getPopularProductList(1,20);
             totalPage = 0;
         }
     }

@@ -92,7 +92,6 @@ public class UserInfoActivity extends BaseActivity implements PersonalInfoContra
 
     @BindView(R.id.spinner_sex)
     NiceSpinner sexSpinner;
-    SPUtils utils;
 
     @OnClick(R.id.bt_next)
     void next() {
@@ -101,6 +100,12 @@ public class UserInfoActivity extends BaseActivity implements PersonalInfoContra
                 Const.getUserInfo().user_info.telephone,
                 String.valueOf(sexSpinner.getSelectedIndex()+1),
                 String.valueOf(Calendar.getInstance().get(Calendar.YEAR)-Integer.valueOf(tvBirthday.getText().toString().split("-")[0])));
+        setResult(RegisterActivity.SUCCESS);
+        if (getIntent().getBooleanExtra("isFirstRegister",false)) {
+            Intent intent = new Intent(this,WelcomeActivity.class);
+            intent.putExtra("isFirstRegister",false);
+            startActivity(intent);
+        }
         finish();
     }
 
@@ -118,12 +123,15 @@ public class UserInfoActivity extends BaseActivity implements PersonalInfoContra
     }
 
     private void initToolbar() {
+        boolean isFirstRegister = getIntent().getBooleanExtra("isFirstRegister",false);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setDisplayShowHomeEnabled(true);
-            actionBar.setDisplayHomeAsUpEnabled(true);
+            if (!isFirstRegister) {
+                actionBar.setDisplayShowHomeEnabled(true);
+                actionBar.setDisplayHomeAsUpEnabled(true);
+            }
         }
         title.setText(R.string.Personalize);
     }
@@ -145,7 +153,11 @@ public class UserInfoActivity extends BaseActivity implements PersonalInfoContra
         }
         switch (item.getItemId()) {
             case R.id.skip:
-                ToastUtil.toast("Skip");
+                Intent intent = new Intent(this,WelcomeActivity.class);
+                intent.putExtra("isFirstRegister",false);
+                startActivity(intent);
+                setResult(RegisterActivity.SUCCESS);
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -153,7 +165,9 @@ public class UserInfoActivity extends BaseActivity implements PersonalInfoContra
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_skip, menu);
+        if (getIntent().getBooleanExtra("isFirstRegister",false)) {
+            getMenuInflater().inflate(R.menu.menu_skip, menu);
+        }
         return true;
     }
 
@@ -188,5 +202,13 @@ public class UserInfoActivity extends BaseActivity implements PersonalInfoContra
     @Override
     public void setPresenter(PersonalInfoContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getIntent().getBooleanExtra("isFirstRegister",false)) {
+            return;
+        }
+        super.onBackPressed();
     }
 }

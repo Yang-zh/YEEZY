@@ -25,6 +25,9 @@ import butterknife.OnClick;
  */
 public class RegisterActivity extends BaseActivity implements UserRegisterContract.View{
 
+    public static final int IS_REGISTER = 200;
+    public static final int SUCCESS = 201;
+    public static final int FAILED = 202;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.title)
@@ -77,8 +80,11 @@ public class RegisterActivity extends BaseActivity implements UserRegisterContra
     @Override
     public void onRegisterSuccess(RegisterEntity entity) {
         ToastUtil.toast(Const.User.REGISTER_SUCCESS);
-        new SPUtils(this,"APP").putBoolean("isLogin",true);
-        startActivity(new Intent(this, UserInfoActivity.class));
+        Const.setLogin(true);
+        setResult(SplashActivity.SUCCESS);
+        Intent intent = new Intent(this, UserInfoActivity.class);
+        intent.putExtra("isFirstRegister",true);
+        startActivity(intent);
         finish();
     }
 
@@ -102,6 +108,7 @@ public class RegisterActivity extends BaseActivity implements UserRegisterContra
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            setResult(SplashActivity.FAILED);
             onBackPressed();
             return true;
         }

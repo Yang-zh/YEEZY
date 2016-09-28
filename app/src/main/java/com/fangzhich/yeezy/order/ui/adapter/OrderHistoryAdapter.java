@@ -92,7 +92,7 @@ class OrderHistoryAdapter extends BaseRecyclerViewAdapter<ReviewEntity,OrderHist
     protected void onBindHolder(ViewHolder holder, int position) {
         ReviewEntity review = mData.get(position);
         holder.comment.setText(review.text);
-        holder.ratingBar.setNumStars(Integer.parseInt(review.rating));
+        holder.ratingBar.setNumStars(review.rating);
         holder.author.setText(review.author);
     }
 

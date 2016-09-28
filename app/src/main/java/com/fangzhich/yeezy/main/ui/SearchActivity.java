@@ -52,6 +52,7 @@ public class SearchActivity extends BaseActivity {
         final List<String> data = Arrays.asList("Adidas","Yeezy","Nike");
 
         baseRecyclerViewAdapter = new BaseRecyclerViewAdapter<String,ViewHolder>() {
+
             @Override
             public void loadData() {
                 mData = data;
@@ -82,6 +83,6 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     protected void loadData() {
-
+        baseRecyclerViewAdapter.loadData();
     }
 }

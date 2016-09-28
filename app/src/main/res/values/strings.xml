@@ -122,6 +122,7 @@
     <string name="nulll">null</string>
     <string name="LikeFormat">Like({LikeCount})</string>
     <string name="ShareFormat">Share({ShareCount})</string>
+    <string name="priceFormat">$ {price}</string>
     <string name="BracketsFormat">({content})</string>
     <string name="Reviews">Reviews</string>
     <string name="ApplicationCrash">Application crashed and will exit at once.</string>
@@ -129,8 +130,10 @@
     <string name="PleaseSetYourDesiredLanguage">PleaseSetYourDesiredLanguage</string>
     <string name="LanguageSetting">Language Setting</string>
     <string name="ChangeCurrency">ChangeCurrency</string>
-    <string name="sendSuggest">Send Suggest</string>
+    <string name="sendSuggest">You are welcome to contact us by this email address for any help.</string>
     <string name="serviceEmail"><u>service@fangzhich.com</u></string>
+    <string name="Cerf">Cerf</string>
+    <string name="versionCode">V 1.0</string>
 
     <string-array name = "currencies">
         <item>CNY(￥)</item>

@@ -26,6 +26,7 @@ import timber.log.Timber;
  */
 public class LoginActivity extends BaseActivity implements UserLoginContract.View{
 
+    public static final int IS_LOGIN = 100;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.title)
@@ -72,6 +73,7 @@ public class LoginActivity extends BaseActivity implements UserLoginContract.Vie
     public void onLoginSuccess(UserInfoEntity entity) {
         ToastUtil.toast(Const.User.LOGIN_SUCCESS);
         Const.setUserInfo(entity);
+        setResult(SplashActivity.SUCCESS);
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
@@ -97,9 +99,11 @@ public class LoginActivity extends BaseActivity implements UserLoginContract.Vie
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            setResult(SplashActivity.FAILED);
             onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

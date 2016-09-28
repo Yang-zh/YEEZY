@@ -1,6 +1,7 @@
 package com.fangzhich.yeezy.product.ui;
 
 import android.content.Intent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -9,6 +10,8 @@ import com.bumptech.glide.Glide;
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.base.ui.BaseFragment;
 import com.fangzhich.yeezy.product.data.entity.ProductEntity;
+import com.fangzhich.yeezy.product.data.entity.ReviewEntity;
+import com.fangzhich.yeezy.product.data.net.ProductApi;
 import com.fangzhich.yeezy.util.ToastUtil;
 import com.fangzhich.yeezy.util.TagFormatUtil;
 
@@ -16,6 +19,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.SingleSubscriber;
 
 /**
  * OverView
@@ -57,6 +61,8 @@ public class ProductOverviewFragment extends BaseFragment {
         startActivity(intent);
     }
 
+    @BindView(R.id.comment1_layout)
+    View comment1_layout;
     @BindView(R.id.sub_rating_bar1)
     RatingBar subRatingBar1;
     @BindView(R.id.comment1)
@@ -64,6 +70,8 @@ public class ProductOverviewFragment extends BaseFragment {
     @BindView(R.id.name_comment1)
     TextView name1;
 
+    @BindView(R.id.comment2_layout)
+    View comment2_layout;
     @BindView(R.id.sub_rating_bar2)
     RatingBar subRatingBar2;
     @BindView(R.id.comment2)
@@ -71,6 +79,8 @@ public class ProductOverviewFragment extends BaseFragment {
     @BindView(R.id.name_comment2)
     TextView name2;
 
+    @BindView(R.id.comment3_layout)
+    View comment3_layout;
     @BindView(R.id.sub_rating_bar3)
     RatingBar subRatingBar3;
     @BindView(R.id.comment3)
@@ -120,7 +130,40 @@ public class ProductOverviewFragment extends BaseFragment {
 
     @Override
     protected void loadData() {
+        ProductApi.getReviews(0, 3, mProduct.product_id, new SingleSubscriber<ArrayList<ReviewEntity>>() {
+            @Override
+            public void onSuccess(ArrayList<ReviewEntity> value) {
+                if (value.size()==0) {
+                    return;
+                }
+                if (value.size()>=1) {
+                    ReviewEntity review = value.get(0);
+                    comment1_layout.setVisibility(View.VISIBLE);
+                    comment1.setText(review.text);
+                    subRatingBar1.setNumStars(review.rating);
+                    name1.setText(review.author);
+                }
+                if (value.size()>=2) {
+                    ReviewEntity review = value.get(1);
+                    comment2_layout.setVisibility(View.VISIBLE);
+                    comment2.setText(review.text);
+                    subRatingBar2.setNumStars(review.rating);
+                    name2.setText(review.author);
+                }
+                if (value.size()>=3) {
+                    ReviewEntity review = value.get(2);
+                    comment3_layout.setVisibility(View.VISIBLE);
+                    comment3.setText(review.text);
+                    subRatingBar3.setNumStars(review.rating);
+                    name3.setText(review.author);
+                }
+            }
 
+            @Override
+            public void onError(Throwable error) {
+
+            }
+        });
         Glide.with(getContext())
                 .load(mProduct.images.get(0))
                 .fitCenter()

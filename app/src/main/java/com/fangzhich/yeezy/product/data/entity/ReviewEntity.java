@@ -8,7 +8,7 @@ public class ReviewEntity {
 
     public String review_id;
     public String author;
-    public String rating;
+    public int rating;
     public String text;
     public String product_id;
     public String name;
