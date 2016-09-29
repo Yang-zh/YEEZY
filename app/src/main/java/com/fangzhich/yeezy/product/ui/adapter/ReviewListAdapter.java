@@ -24,11 +24,11 @@ import timber.log.Timber;
  */
 public class ReviewListAdapter extends BaseRecyclerViewAdapter<ReviewEntity,ReviewListAdapter.ViewHolder> implements ProductReviewListContract.View{
 
-    private final int mProduct_id;
+    private final String mProduct_id;
     private ProductReviewListContract.Presenter mPresenter;
     private int mTotalPage = -1;
 
-    public ReviewListAdapter(int product_id) {
+    public ReviewListAdapter(String product_id) {
         mProduct_id = product_id;
         setPresenter(new ProductReviewListPresenter(this));
         loadData();
@@ -59,7 +59,7 @@ public class ReviewListAdapter extends BaseRecyclerViewAdapter<ReviewEntity,Revi
 
     @Override
     public void loadMore() {
-        mPresenter.getProductReviewList(++mTotalPage,20,mProduct_id);
+        mPresenter.getProductReviewList(String.valueOf(++mTotalPage),"20",mProduct_id);
         notifyDataSetChanged();
     }
 

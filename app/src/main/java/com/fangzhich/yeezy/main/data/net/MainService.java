@@ -1,7 +1,7 @@
 package com.fangzhich.yeezy.main.data.net;
 
-import com.fangzhich.yeezy.main.data.net.entity.CategoryEntity;
 import com.fangzhich.yeezy.base.data.net.HttpResult;
+import com.fangzhich.yeezy.main.data.entity.CategoryEntity;
 
 import java.util.ArrayList;
 
@@ -18,9 +18,9 @@ interface MainService {
     @FormUrlEncoded
     @POST("index.php?route=api/category")
     Single<HttpResult<ArrayList<CategoryEntity>>> getCategories(
-            @Field("page") int page,
-            @Field("limit") int limit,
-            @Field("parent_id") int parent_id,
+            @Field("page") String page,
+            @Field("limit") String limit,
+            @Field("parent_id") String parent_id,
             @Field("timestamp") String timestamp,
             @Field("signature") String signature,
             @Field("apiKey") String apiKey,

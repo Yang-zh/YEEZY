@@ -134,6 +134,24 @@
     <string name="serviceEmail"><u>service@fangzhich.com</u></string>
     <string name="Cerf">Cerf</string>
     <string name="versionCode">V 1.0</string>
+    <string name="CheckOut">Checkout</string>
+    <string name="PlaceOrder">Place Order</string>
+    <string name="InputIndicate">* Indicates a field is required</string>
+    <string name="Bay">Bay</string>
+    <string name="StreetAddress">Street Address*</string>
+    <string name="Unit">Apt/Suite/Unit(Optional)</string>
+    <string name="City">City*</string>
+    <string name="ZipPostalCodeIndicate">Zip/Postal Code*</string>
+    <string name="PhoneIndicate">Phone*</string>
+    <string name="SellNumberFormat">Bought by: {number} people</string>
+    <string name="SaveNumberFormat">Save by: {number} people</string>
+    <string name="RatingNumberFormat">({number} ratings)</string>
+    <string name="Availability">Availability</string>
+    <string name="EstimatedArrival">Estimated Arrival</string>
+    <string name="ShipsFrom">Ships From</string>
+    <string name="ProductPriceFormat">$ {number}</string>
+    <string name="ProductInventoryFormat">Inventory: {number}</string>
+    <string name="ProductOptionFormat">Chose: {content}</string>
 
     <string-array name = "currencies">
         <item>CNY(￥)</item>

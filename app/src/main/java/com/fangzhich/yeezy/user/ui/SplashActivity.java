@@ -29,7 +29,9 @@ public class SplashActivity extends BaseActivity {
 
     @OnClick(R.id.bt_sign_in)
     void startSignInActivity() {
-        startActivityForResult(new Intent(this,LoginActivity.class),LoginActivity.IS_LOGIN);
+        Intent intent = new Intent(this,LoginActivity.class);
+        intent.putExtra("isFirstLogin",true);
+        startActivityForResult(intent,LoginActivity.IS_LOGIN);
     }
 
     @OnClick(R.id.skip)

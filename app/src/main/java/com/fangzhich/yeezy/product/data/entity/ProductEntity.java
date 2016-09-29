@@ -3,6 +3,7 @@ package com.fangzhich.yeezy.product.data.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  */
 public class ProductEntity implements Parcelable {
 
-    public int product_id;
+    public String product_id;
     public String name;
     public String description;
     public String tag;
@@ -43,6 +44,31 @@ public class ProductEntity implements Parcelable {
     public String date_modified;
     public String viewed;
     public List<String> images;
+    public ArrayList<Option> options;
+
+    public static class Option{
+
+        public String product_option_id;
+        public String option_id;
+        public String name;
+        public String type;
+        public String value;
+        public String required;
+        public List<ProductOptionValueBean> product_option_value;
+
+        public static class ProductOptionValueBean {
+            public String product_option_value_id;
+            public String option_value_id;
+            public String name;
+            public String image;
+            public String quantity;
+            public String subtract;
+            public String price;
+            public String price_prefix;
+            public String weight;
+            public String weight_prefix;
+        }
+    }
 
     @Override
     public int describeContents() {
@@ -51,7 +77,7 @@ public class ProductEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.product_id);
+        dest.writeString(this.product_id);
         dest.writeString(this.name);
         dest.writeString(this.description);
         dest.writeString(this.tag);
@@ -86,7 +112,7 @@ public class ProductEntity implements Parcelable {
     }
 
     private ProductEntity(Parcel in) {
-        this.product_id = in.readInt();
+        this.product_id = in.readString();
         this.name = in.readString();
         this.description = in.readString();
         this.tag = in.readString();

@@ -27,7 +27,7 @@ public class ReviewListActivity extends BaseActivity {
     Toolbar toolbar;
     @BindView(R.id.rv_reviews)
     RecyclerView recyclerView;
-    private int mProduct_id;
+    private String mProduct_id;
 
     @Override
     public int setContentLayout() {
@@ -36,7 +36,7 @@ public class ReviewListActivity extends BaseActivity {
 
     @Override
     protected void initContentView() {
-        mProduct_id = getIntent().getIntExtra("product_id",0);
+        mProduct_id = getIntent().getStringExtra("product_id");
         initToolbar();
         initRecyclerView();
     }

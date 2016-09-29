@@ -39,6 +39,9 @@
             android:name=".product.ui.ProductDetailActivity"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".order.ui.OrderConfirmedActivity"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".product.ui.ReviewListActivity"
             android:theme="@style/AppTheme" />
         <activity

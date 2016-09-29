@@ -44,4 +44,8 @@ public abstract class BaseRecyclerViewAdapter<T, VH extends RecyclerView.ViewHol
             return 0;
         }
     }
+
+    public List<T> getData() {
+        return mData;
+    }
 }

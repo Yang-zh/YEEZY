@@ -5,7 +5,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -22,19 +21,17 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.blankj.utilcode.utils.SPUtils;
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.base.ui.BaseActivity;
+import com.fangzhich.yeezy.base.widget.DialogManager;
 import com.fangzhich.yeezy.cart.ui.ShoppingCartDialog;
+import com.fangzhich.yeezy.main.data.entity.CategoryEntity;
 import com.fangzhich.yeezy.main.data.net.MainApi;
-import com.fangzhich.yeezy.main.data.net.entity.CategoryEntity;
 import com.fangzhich.yeezy.product.ui.ProductListFragment;
 import com.fangzhich.yeezy.order.ui.OrderHistoryActivity;
 import com.fangzhich.yeezy.user.ui.LoginActivity;
 import com.fangzhich.yeezy.user.ui.NotificationActivity;
 import com.fangzhich.yeezy.user.ui.UserInfoActivity;
-import com.fangzhich.yeezy.user.ui.RegisterActivity;
-import com.fangzhich.yeezy.user.ui.WelcomeActivity;
 import com.fangzhich.yeezy.util.Const;
 import com.fangzhich.yeezy.util.ToastUtil;
 import com.fangzhich.yeezy.util.MyUtil;
@@ -136,8 +133,7 @@ public class MainActivity extends BaseActivity {
                         if (!Const.isLogin()) {
                             startActivity(new Intent(MainActivity.this, LoginActivity.class));
                         } else {
-                            ShoppingCartDialog dialog = new ShoppingCartDialog();
-                            dialog.initPopup(MainActivity.this).showPopup(getWindow().getDecorView());
+                            new DialogManager(MainActivity.this,getWindow().getDecorView()).startShoppingCartDialog();
                         }
                         break;
                     case R.id.history:
@@ -180,7 +176,7 @@ public class MainActivity extends BaseActivity {
                     ProductListFragment fragment = new ProductListFragment();
                     Bundle args = new Bundle();
 
-                    args.putInt("category_id", category.category_id);
+                    args.putString("category_id", category.category_id);
                     fragment.setArguments(args);
 
                     fragments.add(fragment);
@@ -267,10 +263,10 @@ public class MainActivity extends BaseActivity {
             return true;
         }
         switch (item.getItemId()) {
-            case R.id.filter:
-                Const.setLogin(false);
-                ToastUtil.toast("sign out success");
-                break;
+//            case R.id.filter:
+//                Const.setLogin(false);
+//                ToastUtil.toast("sign out success");
+//                break;
             case R.id.search:
                 startActivity(new Intent(MainActivity.this, SearchActivity.class));
                 break;

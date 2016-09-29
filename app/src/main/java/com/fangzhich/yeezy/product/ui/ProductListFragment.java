@@ -25,7 +25,7 @@ public class ProductListFragment extends BaseFragment {
     ProductListAdapter adapter;
     GridLayoutManager manager;
 
-    int categoryId;
+    String categoryId;
 
     @Override
     public int setContentLayout() {
@@ -34,7 +34,7 @@ public class ProductListFragment extends BaseFragment {
 
     @Override
     protected void initContentView() {
-        categoryId = getArguments().getInt("category_id");
+        categoryId = getArguments().getString("category_id");
 
         manager = new GridLayoutManager(getActivity(),SPAN_COUNT);
         adapter = new ProductListAdapter(categoryId);

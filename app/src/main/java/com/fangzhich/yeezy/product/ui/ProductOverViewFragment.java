@@ -1,11 +1,15 @@
 package com.fangzhich.yeezy.product.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.bigkoo.convenientbanner.ConvenientBanner;
+import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
+import com.bigkoo.convenientbanner.holder.Holder;
 import com.bumptech.glide.Glide;
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.base.ui.BaseFragment;
@@ -49,16 +53,15 @@ public class ProductOverviewFragment extends BaseFragment {
     TextView product_name;
     @BindView(R.id.rating_bar)
     RatingBar ratingBar;
-    @BindView(R.id.iv_productImage)
-    ImageView productImage;
 
     @BindView(R.id.comment_count)
     TextView commentCount;
     @OnClick(R.id.view_all)
     void viewAllComments() {
-        Intent intent = new Intent(getActivity(),ReviewListActivity.class);
-        intent.putExtra("product_id",mProduct.product_id);
-        startActivity(intent);
+        ((ProductDetailActivity)getActivity()).onTabClick("Rating");
+//        Intent intent = new Intent(getActivity(),ReviewListActivity.class);
+//        intent.putExtra("product_id",mProduct.product_id);
+//        startActivity(intent);
     }
 
     @BindView(R.id.comment1_layout)
@@ -93,7 +96,6 @@ public class ProductOverviewFragment extends BaseFragment {
     @OnClick(R.id.tv_arriveTime_view_all)
     void viewAllArriveTime() {
         ((ProductDetailActivity)getActivity()).onTabClick("Shipping");
-        ToastUtil.toast("view all arriveTime");
     }
 
     @BindView(R.id.tv_arriveTime_detail)
@@ -101,7 +103,6 @@ public class ProductOverviewFragment extends BaseFragment {
     @OnClick(R.id.tv_postage_view_all)
     void viewAllPostage() {
         ((ProductDetailActivity)getActivity()).onTabClick("Shipping");
-        ToastUtil.toast("view all postage");
     }
 
     @BindView(R.id.tv_postage_detail)
@@ -109,13 +110,8 @@ public class ProductOverviewFragment extends BaseFragment {
 
     private ProductEntity mProduct;
 
-    @OnClick(R.id.iv_productImage)
-    void openPhotoViewPager() {
-        Intent intent = new Intent(getActivity(), PhotoViewPagerActivity.class);
-        intent.putStringArrayListExtra("imageUrls", imageUrls);
-        startActivity(intent);
-        getActivity().overridePendingTransition(0, 0);
-    }
+    @BindView(R.id.iv_productImage)
+    ConvenientBanner<String> banner;
 
 
     @Override
@@ -130,7 +126,7 @@ public class ProductOverviewFragment extends BaseFragment {
 
     @Override
     protected void loadData() {
-        ProductApi.getReviews(0, 3, mProduct.product_id, new SingleSubscriber<ArrayList<ReviewEntity>>() {
+        ProductApi.getReviews("0", "3", mProduct.product_id, new SingleSubscriber<ArrayList<ReviewEntity>>() {
             @Override
             public void onSuccess(ArrayList<ReviewEntity> value) {
                 if (value.size()==0) {
@@ -164,11 +160,7 @@ public class ProductOverviewFragment extends BaseFragment {
 
             }
         });
-        Glide.with(getContext())
-                .load(mProduct.images.get(0))
-                .fitCenter()
-                .crossFade()
-                .into(productImage);
+
         imageUrls.clear();
         imageUrls.addAll(mProduct.images);
 
@@ -186,5 +178,34 @@ public class ProductOverviewFragment extends BaseFragment {
 
         size.setText(getResources().getString(R.string.nulll));
         postage.setText(getResources().getString(R.string.nulll));
+
+        banner.setPages(
+                new CBViewHolderCreator<LocalImageHolderView>() {
+                    @Override
+                    public LocalImageHolderView createHolder() {
+                        return new LocalImageHolderView();
+                    }
+                }, imageUrls);
+//                .setPageIndicator(new int[]{R.drawable.ic_page_indicator, R.drawable.ic_page_indicator_focused})
+//                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT);
+    }
+
+    public class LocalImageHolderView implements Holder<String> {
+        private ImageView imageView;
+        @Override
+        public View createView(Context context) {
+            imageView = new ImageView(context);
+            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            return imageView;
+        }
+
+        @Override
+        public void UpdateUI(Context context, final int position, String data) {
+            Glide.with(getContext())
+                    .load(data)
+                    .fitCenter()
+                    .crossFade()
+                    .into(imageView);
+        }
     }
 }

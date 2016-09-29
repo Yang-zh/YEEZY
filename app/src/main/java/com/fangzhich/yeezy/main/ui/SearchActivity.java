@@ -1,8 +1,11 @@
 package com.fangzhich.yeezy.main.ui;
 
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -12,7 +15,6 @@ import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.base.ui.BaseActivity;
 import com.fangzhich.yeezy.base.ui.recyclerview.BaseRecyclerViewAdapter;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,9 +37,12 @@ public class SearchActivity extends BaseActivity {
     TextView popularSearch;
 
     @BindView(R.id.rv_popularSearches)
-    RecyclerView recyclerView;
+    RecyclerView rvPopularSearch;
+    @BindView(R.id.rv_searchResult)
+    RecyclerView rvSearchResult;
 
-    BaseRecyclerViewAdapter<String,ViewHolder> baseRecyclerViewAdapter;
+    BaseRecyclerViewAdapter<String,ViewHolder> popularSearchAdapter;
+    BaseRecyclerViewAdapter<String,ViewHolder> searchResultAdapter;
 
     @Override
     public int setContentLayout() {
@@ -46,12 +51,40 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     protected void initContentView() {
+        initPopularSearch();
+        initSearchResult();
 
-        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        searchInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s==null || s.length()==0) {
+                    popularSearch.setVisibility(View.VISIBLE);
+                    rvPopularSearch.setVisibility(View.VISIBLE);
+                } else {
+                    popularSearch.setVisibility(View.GONE);
+                    rvPopularSearch.setVisibility(View.GONE);
+                    search(s.toString());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    private void initPopularSearch() {
+        rvPopularSearch.setLayoutManager(new GridLayoutManager(this,2));
 
         final List<String> data = Arrays.asList("Adidas","Yeezy","Nike");
 
-        baseRecyclerViewAdapter = new BaseRecyclerViewAdapter<String,ViewHolder>() {
+        popularSearchAdapter = new BaseRecyclerViewAdapter<String,ViewHolder>() {
 
             @Override
             public void loadData() {
@@ -66,23 +99,58 @@ public class SearchActivity extends BaseActivity {
 
             @Override
             protected void onBindHolder(ViewHolder holder, int position) {
-                View itemView = holder.itemView;
+                final View itemView = holder.itemView;
                 ((TextView) itemView.findViewById(R.id.search_text)).setText(mData.get(position));
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // todo search text of position
+                        CharSequence searchText = ((TextView)v.findViewById(R.id.search_text)).getText();
+                        searchInput.setText(searchText);
                     }
                 });
             }
         };
 
-        recyclerView.setAdapter(baseRecyclerViewAdapter);
+        rvPopularSearch.setAdapter(popularSearchAdapter);
+    }
+
+    private void initSearchResult() {
+        rvSearchResult.setLayoutManager(new LinearLayoutManager(this));
+
+        searchResultAdapter = new BaseRecyclerViewAdapter<String, ViewHolder>() {
+            @Override
+            public void loadData() {
+                mData = Arrays.asList("Adidas","Yeezy","Nike");
+            }
+
+            @Override
+            public ViewHolder onCreateHolder(ViewGroup parent, int viewType) {
+                View itemView = View.inflate(parent.getContext(),R.layout.item_search_result,null);
+                return new ViewHolder(itemView) {};
+            }
+
+            @Override
+            protected void onBindHolder(ViewHolder holder, int position) {
+                View itemView = holder.itemView;
+                ((TextView)itemView.findViewById(R.id.text)).setText(mData.get(position));
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        CharSequence searchText = ((TextView)v.findViewById(R.id.text)).getText();
+                        //todo
+                    }
+                });
+            }
+        };
+    }
+
+    private void search(String s) {
 
     }
 
     @Override
     protected void loadData() {
-        baseRecyclerViewAdapter.loadData();
+        popularSearchAdapter.loadData();
+        searchResultAdapter.loadData();
     }
 }

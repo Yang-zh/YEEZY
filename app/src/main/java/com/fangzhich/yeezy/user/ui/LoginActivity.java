@@ -35,6 +35,9 @@ public class LoginActivity extends BaseActivity implements UserLoginContract.Vie
     EditText email;
     @BindView(R.id.password)
     EditText password;
+
+    boolean isFirstLogin;
+
     @OnClick(R.id.bt_sign_in)
     void signIn() {
         mPresenter.login(email.getText().toString(),password.getText().toString());
@@ -50,6 +53,7 @@ public class LoginActivity extends BaseActivity implements UserLoginContract.Vie
         mPresenter.loginByFaceBook();
     }
 
+
     @Override
     public int setContentLayout() {
         return R.layout.activity_sign_in;
@@ -57,6 +61,7 @@ public class LoginActivity extends BaseActivity implements UserLoginContract.Vie
 
     @Override
     protected void initContentView() {
+        isFirstLogin = getIntent().getBooleanExtra("isFirstLogin",false);
         setPresenter(new UserLoginPresenter(this));
         initToolbar();
     }
@@ -73,8 +78,11 @@ public class LoginActivity extends BaseActivity implements UserLoginContract.Vie
     public void onLoginSuccess(UserInfoEntity entity) {
         ToastUtil.toast(Const.User.LOGIN_SUCCESS);
         Const.setUserInfo(entity);
-        setResult(SplashActivity.SUCCESS);
-        startActivity(new Intent(this, MainActivity.class));
+        Const.setLogin(true);
+        if (isFirstLogin) {
+            setResult(SplashActivity.SUCCESS);
+            startActivity(new Intent(this, MainActivity.class));
+        }
         finish();
     }
 

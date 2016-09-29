@@ -33,4 +33,5 @@
     <color name="another_gray">#F2F2F2</color>
     <color name="text_color_red">#DE4536</color>
     <color name="buttonColorRed">#DA493C</color>
+    <color name="shipping_info_background_color">#FAFAFA</color>
 </resources>

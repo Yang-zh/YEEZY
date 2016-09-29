@@ -1,5 +1,6 @@
 package com.fangzhich.yeezy.order.ui;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,12 +41,13 @@ public class OrderConfirmedActivity extends BaseActivity {
 
     @OnClick(R.id.bt_viewOrders)
     void viewOrders() {
-
+        startActivity(new Intent(this,OrderHistoryActivity.class));
+        finish();
     }
 
     @OnClick(R.id.bt_continue_shipping)
     void continueShipping() {
-
+        finish();
     }
 
     @BindView(R.id.rv_related_list)
@@ -97,17 +99,6 @@ public class OrderConfirmedActivity extends BaseActivity {
             onBackPressed();
             return true;
         }
-        switch (item.getItemId()) {
-            case R.id.skip:
-                ToastUtil.toast("Skip");
-                break;
-        }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_skip, menu);
-        return true;
     }
 }

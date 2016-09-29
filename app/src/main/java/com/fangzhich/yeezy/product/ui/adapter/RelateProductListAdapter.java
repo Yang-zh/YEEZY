@@ -49,7 +49,7 @@ public class RelateProductListAdapter extends BaseRecyclerViewAdapter<PopularPro
     @Override
     public void loadData() {
         if (mPresenter!=null) {
-            mPresenter.getPopularProductList(1,20);
+            mPresenter.getPopularProductList("1","20");
             totalPage = 0;
         }
     }
@@ -69,7 +69,7 @@ public class RelateProductListAdapter extends BaseRecyclerViewAdapter<PopularPro
 
     @Override
     public void loadMore() {
-        mPresenter.getPopularProductListMore(++totalPage,20);
+        mPresenter.getPopularProductListMore(String.valueOf(++totalPage),"20");
         notifyDataSetChanged();
     }
 
@@ -91,7 +91,7 @@ public class RelateProductListAdapter extends BaseRecyclerViewAdapter<PopularPro
         PopularProductEntity productItem = mData.get(position);
 
         Glide.with(holder.itemView.getContext())
-                .load(productItem.images.get(0))
+                .load(productItem.images==null?null:productItem.images.get(0))
                 .centerCrop()
                 .fitCenter()
                 .crossFade()

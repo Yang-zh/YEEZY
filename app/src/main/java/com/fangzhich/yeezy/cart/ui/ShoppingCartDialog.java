@@ -1,7 +1,9 @@
 package com.fangzhich.yeezy.cart.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -11,8 +13,11 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.fangzhich.yeezy.R;
+import com.fangzhich.yeezy.base.widget.DialogManager;
 import com.fangzhich.yeezy.cart.data.entity.CartEntity;
-import com.fangzhich.yeezy.cart.data.entity.CartEntity.CartItem.Option;
+import com.fangzhich.yeezy.main.ui.ReturnPolicyActivity;
+import com.fangzhich.yeezy.order.ui.OrderConfirmedActivity;
+import com.fangzhich.yeezy.order.widget.CreditCardDialog;
 
 import java.util.ArrayList;
 
@@ -26,6 +31,10 @@ import butterknife.OnClick;
  */
 public class ShoppingCartDialog {
 
+    private Context mContext;
+    private View mContentView;
+    private DialogManager manager;
+
     @OnClick(R.id.bt_cancel)
     void cancel() {
         mPopupWindow.dismiss();
@@ -37,7 +46,7 @@ public class ShoppingCartDialog {
     TextView creditCartNumber;
     @OnClick(R.id.bt_edit)
     void editCreditCardInfo() {
-
+        manager.startCreditCardDialog();
     }
 
     @BindView(R.id.tv_item_total)
@@ -51,12 +60,16 @@ public class ShoppingCartDialog {
 
     @OnClick(R.id.return_policy)
     void showReturnPolicy() {
-
+//        mContext.startActivity(new Intent(mContext, ReturnPolicyActivity.class));
     }
 
-    @OnClick(R.id.bt_save_info)
-    void saveInfo() {
-
+    @OnClick(R.id.bt_checkout)
+    void checkout() {
+        Intent intent = new Intent(mContext, OrderConfirmedActivity.class);
+        intent.putParcelableArrayListExtra("cartList",(ArrayList<CartEntity.CartItem>) adapter.getData());
+        mContext.startActivity(intent);
+        manager.closeAll();
+        manager.closeProductDetail();
     }
 
     @BindView(R.id.rv_shoppingCart_list)
@@ -70,10 +83,13 @@ public class ShoppingCartDialog {
 
     private boolean isAddingToCart;
 
+    private View mPopupContent;
 
 
-    public ShoppingCartDialog initPopup(Context context) {
-        View mPopupContent = View.inflate(context, R.layout.dialog_shoppingcart, null);
+    public ShoppingCartDialog initPopup(DialogManager manager, Context context) {
+        this.manager = manager;
+        mContext = context;
+        mPopupContent = View.inflate(context, R.layout.dialog_shoppingcart, null);
         ButterKnife.bind(this, mPopupContent);
 
         mPopupWindow = new PopupWindow(mPopupContent, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
@@ -108,6 +124,7 @@ public class ShoppingCartDialog {
     }
 
     public void showPopup(View contentView) {
+        mContentView = contentView;
         if (!isAddingToCart) {
             loadData();
         }
@@ -117,5 +134,20 @@ public class ShoppingCartDialog {
     private void loadData() {
         recyclerView.setAdapter(adapter);
         adapter.loadData();
+    }
+
+    public boolean isShowing() {
+        if (mPopupWindow==null) {
+            return false;
+        }
+        return mPopupWindow.isShowing();
+    }
+
+    public void dismiss() {
+        mPopupWindow.dismiss();
+    }
+
+    public View getContentView() {
+        return mPopupContent;
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.blankj.utilcode.utils.SPUtils;
+import com.fangzhich.yeezy.base.data.net.BaseApi;
 import com.fangzhich.yeezy.user.data.entity.UserInfoEntity;
 import com.fangzhich.yeezy.user.data.net.UserApi;
 import com.google.gson.Gson;
@@ -49,19 +50,23 @@ public class Const {
         return Obj.AppSp.getBoolean(SP.IS_LOGIN);
     }
 
-    public static void setLogin(boolean isLogin) {
-        UserApi.signOut(new SingleSubscriber<Object>() {
-            @Override
-            public void onSuccess(Object value) {
-                ToastUtil.toast("Sign out success!");
-            }
+    public static void setLogin(boolean login) {
+        if (login) {
+            BaseApi.refreshLoginInfo();
+        } else {
+            UserApi.signOut(new SingleSubscriber<Object>() {
+                @Override
+                public void onSuccess(Object value) {
+                    ToastUtil.toast("Sign out success!");
+                }
 
-            @Override
-            public void onError(Throwable error) {
-                ToastUtil.toast(error.getMessage());
-            }
-        });
-        Obj.AppSp.putBoolean(SP.IS_LOGIN,isLogin);
+                @Override
+                public void onError(Throwable error) {
+                    ToastUtil.toast(error.getMessage());
+                }
+            });
+        }
+        Obj.AppSp.putBoolean(SP.IS_LOGIN,login);
     }
 
 

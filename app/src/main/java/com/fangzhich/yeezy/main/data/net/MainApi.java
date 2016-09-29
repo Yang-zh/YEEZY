@@ -2,8 +2,7 @@ package com.fangzhich.yeezy.main.data.net;
 
 
 import com.fangzhich.yeezy.base.data.net.BaseApi;
-import com.fangzhich.yeezy.cart.data.entity.CartEntity;
-import com.fangzhich.yeezy.main.data.net.entity.CategoryEntity;
+import com.fangzhich.yeezy.main.data.entity.CategoryEntity;
 import com.fangzhich.yeezy.util.Const;
 
 import java.util.ArrayList;
@@ -26,13 +25,13 @@ public class MainApi extends BaseApi {
      * @param parent_id        category's parent_id
      * @param singleSubscriber SingleSubscriber in RxJava (Callback)
      */
-    public static void getCategories(int page, int limit, int parent_id, SingleSubscriber<ArrayList<CategoryEntity>> singleSubscriber) {
+    public static void getCategories(String page, String limit, String parent_id, SingleSubscriber<ArrayList<CategoryEntity>> singleSubscriber) {
         String timestamp = getTimeStamp();
 
         HashMap<String, String> params = new HashMap<>();
-        params.put("page", String.valueOf(page));
-        params.put("limit", String.valueOf(limit));
-        params.put("parent_id", String.valueOf(parent_id));
+        params.put("page", page);
+        params.put("limit", limit);
+        params.put("parent_id", parent_id);
         params.put("timestamp", timestamp);
 
         String signature = getSignature(params);
@@ -46,10 +45,10 @@ public class MainApi extends BaseApi {
     }
 
     public static void getCategories(SingleSubscriber<ArrayList<CategoryEntity>> singleSubscriber) {
-        getCategories(1, 20, singleSubscriber);
+        getCategories("1", "20", singleSubscriber);
     }
 
-    public static void getCategories(int page, int limit, SingleSubscriber<ArrayList<CategoryEntity>> singleSubscriber) {
-        getCategories(page, limit, 0, singleSubscriber);
+    public static void getCategories(String page, String limit, SingleSubscriber<ArrayList<CategoryEntity>> singleSubscriber) {
+        getCategories(page, limit, "0", singleSubscriber);
     }
 }

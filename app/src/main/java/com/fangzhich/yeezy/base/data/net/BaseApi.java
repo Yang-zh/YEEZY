@@ -19,8 +19,13 @@ import timber.log.Timber;
  */
 public abstract class BaseApi {
 
-    protected static String email = Const.getUserInfo().user_info.email;
-    protected static String token = Const.getUserInfo().token;
+    protected static String email = Const.getUserInfo()==null?null:Const.getUserInfo().user_info.email;
+    protected static String token = Const.getUserInfo()==null?null:Const.getUserInfo().token;
+
+    public static void refreshLoginInfo() {
+        email =  Const.getUserInfo()==null?null:Const.getUserInfo().user_info.email;
+        token = Const.getUserInfo()==null?null:Const.getUserInfo().token;
+    }
 
     final static String BASE_URL = BuildConfig.BASE_URL;
 
@@ -118,7 +123,7 @@ public abstract class BaseApi {
         for (Map.Entry entry:paramList) {
             builder.append(entry.getKey());
 
-            if (!(entry.getValue()==null)) {
+            if (entry.getValue()!=null) {
                 builder.append(entry.getValue());
             }
         }

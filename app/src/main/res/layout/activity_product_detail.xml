@@ -89,10 +89,4 @@
                 android:layout_height="match_parent" />
         </android.support.v7.widget.CardView>
     </RelativeLayout>
-    <FrameLayout
-        android:visibility="gone"
-        android:id="@+id/popup_background"
-        android:background="@color/popup_background"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 </RelativeLayout>

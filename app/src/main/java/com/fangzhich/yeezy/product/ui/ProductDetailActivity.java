@@ -1,7 +1,6 @@
 package com.fangzhich.yeezy.product.ui;
 
 import android.graphics.Paint;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,24 +8,17 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.bigkoo.snappingstepper.SnappingStepper;
-import com.bigkoo.snappingstepper.listener.SnappingStepperValueChangeListener;
 import com.fangzhich.yeezy.R;
 import com.fangzhich.yeezy.base.ui.BaseActivity;
-import com.fangzhich.yeezy.cart.ui.ShoppingCartDialog;
+import com.fangzhich.yeezy.base.widget.DialogManager;
 import com.fangzhich.yeezy.product.data.entity.ProductEntity;
 import com.fangzhich.yeezy.product.presentation.ProductDetailContract;
 import com.fangzhich.yeezy.product.presentation.ProductDetailPresenter;
 import com.fangzhich.yeezy.util.MyUtil;
 import com.fangzhich.yeezy.util.TagFormatUtil;
-import com.fangzhich.yeezy.util.ToastUtil;
 
 import java.util.ArrayList;
 
@@ -45,7 +37,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
     @BindView(R.id.title)
     TextView title;
 
-    private int productId;
+    private String productId;
 
     @BindView(R.id.tabLayout_productDetail)
     TabLayout tabLayout;
@@ -56,24 +48,19 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
     FragmentPagerAdapter adapter;
 
 
-    PopupWindow mPopupWindow;
+    DialogManager manager;
 
     @BindView(R.id.tv_price)
     TextView price;
     @BindView(R.id.tv_price_original)
     TextView priceOriginal;
+    private ProductEntity product;
 
-    @OnClick(R.id.popup_background)
-    void dismiss(){
-        mPopupWindow.dismiss();
-    }
     @OnClick(R.id.bt_buy)
     void buy() {
-        ArrayList<Integer> option = new ArrayList<>();
-        option.add(1);
-        option.add(2);
-        new ShoppingCartDialog().initPopup(this).addToCart(String.valueOf(productId),"1",option,"0").showPopup(this.getWindow().getDecorView());
-//        mPopupWindow.showAtLocation(findViewById(android.R.id.content), Gravity.BOTTOM, 0, 0);
+        if (product!=null) {
+            manager.withProductDetailControl(this).startSizeDialog(product);
+        }
     }
 
 
@@ -92,7 +79,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
     @Override
     protected void initContentView() {
         setPresenter(new ProductDetailPresenter(this));
-        productId = getIntent().getIntExtra("product_id", 0);
+        productId = getIntent().getStringExtra("product_id");
         initToolbar();
         initBottomBarAndPopup();
         priceOriginal.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
@@ -174,26 +161,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
 
     private void initBottomBarAndPopup() {
         priceOriginal.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        View mPopupContent = View.inflate(this, R.layout.dialog_choose_size, null);
-        mPopupWindow = new PopupWindow(mPopupContent, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
-        View close = mPopupContent.findViewById(R.id.bt_close);
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPopupWindow.dismiss();
-            }
-        });
-        SnappingStepper stepper = (SnappingStepper) mPopupContent.findViewById(R.id.quantity_view);
-        stepper.setMinValue(1);
-        stepper.setMaxValue(99);
-        stepper.setOnValueChangeListener(new SnappingStepperValueChangeListener() {
-            @Override
-            public void onValueChange(View view, int value) {
-                Timber.e(String.valueOf(value));
-            }
-        });
-        mPopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
-        mPopupWindow.setAnimationStyle(R.style.Dialog);
+        manager = new DialogManager(this,getWindow().getDecorView());
     }
 
     @Override
@@ -203,6 +171,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
 
     @Override
     public void onGetProductDetailSuccess(ProductEntity product) {
+        this.product = product;
         price.setText(TagFormatUtil.from(getResources().getString(R.string.priceFormat))
                 .with("price",String.valueOf(product.price))
                 .format());

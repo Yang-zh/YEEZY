@@ -30,20 +30,42 @@ public class ProductApi extends BaseApi {
      * @param category_id product's category_id
      * @param singleSubscriber SingleSubscriber in RxJava (Callback)
      */
-    public static void getProducts(int page, int limit, int category_id, SingleSubscriber<ArrayList<ProductItemEntity>> singleSubscriber) {
+    public static void getProducts(String page, String limit, String category_id, SingleSubscriber<ArrayList<ProductItemEntity>> singleSubscriber) {
         String timestamp = getTimeStamp();
 
         HashMap<String,String> params = new HashMap<>();
-        params.put("page", String.valueOf(page));
-        params.put("limit", String.valueOf(limit));
-        params.put("category_id", String.valueOf(category_id));
+        params.put("page", page);
+        params.put("limit", limit);
+        params.put("category_id", category_id);
+        params.put("searchKey",null);
         params.put("timestamp", timestamp);
 
         String signature = getSignature(params);
 
         Timber.d("sendProductListRequest");
         createService(ProductService.class)
-                .getProducts(page,limit,category_id,timestamp,signature,API_KEY, Const.IMEI)
+                .getProducts(page,limit,category_id,null,timestamp,signature,API_KEY, Const.IMEI)
+                .map(new HttpResultFunc<ArrayList<ProductItemEntity>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(singleSubscriber);
+    }
+
+    public static void search(String searchKey,SingleSubscriber<ArrayList<ProductItemEntity>> singleSubscriber) {
+        String timestamp = getTimeStamp();
+
+        HashMap<String,String> params = new HashMap<>();
+        params.put("page", "0");
+        params.put("limit", "20");
+        params.put("category_id", "0");
+        params.put("searchKey",searchKey);
+        params.put("timestamp", timestamp);
+
+        String signature = getSignature(params);
+
+        Timber.d("sendProductListRequest");
+        createService(ProductService.class)
+                .getProducts("0","20","0",timestamp,searchKey,signature,API_KEY, Const.IMEI)
                 .map(new HttpResultFunc<ArrayList<ProductItemEntity>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -56,12 +78,12 @@ public class ProductApi extends BaseApi {
      * @param product_id product_id of product
      * @param singleSubscriber SingleSubscriber in RxJava (Callback)
      */
-    public static void getProduct(int product_id, SingleSubscriber<ProductEntity> singleSubscriber) {
+    public static void getProduct(String product_id, SingleSubscriber<ProductEntity> singleSubscriber) {
         String timestamp = getTimeStamp();
 
         HashMap<String,String> params = new HashMap<>();
-        params.put("product_id", String.valueOf(product_id));
-        params.put("timestamp", String.valueOf(timestamp));
+        params.put("product_id", product_id);
+        params.put("timestamp", timestamp);
 
         String signature = getSignature(params);
 
@@ -81,14 +103,14 @@ public class ProductApi extends BaseApi {
      * @param product_id product_id of Reviews belong to
      * @param singleSubscriber SingleSubscriber in RxJava (Callback)
      */
-    public static void getReviews(int page, int limit, int product_id, SingleSubscriber<ArrayList<ReviewEntity>> singleSubscriber) {
+    public static void getReviews(String page, String limit, String product_id, SingleSubscriber<ArrayList<ReviewEntity>> singleSubscriber) {
         String timestamp = getTimeStamp();
 
         HashMap<String,String> params = new HashMap<>();
-        params.put("page", String.valueOf(page));
-        params.put("limit", String.valueOf(limit));
-        params.put("product_id", String.valueOf(product_id));
-        params.put("timestamp", String.valueOf(timestamp));
+        params.put("page", page);
+        params.put("limit", limit);
+        params.put("product_id", product_id);
+        params.put("timestamp", timestamp);
 
         String signature = getSignature(params);
 
@@ -107,13 +129,13 @@ public class ProductApi extends BaseApi {
      * @param limit limit per page
      * @param singleSubscriber SingleSubscriber in RxJava (Callback)
      */
-    public static void getPopularProducts(int page, int limit, SingleSubscriber<ArrayList<PopularProductEntity>> singleSubscriber) {
+    public static void getPopularProducts(String page, String limit, SingleSubscriber<ArrayList<PopularProductEntity>> singleSubscriber) {
         String timestamp = getTimeStamp();
 
         HashMap<String,String> params = new HashMap<>();
-        params.put("page", String.valueOf(page));
-        params.put("limit", String.valueOf(limit));
-        params.put("timestamp", String.valueOf(timestamp));
+        params.put("page", page);
+        params.put("limit", limit);
+        params.put("timestamp", timestamp);
 
         String signature = getSignature(params);
 

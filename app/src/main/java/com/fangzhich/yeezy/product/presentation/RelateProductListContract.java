@@ -14,8 +14,8 @@ import java.util.ArrayList;
 public class RelateProductListContract {
     public interface Presenter extends BasePresenter {
         void getPopularProductList();
-        void getPopularProductList(int page, int limit);
-        void getPopularProductListMore(int page, int limit);
+        void getPopularProductList(String page, String limit);
+        void getPopularProductListMore(String page, String limit);
     }
     public interface View extends BaseView<Presenter> {
         void onLoadDataSuccess(ArrayList<PopularProductEntity> popularProductList);

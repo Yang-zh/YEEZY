@@ -22,9 +22,10 @@ interface ProductService {
         @FormUrlEncoded
         @POST("index.php?route=api/product")
         Single<HttpResult<ArrayList<ProductItemEntity>>> getProducts(
-                @Field("page") int page,
-                @Field("limit") int limit,
-                @Field("category_id") int category_id,
+                @Field("page") String page,
+                @Field("limit") String limit,
+                @Field("category_id") String category_id,
+                @Field("searchKey") String searchKey,
                 @Field("timestamp") String timestamp,
                 @Field("signature") String signature,
                 @Field("apiKey") String apiKey,
@@ -33,7 +34,7 @@ interface ProductService {
         @FormUrlEncoded
         @POST("index.php?route=api/product/getProduct")
         Single<HttpResult<ProductEntity>> getProduct(
-                @Field("product_id") int product_id,
+                @Field("product_id") String product_id,
                 @Field("timestamp") String timestamp,
                 @Field("signature") String signature,
                 @Field("apiKey") String apiKey,
@@ -42,9 +43,9 @@ interface ProductService {
         @FormUrlEncoded
         @POST("index.php?route=api/product/getReview")
         Single<HttpResult<ArrayList<ReviewEntity>>> getReviews(
-                @Field("page") int page,
-                @Field("limit") int limit,
-                @Field("product_id") int product_id,
+                @Field("page") String page,
+                @Field("limit") String limit,
+                @Field("product_id") String product_id,
                 @Field("timestamp") String timestamp,
                 @Field("signature") String signature,
                 @Field("apiKey") String apiKey,
@@ -53,8 +54,8 @@ interface ProductService {
         @FormUrlEncoded
         @POST("index.php?route=api/product/getPopularProducts")
         Single<HttpResult<ArrayList<PopularProductEntity>>> getPopularProducts(
-                @Field("page") int page,
-                @Field("limit") int limit,
+                @Field("page") String page,
+                @Field("limit") String limit,
                 @Field("timestamp") String timestamp,
                 @Field("signature") String signature,
                 @Field("apiKey") String apiKey,

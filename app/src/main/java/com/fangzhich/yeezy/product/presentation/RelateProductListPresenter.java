@@ -21,11 +21,11 @@ public class RelateProductListPresenter implements RelateProductListContract.Pre
 
     @Override
     public void getPopularProductList() {
-        getPopularProductList(0,20);
+        getPopularProductList("0","20");
     }
 
     @Override
-    public void getPopularProductList(int page, int limit) {
+    public void getPopularProductList(String page, String limit) {
         ProductApi.getPopularProducts(page,limit,new SingleSubscriber<ArrayList<PopularProductEntity>>() {
             @Override
             public void onSuccess(ArrayList<PopularProductEntity> productList) {
@@ -40,7 +40,7 @@ public class RelateProductListPresenter implements RelateProductListContract.Pre
     }
 
     @Override
-    public void getPopularProductListMore(int page, int limit) {
+    public void getPopularProductListMore(String page, String limit) {
         ProductApi.getPopularProducts(page,limit,new SingleSubscriber<ArrayList<PopularProductEntity>>() {
             @Override
             public void onSuccess(ArrayList<PopularProductEntity> productList) {

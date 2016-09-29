@@ -13,9 +13,9 @@ import java.util.ArrayList;
 public class ProductListContract {
     public interface Presenter extends BasePresenter {
         void getProductList();
-        void getProductList(int page, int limit);
-        void getProductList(int page, int limit, int category_id);
-        void getProductListMore(int page, int limit, int category_id);
+        void getProductList(String page, String limit);
+        void getProductList(String page, String limit, String category_id);
+        void getProductListMore(String page, String limit, String category_id);
     }
     public interface View extends BaseView<Presenter> {
         void onLoadDataSuccess(ArrayList<ProductItemEntity> productList);

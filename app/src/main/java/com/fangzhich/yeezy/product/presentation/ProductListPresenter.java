@@ -21,16 +21,16 @@ public class ProductListPresenter implements ProductListContract.Presenter {
 
     @Override
     public void getProductList() {
-        getProductList(0,20);
+        getProductList("0","20");
     }
 
     @Override
-    public void getProductList(int page, int limit) {
-        getProductList(page,limit,0);
+    public void getProductList(String page, String limit) {
+        getProductList(page,limit,"0");
     }
 
     @Override
-    public void getProductList(int page, int limit, int category_id) {
+    public void getProductList(String page, String limit, String category_id) {
         ProductApi.getProducts(page,limit,category_id,new SingleSubscriber<ArrayList<ProductItemEntity>>() {
             @Override
             public void onSuccess(ArrayList<ProductItemEntity> productList) {
@@ -45,7 +45,7 @@ public class ProductListPresenter implements ProductListContract.Presenter {
     }
 
     @Override
-    public void getProductListMore(int page, int limit, int category_id) {
+    public void getProductListMore(String page, String limit, String category_id) {
         ProductApi.getProducts(page,limit,category_id,new SingleSubscriber<ArrayList<ProductItemEntity>>() {
             @Override
             public void onSuccess(ArrayList<ProductItemEntity> productList) {

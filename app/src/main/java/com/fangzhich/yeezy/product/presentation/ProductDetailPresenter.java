@@ -18,7 +18,7 @@ public class ProductDetailPresenter implements ProductDetailContract.Presenter {
     }
 
     @Override
-    public void getProductDetail(int product_id) {
+    public void getProductDetail(String product_id) {
         ProductApi.getProduct(product_id, new SingleSubscriber<ProductEntity>() {
             @Override
             public void onSuccess(ProductEntity product) {

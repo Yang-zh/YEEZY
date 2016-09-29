@@ -15,8 +15,8 @@ import java.util.ArrayList;
 
 public class ProductReviewListContract {
     public interface Presenter extends BasePresenter{
-        void getProductReviewList(int product_id);
-        void getProductReviewList(int page, int limit, int product_id);
+        void getProductReviewList(String product_id);
+        void getProductReviewList(String page, String limit, String product_id);
     }
     public interface View extends BaseView<ProductReviewListContract.Presenter> {
         void onLoadReviewListSuccess(ArrayList<ReviewEntity> reviewList);

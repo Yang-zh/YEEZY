@@ -33,10 +33,10 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
 
     //后台API页码从0开始，因此初始为-1而不是0
     private int totalPage = 0;
-    private int pageCount = 60;
-    private int categoryId;
+    private String pageCount = "20";
+    private String categoryId;
 
-    public ProductListAdapter(int category_id) {
+    public ProductListAdapter(String category_id) {
         this.categoryId = category_id;
         setPresenter(new ProductListPresenter(this));
         loadData();
@@ -50,7 +50,7 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
     @Override
     public void loadData() {
         if (mPresenter!=null) {
-            mPresenter.getProductList(1,pageCount,categoryId);
+            mPresenter.getProductList("1",pageCount,categoryId);
         }
         totalPage = 1;
     }
@@ -69,7 +69,7 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
 
     @Override
     public void loadMore() {
-        mPresenter.getProductListMore(++totalPage,pageCount,categoryId);
+        mPresenter.getProductListMore(String.valueOf(++totalPage),pageCount,categoryId);
         notifyDataSetChanged();
     }
 
@@ -104,7 +104,7 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
             public void onClick(View v) {
                 Timber.d("On Item %d Click",position);
                 Intent intent = new Intent(v.getContext(),ProductDetailActivity.class);
-                intent.putExtra("product_id", Integer.parseInt(mData.get(holder.getAdapterPosition()).product_id));
+                intent.putExtra("product_id", mData.get(holder.getAdapterPosition()).product_id);
                 v.getContext().startActivity(intent);
             }
         });

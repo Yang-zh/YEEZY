@@ -10,7 +10,7 @@ import com.fangzhich.yeezy.product.data.entity.ProductEntity;
  */
 public class ProductDetailContract {
     public interface Presenter extends BasePresenter{
-        void getProductDetail(int product_id);
+        void getProductDetail(String product_id);
     }
     public interface View extends BaseView<Presenter> {
         void onGetProductDetailSuccess(ProductEntity product);
