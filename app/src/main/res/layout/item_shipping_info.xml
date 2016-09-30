@@ -15,12 +15,12 @@
         android:layout_width="0.5dp"
         android:layout_height="match_parent"/>
     <TextView
+        android:gravity="center_vertical"
         android:id="@+id/content"
         android:textSize="14sp"
         android:textColor="@color/tab_layout_select_color"
         android:padding="10dp"
         android:background="@drawable/background_edit_text"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content" />
+        android:layout_width="260dp"
+        android:layout_height="match_parent" />
 </LinearLayout>

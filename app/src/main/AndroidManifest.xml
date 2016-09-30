@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.fangzhich.yeezy">
+    package="com.fangzhich.sneakerlab">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
-        android:name=".App"
+        android:name="com.fangzhich.sneakerlab.App"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
@@ -15,13 +15,13 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".main.ui.MainActivity"
+            android:name="com.fangzhich.sneakerlab.main.ui.MainActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".user.ui.LoginActivity"
+            android:name="com.fangzhich.sneakerlab.user.ui.LoginActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".user.ui.SplashActivity"
+            android:name="com.fangzhich.sneakerlab.user.ui.SplashActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,55 +30,55 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".user.ui.RegisterActivity"
+            android:name="com.fangzhich.sneakerlab.user.ui.RegisterActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".user.ui.WelcomeActivity"
+            android:name="com.fangzhich.sneakerlab.user.ui.WelcomeActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".product.ui.ProductDetailActivity"
+            android:name="com.fangzhich.sneakerlab.product.ui.ProductDetailActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".order.ui.OrderConfirmedActivity"
+            android:name="com.fangzhich.sneakerlab.order.ui.OrderConfirmedActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".product.ui.ReviewListActivity"
+            android:name="com.fangzhich.sneakerlab.product.ui.ReviewListActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".product.ui.PhotoViewPagerActivity"
+            android:name="com.fangzhich.sneakerlab.product.ui.PhotoViewPagerActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".user.ui.UserInfoActivity"
+            android:name="com.fangzhich.sneakerlab.user.ui.UserInfoActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".main.ui.SearchActivity"
+            android:name="com.fangzhich.sneakerlab.main.ui.SearchActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".user.ui.NotificationActivity"
+            android:name="com.fangzhich.sneakerlab.user.ui.NotificationActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".order.ui.OrderHistoryActivity"
+            android:name="com.fangzhich.sneakerlab.order.ui.OrderHistoryActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".main.ui.CurrencyActivity"
+            android:name="com.fangzhich.sneakerlab.main.ui.CurrencyActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".main.ui.LanguageActivity"
+            android:name="com.fangzhich.sneakerlab.main.ui.LanguageActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".main.ui.AboutActivity"
+            android:name="com.fangzhich.sneakerlab.main.ui.AboutActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".main.ui.ContactActivity"
+            android:name="com.fangzhich.sneakerlab.main.ui.ContactActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".main.ui.SupportActivity"
+            android:name="com.fangzhich.sneakerlab.main.ui.SupportActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".main.ui.ReturnPolicyActivity"
+            android:name="com.fangzhich.sneakerlab.main.ui.ReturnPolicyActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".main.ui.SettingActivity"
+            android:name="com.fangzhich.sneakerlab.main.ui.SettingActivity"
             android:theme="@style/AppTheme" />
     </application>
 

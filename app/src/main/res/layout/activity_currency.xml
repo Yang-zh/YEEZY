@@ -35,7 +35,7 @@
         android:textSize="16sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-    <com.fangzhich.yeezy.base.widget.spinner.NiceSpinner
+    <com.fangzhich.sneakerlab.base.widget.spinner.NiceSpinner
         android:layout_below="@+id/chooseCurrencyText"
         android:id="@+id/spinner_Currency"
         app:textTint="@color/tab_layout_select_color"

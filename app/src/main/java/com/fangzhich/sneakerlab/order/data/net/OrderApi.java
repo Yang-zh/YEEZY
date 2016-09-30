@@ -1,0 +1,71 @@
+package com.fangzhich.sneakerlab.order.data.net;
+
+import com.fangzhich.sneakerlab.base.data.net.BaseApi;
+import com.fangzhich.sneakerlab.order.data.entity.OrderEntity;
+import com.fangzhich.sneakerlab.order.data.entity.OrderItemEntity;
+import com.fangzhich.sneakerlab.util.Const;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import rx.SingleSubscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
+/**
+ * OrderApi
+ * Created by Khorium on 2016/9/29.
+ */
+
+public class OrderApi extends BaseApi {
+
+    /**
+     * Get order list request
+     * @param page page
+     * @param limit limit
+     * @param singleSubscriber SingleSubscriber in RxJava (Callback)
+     */
+    public static void getOrderList(String page, String limit, SingleSubscriber<ArrayList<OrderItemEntity>> singleSubscriber) {
+        String timestamp = getTimeStamp();
+
+        HashMap<String,String> params = new HashMap<>();
+        params.put("page", page);
+        params.put("limit", limit);
+        params.put("email", email);
+        params.put("token", token);
+        params.put("timestamp", timestamp);
+
+        String signature = getSignature(params);
+
+        createService(OrderService.class)
+                .getOrderlist(page,limit,email,token,timestamp,signature,API_KEY, Const.IMEI)
+                .map(new HttpResultFunc<ArrayList<OrderItemEntity>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(singleSubscriber);
+    }
+
+    /**
+     * Get order detail request
+     * @param order_id order id
+     * @param singleSubscriber SingleSubscriber in RxJava (Callback)
+     */
+    public static void getOrder(String order_id, SingleSubscriber<OrderEntity> singleSubscriber) {
+        String timestamp = getTimeStamp();
+
+        HashMap<String,String> params = new HashMap<>();
+        params.put("order_id", order_id);
+        params.put("email", email);
+        params.put("token", token);
+        params.put("timestamp", timestamp);
+
+        String signature = getSignature(params);
+
+        createService(OrderService.class)
+                .getOrder(order_id,email,token,timestamp,signature,API_KEY, Const.IMEI)
+                .map(new HttpResultFunc<OrderEntity>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(singleSubscriber);
+    }
+}

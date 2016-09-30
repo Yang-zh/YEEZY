@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">YEEZY</string>
+    <string name="app_name">SneakerLab</string>
     <string name="CloseDrawer">Close drawer</string>
     <string name="OpenDrawer">Open Drawer</string>
     <string name="Filter">Filter</string>
@@ -152,16 +152,17 @@
     <string name="ProductPriceFormat">$ {number}</string>
     <string name="ProductInventoryFormat">Inventory: {number}</string>
     <string name="ProductOptionFormat">Chose: {content}</string>
+    <string name="ShipTo">Ship To:</string>
+    <string name="State">State(Optional)</string>
 
     <string-array name = "currencies">
-        <item>CNY(￥)</item>
         <item>USD($)</item>
     </string-array>
     <string-array name = "languages">
         <item>English</item>
-        <item>Deutsch</item>
     </string-array>
     <string-array name = "genders">
+        <item>Secret</item>
         <item>Male</item>
         <item>Female</item>
     </string-array>
