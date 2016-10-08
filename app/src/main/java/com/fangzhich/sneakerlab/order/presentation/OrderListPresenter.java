@@ -39,4 +39,19 @@ public class OrderListPresenter implements OrderListContract.Presenter {
             }
         });
     }
+
+    @Override
+    public void getOrderListMore(String page, String limit) {
+        OrderApi.getOrderList(page, limit, new SingleSubscriber<ArrayList<OrderItemEntity>>() {
+            @Override
+            public void onSuccess(ArrayList<OrderItemEntity> value) {
+                mView.onLoadOrderListMoreSuccess(value);
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                mView.onLoadOrderListFailed(error);
+            }
+        });
+    }
 }

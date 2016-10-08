@@ -43,6 +43,7 @@
             android:id="@+id/price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:layout_below="@id/tv_productName"
             android:orientation="horizontal">
 
@@ -67,9 +68,9 @@
         </LinearLayout>
 
         <TextView
+            android:visibility="gone"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
             android:layout_marginBottom="5dp"
             android:id="@+id/tv_productSellVolume"
             android:layout_width="wrap_content"

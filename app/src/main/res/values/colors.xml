@@ -28,6 +28,7 @@
     <color name="popular_searches_background_color">#464450</color>
     <color name="spinner_background">#F3F4F6</color>
     <color name="cut_line_color">#D2D2D2</color>
+    <color name="cut_line_color2">#DDDDDD</color>
     <color name="text_color_gray">#999999</color>
     <color name="popup_background">#80000000</color>
     <color name="buttonColorBlue">#2FB7EB</color>

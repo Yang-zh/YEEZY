@@ -1,5 +1,6 @@
 package com.fangzhich.sneakerlab.cart.ui;
 
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,10 +8,16 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.ResourceEncoder;
+import com.bumptech.glide.load.engine.Resource;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.BaseRecyclerViewAdapter;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity.CartItem;
+import com.fangzhich.sneakerlab.product.data.entity.ProductEntity;
+
+import java.io.OutputStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,12 +75,18 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartItem, CartListAdapter.
     }
 
     @Override
-    protected void onBindHolder(ViewHolder holder, final int position) {
+    protected void onBindHolder(final ViewHolder holder, final int position) {
         final CartItem cartItem = mData.get(position);
         holder.tvProductName.setText(cartItem.name);
-        holder.ivProductImage.setImageResource(R.mipmap.product_image_placeholder);
+        Glide.with(holder.itemView.getContext())
+                .fromResource()
+                .asBitmap()
+                .load(R.mipmap.product_image_placeholder)
+                .fitCenter()
+                .into(holder.ivProductImage);
         holder.shippingDetail.setText(cartItem.shipping);
         holder.tvProductPrice.setText(cartItem.price);
+
         holder.remove.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -81,8 +94,8 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartItem, CartListAdapter.
                         cartManager.removeCartItem(cartItem.cart_id, new CartManager.RemoveItemCallBack() {
                             @Override
                             public void onSuccess() {
-                                mData.remove(position);
-                                notifyItemRemoved(position);
+                                mData.remove(holder.getAdapterPosition());
+                                notifyItemRemoved(holder.getAdapterPosition());
                             }
 
                             @Override

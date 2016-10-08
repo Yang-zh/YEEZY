@@ -12,5 +12,6 @@ public class WishEntity {
     public String product_id;
     public String name;
     public String date_added;
+    public String image;
     public List<String> images;
 }

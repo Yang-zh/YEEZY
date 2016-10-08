@@ -31,6 +31,7 @@ import com.fangzhich.sneakerlab.order.ui.OrderHistoryActivity;
 import com.fangzhich.sneakerlab.user.ui.LoginActivity;
 import com.fangzhich.sneakerlab.user.ui.NotificationActivity;
 import com.fangzhich.sneakerlab.user.ui.UserInfoActivity;
+import com.fangzhich.sneakerlab.user.ui.WishListActivity;
 import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.fangzhich.sneakerlab.util.MyUtil;
@@ -112,7 +113,7 @@ public class MainActivity extends BaseActivity {
         userInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, UserInfoActivity.class));
+                startActivity(new Intent(MainActivity.this, WishListActivity.class));
             }
         });
 
@@ -231,7 +232,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void loadData() {
         headImage.setImageResource(R.mipmap.headshot_true);
-        userName.setText(R.string.Username);
+        userName.setText(Const.isLogin()?Const.getUserInfo().user_info.firstname+" "+Const.getUserInfo().user_info.lastname:"Your name here");
     }
 
     @Override

@@ -93,7 +93,7 @@
     <string name="PickAtLeastOneCategory">Pick at least one category</string>
     <string name="ReturnPolicyDetail">We want to be completely satisfied with your purchase on Wish.</string>
     <string name="ProductNameSample">Hots Fashion Triple USB Port Wall Home Travel AC Power Charger Adapter Sale</string>
-    <string name="ColorIs">Color:</string>
+    <string name="ColorIs">Color: </string>
     <string name="Blue">Blue</string>
     <string name="QuantityIs">Quantity:</string>
     <string name="_1">1</string>
@@ -114,7 +114,7 @@
     <string name="OrderPlacedIs">Order Placed:</string>
     <string name="OrderDate">Sep 5,2016</string>
     <string name="Gray">Gray</string>
-    <string name="SizeIs">Size:</string>
+    <string name="SizeIs">Size: </string>
     <string name="SizeDetail">Women US5/UK3.5/EUR37</string>
     <string name="priceDetail">$ 1509.00</string>
     <string name="detail">detail</string>
@@ -154,6 +154,16 @@
     <string name="ProductOptionFormat">Chose: {content}</string>
     <string name="ShipTo">Ship To:</string>
     <string name="State">State(Optional)</string>
+    <string name="OrderDetail">Order Details</string>
+    <string name="OrderId">Order #:{content}</string>
+    <string name="ShippingAddress">Shipping Address</string>
+    <string name="PaymentMethod">Payment Method</string>
+    <string name="OrderPlaced">Order Placed: {content}</string>
+    <string name="Items">Items</string>
+    <string name="Tax">Tax</string>
+    <string name="ConfirmReceipt">Confirm receipt</string>
+    <string name="Review">Review</string>
+    <string name="plusOne">+1</string>
 
     <string-array name = "currencies">
         <item>USD($)</item>

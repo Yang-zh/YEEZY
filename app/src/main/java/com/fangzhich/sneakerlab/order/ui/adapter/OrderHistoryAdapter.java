@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.BaseRecyclerViewAdapter;
 import com.fangzhich.sneakerlab.order.data.entity.OrderItemEntity;
@@ -25,7 +26,7 @@ import timber.log.Timber;
  * OrderHistoryAdapter
  * Created by Khorium on 2016/9/18.
  */
-class OrderHistoryAdapter extends BaseRecyclerViewAdapter<OrderItemEntity, OrderHistoryAdapter.ViewHolder> implements OrderListContract.View {
+public class OrderHistoryAdapter extends BaseRecyclerViewAdapter<OrderItemEntity, OrderHistoryAdapter.ViewHolder> implements OrderListContract.View {
 
     private OrderListContract.Presenter mPresenter;
     private int mTotalPage = 0;
@@ -60,13 +61,14 @@ class OrderHistoryAdapter extends BaseRecyclerViewAdapter<OrderItemEntity, Order
 
     @Override
     public void loadMore() {
-        mPresenter.getOrderList(String.valueOf(++mTotalPage), "20");
-        notifyDataSetChanged();
+        mPresenter.getOrderListMore(String.valueOf(++mTotalPage), "20");
     }
 
     @Override
     public void onLoadOrderListMoreSuccess(ArrayList<OrderItemEntity> orderList) {
-        // todo un reach
+        int positionStart = mData.size() + 1;
+        mData.addAll(orderList);
+        notifyItemRangeChanged(positionStart,mData.size());
     }
 
     @Override

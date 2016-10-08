@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/tab_layout_background_color"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -7,12 +8,12 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:gravity="center"
         android:background="@color/colorPrimary">
-
         <RelativeLayout
+            android:layout_marginRight="72dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
@@ -24,6 +25,8 @@
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_wish_list"
+        android:background="@color/product_list_background_color"
         android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

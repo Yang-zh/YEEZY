@@ -15,6 +15,7 @@ public class OrderListContract {
     public interface Presenter extends BasePresenter{
         void getOrderList();
         void getOrderList(String page, String limit);
+        void getOrderListMore(String page, String limit);
     }
     public interface View extends BaseView<OrderListContract.Presenter> {
         void onLoadOrderListSuccess(ArrayList<OrderItemEntity> reviewList);

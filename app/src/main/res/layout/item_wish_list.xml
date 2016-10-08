@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_margin="10dp"
+        android:background="@drawable/background_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/picBig"
+            android:padding="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="match_parent"
+            android:layout_height="140dp" />
+        <LinearLayout
+            android:layout_below="@+id/picBig"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/pic1"
+                android:background="@drawable/background_edit_text"
+                android:layout_marginRight="5dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="45dp" />
+            <ImageView
+                android:id="@+id/pic2"
+                android:background="@drawable/background_edit_text"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="45dp" />
+            <TextView
+                android:id="@+id/plusOne"
+                android:gravity="center"
+                android:text="@string/plusOne"
+                android:textColor="@color/text_color_gray"
+                android:textSize="13sp"
+                android:background="@drawable/background_item_wish_list"
+                android:layout_marginLeft="5dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="45dp" />
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

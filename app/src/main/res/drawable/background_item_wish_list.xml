@@ -3,4 +3,6 @@
     <stroke
         android:width="0.5dp"
         android:color="@color/rectangleLine" />
+    <solid
+        android:color="@color/tab_layout_background_color" />
 </shape>

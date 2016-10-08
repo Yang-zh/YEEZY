@@ -51,6 +51,9 @@
             android:name="com.fangzhich.sneakerlab.user.ui.UserInfoActivity"
             android:theme="@style/AppTheme" />
         <activity
+            android:name="com.fangzhich.sneakerlab.user.ui.WishListActivity"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name="com.fangzhich.sneakerlab.main.ui.SearchActivity"
             android:theme="@style/AppTheme" />
         <activity
@@ -58,6 +61,9 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name="com.fangzhich.sneakerlab.order.ui.OrderHistoryActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.fangzhich.sneakerlab.order.ui.OrderDetailActivity"
             android:theme="@style/AppTheme" />
         <activity
             android:name="com.fangzhich.sneakerlab.main.ui.CurrencyActivity"
