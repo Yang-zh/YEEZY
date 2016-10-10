@@ -31,12 +31,19 @@ public class AddressDialog {
     @OnClick(R.id.bt_cancel)
     void cancel() {
         mPopupWindow.dismiss();
+    }
+
+    @OnClick(R.id.bt_back)
+    void back() {
+        mPopupWindow.setOnDismissListener(null);
+        mPopupWindow.dismiss();
         manager.reShowShoppingCartDialog();
     }
 
     @OnClick(R.id.bt_save_info)
     void saveInfo() {
-        dismiss();
+        mPopupWindow.setOnDismissListener(null);
+        mPopupWindow.dismiss();
         manager.reShowShoppingCartDialog();
     }
 
@@ -73,6 +80,13 @@ public class AddressDialog {
         mPopupWindow = new PopupWindow(mPopupContent, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
         mPopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         mPopupWindow.setAnimationStyle(R.style.Dialog);
+
+        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                manager.closeAll();
+            }
+        });
 
         spinnerCountry.setClickable(false);
 

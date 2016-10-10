@@ -41,6 +41,9 @@
             android:id="@+id/return_policy"
             android:icon="@mipmap/return_policy"
             android:title="@string/ReturnPolicy"/>
+        <item
+            android:id="@+id/signout"
+            android:title="@string/Signout"/>
     </group>
 
     <!--<item android:title="SubItems">-->

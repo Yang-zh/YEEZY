@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/product_list_background_color"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.v7.widget.CardView
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        app:cardBackgroundColor="@color/light_gray"
+        app:cardElevation="5dp"
+        app:cardCornerRadius="0dp">
+        <fr.castorflex.android.circularprogressbar.CircularProgressBar
+            android:id="@+id/progress_bar"
+            android:background="@color/light_gray"
+            android:layout_gravity="center"
+            android:layout_centerInParent="true"
+            android:indeterminate="true"
+            android:clickable="true"
+            app:cpb_color="@color/backgroundGray"
+            app:cpb_rotation_speed="1.0"
+            app:cpb_sweep_speed="1.0"
+            app:cpb_stroke_width="4dp"
+            app:cpb_min_sweep_angle="10"
+            app:cpb_max_sweep_angle="300"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+    </android.support.v7.widget.CardView>
+</RelativeLayout>

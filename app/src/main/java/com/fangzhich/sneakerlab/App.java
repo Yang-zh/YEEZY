@@ -3,8 +3,11 @@ package com.fangzhich.sneakerlab;
 import android.app.Application;
 
 import com.blankj.utilcode.utils.PhoneUtils;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.ToastUtil;
+import com.google.firebase.FirebaseApp;
 import com.orhanobut.logger.Logger;
 import com.squareup.leakcanary.LeakCanary;
 
@@ -59,6 +62,9 @@ public class App extends Application {
         //IMEI
         Const.IMEI = PhoneUtils.getPhoneIMEI(getApplicationContext());
 
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
 
      }
 

@@ -1,6 +1,7 @@
 package com.fangzhich.sneakerlab.order.data.net;
 
 import com.fangzhich.sneakerlab.base.data.net.BaseApi;
+import com.fangzhich.sneakerlab.order.data.entity.ConfirmOrderEntity;
 import com.fangzhich.sneakerlab.order.data.entity.OrderEntity;
 import com.fangzhich.sneakerlab.order.data.entity.OrderItemEntity;
 import com.fangzhich.sneakerlab.util.Const;
@@ -64,6 +65,29 @@ public class OrderApi extends BaseApi {
         createService(OrderService.class)
                 .getOrder(order_id,email,token,timestamp,signature,API_KEY, Const.IMEI)
                 .map(new HttpResultFunc<OrderEntity>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(singleSubscriber);
+    }
+
+    public static void checkOut(String address_id,String card_number,String card_month,String card_year,String card_cvv, SingleSubscriber<ConfirmOrderEntity> singleSubscriber) {
+        String timestamp = getTimeStamp();
+
+        HashMap<String,String> params = new HashMap<>();
+        params.put("address_id", address_id);
+        params.put("card_number", card_number);
+        params.put("card_month", card_month);
+        params.put("card_year", card_year);
+        params.put("card_cvv", card_cvv);
+        params.put("email", email);
+        params.put("token", token);
+        params.put("timestamp", timestamp);
+
+        String signature = getSignature(params);
+
+        createService(OrderService.class)
+                .checkOut(address_id,card_number,card_month,card_year,card_cvv,email,token,timestamp,signature,API_KEY, Const.IMEI)
+                .map(new HttpResultFunc<ConfirmOrderEntity>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(singleSubscriber);

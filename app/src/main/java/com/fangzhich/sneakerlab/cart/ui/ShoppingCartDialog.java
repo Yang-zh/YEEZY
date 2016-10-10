@@ -1,11 +1,14 @@
 package com.fangzhich.sneakerlab.cart.ui;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
@@ -16,13 +19,18 @@ import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.widget.DialogManager;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
 import com.fangzhich.sneakerlab.main.ui.ReturnPolicyActivity;
+import com.fangzhich.sneakerlab.order.data.entity.ConfirmOrderEntity;
+import com.fangzhich.sneakerlab.order.data.net.OrderApi;
 import com.fangzhich.sneakerlab.order.ui.OrderConfirmedActivity;
+import com.fangzhich.sneakerlab.user.data.net.UserApi;
+import com.fangzhich.sneakerlab.util.ToastUtil;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.SingleSubscriber;
 
 /**
  * ShoppingCartActivity
@@ -33,11 +41,11 @@ public class ShoppingCartDialog {
     private Context mContext;
     private View mContentView;
     private DialogManager manager;
+    private String address_id = "19";
 
     @OnClick(R.id.bt_cancel)
     void cancel() {
         mPopupWindow.dismiss();
-        manager.reShowSizeDialog();
     }
 
     //----------address dialog-------------
@@ -47,8 +55,20 @@ public class ShoppingCartDialog {
     TextView address;
     @OnClick(R.id.bt_address_edit)
     void editAddress() {
-        manager.startAddressDialog();
-        manager.hideShoppingCartDialog();
+        UserApi.addAddress("Khorium", "Z", "1111", "address", "city", "post_code", "1", "1", new SingleSubscriber<String>() {
+            @Override
+            public void onSuccess(String value) {
+                ToastUtil.toast("address_id="+value);
+                address_id = value;
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                ToastUtil.toast(error.getMessage());
+            }
+        });
+//        manager.startAddressDialog();
+//        manager.hideShoppingCartDialog();
     }
 
     //----------credit card dialog-------------
@@ -81,11 +101,26 @@ public class ShoppingCartDialog {
 
     @OnClick(R.id.bt_checkout)
     void checkout() {
-        Intent intent = new Intent(mContext, OrderConfirmedActivity.class);
-        intent.putParcelableArrayListExtra("cartList", (ArrayList<CartEntity.CartItem>) adapter.getData());
-        mContext.startActivity(intent);
-        manager.closeAll();
-        manager.closeProductDetail();
+        if (address_id==null) {
+            ToastUtil.toast("address should not be null");
+            return;
+        }
+        OrderApi.checkOut(address_id, "4514617622367813", "09", "2020", "144", new SingleSubscriber<ConfirmOrderEntity>() {
+            @Override
+            public void onSuccess(ConfirmOrderEntity value) {
+                ToastUtil.toast("Check out success!");
+                Intent intent = new Intent(mContext, OrderConfirmedActivity.class);
+                intent.putParcelableArrayListExtra("cartList", (ArrayList<CartEntity.CartItem>) adapter.getData());
+                mContext.startActivity(intent);
+                manager.closeAll();
+                manager.closeProductDetail();
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                ToastUtil.toast(error.getMessage());
+            }
+        });
     }
 
     @BindView(R.id.rv_shoppingCart_list)
@@ -102,15 +137,21 @@ public class ShoppingCartDialog {
     private View mPopupContent;
 
 
-    public ShoppingCartDialog initPopup(DialogManager manager, Context context) {
+    public ShoppingCartDialog initPopup(final DialogManager manager, Context context) {
         this.manager = manager;
         mContext = context;
         mPopupContent = View.inflate(context, R.layout.dialog_shoppingcart, null);
         ButterKnife.bind(this, mPopupContent);
 
         mPopupWindow = new PopupWindow(mPopupContent, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
-        mPopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
         mPopupWindow.setAnimationStyle(R.style.Dialog);
+        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                manager.closeAll();
+            }
+        });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         return this;

@@ -81,6 +81,7 @@ public class OrderHistoryAdapter extends BaseRecyclerViewAdapter<OrderItemEntity
         final OrderItemEntity order = mData.get(position);
         holder.status.setText(order.status);
         holder.orderDate.setText(order.date_added);
+
         holder.detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

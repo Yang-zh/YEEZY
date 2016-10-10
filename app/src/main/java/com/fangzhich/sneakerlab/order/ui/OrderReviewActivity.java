@@ -1,9 +1,10 @@
-package com.fangzhich.sneakerlab.user.ui;
+package com.fangzhich.sneakerlab.order.ui;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.fangzhich.sneakerlab.R;
@@ -14,25 +15,27 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
- * ForgetPasswordActivity
- * Created by Khorium on 2016/9/27.
+ * OrderReviewActivity
+ * Created by Khorium on 2016/10/10.
  */
-public class ForgetPasswordActivity extends BaseActivity {
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+public class OrderReviewActivity extends BaseActivity {
     @BindView(R.id.title)
     TextView title;
-    @BindView(R.id.et_email)
-    EditText etEmail;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.rating_bar)
+    RatingBar ratingBar;
+    @BindView(R.id.et_evaluation)
+    EditText etEvaluation;
     @OnClick(R.id.bt_submit)
     void submit() {
-        ToastUtil.toast("send");
+        ToastUtil.toast("Success");
     }
 
     @Override
     public int setContentLayout() {
-        return R.layout.activity_forget_password;
+        return R.layout.activity_order_review;
     }
 
     @Override
@@ -48,16 +51,16 @@ public class ForgetPasswordActivity extends BaseActivity {
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        title.setText(R.string.ResetPassword);
+        title.setText(R.string.SignIn);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

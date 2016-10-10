@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1094032223589",
+    "firebase_url": "https://sneakerlab-5762d.firebaseio.com",
+    "project_id": "sneakerlab-5762d",
+    "storage_bucket": "sneakerlab-5762d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1094032223589:android:a1685ba569ece75a",
+        "android_client_info": {
+          "package_name": "com.fangzhich.sneakerlab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1094032223589-b7tlrhls4k2415oamelrndjesp3s4nqt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnZFTutSiM0w7LjgBvmvMEN3LrO99z86Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

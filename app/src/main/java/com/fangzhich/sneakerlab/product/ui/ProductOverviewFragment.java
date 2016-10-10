@@ -1,6 +1,7 @@
 package com.fangzhich.sneakerlab.product.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -51,13 +52,17 @@ public class ProductOverviewFragment extends BaseFragment {
             }
         });
     }
-
+ 
     @BindView(R.id.shareText)
     TextView shareText;
 
     @OnClick(R.id.bt_right)
     void btRight() {
-        ToastUtil.toast("share");
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "https://play.google.com/store/apps/details?id=com.fangzhich.sneakerlab");
+        sendIntent.setType("text/plain");
+        startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.ShareTo)));
     }
 
     @BindView(R.id.product_name)

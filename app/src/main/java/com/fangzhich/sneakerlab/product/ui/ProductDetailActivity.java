@@ -19,6 +19,7 @@ import com.fangzhich.sneakerlab.product.presentation.ProductDetailContract;
 import com.fangzhich.sneakerlab.product.presentation.ProductDetailPresenter;
 import com.fangzhich.sneakerlab.util.MyUtil;
 import com.fangzhich.sneakerlab.util.TagFormatUtil;
+import com.fangzhich.sneakerlab.util.ToastUtil;
 
 import java.util.ArrayList;
 
@@ -204,6 +205,12 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
                 viewPager.setCurrentItem(4);
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        ToastUtil.toast("detail back press");
+        super.onBackPressed();
     }
 
     @Override

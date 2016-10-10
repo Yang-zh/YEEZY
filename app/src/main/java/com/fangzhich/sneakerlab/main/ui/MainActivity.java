@@ -28,6 +28,7 @@ import com.fangzhich.sneakerlab.main.data.entity.CategoryEntity;
 import com.fangzhich.sneakerlab.main.data.net.MainApi;
 import com.fangzhich.sneakerlab.product.ui.ProductListFragment;
 import com.fangzhich.sneakerlab.order.ui.OrderHistoryActivity;
+import com.fangzhich.sneakerlab.user.data.net.UserApi;
 import com.fangzhich.sneakerlab.user.ui.LoginActivity;
 import com.fangzhich.sneakerlab.user.ui.NotificationActivity;
 import com.fangzhich.sneakerlab.user.ui.UserInfoActivity;
@@ -78,8 +79,18 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initContentView() {
+        getNotification();
         initActionBarAndDrawer();
         initViewPager();
+    }
+
+    private void getNotification() {
+        if (getIntent().getExtras() != null) {
+            for (String key : getIntent().getExtras().keySet()) {
+                Object value = getIntent().getExtras().get(key);
+                Timber.d("Key: " + key + " Value: " + value);
+            }
+        }
     }
 
     private void initActionBarAndDrawer() {
@@ -133,7 +144,7 @@ public class MainActivity extends BaseActivity {
                         if (!Const.isLogin()) {
                             startActivity(new Intent(MainActivity.this, LoginActivity.class));
                         } else {
-                            new DialogManager(MainActivity.this,getWindow().getDecorView()).startShoppingCartDialog();
+                            new DialogManager(MainActivity.this, getWindow().getDecorView()).startShoppingCartDialog();
                         }
                         break;
                     case R.id.history:
@@ -157,6 +168,20 @@ public class MainActivity extends BaseActivity {
                     case R.id.return_policy:
                         startActivity(new Intent(MainActivity.this, ReturnPolicyActivity.class));
                         break;
+                    case R.id.signout:
+                        UserApi.signOut(new SingleSubscriber<Object>() {
+                            @Override
+                            public void onSuccess(Object value) {
+                                Const.setLogin(false);
+                                ToastUtil.toast("sign out success");
+                            }
+
+                            @Override
+                            public void onError(Throwable error) {
+                                Const.setLogin(false);
+                                ToastUtil.toast(error.getMessage());
+                            }
+                        });
                 }
                 drawerLayout.closeDrawers();
                 return true;
@@ -232,7 +257,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void loadData() {
         headImage.setImageResource(R.mipmap.headshot_true);
-        userName.setText(Const.isLogin()?Const.getUserInfo().user_info.firstname+" "+Const.getUserInfo().user_info.lastname:"Your name here");
+        userName.setText(Const.isLogin() ? Const.getUserInfo().user_info.firstname + " " + Const.getUserInfo().user_info.lastname : "Your name here");
     }
 
     @Override
@@ -263,10 +288,6 @@ public class MainActivity extends BaseActivity {
             return true;
         }
         switch (item.getItemId()) {
-//            case R.id.filter:
-//                Const.setLogin(false);
-//                ToastUtil.toast("sign out success");
-//                break;
             case R.id.search:
                 startActivity(new Intent(MainActivity.this, SearchActivity.class));
                 break;

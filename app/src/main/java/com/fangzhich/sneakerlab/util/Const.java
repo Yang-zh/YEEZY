@@ -25,6 +25,8 @@ public class Const {
 
     public static String IMEI;
 
+    public static String fireBaseMessageToken;
+
     public static class Obj {
         public static final SPUtils AppSp = new SPUtils(mContext,SP.APP);
         public static final Gson gson = new Gson();

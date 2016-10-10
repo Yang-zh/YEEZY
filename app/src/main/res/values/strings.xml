@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">SneakerLab</string>
+
+    <string name="facebook_app_id">637256776443104</string>
+
     <string name="CloseDrawer">Close drawer</string>
     <string name="OpenDrawer">Open Drawer</string>
     <string name="Filter">Filter</string>
@@ -164,6 +167,13 @@
     <string name="ConfirmReceipt">Confirm receipt</string>
     <string name="Review">Review</string>
     <string name="plusOne">+1</string>
+    <string name="ShareTo">Share to…</string>
+    <string name="Signout">Sign out</string>
+    <string name="ResetPassword">Reset Password</string>
+    <string name="EnterYourEmailAddress">Enter Your Email Address</string>
+    <string name="CommodityGrade">Commodity grade</string>
+    <string name="PleaseEnterTheEvaluation">Please enter the evaluation</string>
+    <string name="Submit">Submit</string>
 
     <string-array name = "currencies">
         <item>USD($)</item>

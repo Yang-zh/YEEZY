@@ -1,14 +1,18 @@
 package com.fangzhich.sneakerlab.product.widget;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -29,6 +33,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 /**
  * SizeDialog
@@ -80,8 +85,8 @@ public class SizeDialog {
     @OnClick(R.id.bt_buy)
     void buy() {
         if (Const.isLogin()) {
-            manager.startShoppingCartDialog(String.valueOf(product.product_id), String.valueOf(quantity), option, "0");
             manager.hideSizeDialog();
+            manager.startShoppingCartDialog(String.valueOf(product.product_id), String.valueOf(quantity), option, "0");
         } else {
             mContext.startActivity(new Intent(mContext, LoginActivity.class));
         }
@@ -107,7 +112,7 @@ public class SizeDialog {
         ButterKnife.bind(this, mPopupContent);
 
         mPopupWindow = new PopupWindow(mPopupContent, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
-        mPopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
         mPopupWindow.setAnimationStyle(R.style.Dialog);
 
         numberButton.setGoods_storage(99);
