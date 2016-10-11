@@ -35,6 +35,8 @@
     <color name="buttonColorBluePressed">#992FB7EB</color>
     <color name="another_gray">#F2F2F2</color>
     <color name="text_color_red">#DE4536</color>
+    <color name="login_by_facebook_button_background_gray">#E5E5E5</color>
     <color name="buttonColorRed">#DA493C</color>
     <color name="shipping_info_background_color">#FAFAFA</color>
+    <color name="background_splash">#887A7A7A</color>
 </resources>

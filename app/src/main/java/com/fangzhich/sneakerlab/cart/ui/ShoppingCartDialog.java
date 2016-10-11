@@ -1,14 +1,12 @@
 package com.fangzhich.sneakerlab.cart.ui;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
@@ -17,12 +15,12 @@ import android.widget.TextView;
 
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.widget.DialogManager;
+import com.fangzhich.sneakerlab.base.widget.ProgressBar;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
 import com.fangzhich.sneakerlab.main.ui.ReturnPolicyActivity;
 import com.fangzhich.sneakerlab.order.data.entity.ConfirmOrderEntity;
 import com.fangzhich.sneakerlab.order.data.net.OrderApi;
 import com.fangzhich.sneakerlab.order.ui.OrderConfirmedActivity;
-import com.fangzhich.sneakerlab.user.data.net.UserApi;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 
 import java.util.ArrayList;
@@ -41,7 +39,6 @@ public class ShoppingCartDialog {
     private Context mContext;
     private View mContentView;
     private DialogManager manager;
-    private String address_id = "19";
 
     @OnClick(R.id.bt_cancel)
     void cancel() {
@@ -55,21 +52,10 @@ public class ShoppingCartDialog {
     TextView address;
     @OnClick(R.id.bt_address_edit)
     void editAddress() {
-        UserApi.addAddress("Khorium", "Z", "1111", "address", "city", "post_code", "1", "1", new SingleSubscriber<String>() {
-            @Override
-            public void onSuccess(String value) {
-                ToastUtil.toast("address_id="+value);
-                address_id = value;
-            }
-
-            @Override
-            public void onError(Throwable error) {
-                ToastUtil.toast(error.getMessage());
-            }
-        });
-//        manager.startAddressDialog();
-//        manager.hideShoppingCartDialog();
+        manager.startAddressDialog(cart==null?null:(cart.address.size()>0?null:cart.address.get(0)));
+        manager.hideShoppingCartDialog();
     }
+    private String address_id;
 
     //----------credit card dialog-------------
     @BindView(R.id.bill_layout)
@@ -80,10 +66,16 @@ public class ShoppingCartDialog {
     TextView creditCartNumber;
     @OnClick(R.id.bt_card_edit)
     void editCreditCardInfo() {
-        manager.startCreditCardDialog();
+        manager.startCreditCardDialog(cart==null?null:(cart.payment.size()>0?null:cart.payment.get(0)));
         manager.hideShoppingCartDialog();
     }
+    private String cardType;
+    private String cardNumber;
+    private String cardYead;
+    private String cardMonth;
+    private String cardCvv;
 
+    public CartEntity cart;
 
     @BindView(R.id.tv_item_total)
     TextView tvItemTotal;
@@ -101,16 +93,29 @@ public class ShoppingCartDialog {
 
     @OnClick(R.id.bt_checkout)
     void checkout() {
-        if (address_id==null) {
-            ToastUtil.toast("address should not be null");
+        if (TextUtils.isEmpty(address_id)) {
+            ToastUtil.toast("please add address info");
             return;
         }
-        OrderApi.checkOut(address_id, "4514617622367813", "09", "2020", "144", new SingleSubscriber<ConfirmOrderEntity>() {
+        if (TextUtils.isEmpty(cardType) || TextUtils.isEmpty(cardNumber)) {
+            ToastUtil.toast("Please add credit card info");
+        }
+
+        final ProgressBar progressBar = ProgressBar.getInstance();
+        progressBar.init(mContext, new ProgressBar.Callback() {
+            @Override
+            public void onProgressBarClick(View v) {
+
+            }
+        }).show();
+
+        OrderApi.checkOut(address_id, "4514617622367813", "09", "20", "144", new SingleSubscriber<ConfirmOrderEntity>() {
             @Override
             public void onSuccess(ConfirmOrderEntity value) {
+                progressBar.cancel();
                 ToastUtil.toast("Check out success!");
                 Intent intent = new Intent(mContext, OrderConfirmedActivity.class);
-                intent.putParcelableArrayListExtra("cartList", (ArrayList<CartEntity.CartItem>) adapter.getData());
+                intent.putParcelableArrayListExtra("cartList", (ArrayList<CartEntity.Product>) adapter.getData());
                 mContext.startActivity(intent);
                 manager.closeAll();
                 manager.closeProductDetail();
@@ -118,6 +123,7 @@ public class ShoppingCartDialog {
 
             @Override
             public void onError(Throwable error) {
+                progressBar.cancel();
                 ToastUtil.toast(error.getMessage());
             }
         });
@@ -184,8 +190,25 @@ public class ShoppingCartDialog {
         recyclerView.setAdapter(adapter);
         adapter.loadData();
         adapter.setOnLoadDataListener(new CartListAdapter.OnLoadDataListener() {
+
             @Override
             public void loadCartData(CartEntity cart) {
+                ShoppingCartDialog.this.cart = cart;
+                if (cart.address.size()>=1) {
+                    CartEntity.Address addressEntity = cart.address.get(0);
+                    address_id = addressEntity.address_id;
+
+                    address.setText(addressEntity.city+" "+addressEntity.address_1);
+                }
+                if (cart.payment.size()>=1) {
+                    CartEntity.Payment entity = cart.payment.get(0);
+                    cardType = entity.title;
+                    cardNumber = entity.code;
+
+                    creditCardType.setText(entity.title);
+                    creditCartNumber.setText(entity.code);
+                }
+
                 tvEstimatedShipping.setText("$0");
                 for (CartEntity.Totals total: cart.totals) {
                     switch (total.title) {
@@ -217,10 +240,7 @@ public class ShoppingCartDialog {
     }
 
     public boolean isShowing() {
-        if (mPopupWindow == null) {
-            return false;
-        }
-        return mPopupWindow.isShowing();
+        return mPopupWindow != null && mPopupWindow.isShowing();
     }
 
     public void dismiss() {
@@ -242,5 +262,20 @@ public class ShoppingCartDialog {
         if (mPopupWindow != null) {
             mPopupWindow.getContentView().setVisibility(View.VISIBLE);
         }
+    }
+
+    public void saveAddress(String id, String address) {
+        address_id = id;
+        this.address.setText(address);
+    }
+
+    public void saveCreditCard(String type,String number,String year,String month,String cvv) {
+        cardType = type;
+        cardYead = year;
+        cardMonth = month;
+        cardCvv = cvv;
+        cardNumber = number;
+        creditCardType.setText(type);
+        creditCartNumber.setText(number);
     }
 }

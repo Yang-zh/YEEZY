@@ -4,7 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="cardViewMargin">2dp</dimen>
 
-    <dimen name="action_bar_title_size">18sp</dimen>
+    <dimen name="action_bar_title_size">17sp</dimen>
     <dimen name="navigation_header_username_size">16sp</dimen>
     <dimen name="product_list_item_text_size">14sp</dimen>
     <dimen name="product_list_item_subText_size">12sp</dimen>

@@ -92,10 +92,10 @@ interface UserService {
     @FormUrlEncoded
     @POST("index.php?route=api/address/add")
     Single<HttpResult<String>> addAddress(
-            @Field("firstname") String firstname,
-            @Field("lastname") String lastname,
+            @Field("fullname") String fullname,
             @Field("phone") String phone,
             @Field("address") String address,
+            @Field("suite") String suite,
             @Field("city") String city,
             @Field("postcode") String postcode,
             @Field("country_id") String country_id,
@@ -111,10 +111,10 @@ interface UserService {
     @POST("index.php?route=api/address/edit")
     Single<HttpResult<Object>> editAddress(
             @Field("address_id") String address_id,
-            @Field("firstname") String firstname,
-            @Field("lastname") String lastname,
+            @Field("fullname") String fullname,
             @Field("phone") String phone,
             @Field("address") String address,
+            @Field("suite") String suite,
             @Field("city") String city,
             @Field("postcode") String postcode,
             @Field("country_id") String country_id,
@@ -139,9 +139,11 @@ interface UserService {
     @FormUrlEncoded
     @POST("index.php?route=api/credit/add")
     Single<HttpResult<String>> addCreditCard(
-            @Field("number") String number,
-            @Field("thru") String thru,
-            @Field("cvc2") String cvc2,
+            @Field("card_number") String card_number,
+            @Field("card_month") String card_month,
+            @Field("card_year") String card_year,
+            @Field("card_cvv") String card_cvv,
+            @Field("zip_code") String zip_code,
             @Field("email") String email,
             @Field("token") String token,
             @Field("timestamp") String timestamp,
@@ -152,9 +154,11 @@ interface UserService {
     @FormUrlEncoded
     @POST("index.php?route=api/credit/edit")
     Single<HttpResult<Object>> editCreditCard(
-            @Field("number") String number,
-            @Field("thru") String thru,
-            @Field("cvc2") String cvc2,
+            @Field("card_number") String card_number,
+            @Field("card_month") String card_month,
+            @Field("card_year") String card_year,
+            @Field("card_cvv") String card_cvv,
+            @Field("zip_code") String zip_code,
             @Field("email") String email,
             @Field("token") String token,
             @Field("timestamp") String timestamp,

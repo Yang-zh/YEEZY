@@ -1,6 +1,5 @@
 package com.fangzhich.sneakerlab.cart.ui;
 
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,15 +8,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.ResourceEncoder;
-import com.bumptech.glide.load.engine.Resource;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.BaseRecyclerViewAdapter;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
-import com.fangzhich.sneakerlab.cart.data.entity.CartEntity.CartItem;
-import com.fangzhich.sneakerlab.product.data.entity.ProductEntity;
-
-import java.io.OutputStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,7 +20,7 @@ import timber.log.Timber;
  * CartListAdapter
  * Created by Khorium on 2016/9/23.
  */
-class CartListAdapter extends BaseRecyclerViewAdapter<CartItem, CartListAdapter.ViewHolder> {
+class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Product, CartListAdapter.ViewHolder> {
 
     private CartManager cartManager = new CartManager();
     private OnLoadDataListener onLoadDataListener;
@@ -76,7 +69,7 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartItem, CartListAdapter.
 
     @Override
     protected void onBindHolder(final ViewHolder holder, final int position) {
-        final CartItem cartItem = mData.get(position);
+        final CartEntity.Product cartItem = mData.get(position);
         holder.tvProductName.setText(cartItem.name);
         Glide.with(holder.itemView.getContext())
                 .fromResource()
@@ -85,7 +78,7 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartItem, CartListAdapter.
                 .fitCenter()
                 .into(holder.ivProductImage);
         holder.shippingDetail.setText(cartItem.shipping);
-        holder.tvProductPrice.setText(cartItem.price);
+        holder.tvProductPrice.setText(cartItem.special_price);
 
         holder.remove.setOnClickListener(
                 new View.OnClickListener() {

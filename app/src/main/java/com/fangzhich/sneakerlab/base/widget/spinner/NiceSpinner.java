@@ -1,7 +1,9 @@
 package com.fangzhich.sneakerlab.base.widget.spinner;
 
 import android.animation.ObjectAnimator;
+import android.app.ActionBar;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
@@ -13,12 +15,15 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
+import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -42,8 +47,10 @@ public class NiceSpinner extends TextView {
 
     private int selectedIndex;
     private Drawable drawable;
-    private PopupWindow popupWindow;
+//    private PopupWindow popupWindow;
+    private AlertDialog dialog;
     private ListView listView;
+    private FrameLayout contentView;
     private NiceSpinnerBaseAdapter adapter;
     private AdapterView.OnItemClickListener onItemClickListener;
     private AdapterView.OnItemSelectedListener onItemSelectedListener;
@@ -72,8 +79,8 @@ public class NiceSpinner extends TextView {
         Bundle bundle = new Bundle();
         bundle.putParcelable(INSTANCE_STATE, super.onSaveInstanceState());
         bundle.putInt(SELECTED_INDEX, selectedIndex);
-        if (popupWindow != null) {
-            bundle.putBoolean(IS_POPUP_SHOWING, popupWindow.isShowing());
+        if (dialog != null) {
+            bundle.putBoolean(IS_POPUP_SHOWING, dialog.isShowing());
             dismissDropDown();
         }
         return bundle;
@@ -91,7 +98,7 @@ public class NiceSpinner extends TextView {
             }
 
             if (bundle.getBoolean(IS_POPUP_SHOWING)) {
-                if (popupWindow != null) {
+                if (dialog != null) {
                     // Post the show request into the looper to avoid bad token exception
                     post(new Runnable() {
                         @Override
@@ -157,27 +164,44 @@ public class NiceSpinner extends TextView {
             }
         });
 
-        popupWindow = new PopupWindow(context);
-        popupWindow.setContentView(listView);
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setFocusable(true);
+        contentView = new FrameLayout(context);
+        contentView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,FrameLayout.LayoutParams.WRAP_CONTENT));
+        contentView.addView(listView);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            popupWindow.setElevation(DEFAULT_ELEVATION);
-            popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_drawable));
-        } else {
-            popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.drop_down_shadow));
-        }
+        dialog = new AlertDialog.Builder(context).create();
 
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
 
+
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
-            public void onDismiss() {
+            public void onDismiss(DialogInterface dialog) {
                 if (!isArrowHide) {
                     animateArrow(false);
                 }
             }
         });
+//
+//        popupWindow = new PopupWindow(context);
+//        popupWindow.setContentView(listView);
+//        popupWindow.setOutsideTouchable(true);
+//        popupWindow.setFocusable(true);
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            popupWindow.setElevation(DEFAULT_ELEVATION);
+//            popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_drawable));
+//        } else {
+//            popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.drop_down_shadow));
+//        }
+//
+//        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+//
+//            @Override
+//            public void onDismiss() {
+//                if (!isArrowHide) {
+//                    animateArrow(false);
+//                }
+//            }
+//        });
 
         isArrowHide = typedArray.getBoolean(R.styleable.NiceSpinner_hideArrow, false);
         if (!isArrowHide) {
@@ -243,15 +267,16 @@ public class NiceSpinner extends TextView {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        popupWindow.setWidth(MeasureSpec.getSize(widthMeasureSpec));
-        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+//        popupWindow.setWidth(MeasureSpec.getSize(widthMeasureSpec));
+//        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
     @Override
     public boolean onTouchEvent(@NonNull MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_UP) {
-            if (!popupWindow.isShowing()) {
+            if (!dialog.isShowing()) {
                 showDropDown();
             } else {
                 dismissDropDown();
@@ -272,14 +297,18 @@ public class NiceSpinner extends TextView {
         if (!isArrowHide) {
             animateArrow(false);
         }
-        popupWindow.dismiss();
+        dialog.dismiss();
     }
 
     public void showDropDown() {
         if (!isArrowHide) {
             animateArrow(true);
         }
-        popupWindow.showAsDropDown(this);
+        dialog.show();
+        Window window = dialog.getWindow();
+        if (window!=null) {
+            window.setContentView(contentView);
+        }
     }
 
     public void setTintColor(@ColorRes int resId) {

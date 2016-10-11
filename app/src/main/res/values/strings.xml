@@ -90,9 +90,9 @@
     <string name="JoinWithFacebook">Join with Facebook</string>
     <string name="SignIn">Sign In</string>
     <string name="ForgetPassword">Forget Password</string>
-    <string name="SignInWithFaceBook">Sign in with Facebook</string>
+    <string name="SignInWithFaceBook">Sign In with Facebook</string>
     <string name="Welcome">Welcome</string>
-    <string name="WhatDoYouLikeToShoppingFor">What do you like to shopping for?</string>
+    <string name="WhatDoYouLikeToShopFor">What do you like to shop for?</string>
     <string name="PickAtLeastOneCategory">Pick at least one category</string>
     <string name="ReturnPolicyDetail">We want to be completely satisfied with your purchase on Wish.</string>
     <string name="ProductNameSample">Hots Fashion Triple USB Port Wall Home Travel AC Power Charger Adapter Sale</string>
@@ -174,6 +174,11 @@
     <string name="CommodityGrade">Commodity grade</string>
     <string name="PleaseEnterTheEvaluation">Please enter the evaluation</string>
     <string name="Submit">Submit</string>
+    <string name="LetsSignYourIn">Let\'s sign you in</string>
+    <string name="LetsCreateYourAccount">Let\'s create your account</string>
+    <string name="title">title</string>
+    <string name="SaveShippingInfo">Save shipping Info</string>
+    <string name="Miscellaneous">Miscellaneous</string>
 
     <string-array name = "currencies">
         <item>USD($)</item>

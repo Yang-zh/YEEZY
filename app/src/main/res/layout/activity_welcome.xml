@@ -33,8 +33,8 @@
 
         <TextView
             android:id="@+id/introduce"
-            android:text="@string/WhatDoYouLikeToShoppingFor"
-            android:textSize="18sp"
+            android:text="@string/WhatDoYouLikeToShopFor"
+            android:textSize="15sp"
             android:textColor="@color/tab_layout_select_color"
             android:textStyle="bold"
             android:layout_marginTop="10dp"
@@ -45,7 +45,7 @@
         <TextView
             android:id="@+id/introduce_text"
             android:text="@string/PickAtLeastOneCategory"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textColor="@color/text_color_gray"
             android:layout_below="@+id/introduce"
             android:layout_marginTop="5dp"
@@ -63,22 +63,21 @@
         android:id="@+id/bt_next"
         android:foreground="?attr/selectableItemBackgroundBorderless"
         app:cardCornerRadius="3dp"
-        app:cardUseCompatPadding="true"
+        app:cardUseCompatPadding="false"
         app:cardElevation="1dp"
-        app:cardBackgroundColor="@color/colorAccent"
+        app:cardBackgroundColor="@color/text_color_red"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp" >
+        android:layout_marginBottom="15dp" >
         <TextView
             android:textColor="@color/product_list_background_color"
             android:gravity="center"
-            android:textStyle="bold"
             android:text="@string/Next"
-            android:textSize="14sp"
+            android:textSize="15sp"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </android.support.v7.widget.CardView>

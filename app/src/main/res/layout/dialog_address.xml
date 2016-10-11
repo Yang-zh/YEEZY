@@ -12,7 +12,7 @@
         android:background="@android:color/transparent"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:paddingTop="5dp">
+        android:paddingTop="15dp">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -21,11 +21,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginBottom="16dp"
             android:text="@string/ContinueShopping"
             android:textColor="@android:color/white"
-            android:textSize="13sp" />
+            android:textSize="12sp" />
     </LinearLayout>
     <RelativeLayout
         android:layout_alignParentBottom="true"
@@ -36,37 +36,29 @@
         <TextView
             android:id="@+id/dialog_content_title"
             android:layout_marginTop="14dp"
-            android:layout_marginBottom="14dp"
             android:layout_marginLeft="14dp"
             android:layout_marginRight="14dp"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:text="@string/BillTo"
             android:textColor="@color/tab_layout_select_color"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        <!--<TextView-->
+            <!--android:id="@+id/bt_back"-->
+            <!--android:textSize="15sp"-->
+            <!--android:layout_marginTop="14dp"-->
+            <!--android:layout_marginLeft="14dp"-->
+            <!--android:layout_marginRight="14dp"-->
+            <!--android:textColor="@color/dialog_button_cancel"-->
+            <!--android:text="@string/Cancel"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
         <TextView
-            android:id="@+id/bt_back"
-            android:textSize="15sp"
-            android:layout_marginTop="14dp"
-            android:layout_marginBottom="14dp"
-            android:layout_marginLeft="14dp"
-            android:layout_marginRight="14dp"
-            android:textColor="@color/dialog_button_cancel"
-            android:text="@string/Cancel"
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <View
-            android:id="@+id/aboveLine"
             android:layout_below="@+id/dialog_content_title"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/cut_line_color"/>
-        <TextView
-            android:layout_below="@+id/aboveLine"
             android:id="@+id/inputIndicate"
             android:textColor="@color/tab_layout_select_color"
-            android:textSize="13sp"
+            android:textSize="12sp"
             android:layout_marginLeft="14dp"
             android:layout_marginRight="14dp"
             android:layout_marginTop="5dp"
@@ -80,12 +72,12 @@
             android:paddingLeft="9dp"
             android:layout_marginLeft="14dp"
             android:layout_marginRight="14dp"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:layout_below="@+id/inputIndicate"
             android:layout_marginTop="5dp"
             android:hint="@string/Bay"
             android:layout_width="match_parent"
-            android:layout_height="35dp" />
+            android:layout_height="32dp" />
         <EditText
             style="@style/EditText"
             android:id="@+id/et_address_street"
@@ -93,12 +85,12 @@
             android:paddingLeft="9dp"
             android:layout_marginLeft="14dp"
             android:layout_marginRight="14dp"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:layout_below="@+id/et_address_bay"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:hint="@string/StreetAddress"
             android:layout_width="match_parent"
-            android:layout_height="35dp" />
+            android:layout_height="32dp" />
         <EditText
             style="@style/EditText"
             android:id="@+id/et_address_unit"
@@ -106,17 +98,17 @@
             android:paddingLeft="9dp"
             android:layout_marginLeft="14dp"
             android:layout_marginRight="14dp"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:layout_below="@+id/et_address_street"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:hint="@string/Unit"
             android:layout_width="match_parent"
-            android:layout_height="35dp" />
+            android:layout_height="32dp" />
         <LinearLayout
             android:id="@+id/country_layout"
             android:layout_marginLeft="14dp"
             android:layout_marginRight="14dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:gravity="center_vertical"
             android:layout_below="@+id/et_address_unit"
             android:orientation="horizontal"
@@ -124,22 +116,32 @@
             android:layout_height="wrap_content">
             <com.fangzhich.sneakerlab.base.widget.spinner.NiceSpinner
                 android:id="@+id/spinner_country"
+                android:textSize="12sp"
                 app:textTint="@color/tab_layout_select_color"
                 android:layout_marginRight="2dp"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="35dp"/>
-            <EditText
-                style="@style/EditText"
-                android:id="@+id/et_address_state"
-                android:paddingRight="9dp"
-                android:paddingLeft="9dp"
-                android:textSize="14sp"
+                android:layout_height="32dp"/>
+
+            <com.fangzhich.sneakerlab.base.widget.spinner.NiceSpinner
+                android:id="@+id/spinner_state"
+                android:textSize="12sp"
+                app:textTint="@color/tab_layout_select_color"
                 android:layout_marginLeft="2dp"
-                android:hint="@string/State"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="35dp" />
+                android:layout_height="32dp"/>
+            <!--<EditText-->
+                <!--style="@style/EditText"-->
+                <!--android:id="@+id/et_address_state"-->
+                <!--android:paddingRight="9dp"-->
+                <!--android:paddingLeft="9dp"-->
+                <!--android:textSize="12sp"-->
+                <!--android:layout_marginLeft="2dp"-->
+                <!--android:hint="@string/State"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_height="32dp" />-->
         </LinearLayout>
         <EditText
             style="@style/EditText"
@@ -148,43 +150,43 @@
             android:paddingLeft="9dp"
             android:layout_marginLeft="14dp"
             android:layout_marginRight="14dp"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:layout_below="@+id/country_layout"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:hint="@string/City"
             android:layout_width="match_parent"
-            android:layout_height="35dp" />
+            android:layout_height="32dp" />
         <LinearLayout
             android:id="@+id/contact_layout"
             android:layout_below="@+id/et_address_city"
             android:orientation="horizontal"
             android:layout_marginLeft="14dp"
             android:layout_marginRight="14dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="35dp">
+            android:layout_height="32dp">
             <EditText
                 style="@style/EditText"
                 android:id="@+id/et_address_code"
                 android:paddingRight="9dp"
                 android:paddingLeft="9dp"
                 android:layout_marginRight="2dp"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:hint="@string/ZipPostalCodeIndicate"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="35dp" />
+                android:layout_height="32dp" />
             <EditText
                 style="@style/EditText"
                 android:id="@+id/et_address_phone"
                 android:paddingRight="9dp"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:paddingLeft="9dp"
                 android:layout_marginLeft="2dp"
                 android:hint="@string/PhoneIndicate"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="35dp"
+                android:layout_height="32dp"
                 android:inputType="phone" />
         </LinearLayout>
         <android.support.v7.widget.CardView
@@ -192,21 +194,20 @@
             android:layout_below="@+id/contact_layout"
             android:foreground="?attr/selectableItemBackgroundBorderless"
             app:cardCornerRadius="3dp"
-            app:cardUseCompatPadding="true"
+            app:cardUseCompatPadding="false"
             app:cardElevation="1dp"
             app:cardBackgroundColor="@color/colorAccent"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="40dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginLeft="17dp"
+            android:layout_marginRight="17dp"
             android:layout_marginTop="40dp"
-            android:layout_marginBottom="8dp" >
+            android:layout_marginBottom="20dp" >
             <TextView
                 android:textColor="@color/product_list_background_color"
                 android:gravity="center"
-                android:textStyle="bold"
-                android:text="@string/SavePaymentInfo"
+                android:text="@string/SaveShippingInfo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </android.support.v7.widget.CardView>

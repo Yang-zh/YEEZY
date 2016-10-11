@@ -113,7 +113,7 @@ public class WelcomeActivity extends BaseActivity {
             }
         };
         rvSuggest.setAdapter(adapter);
-        rvSuggest.addItemDecoration(new GridSpaceItemDecoration(ConvertUtils.dp2px(this,15),2));
+        rvSuggest.addItemDecoration(new GridSpaceItemDecoration(ConvertUtils.dp2px(this,17),2));
     }
 
     private void initToolbar() {

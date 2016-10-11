@@ -1,18 +1,30 @@
 package com.fangzhich.sneakerlab.order.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.PopupWindow;
+import android.widget.Spinner;
 
 import com.fangzhich.sneakerlab.R;
+import com.fangzhich.sneakerlab.base.widget.CustomDialog;
 import com.fangzhich.sneakerlab.base.widget.DialogManager;
+import com.fangzhich.sneakerlab.base.widget.ProgressBar;
 import com.fangzhich.sneakerlab.base.widget.spinner.NiceSpinner;
+import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
 import com.fangzhich.sneakerlab.cart.data.net.CartApi;
+import com.fangzhich.sneakerlab.cart.ui.ShoppingCartDialog;
 import com.fangzhich.sneakerlab.order.data.entity.CountryEntity;
+import com.fangzhich.sneakerlab.order.data.entity.DistrictEntity;
+import com.fangzhich.sneakerlab.user.data.net.UserApi;
+import com.fangzhich.sneakerlab.util.Const;
+import com.fangzhich.sneakerlab.util.ToastUtil;
 
 import java.util.ArrayList;
 
@@ -28,23 +40,98 @@ import timber.log.Timber;
  */
 public class AddressDialog {
 
+    private ArrayList<CountryEntity> countryList;
+    private ArrayList<DistrictEntity> districtList;
+    private CartEntity.Address address;
+
     @OnClick(R.id.bt_cancel)
     void cancel() {
-        mPopupWindow.dismiss();
-    }
-
-    @OnClick(R.id.bt_back)
-    void back() {
         mPopupWindow.setOnDismissListener(null);
         mPopupWindow.dismiss();
-        manager.reShowShoppingCartDialog();
+        manager.closeAll();
     }
+
+//    @OnClick(R.id.bt_back)
+//    void back() {
+//        mPopupWindow.dismiss();
+//    }
 
     @OnClick(R.id.bt_save_info)
     void saveInfo() {
-        mPopupWindow.setOnDismissListener(null);
-        mPopupWindow.dismiss();
-        manager.reShowShoppingCartDialog();
+        String fullname = etAddressBay.getText().toString();
+        if (TextUtils.isEmpty(fullname)) {
+            ToastUtil.toast("fullname shouldn't be null");
+            return;
+        }
+
+        String address = etAddressStreet.getText().toString();
+        if (TextUtils.isEmpty(address)) {
+            ToastUtil.toast("address shouldn't be null");
+            return;
+        }
+
+        String suite = etAddressUnit.getText().toString();
+        if (TextUtils.isEmpty(suite)) {
+            ToastUtil.toast("suite shouldn't be null");
+            return;
+        }
+
+        if (spinnerCountry.getSelectedIndex()==0) {
+            ToastUtil.toast("please choose country");
+            return;
+        }
+        String country = countryList.get(spinnerCountry.getSelectedIndex()).name;
+
+//        if (spinnerState.getSelectedIndex()==0) {
+//            ToastUtil.toast("please choose country");
+//            return;
+//        }
+        String state = districtList.get(spinnerState.getSelectedIndex()).name;
+
+        String city = etAddressCity.getText().toString();
+        if (TextUtils.isEmpty(city)) {
+            ToastUtil.toast("city shouldn't be null");
+            return;
+        }
+
+        String code = etAddressCode.getText().toString();
+        if (TextUtils.isEmpty(code)) {
+            ToastUtil.toast("code shouldn't be null");
+            return;
+        }
+
+        String phone = etAddressPhone.getText().toString();
+        if (TextUtils.isEmpty(phone)) {
+            ToastUtil.toast("phone shouldn't be null");
+            return;
+        }
+
+        final String fullAddress = city+" "+address;
+
+        final ProgressBar progressBar = ProgressBar.getInstance();
+        progressBar.init(mContext, new ProgressBar.Callback() {
+            @Override
+            public void onProgressBarClick(View v) {
+
+            }
+        }).show();
+
+        UserApi.addAddress(fullname, phone, address, suite, city, code, country, state, new SingleSubscriber<String>() {
+            @Override
+            public void onSuccess(String value) {
+                progressBar.cancel();
+                ToastUtil.toast("save address info success");
+                Const.getUserInfo().shipping_address.address_id = value;
+                mPopupWindow.dismiss();
+                manager.saveAddress(value,fullAddress);
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                progressBar.cancel();
+                ToastUtil.toast(error.getMessage());
+            }
+        });
     }
 
     @BindView(R.id.et_address_bay)
@@ -55,8 +142,8 @@ public class AddressDialog {
     EditText etAddressUnit;
     @BindView(R.id.spinner_country)
     NiceSpinner spinnerCountry;
-    @BindView(R.id.et_address_state)
-    EditText etAddressState;
+    @BindView(R.id.spinner_state)
+    NiceSpinner spinnerState;
     @BindView(R.id.et_address_city)
     EditText etAddressCity;
     @BindView(R.id.et_address_code)
@@ -74,9 +161,9 @@ public class AddressDialog {
     public AddressDialog initPopup(DialogManager dialogManager, Context context) {
         manager = dialogManager;
         mContext = context;
+
         View mPopupContent = View.inflate(context, R.layout.dialog_address, null);
         ButterKnife.bind(this, mPopupContent);
-
         mPopupWindow = new PopupWindow(mPopupContent, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
         mPopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         mPopupWindow.setAnimationStyle(R.style.Dialog);
@@ -84,11 +171,46 @@ public class AddressDialog {
         mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                manager.closeAll();
+                manager.reShowShoppingCartDialog();
             }
         });
 
         spinnerCountry.setClickable(false);
+        spinnerCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                CartApi.getDistricts(countryList.get(position).country_id, new SingleSubscriber<ArrayList<DistrictEntity>>() {
+                    @Override
+                    public void onSuccess(ArrayList<DistrictEntity> value) {
+                        districtList = value;
+                        ArrayList<String> list = new ArrayList<>();
+                        for (DistrictEntity entity:value) {
+                            list.add(entity.name);
+                        }
+                        spinnerState.setClickable(true);
+                        spinnerState.attachDataSource(list);
+
+                        for (int i=0;i<districtList.size();i++) {
+                            if (districtList.get(i).zone_id.equals(address.zone_id)) {
+                                spinnerState.setSelectedIndex(i);
+                            }
+                        }
+                        Timber.d("load districts success");
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        Timber.e(error.getMessage());
+                    }
+                });
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                spinnerState.setClickable(false);
+            }
+        });
+        spinnerState.setClickable(false);
 
         loadData();
 
@@ -99,8 +221,21 @@ public class AddressDialog {
         CartApi.getCountries(new SingleSubscriber<ArrayList<CountryEntity>>() {
             @Override
             public void onSuccess(ArrayList<CountryEntity> value) {
-                spinnerCountry.setClickable(false);
-                spinnerCountry.attachDataSource(value);
+                countryList = value;
+                spinnerCountry.setClickable(true);
+                ArrayList<String> list = new ArrayList<>();
+                for (CountryEntity entity:value) {
+                    list.add(entity.name);
+                }
+                spinnerCountry.attachDataSource(list);
+                if (address!=null) {
+                    for (int i=0;i<countryList.size();i++) {
+                        if (countryList.get(i).country_id.equals(address.country_id)) {
+                            spinnerCountry.setSelectedIndex(i);
+                        }
+                    }
+                }
+                Timber.d("load countries success");
             }
 
             @Override
@@ -114,11 +249,9 @@ public class AddressDialog {
         mContentView = contentView;
         mPopupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
     }
+
     public boolean isShowing() {
-        if (mPopupWindow==null) {
-            return false;
-        }
-        return mPopupWindow.isShowing();
+        return mPopupWindow != null && mPopupWindow.isShowing();
     }
 
     public void dismiss() {
@@ -127,14 +260,27 @@ public class AddressDialog {
 
 
     public void hide() {
-        if (mPopupWindow!=null) {
+        if (mPopupWindow != null) {
             mPopupWindow.getContentView().setVisibility(View.GONE);
         }
     }
 
     public void show() {
-        if (mPopupWindow!=null) {
+        if (mPopupWindow != null) {
             mPopupWindow.getContentView().setVisibility(View.VISIBLE);
         }
+    }
+
+    public AddressDialog withAddress(CartEntity.Address address) {
+        this.address = address;
+        if (address!=null) {
+            etAddressBay.setText(address.fullname);
+            etAddressStreet.setText(address.address_1);
+            etAddressUnit.setText(address.suite);
+            etAddressCity.setText(address.city);
+            etAddressCode.setText(address.postcode);
+            etAddressPhone.setText(address.phone);
+        }
+        return this;
     }
 }

@@ -229,18 +229,22 @@ public class UserApi extends BaseApi{
 
     /**
      * Add credit card request
-     * @param number credit card number
-     * @param thru credit card date
-     * @param cvc2 credit card cvc dode
+     * @param card_number credit card number
+     * @param card_month credit card expiry month
+     * @param card_year credit card expiry year
+     * @param card_cvv credit card cvv
+     * @param zip_code credit card postcode
      * @param singleSubscriber SingleSubscriber in RxJava (Callback)
      */
-    public static void addCreditCard(String number, String thru, String cvc2, SingleSubscriber<String> singleSubscriber) {
+    public static void addCreditCard(String card_number, String card_month, String card_year, String card_cvv, String zip_code, SingleSubscriber<String> singleSubscriber) {
         String timestamp = getTimeStamp();
 
         HashMap<String,String> params = new HashMap<>();
-        params.put("number",number);
-        params.put("thru",thru);
-        params.put("cvc2",cvc2);
+        params.put("card_number",card_number);
+        params.put("card_month",card_month);
+        params.put("card_year",card_year);
+        params.put("card_cvv",card_cvv);
+        params.put("zip_code",zip_code);
         params.put("email",email);
         params.put("token",token);
         params.put("timestamp",timestamp);
@@ -248,7 +252,7 @@ public class UserApi extends BaseApi{
         String signature = getSignature(params);
 
         createService(UserService.class)
-                .addCreditCard(number,thru,cvc2,
+                .addCreditCard(card_number,card_month,card_year,card_cvv,zip_code,
                         email, token,
                         timestamp, signature, API_KEY,Const.IMEI)
                 .map(new HttpResultFunc<String>())
@@ -259,18 +263,22 @@ public class UserApi extends BaseApi{
 
     /**
      * Edit credit card request
-     * @param number credit card number
-     * @param thru credit card date
-     * @param cvc2 credit card cvc dode
+     * @param card_number credit card number
+     * @param card_month credit card expiry month
+     * @param card_year credit card expiry year
+     * @param card_cvv credit card cvv
+     * @param zip_code credit card postcode
      * @param singleSubscriber SingleSubscriber in RxJava (Callback)
      */
-    public static void editCreditCard(String number, String thru, String cvc2, SingleSubscriber<Object> singleSubscriber) {
+    public static void editCreditCard(String card_number, String card_month, String card_year, String card_cvv, String zip_code, SingleSubscriber<Object> singleSubscriber) {
         String timestamp = getTimeStamp();
 
         HashMap<String,String> params = new HashMap<>();
-        params.put("number",number);
-        params.put("thru",thru);
-        params.put("cvc2",cvc2);
+        params.put("card_number",card_number);
+        params.put("card_month",card_month);
+        params.put("card_year",card_year);
+        params.put("card_cvv",card_cvv);
+        params.put("zip_code",zip_code);
         params.put("email",email);
         params.put("token",token);
         params.put("timestamp",timestamp);
@@ -278,7 +286,7 @@ public class UserApi extends BaseApi{
         String signature = getSignature(params);
 
         createService(UserService.class)
-                .editCreditCard(number,thru,cvc2,
+                .editCreditCard(card_number,card_month,card_year,card_cvv,zip_code,
                         email, token,
                         timestamp, signature, API_KEY,Const.IMEI)
                 .map(new HttpResultFunc<Object>())
@@ -293,26 +301,26 @@ public class UserApi extends BaseApi{
 
     /**
      * Add address request
-     * @param firstname firstname
-     * @param lastname lastname
+     * @param fullname fullname
      * @param phone phone
      * @param address address
+     * @param suite suite
      * @param city city
      * @param postcode postcode
      * @param country_id country_id
      * @param zone_id zone_id
      * @param singleSubscriber SingleSubscriber in RxJava (Callback)
      */
-    public static void addAddress(String firstname, String lastname, String phone, String address,
+    public static void addAddress(String fullname, String phone, String address, String suite,
                                   String city, String postcode, String country_id, String zone_id,
                                   SingleSubscriber<String> singleSubscriber) {
         String timestamp = getTimeStamp();
 
         HashMap<String,String> params = new HashMap<>();
-        params.put("firstname",firstname);
-        params.put("lastname",lastname);
+        params.put("fullname",fullname);
         params.put("phone",phone);
         params.put("address",address);
+        params.put("suite",suite);
         params.put("city",city);
         params.put("postcode",postcode);
         params.put("country_id",country_id);
@@ -324,7 +332,7 @@ public class UserApi extends BaseApi{
         String signature = getSignature(params);
 
         createService(UserService.class)
-                .addAddress(firstname,lastname,phone,address,city,postcode,country_id,zone_id,
+                .addAddress(fullname,phone,address,suite,city,postcode,country_id,zone_id,
                         email, token,
                         timestamp, signature, API_KEY,Const.IMEI)
                 .map(new HttpResultFunc<String>())
@@ -336,10 +344,10 @@ public class UserApi extends BaseApi{
     /**
      * Edit address request
      * @param address_id address_id
-     * @param firstname firstname
-     * @param lastname lastname
+     * @param fullname fullname
      * @param phone phone
      * @param address address
+     * @param suite suite
      * @param city city
      * @param postcode postcode
      * @param country_id country_id
@@ -347,17 +355,17 @@ public class UserApi extends BaseApi{
      * @param singleSubscriber SingleSubscriber in RxJava (Callback)
      */
     public static void editAddress(String address_id,
-                                   String firstname, String lastname, String phone, String address,
+                                   String fullname, String phone, String address, String suite,
                                    String city, String postcode, String country_id, String zone_id,
                                    SingleSubscriber<Object> singleSubscriber) {
         String timestamp = getTimeStamp();
 
         HashMap<String,String> params = new HashMap<>();
         params.put("address_id",address_id);
-        params.put("firstname",firstname);
-        params.put("lastname",lastname);
+        params.put("fullname",fullname);
         params.put("phone",phone);
         params.put("address",address);
+        params.put("suite",suite);
         params.put("city",city);
         params.put("postcode",postcode);
         params.put("country_id",country_id);
@@ -369,8 +377,7 @@ public class UserApi extends BaseApi{
         String signature = getSignature(params);
 
         createService(UserService.class)
-                .editAddress(address_id,firstname,lastname,phone,address,
-                        city,postcode,country_id,zone_id,
+                .editAddress(address_id,fullname,phone,address,suite,city,postcode,country_id,zone_id,
                         email, token,
                         timestamp, signature, API_KEY,Const.IMEI)
                 .map(new HttpResultFunc<Object>())

@@ -59,8 +59,6 @@ public class MainActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.title)
-    TextView title;
     ActionBarDrawerToggle drawerToggle;
 
 
@@ -96,7 +94,6 @@ public class MainActivity extends BaseActivity {
     private void initActionBarAndDrawer() {
         setSupportActionBar(toolbar);
         toolbar.setTitle("");
-        title.setText(R.string.app_name);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.OpenDrawer, R.string.CloseDrawer) {
             @Override
             public void onDrawerClosed(View view) {

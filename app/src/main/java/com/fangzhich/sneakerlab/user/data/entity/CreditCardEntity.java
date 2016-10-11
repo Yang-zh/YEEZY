@@ -6,7 +6,9 @@ package com.fangzhich.sneakerlab.user.data.entity;
  */
 public class CreditCardEntity {
     public String customer_id;
-    public String number;
-    public String thru;
-    public String cvc2;
+    public String card_number;
+    public String card_month;
+    public String card_year;
+    public String card_cvv;
+    public String zip_code;
 }

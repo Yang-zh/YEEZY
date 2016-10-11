@@ -1,22 +1,29 @@
 package com.fangzhich.sneakerlab.order.widget;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.PopupWindow;
-import android.widget.ProgressBar;
 
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.widget.DialogManager;
+import com.fangzhich.sneakerlab.base.widget.ProgressBar;
+import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
+import com.fangzhich.sneakerlab.cart.ui.ShoppingCartDialog;
+import com.fangzhich.sneakerlab.user.data.net.UserApi;
+import com.fangzhich.sneakerlab.util.Const;
+import com.fangzhich.sneakerlab.util.ToastUtil;
+
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.SingleSubscriber;
 
 /**
  * ShoppingCartActivity
@@ -26,33 +33,78 @@ public class CreditCardDialog {
 
     @OnClick(R.id.bt_cancel)
     void cancel() {
-        mPopupWindow.dismiss();
-    }
-
-    @OnClick(R.id.bt_back)
-    void back() {
         mPopupWindow.setOnDismissListener(null);
         mPopupWindow.dismiss();
-        manager.reShowShoppingCartDialog();
+        manager.closeAll();
     }
+//    @OnClick(R.id.bt_back)
+//    void back() {
+//        mPopupWindow.setOnDismissListener(null);
+//        mPopupWindow.dismiss();
+//        manager.reShowShoppingCartDialog();
+//    }
 
 
     @OnClick(R.id.bt_save_info)
     void savePaymentInfo() {
-        final View progressBar =  View.inflate(mPopupContent.getContext(),R.layout.progress_bar,null);
-        final WindowManager windowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams();
-        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        params.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        windowManager.addView(progressBar, params);
-        progressBar.findViewById(R.id.progress_bar).setOnClickListener(new View.OnClickListener() {
+
+        final ProgressBar progressBar = ProgressBar.getInstance();
+        progressBar.init(mContext, new ProgressBar.Callback() {
             @Override
-            public void onClick(View v) {
-                windowManager.removeViewImmediate(progressBar);
+            public void onProgressBarClick(View v) {
+
+            }
+        }).show();
+
+        final String cardNumber = etCreditCardNumber.getText().toString();
+        if (TextUtils.isEmpty(cardNumber)) {
+            ToastUtil.toast("Card number should not be null");
+            return;
+        }
+
+        final String securityCode = etSecurityCode.getText().toString();
+        if (TextUtils.isEmpty(securityCode)) {
+            ToastUtil.toast("Security code should not be null");
+            return;
+        }
+
+
+        String expiryDate = etExpiryDateNumber.getText().toString();
+        if (TextUtils.isEmpty(expiryDate)) {
+            ToastUtil.toast("Expiry date should not be null");
+            return;
+        }
+        Pattern pattern = Pattern.compile("[0-9]{2}\\\\[0-9]{2}");
+        if (!pattern.matcher(expiryDate).matches()) {
+            ToastUtil.toast("please enter expiry date like 00\\00");
+            return;
+        }
+        String[] date = expiryDate.split("\\\\");
+        final String year = date[0];
+        final String month = date[1];
+
+        String zipPostalCode = etBillingPostalCode.getText().toString();
+        if (TextUtils.isEmpty(zipPostalCode)) {
+            ToastUtil.toast("Zip/PostalCode should be null");
+        }
+
+        UserApi.addCreditCard(cardNumber, month, year, securityCode, zipPostalCode, new SingleSubscriber<String>() {
+            @Override
+            public void onSuccess(String value) {
+                progressBar.cancel();
+                ToastUtil.toast("save credit card info success");
+                mPopupWindow.dismiss();
+                manager.saveCreditCard(value,cardNumber,year,month,securityCode);
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                progressBar.cancel();
+                ToastUtil.toast(error.getMessage());
             }
         });
 //        mPopupWindow.setOnDismissListener(null);
-//        mPopupWindow.dismiss();
+        mPopupWindow.dismiss();
 //        manager.reShowShoppingCartDialog();
     }
 
@@ -69,7 +121,7 @@ public class CreditCardDialog {
 
     private Context mContext;
     private View mContentView;
-    View mPopupContent;
+    private View mPopupContent;
 
     private DialogManager manager;
 
@@ -83,6 +135,13 @@ public class CreditCardDialog {
         mPopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         mPopupWindow.setAnimationStyle(R.style.Dialog);
 
+        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                manager.reShowShoppingCartDialog();
+            }
+        });
+
         return this;
     }
 
@@ -90,8 +149,9 @@ public class CreditCardDialog {
         mContentView = contentView;
         mPopupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
     }
+
     public boolean isShowing() {
-        if (mPopupWindow==null) {
+        if (mPopupWindow == null) {
             return false;
         }
         return mPopupWindow.isShowing();
@@ -102,14 +162,24 @@ public class CreditCardDialog {
     }
 
     public void hide() {
-        if (mPopupWindow!=null) {
+        if (mPopupWindow != null) {
             mPopupWindow.getContentView().setVisibility(View.GONE);
         }
     }
 
     public void show() {
-        if (mPopupWindow!=null) {
+        if (mPopupWindow != null) {
             mPopupWindow.getContentView().setVisibility(View.VISIBLE);
         }
+    }
+
+    public CreditCardDialog withCreditCard(CartEntity.Payment card) {
+        if (card!=null) {
+            etCreditCardNumber.setText("");
+            etSecurityCode.setText("");
+            etExpiryDateNumber.setText("");
+            etBillingPostalCode.setText("");
+        }
+        return this;
     }
 }

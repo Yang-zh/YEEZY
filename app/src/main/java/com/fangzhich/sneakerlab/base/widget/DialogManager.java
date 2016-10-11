@@ -3,6 +3,7 @@ package com.fangzhich.sneakerlab.base.widget;
 import android.content.Context;
 import android.view.View;
 
+import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
 import com.fangzhich.sneakerlab.cart.ui.ShoppingCartDialog;
 import com.fangzhich.sneakerlab.order.widget.AddressDialog;
 import com.fangzhich.sneakerlab.order.widget.CreditCardDialog;
@@ -19,9 +20,9 @@ import java.util.ArrayList;
 
 public class DialogManager {
 
-    Context mContext;
-    View mContentView;
-    ProductDetailActivity activity;
+    private Context mContext;
+    private View mContentView;
+    private ProductDetailActivity activity;
 
     public DialogManager(Context context, View contentView) {
         mContentView = contentView;
@@ -58,8 +59,8 @@ public class DialogManager {
 
     //-----------CreditCard---------------------
 
-    public void startCreditCardDialog() {
-        mCardDialog.initPopup(this, mContext).showPopup(mContentView);
+    public void startCreditCardDialog(CartEntity.Payment card) {
+        mCardDialog.initPopup(this, mContext).withCreditCard(card).showPopup(mContentView);
     }
 
     public void hideCreditCardDialog() {
@@ -72,8 +73,8 @@ public class DialogManager {
 
     //-----------Address----------------------
 
-    public void startAddressDialog() {
-        mAddressDialog.initPopup(this, mContext).showPopup(mContentView);
+    public void startAddressDialog(CartEntity.Address address) {
+        mAddressDialog.initPopup(this, mContext).withAddress(address).showPopup(mContentView);
     }
 
     public void hideAddressDialog() {
@@ -122,5 +123,13 @@ public class DialogManager {
         if (activity != null) {
             activity.finish();
         }
+    }
+
+    public void saveAddress(String id,String address) {
+        mCartDialog.saveAddress(id,address);
+    }
+
+    public void saveCreditCard(String type, String cardNumber,String year,String month,String cvv) {
+        mCartDialog.saveCreditCard(type,cardNumber,year,month,cvv);
     }
 }
