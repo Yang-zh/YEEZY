@@ -1,5 +1,8 @@
 package com.fangzhich.sneakerlab.cart.data.net;
 
+import android.content.Intent;
+import android.util.SparseIntArray;
+
 import com.fangzhich.sneakerlab.base.data.net.BaseApi;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
 import com.fangzhich.sneakerlab.order.data.entity.CountryEntity;
@@ -12,6 +15,7 @@ import java.util.HashMap;
 import rx.SingleSubscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 import static com.fangzhich.sneakerlab.util.Const.Obj.gson;
 
@@ -55,8 +59,10 @@ public class CartApi extends BaseApi {
      * @param recurring_id recurring_id of this item
      * @param singleSubscriber SingleSubscriber in RxJava (Callback)
      */
-    public static void addItemToCart(String product_id, String quantity, ArrayList<Integer> option, String recurring_id, SingleSubscriber<Object> singleSubscriber) {
+    public static void addItemToCart(String product_id, String quantity, HashMap<String,String> option, String recurring_id, SingleSubscriber<Object> singleSubscriber) {
         String timestamp = getTimeStamp();
+
+        Timber.e(gson.toJson(option));
 
         HashMap<String,String> params = new HashMap<>();
         params.put("product_id", product_id);

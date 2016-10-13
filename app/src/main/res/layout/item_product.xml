@@ -32,17 +32,18 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/iv_productImage"
             android:ellipsize="end"
-            android:lines="2"
+            android:maxLines="2"
             android:textColor="@color/product_list_item_text_color"
             android:textSize="@dimen/product_list_item_text_size" />
 
         <LinearLayout
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
+            android:layout_marginTop="6dp"
             android:id="@+id/price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="4dp"
             android:layout_below="@id/tv_productName"
             android:orientation="horizontal">
 
@@ -62,8 +63,9 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:lines="1"
-                android:textColor="@color/product_list_item_subText_color"
-                android:textSize="@dimen/product_list_item_subText_size" />
+                android:textColor="@color/text_color_gray"
+                android:textSize="10sp"
+                tools:ignore="SmallSp" />
         </LinearLayout>
 
         <TextView

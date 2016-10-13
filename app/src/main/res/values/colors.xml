@@ -31,12 +31,14 @@
     <color name="cut_line_color2">#DDDDDD</color>
     <color name="text_color_gray">#999999</color>
     <color name="popup_background">#80000000</color>
-    <color name="buttonColorBlue">#2FB7EB</color>
-    <color name="buttonColorBluePressed">#992FB7EB</color>
+    <color name="buttonColorBlue">#6FC8EA</color>
+    <color name="buttonColorBluePressed">#996FC8EA</color>
     <color name="another_gray">#F2F2F2</color>
     <color name="text_color_red">#DE4536</color>
     <color name="login_by_facebook_button_background_gray">#E5E5E5</color>
+    <color name="product_option_background">#E7E7E7</color>
     <color name="buttonColorRed">#DA493C</color>
     <color name="shipping_info_background_color">#FAFAFA</color>
     <color name="background_splash">#887A7A7A</color>
+    <color name="dialog_background">#AA333333</color>
 </resources>

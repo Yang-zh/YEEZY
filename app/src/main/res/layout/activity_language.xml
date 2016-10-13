@@ -27,32 +27,45 @@
     </android.support.v7.widget.Toolbar>
     <TextView
         android:id="@+id/chooseLanguageText"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="23dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="21.5dp"
         android:text="@string/PleaseSetYourDesiredLanguage"
         android:layout_below="@+id/toolbar"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <com.fangzhich.sneakerlab.base.widget.spinner.NiceSpinner
         android:layout_below="@+id/chooseLanguageText"
         android:id="@+id/spinner_language"
+        android:gravity="center"
         app:textTint="@color/tab_layout_select_color"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <Button
-        android:text="@string/ChangeLanguage"
+        android:layout_height="40dp"/>
+
+    <android.support.v7.widget.CardView
         android:layout_below="@+id/spinner_language"
         android:id="@+id/bt_language"
-        android:foreground="?attr/selectableItemBackground"
-        android:background="@drawable/background_button"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        app:cardCornerRadius="3dp"
+        app:cardUseCompatPadding="false"
+        app:cardElevation="1dp"
+        app:cardBackgroundColor="@color/text_color_red"
         android:layout_width="match_parent"
-        android:layout_height="40dp" />
+        android:layout_height="40dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp" >
+        <TextView
+            android:textColor="@color/product_list_background_color"
+            android:gravity="center"
+            android:text="@string/ChangeLanguage"
+            android:textSize="15sp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v7.widget.CardView>
 
 </RelativeLayout>

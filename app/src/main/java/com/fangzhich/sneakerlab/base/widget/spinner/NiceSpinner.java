@@ -118,9 +118,8 @@ public class NiceSpinner extends TextView {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.NiceSpinner);
         int defaultPadding = resources.getDimensionPixelSize(R.dimen.one_and_a_half_grid_unit);
 
-        setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
-        setPadding(resources.getDimensionPixelSize(R.dimen.three_grid_unit), defaultPadding, defaultPadding,
-            defaultPadding);
+        setGravity(Gravity.CENTER);
+        setPadding(defaultPadding,0,defaultPadding,0);
         setClickable(true);
 
         backgroundSelector = typedArray.getResourceId(R.styleable.NiceSpinner_backgroundSelector, R.drawable.selector);
@@ -276,10 +275,12 @@ public class NiceSpinner extends TextView {
     @Override
     public boolean onTouchEvent(@NonNull MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_UP) {
-            if (!dialog.isShowing()) {
-                showDropDown();
-            } else {
-                dismissDropDown();
+            if (adapter.getCount()>1) {
+                if (!dialog.isShowing()) {
+                    showDropDown();
+                } else {
+                    dismissDropDown();
+                }
             }
         }
         return super.onTouchEvent(event);

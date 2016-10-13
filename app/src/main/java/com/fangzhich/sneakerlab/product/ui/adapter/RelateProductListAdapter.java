@@ -31,7 +31,6 @@ public class RelateProductListAdapter extends BaseRecyclerViewAdapter<PopularPro
 
     private RelateProductListPresenter mPresenter;
 
-    //后台API页码从0开始，因此初始为-1而不是0
     private int totalPage = 0;
 
     public RelateProductListAdapter() {
@@ -60,7 +59,7 @@ public class RelateProductListAdapter extends BaseRecyclerViewAdapter<PopularPro
 
     @Override
     public void onLoadError(Throwable throwable) {
-        Timber.e(throwable.getMessage());
+        Timber.e(throwable);
     }
 
     @Override
@@ -93,14 +92,16 @@ public class RelateProductListAdapter extends BaseRecyclerViewAdapter<PopularPro
                 .crossFade()
                 .into(holder.productImage);
         holder.productName.setText(productItem.name);
-        holder.productPrice.setText(String.valueOf(TagFormatUtil
+        holder.productPrice.setText(TagFormatUtil
                 .from(holder.itemView.getContext().getResources().getString(R.string.priceFormat))
                 .with("price",productItem.special_price)
-                .format()));
-        holder.productOriginalPrice.setText(String.valueOf(TagFormatUtil
-                .from(holder.itemView.getContext().getResources().getString(R.string.priceFormat))
-                .with("price",productItem.original_price)
-                .format()));
+                .format());
+        if (Double.valueOf(productItem.original_price)>Double.valueOf(productItem.special_price)) {
+            holder.productOriginalPrice.setText(TagFormatUtil
+                    .from(holder.itemView.getContext().getResources().getString(R.string.priceFormat))
+                    .with("price",productItem.original_price)
+                    .format());
+        }
         holder.productOriginalPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         holder.productSellVolume.setText(R.string.nulll);
         holder.itemView.setOnClickListener(new View.OnClickListener() {

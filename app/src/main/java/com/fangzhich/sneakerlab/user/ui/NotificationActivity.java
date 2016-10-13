@@ -28,8 +28,8 @@ public class NotificationActivity extends BaseActivity {
     @BindView(R.id.title)
     TextView title;
 
-    @BindView(R.id.tabLayout_notification)
-    TabLayout tabLayout;
+//    @BindView(R.id.tabLayout_notification)
+//    TabLayout tabLayout;
     @BindView(R.id.viewPager_notification)
     ViewPager viewPager;
     ArrayList<Fragment> fragments = new ArrayList<>();
@@ -55,18 +55,12 @@ public class NotificationActivity extends BaseActivity {
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        title.setText(R.string.Notify);
+        title.setText(R.string.Notifications);
     }
 
     private void initViewPager() {
         fragments.add(new NotificationListFragment());
-        fragments.add(new NotificationListFragment());
-        fragments.add(new NotificationListFragment());
-        fragments.add(new NotificationListFragment());
         fragmentTitles.add(getResources().getString(R.string.All));
-        fragmentTitles.add(getResources().getString(R.string.Deals));
-        fragmentTitles.add(getResources().getString(R.string.YourOrders));
-        fragmentTitles.add(getResources().getString(R.string.Other));
         adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
@@ -86,23 +80,23 @@ public class NotificationActivity extends BaseActivity {
 
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(2);
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-            }
-        });
-        tabLayout.setupWithViewPager(viewPager);
-        MyUtil.dynamicSetTabLayoutMode(tabLayout,this);
+//        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+//            @Override
+//            public void onTabSelected(TabLayout.Tab tab) {
+//                viewPager.setCurrentItem(tab.getPosition());
+//            }
+//
+//            @Override
+//            public void onTabUnselected(TabLayout.Tab tab) {
+//
+//            }
+//
+//            @Override
+//            public void onTabReselected(TabLayout.Tab tab) {
+//            }
+//        });
+//        tabLayout.setupWithViewPager(viewPager);
+//        MyUtil.dynamicSetTabLayoutMode(tabLayout,this);
     }
 
     @Override

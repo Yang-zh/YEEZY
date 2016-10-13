@@ -18,9 +18,9 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingTop="15dp">
+            android:orientation="vertical">
             <ImageView
+                android:layout_marginTop="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/close_white" />
@@ -113,7 +113,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="14dp"
                         android:layout_marginTop="8dp"
-                        android:text="CardType"
+                        android:text="CreditCard"
                         android:textColor="@color/tab_layout_select_color"
                         android:textSize="15sp" />
 
@@ -161,7 +161,6 @@
                         android:layout_below="@+id/bill_layout"
                         android:layout_marginRight="14dp"
                         android:layout_marginTop="12dp"
-                        android:text="US$1.00"
                         android:textColor="@color/tab_layout_select_color"
                         android:textSize="15sp" />
 
@@ -184,7 +183,6 @@
                         android:layout_below="@+id/item_total"
                         android:layout_marginRight="14dp"
                         android:layout_marginTop="8dp"
-                        android:text="US$1.05"
                         android:textColor="@color/tab_layout_select_color"
                         android:textSize="15sp" />
 
@@ -207,27 +205,26 @@
                         android:layout_below="@+id/estimated_shipping"
                         android:layout_marginRight="14dp"
                         android:layout_marginTop="8dp"
-                        android:text="US$2.04"
                         android:textColor="@color/tab_layout_select_color"
                         android:textSize="15sp" />
 
-                    <TextView
-                        android:id="@+id/approx"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_below="@id/order_total"
-                        android:layout_marginRight="14dp"
-                        android:layout_marginTop="8dp"
-                        android:text="*Approx：￥13.63"
-                        android:textColor="@color/tab_layout_select_color"
-                        android:textSize="14sp" />
+                    <!--<TextView-->
+                        <!--android:id="@+id/approx"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_alignParentRight="true"-->
+                        <!--android:layout_below="@id/order_total"-->
+                        <!--android:layout_marginRight="14dp"-->
+                        <!--android:layout_marginTop="8dp"-->
+                        <!--android:text="*Approx：￥13.63"-->
+                        <!--android:textColor="@color/tab_layout_select_color"-->
+                        <!--android:textSize="14sp" />-->
 
                     <View
                         android:id="@+id/line1"
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:layout_below="@+id/approx"
+                        android:layout_below="@+id/tv_order_total"
                         android:layout_marginLeft="14dp"
                         android:layout_marginRight="14dp"
                         android:layout_marginTop="8dp"

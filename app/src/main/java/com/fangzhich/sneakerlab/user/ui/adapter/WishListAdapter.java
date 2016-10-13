@@ -1,5 +1,7 @@
 package com.fangzhich.sneakerlab.user.ui.adapter;
 
+import android.content.Intent;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +11,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.BaseRecyclerViewAdapter;
+import com.fangzhich.sneakerlab.product.data.entity.ProductItemEntity;
+import com.fangzhich.sneakerlab.product.ui.ProductDetailActivity;
 import com.fangzhich.sneakerlab.user.data.entity.WishEntity;
 import com.fangzhich.sneakerlab.user.data.net.UserApi;
+import com.fangzhich.sneakerlab.util.TagFormatUtil;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 
 import java.util.ArrayList;
@@ -50,64 +55,57 @@ public class WishListAdapter extends BaseRecyclerViewAdapter<WishEntity, WishLis
 
     @Override
     public ViewHolder onCreateHolder(ViewGroup parent, int viewType) {
-        View itemView = View.inflate(parent.getContext(), R.layout.item_wish_list, null);
+        View itemView = View.inflate(parent.getContext(), R.layout.item_product, null);
         return new ViewHolder(itemView);
     }
 
     @Override
-    protected void onBindHolder(ViewHolder holder, int position) {
-       WishEntity wish =  mData.get(position);
-        holder.picBig.setMinimumHeight(holder.picBig.getWidth());
-        holder.pic1.setMinimumHeight(holder.pic1.getWidth());
-        holder.pic2.setMinimumHeight(holder.pic2.getWidth());
-        holder.plusOne.setMinimumHeight(holder.plusOne.getWidth());
-       Glide.with(holder.itemView.getContext())
-               .load(wish.image)
-               .fitCenter()
-               .crossFade()
-               .into(holder.picBig);
-//        if (wish.images==null) {
-//            return;
+    protected void onBindHolder(final ViewHolder holder, final int position) {
+
+        WishEntity wish =  mData.get(position);
+
+        holder.productImage.setImageResource(R.mipmap.product_image_placeholder);
+//        Glide.with(holder.itemView.getContext())
+//                .load()
+//                .fitCenter()
+//                .crossFade()
+//                .into(holder.productImage);
+        holder.productName.setText(wish.name);
+//        holder.productPrice.setText(String.valueOf(TagFormatUtil
+//                .from(holder.itemView.getContext().getResources().getString(R.string.priceFormat))
+//                .with("price",productItem.special_price)
+//                .format()));
+//        if (productItem.original_price>productItem.special_price) {
+//            holder.productOriginalPrice.setText(String.valueOf(TagFormatUtil
+//                    .from(holder.itemView.getContext().getResources().getString(R.string.priceFormat))
+//                    .with("price",productItem.original_price)
+//                    .format()));
 //        }
-//        if (wish.images.size()>=1) {
-//            Glide.with(holder.itemView.getContext())
-//                    .load(wish.images.get(0))
-//                    .fitCenter()
-//                    .crossFade()
-//                    .into(holder.picBig);
-//        }
-//        if (wish.images.size()>2) {
-//            Glide.with(holder.itemView.getContext())
-//                    .load(wish.images.get(1))
-//                    .fitCenter()
-//                    .crossFade()
-//                    .into(holder.pic1);
-//        }
-//        if (wish.images.size()>=3){
-//            Glide.with(holder.itemView.getContext())
-//                    .load(wish.images.get(2))
-//                    .fitCenter()
-//                    .crossFade()
-//                    .into(holder.pic2);
-//        }
-        holder.plusOne.setOnClickListener(new View.OnClickListener() {
+        holder.productOriginalPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        holder.productSellVolume.setText(R.string.nulll);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.toast("plus one");
+                Timber.d("On Item %d Click",position);
+                Intent intent = new Intent(v.getContext(),ProductDetailActivity.class);
+                intent.putExtra("product_id", mData.get(holder.getAdapterPosition()).product_id);
+                v.getContext().startActivity(intent);
             }
         });
     }
 
     protected class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.picBig)
-        ImageView picBig;
-        @BindView(R.id.pic1)
-        ImageView pic1;
-        @BindView(R.id.pic2)
-        ImageView pic2;
-        @BindView(R.id.plusOne)
-        TextView plusOne;
+        @BindView(R.id.iv_productImage)
+        ImageView productImage;
+        @BindView(R.id.tv_productName)
+        TextView productName;
+        @BindView(R.id.tv_productPrice)
+        TextView productPrice;
+        @BindView(R.id.tv_productOriginalPrice)
+        TextView productOriginalPrice;
+        @BindView(R.id.tv_productSellVolume)
+        TextView productSellVolume;
 
         public ViewHolder(View itemView) {
             super(itemView);

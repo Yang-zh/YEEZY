@@ -54,7 +54,7 @@ public class ProductListPresenter implements ProductListContract.Presenter {
 
             @Override
             public void onError(Throwable throwable) {
-                mView.onLoadError(throwable);
+                mView.onLoadMoreError(throwable);
             }
         });
     }

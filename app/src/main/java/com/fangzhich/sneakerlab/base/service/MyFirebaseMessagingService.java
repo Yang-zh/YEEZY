@@ -27,23 +27,33 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Timber.d(remoteMessage.getFrom());
 
+        switch (remoteMessage.getFrom()) {
+            case "cart":
+                sendCartNotification(remoteMessage.getNotification());
+            break;
+        }
+
         if (remoteMessage.getNotification() != null) {
             Timber.d(remoteMessage.getNotification().getBody());
         }
-        sendNotification(remoteMessage.getNotification().getBody());
+        sendNotification(remoteMessage.getNotification(),MainActivity.NOTIFY_DEFAULT);
     }
 
-    private void sendNotification(String messageBody) {
+    private void sendCartNotification(RemoteMessage.Notification notification) {
+        sendNotification(notification,MainActivity.NOTIFY_CART);
+    }
+
+    private void sendNotification(RemoteMessage.Notification notification,int requestCode) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 100 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("FCM Message")
-                .setContentText(messageBody)
+                .setContentTitle(notification.getTitle())
+                .setContentText(notification.getBody())
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);

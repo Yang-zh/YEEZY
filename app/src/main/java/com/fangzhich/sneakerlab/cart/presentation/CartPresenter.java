@@ -1,9 +1,12 @@
 package com.fangzhich.sneakerlab.cart.presentation;
 
+import android.util.SparseIntArray;
+
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
 import com.fangzhich.sneakerlab.cart.data.net.CartApi;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import rx.SingleSubscriber;
 
@@ -37,7 +40,7 @@ public class CartPresenter implements CartContract.Presenter{
     }
 
     @Override
-    public void addItemToCart(String product_id, String quantity, ArrayList<Integer> option, String recurring_id) {
+    public void addItemToCart(String product_id, String quantity, HashMap<String,String> option, String recurring_id) {
         CartApi.addItemToCart(product_id, quantity, option, recurring_id, new SingleSubscriber<Object>() {
             @Override
             public void onSuccess(Object value) {

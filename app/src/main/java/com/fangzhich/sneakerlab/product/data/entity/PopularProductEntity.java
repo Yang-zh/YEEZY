@@ -8,7 +8,7 @@ public class PopularProductEntity {
     public String product_id;
     public String name;
     public String image;
-    public int original_price;
-    public int special_price;
+    public String original_price;
+    public String special_price;
     public String viewed;
 }

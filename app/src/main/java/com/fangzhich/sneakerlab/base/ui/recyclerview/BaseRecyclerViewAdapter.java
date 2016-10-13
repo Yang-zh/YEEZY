@@ -3,6 +3,8 @@ package com.fangzhich.sneakerlab.base.ui.recyclerview;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
+import com.fangzhich.sneakerlab.product.data.entity.ProductEntity;
+
 import java.util.List;
 
 /**

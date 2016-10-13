@@ -26,9 +26,9 @@
     <TextView
         android:id="@+id/send"
         android:text="@string/sendSuggest"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textColor="@color/text_color_gray"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="15dp"
         android:layout_below="@+id/toolbar"
         android:layout_centerHorizontal="true"
         android:gravity="center"
@@ -37,7 +37,7 @@
     <TextView
         android:id="@+id/email"
         android:text="@string/serviceEmail"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textColor="@drawable/hyper_link_selector"
         android:layout_marginTop="15dp"
         android:layout_below="@+id/send"

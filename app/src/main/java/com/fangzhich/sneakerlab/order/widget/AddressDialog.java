@@ -3,6 +3,7 @@ package com.fangzhich.sneakerlab.order.widget;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -80,13 +81,11 @@ public class AddressDialog {
             ToastUtil.toast("please choose country");
             return;
         }
-        String country = countryList.get(spinnerCountry.getSelectedIndex()).name;
 
-//        if (spinnerState.getSelectedIndex()==0) {
-//            ToastUtil.toast("please choose country");
-//            return;
-//        }
-        String state = districtList.get(spinnerState.getSelectedIndex()).name;
+        String country = countryList.get(spinnerCountry.getSelectedIndex()).country_id;
+
+        String state = districtList.get(spinnerState.getSelectedIndex()).zone_id;
+
 
         String city = etAddressCity.getText().toString();
         if (TextUtils.isEmpty(city)) {
@@ -116,22 +115,40 @@ public class AddressDialog {
             }
         }).show();
 
-        UserApi.addAddress(fullname, phone, address, suite, city, code, country, state, new SingleSubscriber<String>() {
-            @Override
-            public void onSuccess(String value) {
-                progressBar.cancel();
-                ToastUtil.toast("save address info success");
-                Const.getUserInfo().shipping_address.address_id = value;
-                mPopupWindow.dismiss();
-                manager.saveAddress(value,fullAddress);
-            }
+        if (this.address==null) {
+            UserApi.addAddress(fullname, phone, address, suite, city, code, country, state, new SingleSubscriber<String>() {
+                @Override
+                public void onSuccess(String value) {
+                    progressBar.cancel();
+                    ToastUtil.toast("save address info success");
+                    Const.getUserInfo().shipping_address.address_id = value;
+                    mPopupWindow.dismiss();
+                    manager.saveAddress(value,fullAddress);
+                }
 
-            @Override
-            public void onError(Throwable error) {
-                progressBar.cancel();
-                ToastUtil.toast(error.getMessage());
-            }
-        });
+                @Override
+                public void onError(Throwable error) {
+                    progressBar.cancel();
+                    ToastUtil.toast(error.getMessage());
+                }
+            });
+        } else {
+            UserApi.editAddress(this.address.address_id,fullname, phone, address, suite, city, code, country, state, new SingleSubscriber<Object>() {
+                @Override
+                public void onSuccess(Object value) {
+                    progressBar.cancel();
+                    ToastUtil.toast("save address info success");
+                    mPopupWindow.dismiss();
+                    manager.saveAddress(AddressDialog.this.address.address_id,fullAddress);
+                }
+
+                @Override
+                public void onError(Throwable error) {
+                    progressBar.cancel();
+                    ToastUtil.toast(error.getMessage());
+                }
+            });
+        }
     }
 
     @BindView(R.id.et_address_bay)
@@ -188,11 +205,14 @@ public class AddressDialog {
                             list.add(entity.name);
                         }
                         spinnerState.setClickable(true);
+                        list.add(0,"district");
                         spinnerState.attachDataSource(list);
 
-                        for (int i=0;i<districtList.size();i++) {
-                            if (districtList.get(i).zone_id.equals(address.zone_id)) {
-                                spinnerState.setSelectedIndex(i);
+                        if (address!=null) {
+                            for (int i=0;i<districtList.size();i++) {
+                                if (districtList.get(i).zone_id.equals(address.zone_id)) {
+                                    spinnerState.setSelectedIndex(i);
+                                }
                             }
                         }
                         Timber.d("load districts success");
@@ -227,6 +247,7 @@ public class AddressDialog {
                 for (CountryEntity entity:value) {
                     list.add(entity.name);
                 }
+                list.add(0, "country");
                 spinnerCountry.attachDataSource(list);
                 if (address!=null) {
                     for (int i=0;i<countryList.size();i++) {

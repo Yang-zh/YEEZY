@@ -13,9 +13,7 @@ import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.widget.DialogManager;
 import com.fangzhich.sneakerlab.base.widget.ProgressBar;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
-import com.fangzhich.sneakerlab.cart.ui.ShoppingCartDialog;
 import com.fangzhich.sneakerlab.user.data.net.UserApi;
-import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 
 import java.util.regex.Pattern;
@@ -48,14 +46,6 @@ public class CreditCardDialog {
     @OnClick(R.id.bt_save_info)
     void savePaymentInfo() {
 
-        final ProgressBar progressBar = ProgressBar.getInstance();
-        progressBar.init(mContext, new ProgressBar.Callback() {
-            @Override
-            public void onProgressBarClick(View v) {
-
-            }
-        }).show();
-
         final String cardNumber = etCreditCardNumber.getText().toString();
         if (TextUtils.isEmpty(cardNumber)) {
             ToastUtil.toast("Card number should not be null");
@@ -74,6 +64,7 @@ public class CreditCardDialog {
             ToastUtil.toast("Expiry date should not be null");
             return;
         }
+
         Pattern pattern = Pattern.compile("[0-9]{2}\\\\[0-9]{2}");
         if (!pattern.matcher(expiryDate).matches()) {
             ToastUtil.toast("please enter expiry date like 00\\00");
@@ -88,13 +79,21 @@ public class CreditCardDialog {
             ToastUtil.toast("Zip/PostalCode should be null");
         }
 
+        final ProgressBar progressBar = ProgressBar.getInstance();
+        progressBar.init(mContext, new ProgressBar.Callback() {
+            @Override
+            public void onProgressBarClick(View v) {
+
+            }
+        }).show();
+
         UserApi.addCreditCard(cardNumber, month, year, securityCode, zipPostalCode, new SingleSubscriber<String>() {
             @Override
             public void onSuccess(String value) {
                 progressBar.cancel();
                 ToastUtil.toast("save credit card info success");
                 mPopupWindow.dismiss();
-                manager.saveCreditCard(value,cardNumber,year,month,securityCode);
+                manager.saveCreditCard("CreditCard",cardNumber,year,month,securityCode);
             }
 
             @Override
@@ -103,9 +102,7 @@ public class CreditCardDialog {
                 ToastUtil.toast(error.getMessage());
             }
         });
-//        mPopupWindow.setOnDismissListener(null);
         mPopupWindow.dismiss();
-//        manager.reShowShoppingCartDialog();
     }
 
     @BindView(R.id.et_credit_card_number)

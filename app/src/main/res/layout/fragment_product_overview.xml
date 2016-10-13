@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/scrollView"
+    android:scrollbars="none"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,9 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.bigkoo.convenientbanner.ConvenientBanner
+            android:layout_marginTop="2dp"
             android:id="@+id/iv_productImage"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="360dp"
             app:canLoop="true"
         />
 
@@ -32,9 +34,9 @@
                 android:layout_weight="1"
                 android:foreground="?selectableItemBackgroundBorderless"
                 app:cardBackgroundColor="@color/cut_line_color"
-                app:cardCornerRadius="2dp"
-                app:cardElevation="2dp"
-                app:cardUseCompatPadding="true">
+                app:cardCornerRadius="0dp"
+                app:cardElevation="0dp"
+                app:cardUseCompatPadding="false">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -72,9 +74,9 @@
                 android:layout_weight="1"
                 android:foreground="?selectableItemBackgroundBorderless"
                 app:cardBackgroundColor="@color/cut_line_color"
-                app:cardCornerRadius="2dp"
-                app:cardElevation="2dp"
-                app:cardUseCompatPadding="true">
+                app:cardCornerRadius="0dp"
+                app:cardElevation="0dp"
+                app:cardUseCompatPadding="false">
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -88,7 +90,7 @@
                             android:layout_width="18dp"
                             android:layout_height="18dp"
                             android:layout_marginTop="2dp"
-                            android:src="@mipmap/like" />
+                            android:src="@mipmap/share" />
 
                         <TextView
                             android:id="@+id/shareText"
@@ -310,7 +312,7 @@
             android:layout_below="@+id/comment3_layout"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="14dp"
-            android:text="Size"
+            android:text="SIZE"
             android:textColor="@android:color/black"
             android:textSize="14sp" />
 
@@ -334,7 +336,7 @@
             android:layout_below="@+id/tv_size_detail"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="14dp"
-            android:text="Estimated time of arrival"
+            android:text="ESTIMATED ARRIVAL"
             android:textColor="@android:color/black"
             android:textSize="14sp" />
 
@@ -345,7 +347,7 @@
             android:layout_alignBaseline="@+id/tv_arriveTime"
             android:layout_marginLeft="8dp"
             android:layout_toRightOf="@+id/tv_arriveTime"
-            android:text="View all"
+            android:text="Details"
             android:textColor="@color/text_color_gray"
             android:textSize="12sp" />
 
@@ -367,7 +369,7 @@
             android:layout_below="@+id/tv_arriveTime_detail"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="18dp"
-            android:text="Estimated postage"
+            android:text="ESTIMATED SHIPPING"
             android:textColor="@android:color/black"
             android:textSize="14sp" />
 
@@ -378,7 +380,7 @@
             android:layout_alignBaseline="@+id/tv_postage"
             android:layout_marginLeft="8dp"
             android:layout_toRightOf="@+id/tv_postage"
-            android:text="View all"
+            android:text="Details"
             android:textColor="@color/text_color_gray"
             android:textSize="12sp" />
 

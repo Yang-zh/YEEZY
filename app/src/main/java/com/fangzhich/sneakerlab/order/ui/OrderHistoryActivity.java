@@ -1,19 +1,20 @@
 package com.fangzhich.sneakerlab.order.ui;
 
-import android.os.Bundle;
+import android.graphics.Rect;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.ConvertUtils;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.order.ui.adapter.OrderHistoryAdapter;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * OrderHistoryActivity
@@ -53,6 +54,14 @@ public class OrderHistoryActivity extends BaseActivity {
 
     private void initRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                if (parent.getChildAdapterPosition(view)!=0) {
+                    outRect.top = ConvertUtils.dp2px(view.getContext(),5);
+                }
+            }
+        });
         adapter = new OrderHistoryAdapter();
         recyclerView.setAdapter(adapter);
         adapter.loadData();

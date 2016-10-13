@@ -13,19 +13,25 @@ import com.bigkoo.convenientbanner.holder.Holder;
 import com.bumptech.glide.Glide;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseFragment;
+import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
 import com.fangzhich.sneakerlab.product.data.entity.ProductEntity;
 import com.fangzhich.sneakerlab.product.data.entity.ReviewEntity;
 import com.fangzhich.sneakerlab.product.data.net.ProductApi;
+import com.fangzhich.sneakerlab.user.data.entity.WishEntity;
 import com.fangzhich.sneakerlab.user.data.net.UserApi;
+import com.fangzhich.sneakerlab.user.ui.LoginActivity;
+import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.fangzhich.sneakerlab.util.TagFormatUtil;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import rx.SingleSubscriber;
+import timber.log.Timber;
 
 /**
  * OverView
@@ -35,22 +41,48 @@ public class ProductOverviewFragment extends BaseFragment {
 
     ArrayList<String> imageUrls = new ArrayList<>();
 
+    @BindView(R.id.likeIcon)
+    ImageView likeIcon;
     @BindView(R.id.likeText)
     TextView likeText;
 
+    private boolean isLiked = false;
+
     @OnClick(R.id.bt_left)
     void btLeft() {
-        UserApi.addWish(mProduct.product_id, new SingleSubscriber<Object>() {
-            @Override
-            public void onSuccess(Object value) {
-                ToastUtil.toast("Add to WishList Success");
-            }
+        if (!Const.isLogin()) {
+            startActivity(new Intent(getActivity(), LoginActivity.class));
+            return;
+        }
+        if (isLiked) {
+            UserApi.deleteWish(mProduct.product_id, new SingleSubscriber<Object>() {
+                @Override
+                public void onSuccess(Object value) {
+                    isLiked = false;
+                    likeIcon.setImageResource(R.mipmap.like);
+                }
 
-            @Override
-            public void onError(Throwable error) {
-                ToastUtil.toast(error.getMessage());
-            }
-        });
+                @Override
+                public void onError(Throwable error) {
+                    Timber.e(error.getMessage());
+                    ToastUtil.toast(error.getMessage());
+                }
+            });
+        } else {
+            UserApi.addWish(mProduct.product_id, new SingleSubscriber<Object>() {
+                @Override
+                public void onSuccess(Object value) {
+                    isLiked = true;
+                    likeIcon.setImageResource(R.mipmap.like_red);
+                }
+
+                @Override
+                public void onError(Throwable error) {
+                    Timber.e(error.getMessage());
+                    ToastUtil.toast(error.getMessage());
+                }
+            });
+        }
     }
  
     @BindView(R.id.shareText)
@@ -60,7 +92,7 @@ public class ProductOverviewFragment extends BaseFragment {
     void btRight() {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, "https://play.google.com/store/apps/details?id=com.fangzhich.sneakerlab");
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "https://play.google.com/store/apps/details?id=com.fangzhich.sneakerlab \n --From SneakLab");
         sendIntent.setType("text/plain");
         startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.ShareTo)));
     }
@@ -180,12 +212,29 @@ public class ProductOverviewFragment extends BaseFragment {
         imageUrls.clear();
         imageUrls.addAll(mProduct.images);
 
-        likeText.setText(TagFormatUtil.from(getResources().getString(R.string.LikeFormat))
+        UserApi.getWishList(new SingleSubscriber<ArrayList<WishEntity>>() {
+            @Override
+            public void onSuccess(ArrayList<WishEntity> value) {
+                for (WishEntity wish : value) {
+                    if (wish.product_id.equals(mProduct.product_id)) {
+                        likeIcon.setImageResource(R.mipmap.like_red);
+                        isLiked = true;
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                Timber.e(error.getMessage());
+            }
+        });
+        likeText.setText(mProduct.points==0?"Like":TagFormatUtil.from(getResources().getString(R.string.LikeFormat))
                 .with("LikeCount", mProduct.points)
                 .format());
-        shareText.setText(TagFormatUtil.from(getResources().getString(R.string.ShareFormat))
-                .with("ShareCount", getResources().getString(R.string.nulll))
-                .format());
+        shareText.setText("Share");
+//        shareText.setText(TagFormatUtil.from(getResources().getString(R.string.ShareFormat))
+//                .with("ShareCount", getResources().getString(R.string.nulll))
+//                .format());
         product_name.setText(mProduct.name);
         ratingBar.setNumStars(mProduct.rating);
         commentCount.setText(TagFormatUtil.from(getResources().getString(R.string.BracketsFormat))
@@ -200,7 +249,14 @@ public class ProductOverviewFragment extends BaseFragment {
                     sizes = option.product_option_value;
                     break;
                 }
+                case "size": {
+                    sizes = option.product_option_value;
+                    break;
+                }
                 case "Color": {
+                    break;
+                }
+                case "color": {
                     break;
                 }
                 default: {

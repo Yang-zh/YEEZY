@@ -63,6 +63,12 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
 
     @Override
     public void onLoadError(Throwable throwable) {
+
+        Timber.e(throwable.getMessage());
+    }
+
+    @Override
+    public void onLoadMoreError(Throwable throwable) {
         Timber.e(throwable.getMessage());
     }
 
@@ -94,14 +100,16 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
                 .crossFade()
                 .into(holder.productImage);
         holder.productName.setText(productItem.name);
-        holder.productPrice.setText(String.valueOf(TagFormatUtil
+        holder.productPrice.setText(TagFormatUtil
                 .from(holder.itemView.getContext().getResources().getString(R.string.priceFormat))
                 .with("price",productItem.special_price)
-                .format()));
-        holder.productOriginalPrice.setText(String.valueOf(TagFormatUtil
-                .from(holder.itemView.getContext().getResources().getString(R.string.priceFormat))
-                .with("price",productItem.original_price)
-                .format()));
+                .format());
+        if (Double.valueOf(productItem.original_price)>Double.valueOf(productItem.special_price)) {
+            holder.productOriginalPrice.setText(TagFormatUtil
+                    .from(holder.itemView.getContext().getResources().getString(R.string.priceFormat))
+                    .with("price",productItem.original_price)
+                    .format());
+        }
         holder.productOriginalPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         holder.productSellVolume.setText(R.string.nulll);
         holder.itemView.setOnClickListener(new View.OnClickListener() {

@@ -1,6 +1,7 @@
 package com.fangzhich.sneakerlab.base.widget;
 
 import android.content.Context;
+import android.util.SparseIntArray;
 import android.view.View;
 
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
@@ -12,6 +13,7 @@ import com.fangzhich.sneakerlab.product.ui.ProductDetailActivity;
 import com.fangzhich.sneakerlab.product.widget.SizeDialog;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * DialogManager
@@ -45,7 +47,7 @@ public class DialogManager {
         mCartDialog.initPopup(this, mContext).showPopup(mSizeDialog.isShowing() ? mSizeDialog.getContentView() : mContentView);
     }
 
-    public void startShoppingCartDialog(String product_id, String quantity, ArrayList<Integer> option, String recurring_id) {
+    public void startShoppingCartDialog(String product_id, String quantity, HashMap<String,String> option, String recurring_id) {
         mCartDialog.initPopup(this, mContext).addToCart(product_id, quantity, option, recurring_id).showPopup(mContentView);
     }
 

@@ -119,6 +119,9 @@
         <activity
             android:name="com.fangzhich.sneakerlab.main.ui.SettingActivity"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".order.ui.RefundActivity"
+            android:theme="@style/AppTheme" />
 
         <service
             android:name=".base.service.MyFirebaseMessagingService">

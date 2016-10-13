@@ -4,7 +4,7 @@
     android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/notification_icon"
-        android:src="@mipmap/icon_notification"
+        android:src="@mipmap/head_notification"
         android:layout_centerVertical="true"
         android:layout_marginLeft="15dp"
         android:layout_width="55dp"

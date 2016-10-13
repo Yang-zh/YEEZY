@@ -8,7 +8,7 @@
     <string name="Filter">Filter</string>
     <string name="Search">Search</string>
     <string name="Browse">Browse</string>
-    <string name="Notify">Notify</string>
+    <string name="Notifications">Notifications</string>
     <string name="ShoppingCart">Shopping Cart</string>
     <string name="OrderHistory">Order History</string>
     <string name="Currency">Currency</string>
@@ -42,7 +42,7 @@
     <string name="Username">Khorium</string>
     <string name="Cancel">Cancel</string>
     <string name="PopularSearches">Popular Searches</string>
-    <string name="PleaseSetYourFirstChoiceOfCurrency">Please Set Your First Choice Of Language</string>
+    <string name="PleaseSelectYourPreferCurrencyBelow">Please select your prefer currency below:</string>
     <string name="ChangeLanguage">Change Language</string>
     <string name="ChangeSuccess">Change Language Success</string>
     <string name="ContinueShopping">CONTINUE SHOPPING</string>
@@ -130,9 +130,9 @@
     <string name="Reviews">Reviews</string>
     <string name="ApplicationCrash">Application crashed and will exit at once.</string>
     <string name="Language">Language</string>
-    <string name="PleaseSetYourDesiredLanguage">PleaseSetYourDesiredLanguage</string>
+    <string name="PleaseSetYourDesiredLanguage">Please set your desired language:</string>
     <string name="LanguageSetting">Language Setting</string>
-    <string name="ChangeCurrency">ChangeCurrency</string>
+    <string name="ChangeCurrency">Change Currency</string>
     <string name="sendSuggest">You are welcome to contact us by this email address for any help.</string>
     <string name="serviceEmail"><u>service@fangzhich.com</u></string>
     <string name="Cerf">Cerf</string>
@@ -168,17 +168,33 @@
     <string name="Review">Review</string>
     <string name="plusOne">+1</string>
     <string name="ShareTo">Share to…</string>
-    <string name="Signout">Sign out</string>
+    <string name="Logout">Logout</string>
     <string name="ResetPassword">Reset Password</string>
     <string name="EnterYourEmailAddress">Enter Your Email Address</string>
-    <string name="CommodityGrade">Commodity grade</string>
-    <string name="PleaseEnterTheEvaluation">Please enter the evaluation</string>
+    <string name="StarRate">Star Rate</string>
+    <string name="PleaseEnterYourEvaluation">Please enter your evaluation</string>
     <string name="Submit">Submit</string>
     <string name="LetsSignYourIn">Let\'s sign you in</string>
     <string name="LetsCreateYourAccount">Let\'s create your account</string>
     <string name="title">title</string>
     <string name="SaveShippingInfo">Save shipping Info</string>
     <string name="Miscellaneous">Miscellaneous</string>
+    <string name="AboutUsDetail">SneakerLab is where you can make your perfect sneaker purchase at.SneakerLab offers you not only the hottest sneakers but also the exclusive ones.Heads up real Sneakerheads,wherever you go and whenever you want seize an outrageously cool sneaker,in your mobile phone there always waits SneakerLab.Enjoy yourself at SneakerLab!\n\nYour SneakerLab Your SuperShop.</string>
+    <string name="Collection">Collection</string>
+    <string name="BUY">BUY</string>
+    <string name="numberFormat">Number :{number}</string>
+    <string name="codeFormat">Zip/Postal Code :{code}</string>
+    <string name="RequestRefund">Request Refund</string>
+    <string name="CancelUnderLine"><u>Cancel</u></string>
+    <string name="RequestRefundUnderLine"><u>Request Refund</u></string>
+    <string name="ReceiveYourGoods">Received your goods?</string>
+    <string name="AreYouSure">Are you sure?\nIf you cancel this order then you can not get your goods</string>
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
+    <string name="RequestRefundText">We sincerely apologize for your unsatisfication! If you want to apply for refund, please send your refund application to our customer service email account. We shall reply you and handle your application ASAP.</string>
+    <string name="customerEmail">customer@fangzhich.com</string>
+    <string name="Reviewed">Reviewed!</string>
+    <string name="Detail">Detail</string>
 
     <string-array name = "currencies">
         <item>USD($)</item>

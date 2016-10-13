@@ -20,7 +20,7 @@ import rx.Single;
 public interface OrderService {
 
     @FormUrlEncoded
-    @POST("index.php?route=api/order/getOrders")
+    @POST("index.php?route=api/order/getAccountOrders")
     Single<HttpResult<ArrayList<OrderItemEntity>>> getOrderlist(
             @Field("page") String page,
             @Field("limit") String limit,
@@ -32,7 +32,7 @@ public interface OrderService {
             @Field("equipment_id") String imei);
 
     @FormUrlEncoded
-    @POST("index.php?route=api/order/getOrder")
+    @POST("index.php?route=api/order/getAccountOrder")
     Single<HttpResult<OrderEntity>> getOrder(
             @Field("order_id") String order_id,
             @Field("email") String email,

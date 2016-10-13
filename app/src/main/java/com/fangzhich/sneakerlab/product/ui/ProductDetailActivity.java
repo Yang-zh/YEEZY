@@ -176,9 +176,13 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
         price.setText(TagFormatUtil.from(getResources().getString(R.string.priceFormat))
                 .with("price",String.valueOf(product.special_price))
                 .format());
-        priceOriginal.setText(TagFormatUtil.from(getResources().getString(R.string.priceFormat))
-                .with("price",String.valueOf(product.original_price))
-                .format());
+        if (product.special_price<product.original_price) {
+            priceOriginal.setText(TagFormatUtil.from(getResources().getString(R.string.priceFormat))
+                    .with("price",String.valueOf(product.original_price))
+                    .format());
+        } else {
+            priceOriginal.setText("");
+        }
         initViewPager(product);
     }
 

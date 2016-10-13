@@ -4,7 +4,7 @@ import com.fangzhich.sneakerlab.base.presentation.BasePresenter;
 import com.fangzhich.sneakerlab.base.presentation.BaseView;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * CartListContract
@@ -15,7 +15,7 @@ public class CartContract {
     public interface Presenter extends BasePresenter {
         void getCartList();
 
-        void addItemToCart(String product_id, String quantity, ArrayList<Integer> option, String recurring_id);
+        void addItemToCart(String product_id, String quantity, HashMap<String,String> option, String recurring_id);
 
         void editItemInCart(String cart_id, String quantity);
 

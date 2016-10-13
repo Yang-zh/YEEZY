@@ -13,7 +13,6 @@ import com.fangzhich.sneakerlab.product.widget.PhotoViewPager;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * PhotoViewPager
@@ -71,12 +70,12 @@ public class PhotoViewPagerActivity extends BaseActivity {
                     .crossFade()
                     .into(itemView);
 //            itemView.setImageResource(R.mipmap.product_image_placeholder);
-            new PhotoViewAttacher(itemView).setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
-                @Override
-                public void onViewTap(View view, float x, float y) {
-                    onBackPressed();
-                }
-            });
+//            new PhotoViewAttacher(itemView).setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
+//                @Override
+//                public void onViewTap(View view, float x, float y) {
+//                    onBackPressed();
+//                }
+//            });
             container.addView(itemView);
             return itemView;
         }

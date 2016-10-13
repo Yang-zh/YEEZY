@@ -20,6 +20,7 @@ public class ProductListContract {
     public interface View extends BaseView<Presenter> {
         void onLoadDataSuccess(ArrayList<ProductItemEntity> productList);
         void onLoadError(Throwable throwable);
+        void onLoadMoreError(Throwable throwable);
         void onLoadMoreSuccess(ArrayList<ProductItemEntity> productList);
     }
 }

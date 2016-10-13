@@ -5,8 +5,11 @@ import android.content.Context;
 import com.blankj.utilcode.utils.SPUtils;
 import com.fangzhich.sneakerlab.base.data.net.BaseApi;
 import com.fangzhich.sneakerlab.user.data.entity.UserInfoEntity;
+import com.fangzhich.sneakerlab.user.data.entity.WishEntity;
 import com.fangzhich.sneakerlab.user.data.net.UserApi;
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 import rx.SingleSubscriber;
 
@@ -31,6 +34,7 @@ public class Const {
         public static final SPUtils AppSp = new SPUtils(mContext,SP.APP);
         public static final Gson gson = new Gson();
         public static UserInfoEntity userInfo;
+        public static ArrayList<WishEntity> wishList;
     }
 
     public static class SP {

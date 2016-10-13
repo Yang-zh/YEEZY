@@ -1,10 +1,13 @@
 package com.fangzhich.sneakerlab.cart.ui;
 
+import android.util.SparseIntArray;
+
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
 import com.fangzhich.sneakerlab.cart.presentation.CartContract;
 import com.fangzhich.sneakerlab.cart.presentation.CartPresenter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * CartManager
@@ -29,7 +32,7 @@ public class CartManager implements CartContract.View{
         mPresenter.getCartList();
     }
 
-    public void addCartItem(String product_id, String quantity, ArrayList<Integer> option, String recurring_id, AddItemCallBack callBack) {
+    public void addCartItem(String product_id, String quantity, HashMap<String,String> option, String recurring_id, AddItemCallBack callBack) {
         mAddItemCallBack = callBack;
         mPresenter.addItemToCart(product_id,quantity,option,recurring_id);
     }

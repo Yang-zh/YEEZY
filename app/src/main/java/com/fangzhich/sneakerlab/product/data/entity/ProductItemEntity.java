@@ -9,8 +9,8 @@ public class ProductItemEntity {
     public String name;
     public String image;
     public String quantity;
-    public int original_price;
-    public int special_price;
+    public String original_price;
+    public String special_price;
     public int points;
     public int viewed;
     public String date_added;

@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.SparseIntArray;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +22,13 @@ import com.fangzhich.sneakerlab.main.ui.ReturnPolicyActivity;
 import com.fangzhich.sneakerlab.order.data.entity.ConfirmOrderEntity;
 import com.fangzhich.sneakerlab.order.data.net.OrderApi;
 import com.fangzhich.sneakerlab.order.ui.OrderConfirmedActivity;
+import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.ToastUtil;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,10 +54,10 @@ public class ShoppingCartDialog {
     @BindView(R.id.ship_layout)
     RelativeLayout shipLayout;
     @BindView(R.id.address)
-    TextView address;
+    TextView tv_address;
     @OnClick(R.id.bt_address_edit)
     void editAddress() {
-        manager.startAddressDialog(cart==null?null:(cart.address.size()>0?null:cart.address.get(0)));
+        manager.startAddressDialog(cart==null?null:cart.address);
         manager.hideShoppingCartDialog();
     }
     private String address_id;
@@ -66,12 +71,12 @@ public class ShoppingCartDialog {
     TextView creditCartNumber;
     @OnClick(R.id.bt_card_edit)
     void editCreditCardInfo() {
-        manager.startCreditCardDialog(cart==null?null:(cart.payment.size()>0?null:cart.payment.get(0)));
+        manager.startCreditCardDialog(cart==null?null:cart.payment);
         manager.hideShoppingCartDialog();
     }
     private String cardType;
     private String cardNumber;
-    private String cardYead;
+    private String cardYear;
     private String cardMonth;
     private String cardCvv;
 
@@ -83,8 +88,6 @@ public class ShoppingCartDialog {
     TextView tvEstimatedShipping;
     @BindView(R.id.tv_order_total)
     TextView tvOrderTotal;
-    @BindView(R.id.approx)
-    TextView approx;
 
     @OnClick(R.id.return_policy)
     void showReturnPolicy() {
@@ -97,8 +100,10 @@ public class ShoppingCartDialog {
             ToastUtil.toast("please add address info");
             return;
         }
-        if (TextUtils.isEmpty(cardType) || TextUtils.isEmpty(cardNumber)) {
+//        TextUtils.isEmpty(cardType) ||
+        if (TextUtils.isEmpty(cardNumber)) {
             ToastUtil.toast("Please add credit card info");
+            return;
         }
 
         final ProgressBar progressBar = ProgressBar.getInstance();
@@ -109,7 +114,7 @@ public class ShoppingCartDialog {
             }
         }).show();
 
-        OrderApi.checkOut(address_id, "4514617622367813", "09", "20", "144", new SingleSubscriber<ConfirmOrderEntity>() {
+        OrderApi.checkOut(address_id, cardNumber, cardMonth, cardYear, cardCvv, new SingleSubscriber<ConfirmOrderEntity>() {
             @Override
             public void onSuccess(ConfirmOrderEntity value) {
                 progressBar.cancel();
@@ -119,6 +124,7 @@ public class ShoppingCartDialog {
                 mContext.startActivity(intent);
                 manager.closeAll();
                 manager.closeProductDetail();
+                checkIfSubscribe();
             }
 
             @Override
@@ -163,7 +169,7 @@ public class ShoppingCartDialog {
         return this;
     }
 
-    public ShoppingCartDialog addToCart(String product_id, String quantity, ArrayList<Integer> option, String recurring_id) {
+    public ShoppingCartDialog addToCart(String product_id, String quantity, HashMap<String,String> option, String recurring_id) {
 
         isAddingToCart = true;
 
@@ -174,6 +180,7 @@ public class ShoppingCartDialog {
             @Override
             public synchronized void onSuccess() {
                 isAddingToCart = false;
+                checkIfSubscribe();
                 loadData();
             }
 
@@ -194,22 +201,19 @@ public class ShoppingCartDialog {
             @Override
             public void loadCartData(CartEntity cart) {
                 ShoppingCartDialog.this.cart = cart;
-                if (cart.address.size()>=1) {
-                    CartEntity.Address addressEntity = cart.address.get(0);
-                    address_id = addressEntity.address_id;
 
-                    address.setText(addressEntity.city+" "+addressEntity.address_1);
+                if (cart.address!=null) {
+                    address_id = cart.address.address_id;
+                    tv_address.setText(cart.address.city+" "+cart.address.address_1);
                 }
-                if (cart.payment.size()>=1) {
-                    CartEntity.Payment entity = cart.payment.get(0);
-                    cardType = entity.title;
-                    cardNumber = entity.code;
-
-                    creditCardType.setText(entity.title);
-                    creditCartNumber.setText(entity.code);
+                if (cart.payment!=null) {
+                    cardNumber = cart.payment.card_number;
+                    cardMonth = cart.payment.card_month;
+                    cardYear = cart.payment.card_year;
+                    cardCvv = cart.payment.card_cvv;
+                    creditCartNumber.setText(cardNumber);
                 }
 
-                tvEstimatedShipping.setText("$0");
                 for (CartEntity.Totals total: cart.totals) {
                     switch (total.title) {
                         case "Sub-Total": {
@@ -220,15 +224,24 @@ public class ShoppingCartDialog {
                             tvOrderTotal.setText(total.text);
                             break;
                         }
-                        case "VAT (20%)": {
-                            approx.setText(total.text);
-                            break;
-                        }
                     }
                 }
             }
+
+            @Override
+            public void checkSubscribe() {
+                checkIfSubscribe();
+            }
         });
 
+    }
+
+    private void checkIfSubscribe() {
+        if (adapter.getData().size()>=0) {
+            FirebaseMessaging.getInstance().subscribeToTopic("cart");
+        } else {
+            FirebaseMessaging.getInstance().unsubscribeFromTopic("cart");
+        }
     }
 
     public void showPopup(View contentView) {
@@ -266,16 +279,15 @@ public class ShoppingCartDialog {
 
     public void saveAddress(String id, String address) {
         address_id = id;
-        this.address.setText(address);
+        tv_address.setText(address);
     }
 
     public void saveCreditCard(String type,String number,String year,String month,String cvv) {
         cardType = type;
-        cardYead = year;
+        cardYear = year;
         cardMonth = month;
         cardCvv = cvv;
         cardNumber = number;
-        creditCardType.setText(type);
         creditCartNumber.setText(number);
     }
 }

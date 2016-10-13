@@ -45,7 +45,8 @@ import timber.log.Timber;
 
 public class MainActivity extends BaseActivity {
 
-
+    public static final int NOTIFY_DEFAULT = 100;
+    public static final int NOTIFY_CART = 101;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
     @BindView(R.id.navigation)
@@ -110,18 +111,11 @@ public class MainActivity extends BaseActivity {
 
         headImage = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.headImage);
         userName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.userName);
-        searchButton = (RelativeLayout) navigationView.getHeaderView(0).findViewById(R.id.bt_search);
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, SearchActivity.class));
-            }
-        });
         userInfoButton = (RelativeLayout) navigationView.getHeaderView(0).findViewById(R.id.bt_userInfo);
         userInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, WishListActivity.class));
+                startActivity(new Intent(MainActivity.this, UserInfoActivity.class));
             }
         });
 
@@ -145,7 +139,11 @@ public class MainActivity extends BaseActivity {
                         }
                         break;
                     case R.id.history:
-                        startActivity(new Intent(MainActivity.this, OrderHistoryActivity.class));
+                        if (!Const.isLogin()) {
+                            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                        } else {
+                            startActivity(new Intent(MainActivity.this, OrderHistoryActivity.class));
+                        }
                         break;
                     case R.id.currency:
                         startActivity(new Intent(MainActivity.this, CurrencyActivity.class));
@@ -164,6 +162,13 @@ public class MainActivity extends BaseActivity {
                         break;
                     case R.id.return_policy:
                         startActivity(new Intent(MainActivity.this, ReturnPolicyActivity.class));
+                        break;
+                    case R.id.collection:
+                        if (!Const.isLogin()) {
+                            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                        } else {
+                            startActivity(new Intent(MainActivity.this, WishListActivity.class));
+                        }
                         break;
                     case R.id.signout:
                         UserApi.signOut(new SingleSubscriber<Object>() {
@@ -253,7 +258,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void loadData() {
-        headImage.setImageResource(R.mipmap.headshot_true);
         userName.setText(Const.isLogin() ? Const.getUserInfo().user_info.firstname + " " + Const.getUserInfo().user_info.lastname : "Your name here");
     }
 

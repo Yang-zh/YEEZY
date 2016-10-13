@@ -1,50 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bt_userInfo"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@android:color/holo_blue_bright">
-        <RelativeLayout
-            android:id="@+id/bt_search"
-            android:layout_marginTop="36dp"
-            android:layout_marginLeft="18dp"
-            android:layout_marginRight="18dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/search_input">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="14dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/search" />
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/bt_userInfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/bt_search"
-        tools:ignore="UseCompoundDrawables">
+    android:layout_height="130dp"
+    android:layout_marginTop="25dp"
+    android:background="@mipmap/head_background">
 
-        <ImageView
+    <RelativeLayout
+        android:background="#9132303D"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!--<RelativeLayout-->
+        <!--android:id="@+id/bt_search"-->
+        <!--android:layout_marginTop="36dp"-->
+        <!--android:layout_marginLeft="18dp"-->
+        <!--android:layout_marginRight="18dp"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@mipmap/search_input">-->
+        <!--<ImageView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginRight="14dp"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:src="@mipmap/search" />-->
+        <!--</RelativeLayout>-->
+
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/headImage"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="12dp"
-            android:src="@mipmap/headshot_true"
+            android:layout_width="61dp"
+            android:layout_height="61dp"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="34.5dp"
+            android:layout_marginLeft="17dp"
+            android:layout_marginTop="34.5dp"
+            android:src="@mipmap/head_image_place_holder"
+            app:civ_border_color="#00000000"
+            app:civ_border_width="0dp"
             tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/userName"
-            android:textStyle="bold"
-            android:layout_toRightOf="@+id/headImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/navigation_header_username_size"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp" />
+            android:layout_marginLeft="23.5dp"
+            android:layout_toRightOf="@+id/headImage"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/navigation_header_username_size"
+            android:textStyle="bold" />
     </RelativeLayout>
 </RelativeLayout>

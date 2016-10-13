@@ -27,6 +27,8 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Product, CartLi
 
     interface OnLoadDataListener {
         void loadCartData(CartEntity cart);
+
+        void checkSubscribe();
     }
 
     public void setOnLoadDataListener (OnLoadDataListener listener) {
@@ -88,6 +90,7 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Product, CartLi
                             @Override
                             public void onSuccess() {
                                 mData.remove(holder.getAdapterPosition());
+                                onLoadDataListener.checkSubscribe();
                                 notifyItemRemoved(holder.getAdapterPosition());
                             }
 
