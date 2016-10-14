@@ -1,5 +1,6 @@
 package com.fangzhich.sneakerlab.order.ui;
 
+import android.content.Intent;
 import android.graphics.Rect;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +22,16 @@ import butterknife.BindView;
  * Created by Khorium on 2016/9/1.
  */
 public class OrderHistoryActivity extends BaseActivity {
+
+    //request_code
+    public static final int IS_REVIEWED = 101;
+    public static final int IS_CONFIRMED = 102;
+    public static final int IS_CANCELED = 103;
+
+    //result_code
+    public static final int CONFIRMED = 201;
+    public static final int CANCELED = 202;
+    public static final int REVIEWED = 203;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -70,6 +81,28 @@ public class OrderHistoryActivity extends BaseActivity {
     @Override
     protected void loadData() {
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case IS_CANCELED:
+                if (resultCode == CANCELED) {
+                    adapter.notifyOrderStatusChanged(data.getStringExtra("order_id"),CANCELED);
+                }
+                break;
+            case IS_CONFIRMED:
+                if (resultCode == CONFIRMED) {
+                    adapter.notifyOrderStatusChanged(data.getStringExtra("order_id"),CONFIRMED);
+                }
+                break;
+            case IS_REVIEWED:
+                if (resultCode == REVIEWED) {
+                    adapter.notifyOrderStatusChanged(data.getStringExtra("order_id"),REVIEWED);
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

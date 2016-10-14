@@ -41,11 +41,11 @@ public class ProductShippingInfoFragment extends BaseFragment {
             @Override
             public void loadData() {
                 ArrayList<ShippingInfo> infos = new ArrayList<>();
-                infos.add(new ShippingInfo(getResources().getString(R.string.EstimatedShipping),"$ 0"));
-                infos.add(new ShippingInfo(getResources().getString(R.string.Availability),"America,china and other countries"));
-                infos.add(new ShippingInfo(getResources().getString(R.string.EstimatedArrival),"7-15 days"));
-                infos.add(new ShippingInfo(getResources().getString(R.string.ShipsFrom),"China"));
-                infos.add(new ShippingInfo(getResources().getString(R.string.ReturnPolicy),"You may return products within 30 days of delivery"));
+                infos.add(new ShippingInfo(getResources().getString(R.string.EstimatedShipping),product.shipping_info.EstimatedShipping));
+                infos.add(new ShippingInfo(getResources().getString(R.string.Availability),product.shipping_info.Availability));
+                infos.add(new ShippingInfo(getResources().getString(R.string.EstimatedArrival),product.shipping_info.EstimatedArrival));
+                infos.add(new ShippingInfo(getResources().getString(R.string.ShipsFrom),product.shipping_info.ShipsFrom));
+                infos.add(new ShippingInfo(getResources().getString(R.string.ReturnPolicy),product.shipping_info.ReturnPolicy));
                 mData = infos;
             }
 

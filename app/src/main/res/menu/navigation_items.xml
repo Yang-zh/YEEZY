@@ -47,6 +47,7 @@
             android:title="@string/Collection"/>
         <item
             android:id="@+id/signout"
+            android:icon="@mipmap/logout"
             android:title="@string/Logout" />
     </group>
 

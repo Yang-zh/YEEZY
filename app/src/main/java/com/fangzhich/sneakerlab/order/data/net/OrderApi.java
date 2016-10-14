@@ -70,6 +70,56 @@ public class OrderApi extends BaseApi {
                 .subscribe(singleSubscriber);
     }
 
+    /**
+     * Confirm order request
+     * @param order_id order id
+     * @param singleSubscriber SingleSubscriber in RxJava (Callback)
+     */
+    public static void confirmOrder(String order_id, SingleSubscriber<Object> singleSubscriber) {
+        String timestamp = getTimeStamp();
+
+        HashMap<String,String> params = new HashMap<>();
+        params.put("order_id", order_id);
+        params.put("order_status_id", "5");
+        params.put("email", email);
+        params.put("token", token);
+        params.put("timestamp", timestamp);
+
+        String signature = getSignature(params);
+
+        createService(OrderService.class)
+                .changeOrderStatus(order_id,"5",email,token,timestamp,signature,API_KEY, Const.IMEI)
+                .map(new HttpResultFunc<Object>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(singleSubscriber);
+    }
+
+    /**
+     * Cancel order request
+     * @param order_id order id
+     * @param singleSubscriber SingleSubscriber in RxJava (Callback)
+     */
+    public static void cancelOrder(String order_id, SingleSubscriber<Object> singleSubscriber) {
+        String timestamp = getTimeStamp();
+
+        HashMap<String,String> params = new HashMap<>();
+        params.put("order_id", order_id);
+        params.put("order_status_id", "7");
+        params.put("email", email);
+        params.put("token", token);
+        params.put("timestamp", timestamp);
+
+        String signature = getSignature(params);
+
+        createService(OrderService.class)
+                .changeOrderStatus(order_id,"7",email,token,timestamp,signature,API_KEY, Const.IMEI)
+                .map(new HttpResultFunc<Object>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(singleSubscriber);
+    }
+
     public static void checkOut(String address_id,String card_number,String card_month,String card_year,String card_cvv, SingleSubscriber<ConfirmOrderEntity> singleSubscriber) {
         String timestamp = getTimeStamp();
 
@@ -88,6 +138,27 @@ public class OrderApi extends BaseApi {
         createService(OrderService.class)
                 .checkOut(address_id,card_number,card_month,card_year,card_cvv,email,token,timestamp,signature,API_KEY, Const.IMEI)
                 .map(new HttpResultFunc<ConfirmOrderEntity>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(singleSubscriber);
+    }
+
+    public static void addReview(String product_id,String rating,String text,SingleSubscriber<Object> singleSubscriber) {
+        String timestamp = getTimeStamp();
+
+        HashMap<String,String> params = new HashMap<>();
+        params.put("product_id", product_id);
+        params.put("rating", rating);
+        params.put("text", text);
+        params.put("email", email);
+        params.put("token", token);
+        params.put("timestamp", timestamp);
+
+        String signature = getSignature(params);
+
+        createService(OrderService.class)
+                .addReview(product_id,rating,text,email,token,timestamp,signature,API_KEY, Const.IMEI)
+                .map(new HttpResultFunc<Object>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(singleSubscriber);

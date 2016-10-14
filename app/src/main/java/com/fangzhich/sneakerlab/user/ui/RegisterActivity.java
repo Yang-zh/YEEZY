@@ -2,6 +2,7 @@ package com.fangzhich.sneakerlab.user.ui;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.user.data.entity.RegisterEntity;
+import com.fangzhich.sneakerlab.user.data.entity.UserInfoEntity;
+import com.fangzhich.sneakerlab.user.data.net.UserApi;
 import com.fangzhich.sneakerlab.user.presentation.contract.UserRegisterContract;
 import com.fangzhich.sneakerlab.user.presentation.presenter.UserRegisterPresenter;
 import com.fangzhich.sneakerlab.util.Const;
@@ -17,6 +20,8 @@ import com.fangzhich.sneakerlab.util.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.SingleSubscriber;
+import timber.log.Timber;
 
 /**
  * RegisterActivity
@@ -42,8 +47,11 @@ public class RegisterActivity extends BaseActivity implements UserRegisterContra
     @BindView(R.id.confirmPassword)
     EditText confirmPassword;
 
+    @BindView(R.id.bt_create_account)
+    CardView btCreateAccount;
     @OnClick(R.id.bt_create_account)
     void createAccount() {
+        btCreateAccount.setClickable(false);
         mPresenter.register(
                 firstName.getText().toString(),
                 lastName.getText().toString(),
@@ -77,19 +85,34 @@ public class RegisterActivity extends BaseActivity implements UserRegisterContra
     }
 
     @Override
-    public void onRegisterSuccess(RegisterEntity entity) {
+    public void onRegisterSuccess(final RegisterEntity entity) {
         ToastUtil.toast(Const.User.REGISTER_SUCCESS);
-        Const.setLogin(true);
-        setResult(SplashActivity.SUCCESS);
-        Intent intent = new Intent(this, UserInfoActivity.class);
-        intent.putExtra("isFirstRegister",true);
-        startActivity(intent);
-        finish();
+        UserApi.login(email.getText().toString(), password.getText().toString(), new SingleSubscriber<UserInfoEntity>() {
+            @Override
+            public void onSuccess(UserInfoEntity value) {
+                Timber.d(value.toString());
+                Const.setUserInfo(value);
+                Const.setLogin(true);
+                setResult(SplashActivity.SUCCESS);
+                Intent intent = new Intent(RegisterActivity.this, UserInfoActivity.class);
+                intent.putExtra("isFirstRegister",true);
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                Timber.e(error);
+                btCreateAccount.setClickable(true);
+                ToastUtil.toastLong("sorry,register success but try login failed,please restart application and login by yourself");
+            }
+        });
     }
 
     @Override
     public void onRegisterFailed(Throwable throwable) {
         ToastUtil.toast(Const.User.REGISTER_FAILED);
+        btCreateAccount.setClickable(true);
     }
 
 

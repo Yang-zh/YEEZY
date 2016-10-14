@@ -35,8 +35,8 @@ public class CustomDialog {
         return this;
     }
 
-    public void showPopup(View contentView) {
-        mPopupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
+    public void showPopup(View contentView,int gravity) {
+        mPopupWindow.showAtLocation(contentView, gravity, 0, 0);
     }
 
     public interface Listener{

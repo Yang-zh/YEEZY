@@ -87,6 +87,7 @@ public class RelateProductListAdapter extends BaseRecyclerViewAdapter<PopularPro
 
         Glide.with(holder.itemView.getContext())
                 .load(productItem.image)
+                .placeholder(R.mipmap.product_image_placeholder)
                 .centerCrop()
                 .fitCenter()
                 .crossFade()
@@ -109,7 +110,7 @@ public class RelateProductListAdapter extends BaseRecyclerViewAdapter<PopularPro
             public void onClick(View view) {
                 Timber.d("On Item %d Click",position);
                 Intent intent = new Intent(view.getContext(),ProductDetailActivity.class);
-                intent.putExtra("product_id", Integer.parseInt(mData.get(holder.getAdapterPosition()).product_id));
+                intent.putExtra("product_id", mData.get(holder.getAdapterPosition()).product_id);
                 view.getContext().startActivity(intent);
             }
         });

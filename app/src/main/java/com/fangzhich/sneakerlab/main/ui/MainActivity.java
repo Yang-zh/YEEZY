@@ -28,9 +28,10 @@ import com.fangzhich.sneakerlab.main.data.entity.CategoryEntity;
 import com.fangzhich.sneakerlab.main.data.net.MainApi;
 import com.fangzhich.sneakerlab.product.ui.ProductListFragment;
 import com.fangzhich.sneakerlab.order.ui.OrderHistoryActivity;
-import com.fangzhich.sneakerlab.user.data.net.UserApi;
 import com.fangzhich.sneakerlab.user.ui.LoginActivity;
 import com.fangzhich.sneakerlab.user.ui.NotificationActivity;
+import com.fangzhich.sneakerlab.user.ui.PersonalCenterActivity;
+import com.fangzhich.sneakerlab.user.ui.SplashActivity;
 import com.fangzhich.sneakerlab.user.ui.UserInfoActivity;
 import com.fangzhich.sneakerlab.user.ui.WishListActivity;
 import com.fangzhich.sneakerlab.util.Const;
@@ -109,13 +110,18 @@ public class MainActivity extends BaseActivity {
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
-        headImage = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.headImage);
-        userName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.userName);
-        userInfoButton = (RelativeLayout) navigationView.getHeaderView(0).findViewById(R.id.bt_userInfo);
-        userInfoButton.setOnClickListener(new View.OnClickListener() {
+        View headLayout = navigationView.getHeaderView(0);
+        headImage = (ImageView) headLayout.findViewById(R.id.headImage);
+        userName = (TextView) headLayout.findViewById(R.id.userName);
+        headLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, UserInfoActivity.class));
+                if (Const.isLogin()) {
+                    startActivity(new Intent(MainActivity.this, PersonalCenterActivity.class));
+                } else {
+                    startActivityForResult(new Intent(MainActivity.this,LoginActivity.class),LoginActivity.IS_LOGIN);
+                }
+
             }
         });
 
@@ -133,14 +139,14 @@ public class MainActivity extends BaseActivity {
                         break;
                     case R.id.shoppingCart:
                         if (!Const.isLogin()) {
-                            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                            startActivityForResult(new Intent(MainActivity.this, LoginActivity.class),LoginActivity.IS_LOGIN);
                         } else {
                             new DialogManager(MainActivity.this, getWindow().getDecorView()).startShoppingCartDialog();
                         }
                         break;
                     case R.id.history:
                         if (!Const.isLogin()) {
-                            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                            startActivityForResult(new Intent(MainActivity.this, LoginActivity.class),LoginActivity.IS_LOGIN);
                         } else {
                             startActivity(new Intent(MainActivity.this, OrderHistoryActivity.class));
                         }
@@ -165,25 +171,14 @@ public class MainActivity extends BaseActivity {
                         break;
                     case R.id.collection:
                         if (!Const.isLogin()) {
-                            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                            startActivityForResult(new Intent(MainActivity.this, LoginActivity.class),LoginActivity.IS_LOGIN);
                         } else {
                             startActivity(new Intent(MainActivity.this, WishListActivity.class));
                         }
                         break;
                     case R.id.signout:
-                        UserApi.signOut(new SingleSubscriber<Object>() {
-                            @Override
-                            public void onSuccess(Object value) {
-                                Const.setLogin(false);
-                                ToastUtil.toast("sign out success");
-                            }
-
-                            @Override
-                            public void onError(Throwable error) {
-                                Const.setLogin(false);
-                                ToastUtil.toast(error.getMessage());
-                            }
-                        });
+                        Const.setLogin(false);
+                        refreshUserInfo();
                 }
                 drawerLayout.closeDrawers();
                 return true;
@@ -258,8 +253,13 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void loadData() {
-        userName.setText(Const.isLogin() ? Const.getUserInfo().user_info.firstname + " " + Const.getUserInfo().user_info.lastname : "Your name here");
+        refreshUserInfo();
     }
+
+    private void refreshUserInfo() {
+        userName.setText(Const.isLogin() ? Const.getUserInfo().user_info.firstname + " " + Const.getUserInfo().user_info.lastname : "SneakerHead");
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -281,6 +281,16 @@ public class MainActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == LoginActivity.IS_LOGIN) {
+            if (resultCode == SplashActivity.SUCCESS) {
+                refreshUserInfo();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

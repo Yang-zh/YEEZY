@@ -3,6 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/skip"
-        android:title="@string/Skip"
+        android:title="@string/skip"
         app:showAsAction="ifRoom"/>
 </menu>

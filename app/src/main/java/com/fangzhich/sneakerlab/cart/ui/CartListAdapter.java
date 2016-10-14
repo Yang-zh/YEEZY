@@ -74,9 +74,8 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Product, CartLi
         final CartEntity.Product cartItem = mData.get(position);
         holder.tvProductName.setText(cartItem.name);
         Glide.with(holder.itemView.getContext())
-                .fromResource()
-                .asBitmap()
-                .load(R.mipmap.product_image_placeholder)
+                .load(cartItem.image)
+                .placeholder(R.mipmap.product_image_placeholder)
                 .fitCenter()
                 .into(holder.ivProductImage);
         holder.shippingDetail.setText(cartItem.shipping);

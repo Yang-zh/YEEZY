@@ -1,34 +1,41 @@
 package com.fangzhich.sneakerlab.order.ui.adapter;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.net.LinkAddress;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.BaseRecyclerViewAdapter;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.LinearLayoutItemDecoration;
-import com.fangzhich.sneakerlab.main.ui.ContactActivity;
+import com.fangzhich.sneakerlab.base.widget.CustomDialog;
+import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
 import com.fangzhich.sneakerlab.main.ui.SupportActivity;
+import com.fangzhich.sneakerlab.order.data.entity.OrderEntity;
 import com.fangzhich.sneakerlab.order.data.entity.OrderItemEntity;
+import com.fangzhich.sneakerlab.order.data.net.OrderApi;
 import com.fangzhich.sneakerlab.order.presentation.OrderListContract;
 import com.fangzhich.sneakerlab.order.presentation.OrderListPresenter;
 import com.fangzhich.sneakerlab.order.ui.OrderDetailActivity;
-import com.fangzhich.sneakerlab.order.ui.OrderReviewActivity;
+import com.fangzhich.sneakerlab.order.ui.OrderHistoryActivity;
+import com.fangzhich.sneakerlab.util.ToastUtil;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
+import rx.SingleSubscriber;
 import timber.log.Timber;
 
 /**
@@ -86,9 +93,10 @@ public class OrderHistoryAdapter extends BaseRecyclerViewAdapter<OrderItemEntity
     }
 
     @Override
-    protected void onBindHolder(ViewHolder holder, int position) {
+    protected void onBindHolder(final ViewHolder holder, final int position) {
         final OrderItemEntity order = mData.get(position);
 
+        //just enjoy callback hell
         switch (order.order_status) {
             case "Processing":
                 holder.orderOperation.setVisibility(View.VISIBLE);
@@ -96,7 +104,43 @@ public class OrderHistoryAdapter extends BaseRecyclerViewAdapter<OrderItemEntity
                 holder.btCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //todo
+                        new CustomDialog().initPopup(v.getContext(), R.layout.dialog_cancel, new CustomDialog.Listener() {
+                            @Override
+                            public void onInit(final PopupWindow dialog, View content) {
+                                content.findViewById(R.id.bt_yes).setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        OrderApi.cancelOrder(order.order_id, new SingleSubscriber<Object>() {
+                                            @Override
+                                            public void onSuccess(Object value) {
+                                                ToastUtil.toast("Cancel order success");
+                                                dialog.dismiss();
+                                                order.order_status = "Canceled";
+                                                notifyItemChanged(position);
+                                            }
+
+                                            @Override
+                                            public void onError(Throwable error) {
+                                                dialog.dismiss();
+                                                ToastUtil.toast(error.getMessage());
+                                            }
+                                        });
+                                        dialog.dismiss();
+                                    }
+                                });
+                                content.findViewById(R.id.bt_no).setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onDismiss(PopupWindow dialog, View content) {
+
+                            }
+                        }).showPopup(((Activity)v.getContext()).getWindow().getDecorView(), Gravity.CENTER);
                     }
                 });
                 break;
@@ -105,8 +149,43 @@ public class OrderHistoryAdapter extends BaseRecyclerViewAdapter<OrderItemEntity
                 holder.btConfirmReceive.setVisibility(View.VISIBLE);
                 holder.btConfirmReceive.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
-                        //todo
+                    public void onClick(final View v) {new CustomDialog().initPopup(v.getContext(), R.layout.dialog_confirm, new CustomDialog.Listener() {
+                        @Override
+                        public void onInit(final PopupWindow dialog, View content) {
+                            v.findViewById(R.id.bt_yes).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                OrderApi.confirmOrder(order.order_id, new SingleSubscriber<Object>() {
+                                    @Override
+                                    public void onSuccess(Object value) {
+                                        ToastUtil.toast("Confirm order success");
+                                        dialog.dismiss();
+                                        order.order_status = "Completed";
+                                        notifyItemChanged(position);
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable error) {
+                                        ToastUtil.toast(error.getMessage());
+                                        dialog.dismiss();
+                                    }
+                                });
+                                dialog.dismiss();
+                                }
+                            });
+                            v.findViewById(R.id.bt_no).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dialog.dismiss();
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onDismiss(PopupWindow dialog, View content) {
+
+                        }
+                    }).showPopup(((Activity)v.getContext()).getWindow().getDecorView(), Gravity.CENTER);
                     }
                 });
                 break;
@@ -155,6 +234,7 @@ public class OrderHistoryAdapter extends BaseRecyclerViewAdapter<OrderItemEntity
 
                 Glide.with(itemView.getContext())
                         .load(product.image)
+                        .placeholder(R.mipmap.product_image_placeholder)
                         .fitCenter()
                         .crossFade()
                         .into(holder.ivProductImage);
@@ -193,9 +273,45 @@ public class OrderHistoryAdapter extends BaseRecyclerViewAdapter<OrderItemEntity
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(),OrderDetailActivity.class);
                 intent.putExtra("order_id",order.order_id);
-                v.getContext().startActivity(intent);
+                int requestCode;
+                switch (order.order_status) {
+                    case "Processing":
+                        requestCode = OrderHistoryActivity.IS_CANCELED;
+                        ((Activity)v.getContext()).startActivityForResult(intent,requestCode);
+                        break;
+                    case "Shipping":
+                        requestCode = OrderHistoryActivity.IS_CONFIRMED;
+                        ((Activity)v.getContext()).startActivityForResult(intent,requestCode);
+                        break;
+                    case "Completed":
+                        requestCode = OrderHistoryActivity.IS_REVIEWED;
+                        ((Activity)v.getContext()).startActivityForResult(intent,requestCode);
+                        break;
+                    case "Canceled":
+                        v.getContext().startActivity(intent);
+                        break;
+                }
             }
         });
+    }
+
+    public void notifyOrderStatusChanged(String order_id,int status) {
+        for (int i=0;i<mData.size();i++) {
+            OrderItemEntity entity = mData.get(i);
+            if (entity.order_id.equals(order_id)) {
+                switch (status) {
+                    case OrderHistoryActivity.CANCELED:
+                        entity.order_status = "Canceled";
+                        break;
+                    case OrderHistoryActivity.CONFIRMED:
+                        entity.order_status = "Completed";
+                        break;
+                    case OrderHistoryActivity.REVIEWED:
+                        entity.order_status = "Completed";
+                        break;
+                }
+            }
+        }
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

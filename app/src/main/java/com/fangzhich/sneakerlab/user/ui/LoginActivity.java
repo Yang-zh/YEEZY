@@ -130,8 +130,8 @@ public class LoginActivity extends BaseActivity implements UserLoginContract.Vie
         ToastUtil.toast(Const.User.LOGIN_SUCCESS);
         Const.setUserInfo(entity);
         Const.setLogin(true);
+        setResult(SplashActivity.SUCCESS);
         if (isFirstLogin) {
-            setResult(SplashActivity.SUCCESS);
             startActivity(new Intent(this, MainActivity.class));
         }
         finish();

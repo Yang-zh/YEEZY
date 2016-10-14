@@ -4,17 +4,21 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.ConvertUtils;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.base.widget.CustomDialog;
 import com.fangzhich.sneakerlab.base.widget.spinner.NiceSpinner;
+import com.fangzhich.sneakerlab.main.ui.MainActivity;
 import com.fangzhich.sneakerlab.user.data.entity.PersonalInfoEntity;
 import com.fangzhich.sneakerlab.user.presentation.contract.PersonalInfoContract;
 import com.fangzhich.sneakerlab.user.presentation.contract.PersonalInfoPresenter;
@@ -40,6 +44,8 @@ public class UserInfoActivity extends BaseActivity implements PersonalInfoContra
     Toolbar toolbar;
     @BindView(R.id.title)
     TextView title;
+    @BindView(R.id.title_layout)
+    RelativeLayout titleLayout;
 
     private PersonalInfoContract.Presenter mPresenter;
 
@@ -83,7 +89,7 @@ public class UserInfoActivity extends BaseActivity implements PersonalInfoContra
 
                     }
                 })
-                .showPopup(getWindow().getDecorView());
+                .showPopup(getWindow().getDecorView(), Gravity.BOTTOM);
     }
 
     @BindView(R.id.spinner_sex)
@@ -98,7 +104,7 @@ public class UserInfoActivity extends BaseActivity implements PersonalInfoContra
                 String.valueOf(Calendar.getInstance().get(Calendar.YEAR)-Integer.valueOf(tvBirthday.getText().toString().split("-")[0])));
         setResult(RegisterActivity.SUCCESS);
         if (getIntent().getBooleanExtra("isFirstRegister",false)) {
-            Intent intent = new Intent(this,WelcomeActivity.class);
+            Intent intent = new Intent(this,MainActivity.class);
             intent.putExtra("isFirstRegister",false);
             startActivity(intent);
         }
@@ -127,6 +133,8 @@ public class UserInfoActivity extends BaseActivity implements PersonalInfoContra
             if (!isFirstRegister) {
                 actionBar.setDisplayShowHomeEnabled(true);
                 actionBar.setDisplayHomeAsUpEnabled(true);
+            } else {
+                ((Toolbar.LayoutParams)titleLayout.getLayoutParams()).setMargins(ConvertUtils.dp2px(this,60),0,0,0);
             }
         }
         title.setText(R.string.Personalize);
@@ -181,7 +189,7 @@ public class UserInfoActivity extends BaseActivity implements PersonalInfoContra
     @Override
     public void onGetInfoFailed(Throwable throwable) {
         Timber.e(throwable);
-        ToastUtil.toast(throwable.getMessage());
+//        ToastUtil.toast(throwable.getMessage());
     }
 
     @Override

@@ -8,10 +8,12 @@ import android.widget.TextView;
 
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
+import com.fangzhich.sneakerlab.user.data.net.UserApi;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.SingleSubscriber;
 
 /**
  * ForgetPasswordActivity
@@ -27,7 +29,17 @@ public class ForgetPasswordActivity extends BaseActivity {
     EditText etEmail;
     @OnClick(R.id.bt_submit)
     void submit() {
-        ToastUtil.toast("send");
+        UserApi.forgetPassword(etEmail.getText().toString(), new SingleSubscriber<Object>() {
+            @Override
+            public void onSuccess(Object value) {
+                ToastUtil.toast("your new password has been sent to your email");
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                ToastUtil.toast("can't send email,please retry");
+            }
+        });
     }
 
     @Override

@@ -8,6 +8,7 @@ import com.fangzhich.sneakerlab.base.data.net.HttpResult;
 import com.fangzhich.sneakerlab.user.data.entity.WishEntity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -53,6 +54,27 @@ interface UserService {
             @Field("equipment_id") String imei);
 
     @FormUrlEncoded
+    @POST("index.php?route=api/customer/editPwd")
+    Single<HttpResult<Object>> editPassword(
+            @Field("old_password") String old_password,
+            @Field("new_password") String new_password,
+            @Field("email") String email,
+            @Field("token") String token,
+            @Field("timestamp") String timestamp,
+            @Field("signature") String signature,
+            @Field("apiKey") String apiKey,
+            @Field("equipment_id") String imei);
+
+    @FormUrlEncoded
+    @POST("index.php?route=api/customer/forgetPwd")
+    Single<HttpResult<Object>> forgetPassword(
+            @Field("email") String email,
+            @Field("timestamp") String timestamp,
+            @Field("signature") String signature,
+            @Field("apiKey") String apiKey,
+            @Field("equipment_id") String imei);
+
+    @FormUrlEncoded
     @POST("index.php?route=api/customer")
     Single<HttpResult<PersonalInfoEntity>> getPersonalInfo(
             @Field("email") String email,
@@ -64,24 +86,12 @@ interface UserService {
 
     @FormUrlEncoded
     @POST("index.php?route=api/customer/edit")
-    Single<HttpResult<Object>> editPersonalInfo(
+    Single<HttpResult<List>> editPersonalInfo(
             @Field("firstname") String firstname,
             @Field("lastname") String lastname,
             @Field("phone") String phone,
             @Field("sex") String sex,
             @Field("age") String age,
-            @Field("email") String email,
-            @Field("token") String token,
-            @Field("timestamp") String timestamp,
-            @Field("signature") String signature,
-            @Field("apiKey") String apiKey,
-            @Field("equipment_id") String imei);
-
-    @FormUrlEncoded
-    @POST("index.php?route=api/customer/editPwd")
-    Single<HttpResult<Object>> editPassword(
-            @Field("old_password") String old_password,
-            @Field("new_password") String new_password,
             @Field("email") String email,
             @Field("token") String token,
             @Field("timestamp") String timestamp,

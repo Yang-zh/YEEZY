@@ -69,6 +69,7 @@ public class Const {
                     ToastUtil.toast(error.getMessage());
                 }
             });
+            BaseApi.refreshLoginInfo();
         }
         Obj.AppSp.putBoolean(SP.IS_LOGIN,login);
     }

@@ -3,6 +3,8 @@ package com.fangzhich.sneakerlab.user.presentation.contract;
 import com.fangzhich.sneakerlab.user.data.entity.PersonalInfoEntity;
 import com.fangzhich.sneakerlab.user.data.net.UserApi;
 
+import java.util.List;
+
 import rx.SingleSubscriber;
 
 /**
@@ -35,9 +37,9 @@ public class PersonalInfoPresenter implements PersonalInfoContract.Presenter {
 
     @Override
     public void editPersonalInfo(String firstname, String lastname, String phone, String sex, String age) {
-        UserApi.editPersonalInfo(firstname, lastname, phone, sex, age, new SingleSubscriber<Object>() {
+        UserApi.editPersonalInfo(firstname, lastname, phone, sex, age, new SingleSubscriber<List>() {
             @Override
-            public void onSuccess(Object value) {
+            public void onSuccess(List value) {
                 mView.onEditInfoSuccess();
             }
 

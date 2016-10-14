@@ -13,9 +13,13 @@ import android.widget.TextView;
 
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
+import com.fangzhich.sneakerlab.order.data.entity.OrderEntity;
+import com.fangzhich.sneakerlab.order.data.net.OrderApi;
+import com.fangzhich.sneakerlab.util.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.SingleSubscriber;
 
 /**
  * OrderReviewActivity
@@ -23,6 +27,11 @@ import butterknife.OnClick;
  */
 
 public class OrderReviewActivity extends BaseActivity {
+
+    public static final int IS_REVIEWED = 100;
+
+    OrderEntity order;
+
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.toolbar)
@@ -33,21 +42,32 @@ public class OrderReviewActivity extends BaseActivity {
     EditText etEvaluation;
     @OnClick(R.id.bt_submit)
     void submit() {
-        final AlertDialog dialog = new AlertDialog.Builder(this).create();
-        dialog.show();
-        Window window = dialog.getWindow();
-        if (window==null) {
-            return;
-        }
-        View view = View.inflate(this,R.layout.dialog_review,null);
-        window.setContentView(view);
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+        OrderApi.addReview(order.order_id, String.valueOf(ratingBar.getRating()), etEvaluation.getText().toString(), new SingleSubscriber<Object>() {
             @Override
-            public void run() {
-                dialog.dismiss();
+            public void onSuccess(Object value) {
+                final AlertDialog dialog = new AlertDialog.Builder(OrderReviewActivity.this).create();
+                dialog.show();
+                Window window = dialog.getWindow();
+                if (window==null) {
+                    return;
+                }
+                View view = View.inflate(OrderReviewActivity.this,R.layout.dialog_review,null);
+                window.setContentView(view);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.dismiss();
+                        onBackPressed();
+                    }
+                },2000);
             }
-        },2000);
+
+            @Override
+            public void onError(Throwable error) {
+                ToastUtil.toast(error.getMessage());
+            }
+        });
     }
 
     @Override
@@ -57,6 +77,7 @@ public class OrderReviewActivity extends BaseActivity {
 
     @Override
     protected void initContentView() {
+        order = getIntent().getParcelableExtra("order");
         initToolbar();
     }
 

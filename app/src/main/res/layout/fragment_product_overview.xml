@@ -142,7 +142,7 @@
             android:layout_below="@+id/rating_bar"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="28dp"
-            android:text="Recent comments"
+            android:text="Recent reviews"
             android:textColor="@android:color/black"
             android:textSize="14sp" />
 
@@ -151,7 +151,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/recent_comments"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="4dp"
+            android:padding="4dp"
             android:layout_toRightOf="@+id/recent_comments"
             android:text="View all"
             android:textColor="@color/text_color_gray"
@@ -312,9 +313,9 @@
             android:layout_below="@+id/comment3_layout"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="14dp"
-            android:text="SIZE"
+            android:text="SIZES"
             android:textColor="@android:color/black"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tv_size_detail"
@@ -327,7 +328,7 @@
             android:lines="1"
             android:text="Men US7/UK6.5/Eur40,Men US8/UK7.5/Eur41,Men US8.5/UK"
             android:textColor="@android:color/black"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tv_arriveTime"
@@ -338,14 +339,15 @@
             android:layout_marginTop="14dp"
             android:text="ESTIMATED ARRIVAL"
             android:textColor="@android:color/black"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tv_arriveTime_view_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/tv_arriveTime"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="4dp"
+            android:padding="4dp"
             android:layout_toRightOf="@+id/tv_arriveTime"
             android:text="Details"
             android:textColor="@color/text_color_gray"
@@ -360,7 +362,7 @@
             android:layout_marginTop="5dp"
             android:text="7-15 days"
             android:textColor="@android:color/black"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tv_postage"
@@ -371,14 +373,15 @@
             android:layout_marginTop="18dp"
             android:text="ESTIMATED SHIPPING"
             android:textColor="@android:color/black"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tv_postage_view_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/tv_postage"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="4dp"
+            android:padding="4dp"
             android:layout_toRightOf="@+id/tv_postage"
             android:text="Details"
             android:textColor="@color/text_color_gray"
@@ -391,9 +394,10 @@
             android:layout_below="@+id/tv_postage"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
+            android:layout_marginBottom="28dp"
             android:text="￥0"
             android:textColor="@android:color/black"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <!--<TextView-->
             <!--android:layout_width="match_parent"-->

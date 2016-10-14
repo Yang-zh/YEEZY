@@ -33,4 +33,17 @@ public class ToastUtil {
         }
         toast.show();
     }
+
+    public static void toastLong(String message) {
+        if (toast == null) {
+            if (context==null) {
+                Timber.e("ToastUtil needs initialization");
+                return;
+            }
+            toast = Toast.makeText(context,message,Toast.LENGTH_LONG);
+        } else {
+            toast.setText(message);
+        }
+        toast.show();
+    }
 }

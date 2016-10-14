@@ -146,6 +146,7 @@ public class SizeDialog {
                 .format());
         Glide.with(mContext)
                 .load(product.images == null ? null : product.images.get(0))
+                .placeholder(R.mipmap.product_image_placeholder)
                 .fitCenter()
                 .crossFade()
                 .into(productImage);

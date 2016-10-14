@@ -62,6 +62,7 @@ public class ProductRatingFragment extends BaseFragment {
     protected void loadData() {
         Glide.with(getContext())
                 .load(product.images==null?null:product.images.get(0))
+                .placeholder(R.mipmap.product_image_placeholder)
                 .fitCenter()
                 .crossFade()
                 .into(productImage);

@@ -176,7 +176,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
         price.setText(TagFormatUtil.from(getResources().getString(R.string.priceFormat))
                 .with("price",String.valueOf(product.special_price))
                 .format());
-        if (product.special_price<product.original_price) {
+        if (Double.valueOf(product.special_price)<Double.valueOf(product.original_price)) {
             priceOriginal.setText(TagFormatUtil.from(getResources().getString(R.string.priceFormat))
                     .with("price",String.valueOf(product.original_price))
                     .format());
@@ -213,7 +213,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
 
     @Override
     public void onBackPressed() {
-        ToastUtil.toast("detail back press");
         super.onBackPressed();
     }
 

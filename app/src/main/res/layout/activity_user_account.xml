@@ -76,7 +76,7 @@
             </android.support.v7.widget.CardView>
             <TextView
                 android:id="@+id/skip"
-                android:text="@string/Skip"
+                android:text="@string/skip"
                 android:textSize="12sp"
                 android:textColor="@color/text_color_gray"
                 android:background="?attr/selectableItemBackground"

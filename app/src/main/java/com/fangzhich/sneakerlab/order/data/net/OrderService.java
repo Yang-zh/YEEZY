@@ -43,6 +43,18 @@ public interface OrderService {
             @Field("equipment_id") String imei);
 
     @FormUrlEncoded
+    @POST("index.php?route=api/order/getAccountStatusOrder")
+    Single<HttpResult<Object>> changeOrderStatus(
+            @Field("order_id") String order_id,
+            @Field("order_status_id") String order_status_id,
+            @Field("email") String email,
+            @Field("token") String token,
+            @Field("timestamp") String timestamp,
+            @Field("signature") String signature,
+            @Field("apiKey") String apiKey,
+            @Field("equipment_id") String imei);
+
+    @FormUrlEncoded
     @POST("index.php?route=api/checkout")
     Single<HttpResult<ConfirmOrderEntity>> checkOut(
             @Field("address_id") String address_id,
@@ -50,6 +62,19 @@ public interface OrderService {
             @Field("card_month") String card_month,
             @Field("card_year") String card_year,
             @Field("card_cvv") String card_cvv,
+            @Field("email") String email,
+            @Field("token") String token,
+            @Field("timestamp") String timestamp,
+            @Field("signature") String signature,
+            @Field("apiKey") String apiKey,
+            @Field("equipment_id") String imei);
+
+    @FormUrlEncoded
+    @POST("index.php?route=api/review/addReview")
+    Single<HttpResult<Object>> addReview(
+            @Field("product_id") String product_id,
+            @Field("rating") String rating,
+            @Field("text") String text,
             @Field("email") String email,
             @Field("token") String token,
             @Field("timestamp") String timestamp,

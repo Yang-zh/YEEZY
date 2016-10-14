@@ -20,7 +20,7 @@
 
     <string name="UserInfo">UserInfo</string>
     <string name="TellUsAboutYourself">Tell us about yourself</string>
-    <string name="WeWillFindProductsYouLike">We\'ll find products you like</string>
+    <string name="WeWillFindProductsYouLike">We\'ll find products you\'ll like</string>
     <string name="Birthday">Birthday</string>
     <string name="Change">Change</string>
     <string name="Gender">Gender</string>
@@ -77,14 +77,14 @@
     <string name="ReturnPolicy_u"><u>Return Policy</u></string>
     <string name="Personalize">Personalize</string>
     <string name="Next">Next</string>
-    <string name="Skip">Skip</string>
+    <string name="skip">skip</string>
     <string name="Confirm">Confirm</string>
     <string name="Date">{year}-{month}-{day}</string>
     <string name="CreateYourAccount">Create Your Account</string>
     <string name="FirstName">First Name</string>
     <string name="LastName">Last Name</string>
     <string name="CreateAccount">Create Account</string>
-    <string name="Email">Email</string>
+    <string name="Email">email</string>
     <string name="ConfirmPassword">Confirm Password</string>
     <string name="Or">OR</string>
     <string name="JoinWithFacebook">Join with Facebook</string>
@@ -170,7 +170,7 @@
     <string name="ShareTo">Share to…</string>
     <string name="Logout">Logout</string>
     <string name="ResetPassword">Reset Password</string>
-    <string name="EnterYourEmailAddress">Enter Your Email Address</string>
+    <string name="EnterYourEmailAddress">Enter your email address</string>
     <string name="StarRate">Star Rate</string>
     <string name="PleaseEnterYourEvaluation">Please enter your evaluation</string>
     <string name="Submit">Submit</string>

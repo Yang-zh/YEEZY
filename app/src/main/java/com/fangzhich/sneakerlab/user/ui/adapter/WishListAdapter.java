@@ -64,17 +64,17 @@ public class WishListAdapter extends BaseRecyclerViewAdapter<WishEntity, WishLis
 
         WishEntity wish =  mData.get(position);
 
-        holder.productImage.setImageResource(R.mipmap.product_image_placeholder);
-//        Glide.with(holder.itemView.getContext())
-//                .load()
-//                .fitCenter()
-//                .crossFade()
-//                .into(holder.productImage);
+        Glide.with(holder.itemView.getContext())
+                .load(wish.image)
+                .placeholder(R.mipmap.product_image_placeholder)
+                .fitCenter()
+                .crossFade()
+                .into(holder.productImage);
         holder.productName.setText(wish.name);
-//        holder.productPrice.setText(String.valueOf(TagFormatUtil
-//                .from(holder.itemView.getContext().getResources().getString(R.string.priceFormat))
-//                .with("price",productItem.special_price)
-//                .format()));
+        holder.productPrice.setText(String.valueOf(TagFormatUtil
+                .from(holder.itemView.getContext().getResources().getString(R.string.priceFormat))
+                .with("price",wish.price)
+                .format()));
 //        if (productItem.original_price>productItem.special_price) {
 //            holder.productOriginalPrice.setText(String.valueOf(TagFormatUtil
 //                    .from(holder.itemView.getContext().getResources().getString(R.string.priceFormat))

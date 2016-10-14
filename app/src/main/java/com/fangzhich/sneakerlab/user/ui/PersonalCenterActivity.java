@@ -18,11 +18,11 @@ import com.fangzhich.sneakerlab.util.Const;
 import butterknife.BindView;
 
 /**
- * WishListActivity
- * Created by Khorium on 2016/10/14.
+ * PersonalCenterActivity
+ * Created by Khorium on 2016/9/28.
  */
 
-public class WishListActivity extends BaseActivity {
+public class PersonalCenterActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -35,7 +35,7 @@ public class WishListActivity extends BaseActivity {
 
     @Override
     public int setContentLayout() {
-        return R.layout.activity_wish_list;
+        return R.layout.activity_person_center;
     }
 
     @Override
@@ -52,7 +52,7 @@ public class WishListActivity extends BaseActivity {
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        title.setText(getResources().getString(R.string.Collection));
+        title.setText(Const.getUserInfo().user_info.firstname+" "+Const.getUserInfo().user_info.lastname);
     }
 
     private void initRecyclerView() {

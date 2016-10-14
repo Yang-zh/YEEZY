@@ -96,6 +96,7 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
 
         Glide.with(holder.itemView.getContext())
                 .load(productItem.image)
+                .placeholder(R.mipmap.product_image_placeholder)
                 .fitCenter()
                 .crossFade()
                 .into(holder.productImage);

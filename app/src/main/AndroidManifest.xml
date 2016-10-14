@@ -81,7 +81,7 @@
             android:name="com.fangzhich.sneakerlab.user.ui.UserInfoActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.fangzhich.sneakerlab.user.ui.WishListActivity"
+            android:name="com.fangzhich.sneakerlab.user.ui.PersonalCenterActivity"
             android:theme="@style/AppTheme" />
         <activity
             android:name="com.fangzhich.sneakerlab.main.ui.SearchActivity"
@@ -121,6 +121,9 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".order.ui.RefundActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".user.ui.WishListActivity"
             android:theme="@style/AppTheme" />
 
         <service

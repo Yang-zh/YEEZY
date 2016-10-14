@@ -2,6 +2,7 @@ package com.fangzhich.sneakerlab.product.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -13,7 +14,6 @@ import com.bigkoo.convenientbanner.holder.Holder;
 import com.bumptech.glide.Glide;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseFragment;
-import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
 import com.fangzhich.sneakerlab.product.data.entity.ProductEntity;
 import com.fangzhich.sneakerlab.product.data.entity.ReviewEntity;
 import com.fangzhich.sneakerlab.product.data.net.ProductApi;
@@ -24,7 +24,6 @@ import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.fangzhich.sneakerlab.util.TagFormatUtil;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,7 +93,11 @@ public class ProductOverviewFragment extends BaseFragment {
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, "https://play.google.com/store/apps/details?id=com.fangzhich.sneakerlab \n --From SneakLab");
         sendIntent.setType("text/plain");
-        startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.ShareTo)));
+        if (sendIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.ShareTo)));
+        } else {
+            ToastUtil.toast("no target to share in your phone");
+        }
     }
 
     @BindView(R.id.product_name)
@@ -275,7 +278,8 @@ public class ProductOverviewFragment extends BaseFragment {
             builder.delete(builder.length()-1,builder.length());
         }
         size.setText(builder.toString());
-        postage.setText("$ 0");
+        arriveTime.setText(mProduct.shipping_info.EstimatedArrival);
+        postage.setText(mProduct.shipping_info.EstimatedShipping);
 
         banner.setPages(
                 new CBViewHolderCreator<LocalImageHolderView>() {
@@ -301,6 +305,7 @@ public class ProductOverviewFragment extends BaseFragment {
         public void UpdateUI(Context context, final int position, String data) {
             Glide.with(getContext())
                     .load(data)
+                    .placeholder(R.mipmap.product_image_placeholder)
                     .fitCenter()
                     .crossFade()
                     .into(imageView);

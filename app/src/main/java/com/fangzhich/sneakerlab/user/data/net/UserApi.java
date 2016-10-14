@@ -11,6 +11,7 @@ import com.fangzhich.sneakerlab.util.Const;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import rx.SingleSubscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -138,6 +139,28 @@ public class UserApi extends BaseApi{
     }
 
     /**
+     * Forget password request
+     * @param singleSubscriber SingleSubscriber in RxJava (Callback)
+     */
+    public static void forgetPassword(String email,SingleSubscriber<Object> singleSubscriber) {
+        String timestamp = getTimeStamp();
+
+        HashMap<String,String> params = new HashMap<>();
+        params.put("email",email);
+        params.put("timestamp",timestamp);
+
+        String signature = getSignature(params);
+
+        createService(UserService.class)
+                .forgetPassword(email,
+                        timestamp, signature, API_KEY,Const.IMEI)
+                .map(new HttpResultFunc<Object>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(singleSubscriber);
+    }
+
+    /**
      * Personal info request
      * @param singleSubscriber SingleSubscriber in RxJava (Callback)
      */
@@ -174,7 +197,7 @@ public class UserApi extends BaseApi{
                                         String phone,
                                         String sex,
                                         String age,
-                                        SingleSubscriber<Object> singleSubscriber) {
+                                        SingleSubscriber<List> singleSubscriber) {
 
         String timestamp = getTimeStamp();
 
@@ -194,7 +217,7 @@ public class UserApi extends BaseApi{
                 .editPersonalInfo(firstname, lastname, phone, sex, age,
                         email, token,
                         timestamp, signature, API_KEY, Const.IMEI)
-                .map(new HttpResultFunc<Object>())
+                .map(new HttpResultFunc<List>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(singleSubscriber);

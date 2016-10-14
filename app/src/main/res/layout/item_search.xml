@@ -8,6 +8,7 @@
         android:layout_centerInParent="true"
         android:foreground="?attr/selectableItemBackground"
         app:cardElevation="0dp"
+        android:background="@color/colorPrimary"
         android:layout_marginTop="2dp"
         android:layout_marginBottom="2dp"
         android:layout_marginLeft="10dp"
@@ -18,7 +19,6 @@
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:padding="5dp"
-            android:background="@color/colorPrimary"
             android:layout_height="wrap_content">
             <LinearLayout
                 android:layout_centerInParent="true"

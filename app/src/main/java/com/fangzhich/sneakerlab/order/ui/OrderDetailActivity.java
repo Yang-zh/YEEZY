@@ -8,13 +8,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -22,10 +23,9 @@ import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.BaseRecyclerViewAdapter;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.LinearLayoutItemDecoration;
+import com.fangzhich.sneakerlab.base.widget.CustomDialog;
 import com.fangzhich.sneakerlab.main.ui.ContactActivity;
-import com.fangzhich.sneakerlab.main.ui.SupportActivity;
 import com.fangzhich.sneakerlab.order.data.entity.OrderEntity;
-import com.fangzhich.sneakerlab.order.data.entity.OrderItemEntity;
 import com.fangzhich.sneakerlab.order.data.net.OrderApi;
 import com.fangzhich.sneakerlab.order.ui.adapter.OrderHistoryAdapter;
 import com.fangzhich.sneakerlab.util.TagFormatUtil;
@@ -42,6 +42,10 @@ import timber.log.Timber;
  * Created by Khorium on 2016/9/30.
  */
 public class OrderDetailActivity extends BaseActivity {
+
+
+    //result_code
+    private static final int REVIEWED = 201;
 
     @BindView(R.id.title)
     TextView title;
@@ -81,25 +85,46 @@ public class OrderDetailActivity extends BaseActivity {
     TextView btCancel;
     @OnClick(R.id.bt_cancel)
     void cancel() {
-        final AlertDialog dialog = new AlertDialog.Builder(this).create();
-        dialog.show();
-        Window window = dialog.getWindow();
-        if (window==null) {
-            return;
-        }
-        View view = View.inflate(this,R.layout.dialog_cancel,null);
-        view.findViewById(R.id.bt_yes).setOnClickListener(new View.OnClickListener() {
+        new CustomDialog().initPopup(this, R.layout.dialog_cancel, new CustomDialog.Listener() {
             @Override
-            public void onClick(View v) {
-                dialog.dismiss();
+            public void onInit(final PopupWindow dialog, View content) {
+                content.findViewById(R.id.bt_yes).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        OrderApi.cancelOrder(order_id, new SingleSubscriber<Object>() {
+                            @Override
+                            public void onSuccess(Object value) {
+                                btCancel.setVisibility(View.GONE);
+                                orderOperation.setVisibility(View.GONE);
+                                ToastUtil.toast("Cancel order success");
+                                Intent data = new Intent();
+                                data.putExtra("order_id",order_id);
+                                setResult(OrderHistoryActivity.CANCELED,data);
+                                dialog.dismiss();
+                            }
+
+                            @Override
+                            public void onError(Throwable error) {
+                                dialog.dismiss();
+                                ToastUtil.toast(error.getMessage());
+                            }
+                        });
+                        dialog.dismiss();
+                    }
+                });
+                content.findViewById(R.id.bt_no).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
             }
-        });
-        view.findViewById(R.id.bt_no).setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View v) {
-                dialog.dismiss();
+            public void onDismiss(PopupWindow dialog, View content) {
+
             }
-        });
+        }).showPopup(getWindow().getDecorView(), Gravity.CENTER);
     }
 
     @BindView(R.id.bt_refund)
@@ -120,26 +145,47 @@ public class OrderDetailActivity extends BaseActivity {
     CardView btConfirmReceive;
     @OnClick(R.id.bt_confirm_receive)
     void confirm() {
-        final AlertDialog dialog = new AlertDialog.Builder(this).create();
-        dialog.show();
-        Window window = dialog.getWindow();
-        if (window==null) {
-            return;
-        }
-        View view = View.inflate(this,R.layout.dialog_confirm,null);
-        view.findViewById(R.id.bt_yes).setOnClickListener(new View.OnClickListener() {
+        new CustomDialog().initPopup(this, R.layout.dialog_confirm, new CustomDialog.Listener() {
             @Override
-            public void onClick(View v) {
-                dialog.dismiss();
+            public void onInit(final PopupWindow dialog, View content) {
+                content.findViewById(R.id.bt_yes).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        OrderApi.confirmOrder(order_id, new SingleSubscriber<Object>() {
+                            @Override
+                            public void onSuccess(Object value) {
+                                btConfirmReceive.setVisibility(View.GONE);
+                                btReview.setVisibility(View.VISIBLE);
+                                btRefund.setVisibility(View.VISIBLE);
+                                ToastUtil.toast("Confirm order success");
+                                Intent data = new Intent();
+                                data.putExtra("order_id",order_id);
+                                setResult(OrderHistoryActivity.CONFIRMED,data);
+                                dialog.dismiss();
+                            }
+
+                            @Override
+                            public void onError(Throwable error) {
+                                ToastUtil.toast(error.getMessage());
+                                dialog.dismiss();
+                            }
+                        });
+                        dialog.dismiss();
+                    }
+                });
+                content.findViewById(R.id.bt_no).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
             }
-        });
-        view.findViewById(R.id.bt_no).setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View v) {
-                dialog.dismiss();
+            public void onDismiss(PopupWindow dialog, View content) {
+
             }
-        });
-        window.setContentView(view);
+        }).showPopup(getWindow().getDecorView(), Gravity.CENTER);
 
     }
 
@@ -148,12 +194,12 @@ public class OrderDetailActivity extends BaseActivity {
     @OnClick(R.id.bt_review)
     void review() {
         Intent intent = new Intent(this, OrderReviewActivity.class);
-        startActivity(intent);
+        intent.putExtra("order",order);
+        startActivityForResult(intent,OrderReviewActivity.IS_REVIEWED);
     }
 
     @BindView(R.id.order_operation)
     LinearLayout orderOperation;
-
 
     private String order_id;
     private OrderEntity order;
@@ -202,6 +248,7 @@ public class OrderDetailActivity extends BaseActivity {
                 OrderEntity.Product product = mData.get(position);
                 Glide.with(itemView.getContext())
                         .load(product.image)
+                        .placeholder(R.mipmap.product_image_placeholder)
                         .fitCenter()
                         .crossFade()
                         .into(holder.ivProductImage);
@@ -323,6 +370,20 @@ public class OrderDetailActivity extends BaseActivity {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode==OrderReviewActivity.IS_REVIEWED) {
+            switch (resultCode) {
+                case OrderDetailActivity.REVIEWED:
+                    data.putExtra("order_id",order_id);
+                    btReview.setVisibility(View.GONE);
+                    setResult(OrderHistoryActivity.REVIEWED,data);
+                    break;
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
