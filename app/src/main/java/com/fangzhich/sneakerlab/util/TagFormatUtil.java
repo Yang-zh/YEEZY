@@ -29,7 +29,7 @@ public class TagFormatUtil {
         String formatted = format;
         for (Map.Entry<String, Object> tag : tags.entrySet()) {
             // bottleneck, creating temporary String objects!
-            formatted = formatted.replaceAll(tag.getKey(), tag.getValue().toString());
+            formatted = formatted.replaceAll(tag.getKey(), tag.getValue()==null?"":tag.getValue().toString());
         }
         return formatted;
     }

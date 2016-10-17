@@ -64,6 +64,10 @@ public class WishListAdapter extends BaseRecyclerViewAdapter<WishEntity, WishLis
 
         WishEntity wish =  mData.get(position);
 
+        if (wish.name==null) {
+            return;
+        }
+
         Glide.with(holder.itemView.getContext())
                 .load(wish.image)
                 .placeholder(R.mipmap.product_image_placeholder)

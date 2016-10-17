@@ -98,6 +98,17 @@ public class ProductOverviewFragment extends BaseFragment {
         } else {
             ToastUtil.toast("no target to share in your phone");
         }
+        UserApi.share(mProduct.product_id, "", "https://play.google.com/store/apps/details?id=com.fangzhich.sneakerlab \n --From SneakLab", new SingleSubscriber<Object>() {
+            @Override
+            public void onSuccess(Object value) {
+
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                ToastUtil.toast("Connect to server failed,please");
+            }
+        });
     }
 
     @BindView(R.id.product_name)
@@ -220,6 +231,7 @@ public class ProductOverviewFragment extends BaseFragment {
             public void onSuccess(ArrayList<WishEntity> value) {
                 for (WishEntity wish : value) {
                     if (wish.product_id.equals(mProduct.product_id)) {
+                        Timber.d("liked!");
                         likeIcon.setImageResource(R.mipmap.like_red);
                         isLiked = true;
                     }

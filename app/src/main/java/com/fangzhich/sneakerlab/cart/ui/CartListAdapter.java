@@ -1,5 +1,8 @@
 package com.fangzhich.sneakerlab.cart.ui;
 
+import android.graphics.Paint;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +13,16 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.BaseRecyclerViewAdapter;
+import com.fangzhich.sneakerlab.base.widget.NumberView;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
+import com.fangzhich.sneakerlab.cart.data.net.CartApi;
+import com.fangzhich.sneakerlab.util.TagFormatUtil;
+import com.fangzhich.sneakerlab.util.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.carbswang.android.numberpickerview.library.NumberPickerView;
+import rx.SingleSubscriber;
 import timber.log.Timber;
 
 /**
@@ -79,8 +88,30 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Product, CartLi
                 .fitCenter()
                 .into(holder.ivProductImage);
         holder.shippingDetail.setText(cartItem.shipping);
-        holder.tvProductPrice.setText(cartItem.special_price);
-
+        holder.tvProductPrice.setText(TagFormatUtil.from(holder.itemView.getResources().getString(R.string.priceFormat))
+                .with("price",cartItem.special_price)
+                .format());
+        holder.tvProductOriginalPrice.setText(TagFormatUtil.from(holder.itemView.getResources().getString(R.string.priceFormat))
+                .with("price",cartItem.original_price)
+                .format());
+        holder.tvProductOriginalPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        for (CartEntity.Product.Option option:cartItem.options) {
+            switch (option.name) {
+                case "size":
+                case "Size":
+                    holder.sizeIs.setVisibility(View.VISIBLE);
+                    holder.sizeDetail.setVisibility(View.VISIBLE);
+                    holder.sizeDetail.setText(option.value);
+                    break;
+                case "color":
+                case "Color":
+                    holder.colorIs.setVisibility(View.VISIBLE);
+                    holder.colorDetail.setVisibility(View.VISIBLE);
+                    holder.colorDetail.setText(option.value);
+                    break;
+            }
+        }
+        holder.quantityDetail.setText(cartItem.quantity);
         holder.remove.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -103,6 +134,39 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Product, CartLi
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                View numberView = View.inflate(v.getContext(),R.layout.dialog_number_view,null);
+                final AlertDialog dialog = new AlertDialog.Builder(v.getContext()).create();
+                dialog.setView(numberView);
+                final NumberPickerView picker = (NumberPickerView) numberView.findViewById(R.id.picker);
+                String[] values = new String[99];
+                for (int i=1;i<100;i++) {
+                    values[i-1] = String.valueOf(i);
+                }
+                picker.setDisplayedValues(values);
+                picker.setMinValue(1);
+                picker.setMaxValue(99);
+                picker.setValue(Integer.valueOf(holder.quantityDetail.getText().toString()));
+                CardView btConfirm = (CardView) numberView.findViewById(R.id.bt_confirm);
+                btConfirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        picker.setClickable(false);
+                        final int quantity = picker.getValue();
+                        CartApi.editItemInCart(cartItem.cart_id, String.valueOf(quantity), new SingleSubscriber<Object>() {
+                            @Override
+                            public void onSuccess(Object value) {
+                                dialog.dismiss();
+                                holder.quantityDetail.setText(String.valueOf(quantity));
+                            }
+
+                            @Override
+                            public void onError(Throwable error) {
+                                ToastUtil.toast(error.getMessage());
+                            }
+                        });
+                    }
+                });
+                dialog.show();
             }
         });
 
@@ -114,8 +178,14 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Product, CartLi
         ImageView ivProductImage;
         @BindView(R.id.tv_productName)
         TextView tvProductName;
+        @BindView(R.id.color_is)
+        TextView colorIs;
         @BindView(R.id.color_detail)
         TextView colorDetail;
+        @BindView(R.id.size_is)
+        TextView sizeIs;
+        @BindView(R.id.size_detail)
+        TextView sizeDetail;
         @BindView(R.id.quantity_detail)
         TextView quantityDetail;
         @BindView(R.id.shipping_detail)

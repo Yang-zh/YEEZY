@@ -34,6 +34,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.SingleSubscriber;
+import timber.log.Timber;
 
 /**
  * ShoppingCartActivity
@@ -188,6 +189,8 @@ public class ShoppingCartDialog {
             public synchronized void onError(Throwable throwable) {
                 isAddingToCart = false;
                 loadData();
+                ToastUtil.toast(throwable.getMessage());
+                Timber.e(throwable);
             }
         });
         return this;

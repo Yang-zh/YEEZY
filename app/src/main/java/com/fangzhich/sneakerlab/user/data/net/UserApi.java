@@ -481,7 +481,38 @@ public class UserApi extends BaseApi{
         String signature = getSignature(params);
 
         createService(UserService.class)
-                .addWish(product_id,
+                .deleteWish(product_id,
+                        email, token,
+                        timestamp, signature, API_KEY,Const.IMEI)
+                .map(new HttpResultFunc<Object>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(singleSubscriber);
+    }
+
+    /**
+     * Share product request
+     * @param product_id product_id
+     * @param channel channel
+     * @param text text
+     * @param singleSubscriber SingleSubscriber in RxJava (Callback)
+     */
+    public static void share(String product_id, String channel, String text,
+                                  SingleSubscriber<Object> singleSubscriber) {
+        String timestamp = getTimeStamp();
+
+        HashMap<String,String> params = new HashMap<>();
+        params.put("product_id",product_id);
+        params.put("channel",channel);
+        params.put("text",text);
+        params.put("email",email);
+        params.put("token",token);
+        params.put("timestamp",timestamp);
+
+        String signature = getSignature(params);
+
+        createService(UserService.class)
+                .share(product_id,channel,text,
                         email, token,
                         timestamp, signature, API_KEY,Const.IMEI)
                 .map(new HttpResultFunc<Object>())

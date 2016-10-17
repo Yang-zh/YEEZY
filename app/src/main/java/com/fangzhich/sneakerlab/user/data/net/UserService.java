@@ -207,4 +207,17 @@ interface UserService {
             @Field("signature") String signature,
             @Field("apiKey") String apiKey,
             @Field("equipment_id") String imei);
+
+    @FormUrlEncoded
+    @POST("index.php?route=api/share/add")
+    Single<HttpResult<Object>> share(
+            @Field("product_id") String product_id,
+            @Field("channel") String channel,
+            @Field("text") String text,
+            @Field("email") String email,
+            @Field("token") String token,
+            @Field("timestamp") String timestamp,
+            @Field("signature") String signature,
+            @Field("apiKey") String apiKey,
+            @Field("equipment_id") String imei);
 }

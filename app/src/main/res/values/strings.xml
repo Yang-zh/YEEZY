@@ -195,6 +195,7 @@
     <string name="customerEmail">customer@fangzhich.com</string>
     <string name="Reviewed">Reviewed!</string>
     <string name="Detail">Detail</string>
+    <string name="CustomerSupportDetail">Dear customer,SneakerLab look forward to get in touch with you, You are welcome to cantact us for any assistance, our excellent service team will reply and offer you the best solution ASAP.Thank you!</string>
 
     <string-array name = "currencies">
         <item>USD($)</item>
