@@ -32,6 +32,8 @@ public class WishListActivity extends BaseActivity {
     RecyclerView recyclerView;
     private WishListAdapter adapter;
 
+    private boolean isInit = false;
+
 
     @Override
     public int setContentLayout() {
@@ -61,6 +63,19 @@ public class WishListActivity extends BaseActivity {
         recyclerView.addItemDecoration(new GridSpaceItemDecoration(SizeUtils.dp2px(this,8),2));
         recyclerView.addOnScrollListener(new OnScrollLoadMoreHelper(adapter));
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    protected void loadData() {
+        isInit = true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isInit) {
+            adapter.loadData();
+        }
     }
 
     @Override

@@ -24,7 +24,6 @@ public class NotificationListFragment extends BaseFragment {
     RecyclerView recyclerView;
     private NotificationListAdapter adapter;
 
-    ArrayList<NotificationEntity> notifications = new ArrayList<>();
     @Override
     public int setContentLayout() {
         return R.layout.fragment_notification_list;
@@ -41,10 +40,6 @@ public class NotificationListFragment extends BaseFragment {
 
     @Override
     protected void loadData() {
-        for (int i=0;i<20;i++) {
-            notifications.add(new NotificationEntity());
-        }
-        adapter.setData(notifications);
-        adapter.notifyDataSetChanged();
+        adapter.loadData();
     }
 }

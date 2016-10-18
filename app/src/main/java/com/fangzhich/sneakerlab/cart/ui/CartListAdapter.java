@@ -1,23 +1,31 @@
 package com.fangzhich.sneakerlab.cart.ui;
 
+import android.animation.ValueAnimator;
 import android.graphics.Paint;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.fangzhich.sneakerlab.R;
+import com.fangzhich.sneakerlab.base.data.event.RxBus;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.BaseRecyclerViewAdapter;
 import com.fangzhich.sneakerlab.base.widget.NumberView;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
+import com.fangzhich.sneakerlab.cart.data.event.CartItemQuantityChangeEvent;
+import com.fangzhich.sneakerlab.cart.data.event.CartItemRemoveEvent;
 import com.fangzhich.sneakerlab.cart.data.net.CartApi;
 import com.fangzhich.sneakerlab.util.TagFormatUtil;
 import com.fangzhich.sneakerlab.util.ToastUtil;
+import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,6 +70,7 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Product, CartLi
 
                 @Override
                 public void onError(Throwable throwable) {
+                    ToastUtil.toast(throwable.getMessage());
                     Timber.e(throwable.getMessage());
                 }
             });
@@ -112,6 +121,13 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Product, CartLi
             }
         }
         holder.quantityDetail.setText(cartItem.quantity);
+        holder.ratingBar.getAnimationBuilder()
+                .setRatingTarget(3)
+                .setDuration(1000)
+                .setRepeatCount(0)
+                .setInterpolator(new LinearInterpolator()).start();
+//        holder.tvCommentCount.setText("(200)");
+
         holder.remove.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -122,6 +138,7 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Product, CartLi
                                 mData.remove(holder.getAdapterPosition());
                                 onLoadDataListener.checkSubscribe();
                                 notifyItemRemoved(holder.getAdapterPosition());
+                                loadData();
                             }
 
                             @Override
@@ -135,7 +152,7 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Product, CartLi
             @Override
             public void onClick(View v) {
                 View numberView = View.inflate(v.getContext(),R.layout.dialog_number_view,null);
-                final AlertDialog dialog = new AlertDialog.Builder(v.getContext()).create();
+                final AlertDialog dialog = new AlertDialog.Builder(v.getContext(),R.style.alertDialog).create();
                 dialog.setView(numberView);
                 final NumberPickerView picker = (NumberPickerView) numberView.findViewById(R.id.picker);
                 String[] values = new String[99];
@@ -157,6 +174,7 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Product, CartLi
                             public void onSuccess(Object value) {
                                 dialog.dismiss();
                                 holder.quantityDetail.setText(String.valueOf(quantity));
+                                loadData();
                             }
 
                             @Override
@@ -194,12 +212,14 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Product, CartLi
         TextView tvProductPrice;
         @BindView(R.id.tv_productOriginalPrice)
         TextView tvProductOriginalPrice;
+        @BindView(R.id.tv_commentCount)
+        TextView tvCommentCount;
         @BindView(R.id.remove)
         TextView remove;
         @BindView(R.id.edit)
         TextView edit;
         @BindView(R.id.rating_bar)
-        RatingBar ratingBar;
+        SimpleRatingBar ratingBar;
 
         public ViewHolder(View itemView) {
             super(itemView);

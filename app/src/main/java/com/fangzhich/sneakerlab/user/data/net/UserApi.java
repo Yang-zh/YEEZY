@@ -2,6 +2,7 @@ package com.fangzhich.sneakerlab.user.data.net;
 
 
 import com.fangzhich.sneakerlab.base.data.net.BaseApi;
+import com.fangzhich.sneakerlab.main.data.entity.NotificationEntity;
 import com.fangzhich.sneakerlab.user.data.entity.CreditCardEntity;
 import com.fangzhich.sneakerlab.user.data.entity.PersonalInfoEntity;
 import com.fangzhich.sneakerlab.user.data.entity.UserInfoEntity;
@@ -516,6 +517,29 @@ public class UserApi extends BaseApi{
                         email, token,
                         timestamp, signature, API_KEY,Const.IMEI)
                 .map(new HttpResultFunc<Object>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(singleSubscriber);
+    }
+
+    /**
+     * Get notification list request
+     * @param singleSubscriber SingleSubscriber in RxJava (Callback)
+     */
+    public static void getNotificationList(SingleSubscriber<ArrayList<NotificationEntity>> singleSubscriber) {
+        String timestamp = getTimeStamp();
+
+        HashMap<String,String> params = new HashMap<>();
+        params.put("email",email);
+        params.put("token",token);
+        params.put("timestamp",timestamp);
+
+        String signature = getSignature(params);
+
+        createService(UserService.class)
+                .getNotificationList(email, token,
+                        timestamp, signature, API_KEY,Const.IMEI)
+                .map(new HttpResultFunc<ArrayList<NotificationEntity>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(singleSubscriber);

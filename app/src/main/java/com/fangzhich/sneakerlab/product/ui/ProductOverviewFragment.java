@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import com.fangzhich.sneakerlab.user.ui.LoginActivity;
 import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.fangzhich.sneakerlab.util.TagFormatUtil;
+import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,22 +116,19 @@ public class ProductOverviewFragment extends BaseFragment {
     @BindView(R.id.product_name)
     TextView product_name;
     @BindView(R.id.rating_bar)
-    RatingBar ratingBar;
+    SimpleRatingBar ratingBar;
 
     @BindView(R.id.comment_count)
     TextView commentCount;
     @OnClick(R.id.view_all)
     void viewAllComments() {
         ((ProductDetailActivity)getActivity()).onTabClick("Rating");
-//        Intent intent = new Intent(getActivity(),ReviewListActivity.class);
-//        intent.putExtra("product_id",mProduct.product_id);
-//        startActivity(intent);
     }
 
     @BindView(R.id.comment1_layout)
     View comment1_layout;
     @BindView(R.id.sub_rating_bar1)
-    RatingBar subRatingBar1;
+    SimpleRatingBar subRatingBar1;
     @BindView(R.id.comment1)
     TextView comment1;
     @BindView(R.id.name_comment1)
@@ -138,7 +137,7 @@ public class ProductOverviewFragment extends BaseFragment {
     @BindView(R.id.comment2_layout)
     View comment2_layout;
     @BindView(R.id.sub_rating_bar2)
-    RatingBar subRatingBar2;
+    SimpleRatingBar subRatingBar2;
     @BindView(R.id.comment2)
     TextView comment2;
     @BindView(R.id.name_comment2)
@@ -147,7 +146,7 @@ public class ProductOverviewFragment extends BaseFragment {
     @BindView(R.id.comment3_layout)
     View comment3_layout;
     @BindView(R.id.sub_rating_bar3)
-    RatingBar subRatingBar3;
+    SimpleRatingBar subRatingBar3;
     @BindView(R.id.comment3)
     TextView comment3;
     @BindView(R.id.name_comment3)
@@ -198,21 +197,36 @@ public class ProductOverviewFragment extends BaseFragment {
                     ReviewEntity review = value.get(0);
                     comment1_layout.setVisibility(View.VISIBLE);
                     comment1.setText(review.text);
-                    subRatingBar1.setNumStars(review.rating);
+                    subRatingBar1.getAnimationBuilder()
+                            .setRatingTarget(review.rating)
+                            .setDuration(1000)
+                            .setRepeatCount(0)
+                            .setInterpolator(new LinearInterpolator())
+                            .start();
                     name1.setText(review.author);
                 }
                 if (value.size()>=2) {
                     ReviewEntity review = value.get(1);
                     comment2_layout.setVisibility(View.VISIBLE);
                     comment2.setText(review.text);
-                    subRatingBar2.setNumStars(review.rating);
+                    subRatingBar2.getAnimationBuilder()
+                            .setRatingTarget(review.rating)
+                            .setDuration(1000)
+                            .setRepeatCount(0)
+                            .setInterpolator(new LinearInterpolator())
+                            .start();
                     name2.setText(review.author);
                 }
                 if (value.size()>=3) {
                     ReviewEntity review = value.get(2);
                     comment3_layout.setVisibility(View.VISIBLE);
                     comment3.setText(review.text);
-                    subRatingBar3.setNumStars(review.rating);
+                    subRatingBar3.getAnimationBuilder()
+                            .setRatingTarget(review.rating)
+                            .setDuration(1000)
+                            .setRepeatCount(0)
+                            .setInterpolator(new LinearInterpolator())
+                            .start();
                     name3.setText(review.author);
                 }
             }
@@ -251,7 +265,12 @@ public class ProductOverviewFragment extends BaseFragment {
 //                .with("ShareCount", getResources().getString(R.string.nulll))
 //                .format());
         product_name.setText(mProduct.name);
-        ratingBar.setNumStars(mProduct.rating);
+        ratingBar.getAnimationBuilder()
+                .setRatingTarget(mProduct.rating)
+                .setDuration(1000)
+                .setRepeatCount(0)
+                .setInterpolator(new LinearInterpolator())
+                .start();
         commentCount.setText(TagFormatUtil.from(getResources().getString(R.string.BracketsFormat))
                 .with("content", mProduct.reviews)
                 .format());

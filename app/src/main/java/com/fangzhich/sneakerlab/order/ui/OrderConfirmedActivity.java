@@ -13,6 +13,7 @@ import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.GridSpaceItemDecoration;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.OnScrollLoadMoreHelper;
+import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
 import com.fangzhich.sneakerlab.product.ui.adapter.RelateProductListAdapter;
 
 import butterknife.BindView;
@@ -28,14 +29,13 @@ public class OrderConfirmedActivity extends BaseActivity {
     Toolbar toolbar;
     @BindView(R.id.title)
     TextView title;
-    @BindView(R.id.brand)
-    TextView brand;
     @BindView(R.id.item_total)
     TextView itemTotal;
     @BindView(R.id.shipping)
     TextView shipping;
     @BindView(R.id.order_total)
     TextView orderTotal;
+    private CartEntity cart;
 
     @OnClick(R.id.bt_viewOrders)
     void viewOrders() {
@@ -61,6 +61,7 @@ public class OrderConfirmedActivity extends BaseActivity {
 
     @Override
     protected void initContentView() {
+        cart = getIntent().getParcelableExtra("cart");
         initToolbar();
         initRecyclerView();
     }
@@ -73,7 +74,7 @@ public class OrderConfirmedActivity extends BaseActivity {
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        title.setText(R.string.app_name);
+        title.setText(R.string.OrderConfirmed);
     }
 
     private void initRecyclerView() {
@@ -88,7 +89,18 @@ public class OrderConfirmedActivity extends BaseActivity {
 
     @Override
     protected void loadData() {
-
+        for (CartEntity.Totals total: cart.totals) {
+            switch (total.title) {
+                case "Sub-Total": {
+                    itemTotal.setText(total.text);
+                    break;
+                }
+                case "Total": {
+                    orderTotal.setText(total.text);
+                    break;
+                }
+            }
+        }
     }
 
     @Override

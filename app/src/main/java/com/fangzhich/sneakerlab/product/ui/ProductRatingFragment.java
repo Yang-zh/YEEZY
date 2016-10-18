@@ -3,6 +3,7 @@ package com.fangzhich.sneakerlab.product.ui;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ import com.fangzhich.sneakerlab.base.ui.recyclerview.LinearLayoutItemDecoration;
 import com.fangzhich.sneakerlab.product.data.entity.ProductEntity;
 import com.fangzhich.sneakerlab.product.ui.adapter.ReviewListAdapter;
 import com.fangzhich.sneakerlab.util.TagFormatUtil;
+import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 
 import butterknife.BindView;
 
@@ -31,7 +33,7 @@ public class ProductRatingFragment extends BaseFragment {
     @BindView(R.id.save_number)
     TextView saveNumber;
     @BindView(R.id.rating_bar)
-    RatingBar ratingBar;
+    SimpleRatingBar ratingBar;
     @BindView(R.id.rating_number)
     TextView ratingNumber;
     @BindView(R.id.rv_comments)
@@ -73,7 +75,12 @@ public class ProductRatingFragment extends BaseFragment {
         saveNumber.setText(TagFormatUtil.from(getResources().getString(R.string.SaveNumberFormat))
                 .with("number", product.points)
                 .format());
-        ratingBar.setNumStars(product.rating);
+        ratingBar.getAnimationBuilder()
+                .setRatingTarget(product.rating)
+                .setDuration(1000)
+                .setRepeatCount(0)
+                .setInterpolator(new LinearInterpolator())
+                .start();
         ratingNumber.setText(TagFormatUtil.from(getResources().getString(R.string.RatingNumberFormat))
                 .with("number", product.reviews)
                 .format());

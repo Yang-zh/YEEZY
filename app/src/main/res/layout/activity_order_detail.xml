@@ -166,6 +166,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_order_detail_list"
                     android:layout_below="@+id/items"
+                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
                 <View
@@ -301,8 +302,7 @@
                 app:cardBackgroundColor="@color/product_option_background"
                 android:layout_width="90dp"
                 android:layout_height="30dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="20dp" >
+                android:layout_marginRight="10dp" >
                 <TextView
                     android:textColor="@color/text_color_gray"
                     android:gravity="center"
@@ -322,8 +322,7 @@
                 app:cardBackgroundColor="@color/product_option_background"
                 android:layout_width="90dp"
                 android:layout_height="30dp"
-                android:layout_marginRight="12dp"
-                android:layout_marginTop="20dp" >
+                android:layout_marginRight="12dp" >
                 <TextView
                     android:textColor="@color/product_list_background_color"
                     android:gravity="center"
@@ -343,8 +342,7 @@
                 app:cardBackgroundColor="@color/product_option_background"
                 android:layout_width="90dp"
                 android:layout_height="30dp"
-                android:layout_marginRight="12dp"
-                android:layout_marginTop="20dp" >
+                android:layout_marginRight="12dp" >
                 <TextView
                     android:textColor="@color/product_list_background_color"
                     android:gravity="center"

@@ -41,4 +41,5 @@
     <color name="shipping_info_background_color">#FAFAFA</color>
     <color name="background_splash">#887A7A7A</color>
     <color name="dialog_background">#AA333333</color>
+    <color name="star_yellow">#F4C600</color>
 </resources>

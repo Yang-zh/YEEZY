@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="11dp"
             android:layout_marginBottom="16dp"
-            android:text="@string/ContinueShopping"
+            android:text="@string/CONTINUE_SHOPPING"
             android:textColor="@android:color/white"
             android:textSize="12sp" />
     </LinearLayout>

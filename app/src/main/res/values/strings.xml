@@ -45,7 +45,7 @@
     <string name="PleaseSelectYourPreferCurrencyBelow">Please select your prefer currency below:</string>
     <string name="ChangeLanguage">Change Language</string>
     <string name="ChangeSuccess">Change Language Success</string>
-    <string name="ContinueShopping">CONTINUE SHOPPING</string>
+    <string name="CONTINUE_SHOPPING">CONTINUE SHOPPING</string>
     <string name="BillTo">Bill To:</string>
     <string name="CreditCard">Credit Card</string>
     <string name="CardNumber">Card Number</string>
@@ -106,11 +106,10 @@
     <string name="moneyDetail">US$30.04</string>
     <string name="OrderConfirmed">Order Confirmed</string>
     <string name="PowerByIs">Power by :</string>
-    <string name="Jodan">Jodan</string>
     <string name="Summary">Summary</string>
     <string name="Shipping">Shipping</string>
     <string name="ViewOrders">View Orders</string>
-    <string name="ContinueShipping">Continue Shipping</string>
+    <string name="ContinueShopping">Continue Shopping</string>
     <string name="RELATED">RELATED</string>
     <string name="Password">Password</string>
     <string name="Shipping_underLine" ><u>Shipping</u></string>

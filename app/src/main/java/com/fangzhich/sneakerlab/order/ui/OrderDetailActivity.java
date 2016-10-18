@@ -254,19 +254,29 @@ public class OrderDetailActivity extends BaseActivity {
                         .into(holder.ivProductImage);
                 holder.productName.setText(product.name);
                 holder.quantity.setText(product.quantity);
-                holder.price.setText(product.price);
+                holder.price.setText(TagFormatUtil.from(getResources().getString(R.string.priceFormat))
+                        .with("price",product.price)
+                        .format());
                 for (OrderEntity.Product.Option option:product.option) {
                     switch (option.name) {
                         case "Size":
+                            holder.sizeIs.setVisibility(View.VISIBLE);
+                            holder.size.setVisibility(View.VISIBLE);
                             holder.size.setText(option.value);
                             break;
                         case "size":
+                            holder.sizeIs.setVisibility(View.VISIBLE);
+                            holder.size.setVisibility(View.VISIBLE);
                             holder.size.setText(option.value);
                             break;
                         case "Color":
+                            holder.colorIs.setVisibility(View.VISIBLE);
+                            holder.color.setVisibility(View.VISIBLE);
                             holder.color.setText(option.value);
                             break;
                         case "color":
+                            holder.colorIs.setVisibility(View.VISIBLE);
+                            holder.color.setVisibility(View.VISIBLE);
                             holder.color.setText(option.value);
                             break;
                         default:
@@ -359,8 +369,12 @@ public class OrderDetailActivity extends BaseActivity {
         TextView productName;
         @BindView(R.id.quantity)
         TextView quantity;
+        @BindView(R.id.color_is)
+        TextView colorIs;
         @BindView(R.id.color)
         TextView color;
+        @BindView(R.id.size_is)
+        TextView sizeIs;
         @BindView(R.id.size)
         TextView size;
         @BindView(R.id.price)

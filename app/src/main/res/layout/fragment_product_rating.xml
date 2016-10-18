@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <ImageView
         android:layout_marginTop="15dp"
         android:layout_marginLeft="7dp"
@@ -46,17 +47,20 @@
         android:layout_toRightOf="@+id/product_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
-    <RatingBar
-        android:layout_below="@+id/product_image"
+    <com.iarcuschin.simpleratingbar.SimpleRatingBar
         android:id="@+id/rating_bar"
-        style="@style/RoomRatingBar"
+        android:layout_below="@+id/product_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:numStars="5"
-        android:rating="0" />
+        app:srb_isIndicator="true"
+        app:srb_starSize="16dp"
+        app:srb_numberOfStars="5"
+        app:srb_stepSize="0.1"
+        app:srb_borderColor="@color/cut_line_color2"
+        app:srb_starBorderWidth="2"
+        app:srb_fillColor="@color/star_yellow" />
     <TextView
         android:id="@+id/rating_number"
         android:textColor="@color/text_color_gray"

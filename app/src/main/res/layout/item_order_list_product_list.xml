@@ -12,7 +12,6 @@
         android:layout_height="92dp" />
     <TextView
         android:id="@+id/productName"
-        android:text="@string/ProductName"
         android:textColor="@color/text_color_gray"
         android:textSize="13sp"
         android:textStyle="bold"
@@ -34,16 +33,17 @@
         android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/quantity"
-        android:text="@string/_1"
         android:textColor="@color/tab_layout_select_color"
         android:textSize="12sp"
         android:layout_marginTop="6dp"
         android:layout_below="@+id/productName"
         android:layout_toRightOf="@+id/quantityIs"
+        android:layout_marginLeft="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
-        android:id="@+id/colorIs"
+        android:visibility="gone"
+        android:id="@+id/color_is"
         android:text="@string/ColorIs"
         android:textColor="@color/text_color_gray"
         android:textSize="12sp"
@@ -53,46 +53,46 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
+        android:visibility="gone"
         android:id="@+id/color"
-        android:text="@string/Gray"
         android:textColor="@color/tab_layout_select_color"
         android:textSize="12sp"
         android:layout_marginTop="6dp"
+        android:layout_marginLeft="5dp"
         android:layout_below="@+id/quantityIs"
-        android:layout_toRightOf="@+id/colorIs"
+        android:layout_toRightOf="@+id/color_is"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
-        android:id="@+id/sizeIs"
+        android:visibility="gone"
+        android:id="@+id/size_is"
         android:text="@string/SizeIs"
         android:textColor="@color/text_color_gray"
         android:textSize="12sp"
         android:layout_marginTop="6dp"
-        android:layout_below="@+id/colorIs"
+        android:layout_below="@+id/color_is"
         android:layout_toRightOf="@+id/iv_productImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
+        android:visibility="gone"
         android:id="@+id/size"
-        android:text="@string/SizeDetail"
         android:textColor="@color/tab_layout_select_color"
         android:textSize="12sp"
         android:layout_marginTop="6dp"
-        android:layout_below="@+id/colorIs"
-        android:layout_toRightOf="@+id/colorIs"
+        android:layout_below="@+id/color_is"
+        android:layout_toRightOf="@+id/size_is"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/price"
-        android:text="@string/priceDetail"
         android:textColor="@color/tab_layout_select_color"
         android:textSize="13sp"
         android:layout_marginTop="6dp"
         android:layout_marginBottom="3dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/size"
-        android:layout_alignRight="@+id/color"
-        android:layout_alignEnd="@+id/color" />
+        android:layout_toRightOf="@+id/iv_productImage"
+        android:layout_below="@+id/size" />
 </RelativeLayout>

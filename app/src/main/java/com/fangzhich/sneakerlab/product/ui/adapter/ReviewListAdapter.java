@@ -3,6 +3,7 @@ package com.fangzhich.sneakerlab.product.ui.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -11,6 +12,7 @@ import com.fangzhich.sneakerlab.base.ui.recyclerview.BaseRecyclerViewAdapter;
 import com.fangzhich.sneakerlab.product.data.entity.ReviewEntity;
 import com.fangzhich.sneakerlab.product.presentation.ProductReviewListContract;
 import com.fangzhich.sneakerlab.product.presentation.ProductReviewListPresenter;
+import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 
 import java.util.ArrayList;
 
@@ -79,13 +81,18 @@ public class ReviewListAdapter extends BaseRecyclerViewAdapter<ReviewEntity,Revi
     protected void onBindHolder(ViewHolder holder, int position) {
         ReviewEntity review = mData.get(position);
         holder.comment.setText(review.text);
-        holder.ratingBar.setNumStars(review.rating);
+        holder.ratingBar.getAnimationBuilder()
+                .setRatingTarget(review.rating)
+                .setDuration(1000)
+                .setRepeatCount(0)
+                .setInterpolator(new LinearInterpolator())
+                .start();
         holder.author.setText(review.author);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.rating_bar)
-        RatingBar ratingBar;
+        SimpleRatingBar ratingBar;
         @BindView(R.id.comment)
         TextView comment;
         @BindView(R.id.author)

@@ -253,7 +253,7 @@ public class CartEntity implements Parcelable {
         };
     }
 
-    public static class Shiping {
+    public static class Shiping implements Parcelable {
         public String type;
         public String title;
         public String code;
@@ -262,11 +262,85 @@ public class CartEntity implements Parcelable {
         public String text;
         public String sort_order;
         public boolean error;
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.type);
+            dest.writeString(this.title);
+            dest.writeString(this.code);
+            dest.writeString(this.cost);
+            dest.writeString(this.tax_class_id);
+            dest.writeString(this.text);
+            dest.writeString(this.sort_order);
+            dest.writeByte(this.error ? (byte) 1 : (byte) 0);
+        }
+
+        public Shiping() {
+        }
+
+        protected Shiping(Parcel in) {
+            this.type = in.readString();
+            this.title = in.readString();
+            this.code = in.readString();
+            this.cost = in.readString();
+            this.tax_class_id = in.readString();
+            this.text = in.readString();
+            this.sort_order = in.readString();
+            this.error = in.readByte() != 0;
+        }
+
+        public static final Creator<Shiping> CREATOR = new Creator<Shiping>() {
+            @Override
+            public Shiping createFromParcel(Parcel source) {
+                return new Shiping(source);
+            }
+
+            @Override
+            public Shiping[] newArray(int size) {
+                return new Shiping[size];
+            }
+        };
     }
 
-    public static class Totals {
+    public static class Totals implements Parcelable {
         public String title;
         public String text;
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.title);
+            dest.writeString(this.text);
+        }
+
+        public Totals() {
+        }
+
+        protected Totals(Parcel in) {
+            this.title = in.readString();
+            this.text = in.readString();
+        }
+
+        public static final Creator<Totals> CREATOR = new Creator<Totals>() {
+            @Override
+            public Totals createFromParcel(Parcel source) {
+                return new Totals(source);
+            }
+
+            @Override
+            public Totals[] newArray(int size) {
+                return new Totals[size];
+            }
+        };
     }
 
     @Override

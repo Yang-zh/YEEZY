@@ -16,6 +16,7 @@ import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.order.data.entity.OrderEntity;
 import com.fangzhich.sneakerlab.order.data.net.OrderApi;
 import com.fangzhich.sneakerlab.util.ToastUtil;
+import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -37,7 +38,7 @@ public class OrderReviewActivity extends BaseActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.rating_bar)
-    RatingBar ratingBar;
+    SimpleRatingBar ratingBar;
     @BindView(R.id.et_evaluation)
     EditText etEvaluation;
     @OnClick(R.id.bt_submit)

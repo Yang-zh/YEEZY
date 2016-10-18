@@ -28,8 +28,7 @@ public class ProductDescriptionFragment extends BaseFragment {
     protected void initContentView() {
         mProduct = getArguments().getParcelable("mProduct");
         if (mProduct!=null) {
-            productDescription.loadData("<html><body>"+Html.fromHtml(mProduct.description)+"</body></html>", "text/html", "utf-8");
-//            productDescription.setText(Html.fromHtml(mProduct.description));
+            productDescription.loadData("<html><body>"+"<style>img{max-width:100%;height:auto}video{max-width:100%;height:auto}</style>"+Html.fromHtml(mProduct.description)+"</body></html>", "text/html;charset=utf-8", null);
         }
     }
 

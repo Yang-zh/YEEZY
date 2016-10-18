@@ -15,9 +15,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fangzhich.sneakerlab.R;
+import com.fangzhich.sneakerlab.base.data.event.RxBus;
 import com.fangzhich.sneakerlab.base.widget.DialogManager;
 import com.fangzhich.sneakerlab.base.widget.ProgressBar;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
+import com.fangzhich.sneakerlab.cart.data.event.CartItemQuantityChangeEvent;
 import com.fangzhich.sneakerlab.main.ui.ReturnPolicyActivity;
 import com.fangzhich.sneakerlab.order.data.entity.ConfirmOrderEntity;
 import com.fangzhich.sneakerlab.order.data.net.OrderApi;
@@ -34,6 +36,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.SingleSubscriber;
+import rx.Subscription;
+import rx.functions.Action1;
 import timber.log.Timber;
 
 /**
@@ -45,6 +49,7 @@ public class ShoppingCartDialog {
     private Context mContext;
     private View mContentView;
     private DialogManager manager;
+    private Subscription mSubscription;
 
     @OnClick(R.id.bt_cancel)
     void cancel() {
@@ -119,9 +124,8 @@ public class ShoppingCartDialog {
             @Override
             public void onSuccess(ConfirmOrderEntity value) {
                 progressBar.cancel();
-                ToastUtil.toast("Check out success!");
                 Intent intent = new Intent(mContext, OrderConfirmedActivity.class);
-                intent.putParcelableArrayListExtra("cartList", (ArrayList<CartEntity.Product>) adapter.getData());
+                intent.putExtra("cart", cart);
                 mContext.startActivity(intent);
                 manager.closeAll();
                 manager.closeProductDetail();
@@ -167,6 +171,7 @@ public class ShoppingCartDialog {
         });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
         return this;
     }
 
@@ -240,7 +245,7 @@ public class ShoppingCartDialog {
     }
 
     private void checkIfSubscribe() {
-        if (adapter.getData().size()>=0) {
+        if (adapter.getData()!=null&&adapter.getData().size()>=0) {
             FirebaseMessaging.getInstance().subscribeToTopic("cart");
         } else {
             FirebaseMessaging.getInstance().unsubscribeFromTopic("cart");
@@ -260,6 +265,9 @@ public class ShoppingCartDialog {
     }
 
     public void dismiss() {
+        if (mSubscription!=null && mSubscription.isUnsubscribed()) {
+            mSubscription.unsubscribe();
+        }
         mPopupWindow.dismiss();
     }
 

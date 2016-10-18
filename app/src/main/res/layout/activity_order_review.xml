@@ -34,16 +34,19 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-    <RatingBar
+    <com.iarcuschin.simpleratingbar.SimpleRatingBar
         android:id="@+id/rating_bar"
+        android:layout_width="165dp"
+        android:layout_height="33dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:layout_below="@+id/tip"
-        android:layout_width="165dp"
-        android:layout_height="33dp"
-        style="@style/RoomRatingBar"
-        android:numStars="5"
-        android:rating="4" />
+        app:srb_starSize="16dp"
+        app:srb_numberOfStars="5"
+        app:srb_stepSize="0.1"
+        app:srb_borderColor="@color/cut_line_color2"
+        app:srb_starBorderWidth="2"
+        app:srb_fillColor="@color/star_yellow" />
     <EditText
         android:id="@+id/et_evaluation"
         android:hint="@string/PleaseEnterYourEvaluation"

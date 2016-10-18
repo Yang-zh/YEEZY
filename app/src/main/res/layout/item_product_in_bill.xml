@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <ImageView
         android:id="@+id/iv_productImage"
         android:src="@mipmap/product_image_placeholder"
@@ -149,17 +150,28 @@
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
-    <RatingBar
-        android:layout_marginTop="11dp"
+    <com.iarcuschin.simpleratingbar.SimpleRatingBar
         android:id="@+id/rating_bar"
-        android:layout_marginLeft="20dp"
+        android:layout_marginTop="11dp"
         android:layout_below="@+id/iv_productImage"
-        android:rating="4"
-        style="@style/RoomRatingBar"
-        android:isIndicator="true"
-        android:numStars="5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srb_isIndicator="true"
+        app:srb_starSize="16dp"
+        app:srb_numberOfStars="5"
+        app:srb_stepSize="0.1"
+        app:srb_borderColor="@color/cut_line_color2"
+        app:srb_starBorderWidth="2"
+        app:srb_fillColor="@color/star_yellow" />
+    <TextView
+        android:id="@+id/tv_commentCount"
+        android:layout_toRightOf="@+id/rating_bar"
+        android:layout_alignTop="@+id/rating_bar"
+        android:textColor="@color/text_color_gray"
+        android:textSize="12sp"
+        android:layout_marginLeft="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
 
 </RelativeLayout>
