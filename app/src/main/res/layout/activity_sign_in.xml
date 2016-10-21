@@ -68,7 +68,7 @@
             android:layout_height="31dp" />
         <EditText
             android:id="@+id/password"
-            android:hint="@string/Password"
+            android:hint="@string/password"
             android:inputType="textPassword"
             android:textSize="12sp"
             android:textColorHint="@color/text_color_gray"

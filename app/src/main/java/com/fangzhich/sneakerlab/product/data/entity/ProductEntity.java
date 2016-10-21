@@ -25,7 +25,10 @@ public class ProductEntity implements Parcelable {
     public String original_price;
     public String special_price;
     public String reward;
+    public String sales_volume;
     public int points;
+    public String collections;
+    public String shares;
     public String tax_class_id;
     public String date_available;
     public String weight;
@@ -224,7 +227,10 @@ public class ProductEntity implements Parcelable {
         dest.writeString(this.original_price);
         dest.writeString(this.special_price);
         dest.writeString(this.reward);
+        dest.writeString(this.sales_volume);
         dest.writeInt(this.points);
+        dest.writeString(this.collections);
+        dest.writeString(this.shares);
         dest.writeString(this.tax_class_id);
         dest.writeString(this.date_available);
         dest.writeString(this.weight);
@@ -264,7 +270,10 @@ public class ProductEntity implements Parcelable {
         this.original_price = in.readString();
         this.special_price = in.readString();
         this.reward = in.readString();
+        this.sales_volume = in.readString();
         this.points = in.readInt();
+        this.collections = in.readString();
+        this.shares = in.readString();
         this.tax_class_id = in.readString();
         this.date_available = in.readString();
         this.weight = in.readString();

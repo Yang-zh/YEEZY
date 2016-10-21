@@ -111,7 +111,7 @@
     <string name="ViewOrders">View Orders</string>
     <string name="ContinueShopping">Continue Shopping</string>
     <string name="RELATED">RELATED</string>
-    <string name="Password">Password</string>
+    <string name="password">password</string>
     <string name="Shipping_underLine" ><u>Shipping</u></string>
     <string name="OrderPlacedIs">Order Placed:</string>
     <string name="OrderDate">Sep 5,2016</string>
@@ -194,7 +194,8 @@
     <string name="customerEmail">customer@fangzhich.com</string>
     <string name="Reviewed">Reviewed!</string>
     <string name="Detail">Detail</string>
-    <string name="CustomerSupportDetail">Dear customer,SneakerLab look forward to get in touch with you, You are welcome to cantact us for any assistance, our excellent service team will reply and offer you the best solution ASAP.Thank you!</string>
+    <string name="CustomerSupportDetail">Dear customer,SneakerLab look forward to get in touch with you, You are welcome to contact us for any assistance, our excellent service team will reply and offer you the best solution ASAP.Thank you!</string>
+    <string name="send">Send</string>
 
     <string-array name = "currencies">
         <item>USD($)</item>

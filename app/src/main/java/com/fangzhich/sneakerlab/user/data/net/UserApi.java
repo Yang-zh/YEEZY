@@ -2,6 +2,7 @@ package com.fangzhich.sneakerlab.user.data.net;
 
 
 import com.fangzhich.sneakerlab.base.data.net.BaseApi;
+import com.fangzhich.sneakerlab.main.data.entity.MessageEntity;
 import com.fangzhich.sneakerlab.main.data.entity.NotificationEntity;
 import com.fangzhich.sneakerlab.user.data.entity.CreditCardEntity;
 import com.fangzhich.sneakerlab.user.data.entity.PersonalInfoEntity;
@@ -540,6 +541,61 @@ public class UserApi extends BaseApi{
                 .getNotificationList(email, token,
                         timestamp, signature, API_KEY,Const.IMEI)
                 .map(new HttpResultFunc<ArrayList<NotificationEntity>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(singleSubscriber);
+    }
+
+    /**
+     * Customer support request
+     * @param text text
+     * @param singleSubscriber SingleSubscriber in RxJava (Callback)
+     */
+    public static void sendSupportMessage(String type, String text, SingleSubscriber<Object> singleSubscriber) {
+        String timestamp = getTimeStamp();
+        String fullname = Const.getUserInfo()==null?Const.getUserInfo().user_info.firstname+Const.getUserInfo().user_info.lastname:"unknownUser";
+
+        HashMap<String,String> params = new HashMap<>();
+        params.put("type",type);
+        params.put("fullname",fullname);
+        params.put("text",text);
+        params.put("equipment_token",Const.fireBaseMessageToken);
+        params.put("email",email);
+        params.put("token",token);
+        params.put("timestamp",timestamp);
+
+        String signature = getSignature(params);
+
+        createService(UserService.class)
+                .requestSupport(type,fullname,text,Const.fireBaseMessageToken,
+                        email, token,
+                        timestamp, signature, API_KEY,Const.IMEI)
+                .map(new HttpResultFunc<Object>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(singleSubscriber);
+    }
+
+    /**
+     * Support message list request
+     * @param singleSubscriber SingleSubscriber in RxJava (Callback)
+     */
+    public static void getSupportMessageList(SingleSubscriber<ArrayList<MessageEntity>> singleSubscriber) {
+        String timestamp = getTimeStamp();
+
+        HashMap<String,String> params = new HashMap<>();
+        params.put("equipment_token",Const.fireBaseMessageToken);
+        params.put("email",email);
+        params.put("token",token);
+        params.put("timestamp",timestamp);
+
+        String signature = getSignature(params);
+
+        createService(UserService.class)
+                .getSupportMessageList(Const.fireBaseMessageToken,
+                        email, token,
+                        timestamp, signature, API_KEY,Const.IMEI)
+                .map(new HttpResultFunc<ArrayList<MessageEntity>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(singleSubscriber);

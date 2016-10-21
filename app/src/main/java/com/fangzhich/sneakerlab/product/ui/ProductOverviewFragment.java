@@ -3,6 +3,7 @@ package com.fangzhich.sneakerlab.product.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
@@ -13,6 +14,13 @@ import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.holder.Holder;
 import com.bumptech.glide.Glide;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.share.Sharer;
+import com.facebook.share.model.ShareHashtag;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseFragment;
 import com.fangzhich.sneakerlab.product.data.entity.ProductEntity;
@@ -48,6 +56,9 @@ public class ProductOverviewFragment extends BaseFragment {
     TextView likeText;
 
     private boolean isLiked = false;
+    private CallbackManager callBackManager;
+    private ShareDialog shareDialog;
+    private int oldLikeCount;
 
     @OnClick(R.id.bt_left)
     void btLeft() {
@@ -61,6 +72,10 @@ public class ProductOverviewFragment extends BaseFragment {
                 public void onSuccess(Object value) {
                     isLiked = false;
                     likeIcon.setImageResource(R.mipmap.like);
+                    likeText.setText(TagFormatUtil.from(getResources().getString(R.string.LikeFormat))
+                            .with("LikeCount", oldLikeCount-1)
+                            .format());
+                    oldLikeCount = oldLikeCount-1;
                 }
 
                 @Override
@@ -75,6 +90,10 @@ public class ProductOverviewFragment extends BaseFragment {
                 public void onSuccess(Object value) {
                     isLiked = true;
                     likeIcon.setImageResource(R.mipmap.like_red);
+                    likeText.setText(TagFormatUtil.from(getResources().getString(R.string.LikeFormat))
+                            .with("LikeCount", oldLikeCount+1)
+                            .format());
+                    oldLikeCount = oldLikeCount+1;
                 }
 
                 @Override
@@ -91,6 +110,44 @@ public class ProductOverviewFragment extends BaseFragment {
 
     @OnClick(R.id.bt_right)
     void btRight() {
+//        callBackManager = CallbackManager.Factory.create();
+//        shareDialog = new ShareDialog(this);
+//        shareDialog.registerCallback(callBackManager, new FacebookCallback<Sharer.Result>() {
+//            @Override
+//            public void onSuccess(Sharer.Result result) {
+//                UserApi.share(mProduct.product_id, "facebook", "https://play.google.com/store/apps/details?id=com.fangzhich.sneakerlab", new SingleSubscriber<Object>() {
+//                    @Override
+//                    public void onSuccess(Object value) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable error) {
+//                        Timber.d(error.getMessage());
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void onCancel() {
+//
+//            }
+//
+//            @Override
+//            public void onError(FacebookException error) {
+//
+//            }
+//        });
+//        if (ShareDialog.canShow(ShareLinkContent.class)) {
+//            ShareLinkContent content = new ShareLinkContent.Builder()
+//                    .setContentUrl(Uri.parse("https://play.google.com/store/apps/details?id=com.fangzhich.sneakerlab"))
+//                    .setShareHashtag(new ShareHashtag.Builder()
+//                            .setHashtag("#Sneaker")
+//                            .build())
+//                    .build();
+//
+//            shareDialog.show(content);
+//        }
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, "https://play.google.com/store/apps/details?id=com.fangzhich.sneakerlab \n --From SneakLab");
@@ -257,13 +314,13 @@ public class ProductOverviewFragment extends BaseFragment {
                 Timber.e(error.getMessage());
             }
         });
-        likeText.setText(mProduct.points==0?"Like":TagFormatUtil.from(getResources().getString(R.string.LikeFormat))
-                .with("LikeCount", mProduct.points)
+        likeText.setText(Integer.valueOf(mProduct.collections)==0?"Like":TagFormatUtil.from(getResources().getString(R.string.LikeFormat))
+                .with("LikeCount", mProduct.collections)
                 .format());
-        shareText.setText("Share");
-//        shareText.setText(TagFormatUtil.from(getResources().getString(R.string.ShareFormat))
-//                .with("ShareCount", getResources().getString(R.string.nulll))
-//                .format());
+        oldLikeCount = Integer.parseInt(mProduct.collections);
+        shareText.setText(Integer.valueOf(mProduct.shares)==0?"Share":TagFormatUtil.from(getResources().getString(R.string.ShareFormat))
+                .with("ShareCount", mProduct.shares)
+                .format());
         product_name.setText(mProduct.name);
         ratingBar.getAnimationBuilder()
                 .setRatingTarget(mProduct.rating)
@@ -341,5 +398,11 @@ public class ProductOverviewFragment extends BaseFragment {
                     .crossFade()
                     .into(imageView);
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callBackManager.onActivityResult(requestCode,resultCode,data);
     }
 }

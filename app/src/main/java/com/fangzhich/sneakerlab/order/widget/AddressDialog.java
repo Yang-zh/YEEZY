@@ -82,9 +82,15 @@ public class AddressDialog {
             return;
         }
 
-        String country = countryList.get(spinnerCountry.getSelectedIndex()).country_id;
+        String country = null;
+        if (countryList!=null && countryList.size()!=0) {
+            country = countryList.get(spinnerCountry.getSelectedIndex()).country_id;
+        }
 
-        String state = districtList.get(spinnerState.getSelectedIndex()).zone_id;
+        String state = null;
+        if (districtList!=null && districtList.size()!=0) {
+            state = districtList.get(spinnerState.getSelectedIndex()).zone_id;
+        }
 
 
         String city = etAddressCity.getText().toString();
@@ -196,33 +202,7 @@ public class AddressDialog {
         spinnerCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                CartApi.getDistricts(countryList.get(position).country_id, new SingleSubscriber<ArrayList<DistrictEntity>>() {
-                    @Override
-                    public void onSuccess(ArrayList<DistrictEntity> value) {
-                        districtList = value;
-                        ArrayList<String> list = new ArrayList<>();
-                        for (DistrictEntity entity:value) {
-                            list.add(entity.name);
-                        }
-                        spinnerState.setClickable(true);
-                        list.add(0,"district");
-                        spinnerState.attachDataSource(list);
-
-                        if (address!=null) {
-                            for (int i=0;i<districtList.size();i++) {
-                                if (districtList.get(i).zone_id.equals(address.zone_id)) {
-                                    spinnerState.setSelectedIndex(i);
-                                }
-                            }
-                        }
-                        Timber.d("load districts success");
-                    }
-
-                    @Override
-                    public void onError(Throwable error) {
-                        Timber.e(error.getMessage());
-                    }
-                });
+                loadDistrictForPosition(position);
             }
 
             @Override
@@ -247,16 +227,46 @@ public class AddressDialog {
                 for (CountryEntity entity:value) {
                     list.add(entity.name);
                 }
-                list.add(0, "country");
                 spinnerCountry.attachDataSource(list);
                 if (address!=null) {
                     for (int i=0;i<countryList.size();i++) {
                         if (countryList.get(i).country_id.equals(address.country_id)) {
                             spinnerCountry.setSelectedIndex(i);
+                            loadDistrictForPosition(i);
                         }
                     }
                 }
                 Timber.d("load countries success");
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                Timber.e(error.getMessage());
+            }
+        });
+    }
+
+    private void loadDistrictForPosition(int position) {
+        Timber.d(countryList.get(position).country_id);
+        CartApi.getDistricts(countryList.get(position).country_id, new SingleSubscriber<ArrayList<DistrictEntity>>() {
+            @Override
+            public void onSuccess(ArrayList<DistrictEntity> value) {
+                districtList = value;
+                ArrayList<String> list = new ArrayList<>();
+                for (DistrictEntity entity:value) {
+                    list.add(entity.name);
+                }
+                spinnerState.setClickable(true);
+                spinnerState.attachDataSource(list);
+
+                if (address!=null) {
+                    for (int i=0;i<districtList.size();i++) {
+                        if (districtList.get(i).zone_id.equals(address.zone_id)) {
+                            spinnerState.setSelectedIndex(i);
+                        }
+                    }
+                }
+                Timber.d("load districts success");
             }
 
             @Override

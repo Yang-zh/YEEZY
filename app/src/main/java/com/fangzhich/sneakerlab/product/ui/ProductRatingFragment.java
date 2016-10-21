@@ -5,7 +5,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -70,10 +69,10 @@ public class ProductRatingFragment extends BaseFragment {
                 .into(productImage);
         productName.setText(product.name);
         sellNumber.setText(TagFormatUtil.from(getResources().getString(R.string.SellNumberFormat))
-                .with("number", product.quantity)
+                .with("number", product.sales_volume)
                 .format());
         saveNumber.setText(TagFormatUtil.from(getResources().getString(R.string.SaveNumberFormat))
-                .with("number", product.points)
+                .with("number", product.collections)
                 .format());
         ratingBar.getAnimationBuilder()
                 .setRatingTarget(product.rating)

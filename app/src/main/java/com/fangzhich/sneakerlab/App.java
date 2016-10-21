@@ -8,6 +8,7 @@ import com.facebook.appevents.AppEventsLogger;
 import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.orhanobut.logger.Logger;
 import com.squareup.leakcanary.LeakCanary;
 
@@ -19,6 +20,8 @@ import timber.log.Timber;
  */
 public class App extends Application {
 
+
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     public void onCreate() {
@@ -62,9 +65,12 @@ public class App extends Application {
         //IMEI
         Const.IMEI = PhoneUtils.getPhoneIMEI(getApplicationContext());
 
-
+        //Facebook
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
+
+        //Firebase
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
      }
 

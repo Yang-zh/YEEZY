@@ -332,6 +332,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_size"
             android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_marginTop="5dp"
             android:ellipsize="end"
             android:lines="1"

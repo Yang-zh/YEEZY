@@ -35,6 +35,16 @@
                 android:textSize="12sp" />
         </LinearLayout>
 
+        <!--<RelativeLayout-->
+            <!--android:background="@android:color/white"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="400dp">-->
+            <!--<ImageView-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:src="@mipmap/shopping_cart"-->
+                <!--android:layout_width="70dp"-->
+                <!--android:layout_height="50dp" />-->
+        <!--</RelativeLayout>-->
 
         <RelativeLayout
             android:id="@+id/dialog"

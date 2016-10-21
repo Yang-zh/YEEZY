@@ -1,5 +1,6 @@
 package com.fangzhich.sneakerlab.user.data.net;
 
+import com.fangzhich.sneakerlab.main.data.entity.MessageEntity;
 import com.fangzhich.sneakerlab.main.data.entity.NotificationEntity;
 import com.fangzhich.sneakerlab.user.data.entity.CreditCardEntity;
 import com.fangzhich.sneakerlab.user.data.entity.PersonalInfoEntity;
@@ -225,6 +226,31 @@ interface UserService {
     @FormUrlEncoded
     @POST("index.php?route=api/push")
     Single<HttpResult<ArrayList<NotificationEntity>>> getNotificationList(
+            @Field("email") String email,
+            @Field("token") String token,
+            @Field("timestamp") String timestamp,
+            @Field("signature") String signature,
+            @Field("apiKey") String apiKey,
+            @Field("equipment_id") String imei);
+
+    @FormUrlEncoded
+    @POST("index.php?route=api/message/add")
+    Single<HttpResult<Object>> requestSupport(
+            @Field("type") String type,
+            @Field("fullname") String fullname,
+            @Field("text") String text,
+            @Field("equipment_token") String equipment_token,
+            @Field("email") String email,
+            @Field("token") String token,
+            @Field("timestamp") String timestamp,
+            @Field("signature") String signature,
+            @Field("apiKey") String apiKey,
+            @Field("equipment_id") String imei);
+
+    @FormUrlEncoded
+    @POST("index.php?route=api/message")
+    Single<HttpResult<ArrayList<MessageEntity>>> getSupportMessageList(
+            @Field("equipment_token") String equipment_token,
             @Field("email") String email,
             @Field("token") String token,
             @Field("timestamp") String timestamp,

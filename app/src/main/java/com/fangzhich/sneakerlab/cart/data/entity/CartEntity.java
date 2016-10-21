@@ -147,6 +147,7 @@ public class CartEntity implements Parcelable {
         public String original_price;
         public String special_price;
         public String reward;
+        public String reviews;
         public String rating;
         public String tax_class_id;
         public List<Option> options;
@@ -214,6 +215,7 @@ public class CartEntity implements Parcelable {
             dest.writeString(this.original_price);
             dest.writeString(this.special_price);
             dest.writeString(this.reward);
+            dest.writeString(this.reviews);
             dest.writeString(this.rating);
             dest.writeString(this.tax_class_id);
             dest.writeList(this.options);
@@ -234,6 +236,7 @@ public class CartEntity implements Parcelable {
             this.original_price = in.readString();
             this.special_price = in.readString();
             this.reward = in.readString();
+            this.reviews = in.readString();
             this.rating = in.readString();
             this.tax_class_id = in.readString();
             this.options = new ArrayList<Option>();

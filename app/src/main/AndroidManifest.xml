@@ -3,8 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.fangzhich.sneakerlab">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name="com.fangzhich.sneakerlab.App"
@@ -38,6 +40,10 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             tools:replace="android:theme"
             android:label="@string/app_name" />
+        <provider
+            android:authorities="com.facebook.app.FacebookContentProvider637256776443104"
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true"/>
         <!--Facebook login in chrome custom tab-->
         <!--<activity-->
             <!--android:name="com.facebook.CustomTabActivity"-->
@@ -112,7 +118,12 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name="com.fangzhich.sneakerlab.main.ui.SupportActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme" >
+            <intent-filter>
+                <action android:name="OPEN_ACTIVITY_SUPPORT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="com.fangzhich.sneakerlab.main.ui.ReturnPolicyActivity"
             android:theme="@style/AppTheme" />

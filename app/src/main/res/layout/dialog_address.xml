@@ -39,7 +39,7 @@
             android:layout_marginLeft="14dp"
             android:layout_marginRight="14dp"
             android:textSize="14sp"
-            android:text="@string/BillTo"
+            android:text="@string/ShipTo"
             android:textColor="@color/tab_layout_select_color"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

@@ -99,6 +99,8 @@ public class LoginActivity extends BaseActivity implements UserLoginContract.Vie
                             profile.getProfilePictureUri(150, 150);
 
                     Timber.d(builder);
+                } else {
+                    Timber.d("profile NULLLLLLLL");
                 }
                 ToastUtil.toast("login success");
             }

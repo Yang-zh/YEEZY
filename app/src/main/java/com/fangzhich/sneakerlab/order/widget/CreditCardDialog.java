@@ -65,12 +65,12 @@ public class CreditCardDialog {
             return;
         }
 
-        Pattern pattern = Pattern.compile("[0-9]{2}\\\\[0-9]{2}");
+        Pattern pattern = Pattern.compile("[0-9]{2}/[0-9]{2}");
         if (!pattern.matcher(expiryDate).matches()) {
-            ToastUtil.toast("please enter expiry date like 00\\00");
+            ToastUtil.toast("please enter expiry date like 00/00");
             return;
         }
-        String[] date = expiryDate.split("\\\\");
+        String[] date = expiryDate.split("/");
         final String year = date[0];
         final String month = date[1];
 
@@ -172,10 +172,10 @@ public class CreditCardDialog {
 
     public CreditCardDialog withCreditCard(CartEntity.Payment card) {
         if (card!=null) {
-            etCreditCardNumber.setText("");
-            etSecurityCode.setText("");
-            etExpiryDateNumber.setText("");
-            etBillingPostalCode.setText("");
+            etCreditCardNumber.setText(card.card_number);
+            etSecurityCode.setText(card.card_cvv);
+            etExpiryDateNumber.setText(card.card_year+"/"+card.card_month);
+            etBillingPostalCode.setText(card.zip_code);
         }
         return this;
     }

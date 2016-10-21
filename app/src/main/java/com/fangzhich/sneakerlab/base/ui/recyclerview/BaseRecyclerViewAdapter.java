@@ -3,6 +3,7 @@ package com.fangzhich.sneakerlab.base.ui.recyclerview;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
+import com.fangzhich.sneakerlab.main.data.entity.MessageEntity;
 import com.fangzhich.sneakerlab.product.data.entity.ProductEntity;
 
 import java.util.List;
@@ -48,5 +49,10 @@ public abstract class BaseRecyclerViewAdapter<T, VH extends RecyclerView.ViewHol
 
     public List<T> getData() {
         return mData;
+    }
+
+    public void addItem(T entity) {
+        mData.add(entity);
+        notifyItemInserted(mData.size());
     }
 }

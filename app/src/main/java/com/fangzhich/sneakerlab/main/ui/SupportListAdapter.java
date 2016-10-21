@@ -3,18 +3,27 @@ package com.fangzhich.sneakerlab.main.ui;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.BaseRecyclerViewAdapter;
-import com.fangzhich.sneakerlab.main.data.entity.TalkItemEntity;
+import com.fangzhich.sneakerlab.main.data.entity.MessageEntity;
+import com.fangzhich.sneakerlab.user.data.net.UserApi;
+import com.fangzhich.sneakerlab.util.ToastUtil;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import rx.SingleSubscriber;
+import timber.log.Timber;
 
 /**
  * SupportListAdapter
  * Created by Khorium on 2016/10/17.
  */
-public class SupportListAdapter extends BaseRecyclerViewAdapter<TalkItemEntity, RecyclerView.ViewHolder> {
+public class SupportListAdapter extends BaseRecyclerViewAdapter<MessageEntity, SupportListAdapter.ViewHolder> {
 
 
 
@@ -23,18 +32,30 @@ public class SupportListAdapter extends BaseRecyclerViewAdapter<TalkItemEntity, 
 
     @Override
     public void loadData() {
-        // todo
+        UserApi.getSupportMessageList(new SingleSubscriber<ArrayList<MessageEntity>>() {
+            @Override
+            public void onSuccess(ArrayList<MessageEntity> value) {
+                mData = value;
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                ToastUtil.toast(error.getMessage());
+                Timber.e(error);
+            }
+        });
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateHolder(ViewGroup parent, int viewType) {
         View itemView;
         switch (viewType) {
             case TYPE_USER:
                 itemView = View.inflate(parent.getContext(),R.layout.item_support_user,null);
                 break;
             case TYPE_SERVICE:
-                itemView = View.inflate(parent.getContext(),R.layout.item_support_user,null);
+                itemView = View.inflate(parent.getContext(),R.layout.item_support_service,null);
                 break;
             default:
                 itemView = null;
@@ -44,19 +65,25 @@ public class SupportListAdapter extends BaseRecyclerViewAdapter<TalkItemEntity, 
     }
 
     @Override
-    protected void onBindHolder(RecyclerView.ViewHolder holder, int position) {
-
+    protected void onBindHolder(ViewHolder holder, int position) {
+        holder.text.setText(mData.get(position).text);
     }
 
     @Override
     public int getItemViewType(int position) {
-        return super.getItemViewType(position);
+        return mData.get(position).type;
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.headImage)
+        ImageView headImage;
+        @BindView(R.id.text)
+        TextView text;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this,itemView);
         }
     }
 }

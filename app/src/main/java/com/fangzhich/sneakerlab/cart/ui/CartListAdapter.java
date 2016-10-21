@@ -122,12 +122,13 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Product, CartLi
         }
         holder.quantityDetail.setText(cartItem.quantity);
         holder.ratingBar.getAnimationBuilder()
-                .setRatingTarget(3)
+                .setRatingTarget(Float.parseFloat(cartItem.rating))
                 .setDuration(1000)
                 .setRepeatCount(0)
                 .setInterpolator(new LinearInterpolator()).start();
-//        holder.tvCommentCount.setText("(200)");
-
+        holder.tvCommentCount.setText(TagFormatUtil.from(holder.itemView.getResources().getString(R.string.BracketsFormat))
+                .with("content",cartItem.reviews)
+                .format());
         holder.remove.setOnClickListener(
                 new View.OnClickListener() {
                     @Override

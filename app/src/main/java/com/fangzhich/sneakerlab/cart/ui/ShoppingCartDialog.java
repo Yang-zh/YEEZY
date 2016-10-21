@@ -210,6 +210,10 @@ public class ShoppingCartDialog {
             public void loadCartData(CartEntity cart) {
                 ShoppingCartDialog.this.cart = cart;
 
+                if (cart.products==null || cart.products.size()==0) {
+                    // todo
+                }
+
                 if (cart.address!=null) {
                     address_id = cart.address.address_id;
                     tv_address.setText(cart.address.city+" "+cart.address.address_1);

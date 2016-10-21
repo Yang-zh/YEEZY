@@ -103,8 +103,8 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
 
         ProductOverviewFragment productOverviewFragment = new ProductOverviewFragment();
         productOverviewFragment.setArguments(args);
-        ProductRelateListFragment productRelateListFragment = new ProductRelateListFragment();
-        productRelateListFragment.setArguments(args);
+//        ProductRelateListFragment productRelateListFragment = new ProductRelateListFragment();
+//        productRelateListFragment.setArguments(args);
         ProductDescriptionFragment ProductDesFragment = new ProductDescriptionFragment();
         ProductDesFragment.setArguments(args);
         ProductRatingFragment productRatingFragment = new ProductRatingFragment();
@@ -113,12 +113,12 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
         productShippingInfoFragment.setArguments(args);
 
         fragments.add(productOverviewFragment);
-        fragments.add(productRelateListFragment);
+//        fragments.add(productRelateListFragment);
         fragments.add(ProductDesFragment);
         fragments.add(productRatingFragment);
         fragments.add(productShippingInfoFragment);
         fragmentTitles.add(getResources().getString(R.string.OverView));
-        fragmentTitles.add(getResources().getString(R.string.Related));
+//        fragmentTitles.add(getResources().getString(R.string.Related));
         fragmentTitles.add(getResources().getString(R.string.Description));
         fragmentTitles.add(getResources().getString(R.string.Rating));
         fragmentTitles.add(getResources().getString(R.string.ShippingInfo));
