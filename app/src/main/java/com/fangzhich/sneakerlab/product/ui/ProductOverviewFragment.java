@@ -4,10 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RatingBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
@@ -23,6 +29,7 @@ import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseFragment;
+import com.fangzhich.sneakerlab.base.widget.CustomDialog;
 import com.fangzhich.sneakerlab.product.data.entity.ProductEntity;
 import com.fangzhich.sneakerlab.product.data.entity.ReviewEntity;
 import com.fangzhich.sneakerlab.product.data.net.ProductApi;
@@ -110,64 +117,106 @@ public class ProductOverviewFragment extends BaseFragment {
 
     @OnClick(R.id.bt_right)
     void btRight() {
-//        callBackManager = CallbackManager.Factory.create();
-//        shareDialog = new ShareDialog(this);
-//        shareDialog.registerCallback(callBackManager, new FacebookCallback<Sharer.Result>() {
-//            @Override
-//            public void onSuccess(Sharer.Result result) {
-//                UserApi.share(mProduct.product_id, "facebook", "https://play.google.com/store/apps/details?id=com.fangzhich.sneakerlab", new SingleSubscriber<Object>() {
-//                    @Override
-//                    public void onSuccess(Object value) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable error) {
-//                        Timber.d(error.getMessage());
-//                    }
-//                });
-//            }
-//
-//            @Override
-//            public void onCancel() {
-//
-//            }
-//
-//            @Override
-//            public void onError(FacebookException error) {
-//
-//            }
-//        });
-//        if (ShareDialog.canShow(ShareLinkContent.class)) {
-//            ShareLinkContent content = new ShareLinkContent.Builder()
-//                    .setContentUrl(Uri.parse("https://play.google.com/store/apps/details?id=com.fangzhich.sneakerlab"))
-//                    .setShareHashtag(new ShareHashtag.Builder()
-//                            .setHashtag("#Sneaker")
-//                            .build())
-//                    .build();
-//
-//            shareDialog.show(content);
-//        }
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, "https://play.google.com/store/apps/details?id=com.fangzhich.sneakerlab \n --From SneakLab");
-        sendIntent.setType("text/plain");
-        if (sendIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-            startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.ShareTo)));
-        } else {
-            ToastUtil.toast("no target to share in your phone");
-        }
-        UserApi.share(mProduct.product_id, "", "https://play.google.com/store/apps/details?id=com.fangzhich.sneakerlab \n --From SneakLab", new SingleSubscriber<Object>() {
+        CustomDialog dialog = new CustomDialog();
+        dialog.initPopup(getContext(), R.layout.dialog_share, new CustomDialog.Listener() {
             @Override
-            public void onSuccess(Object value) {
+            public void onInit(final PopupWindow dialog, View content) {
+                content.findViewById(R.id.icon_facebook).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        callBackManager = CallbackManager.Factory.create();
+                        shareDialog = new ShareDialog(getActivity());
+                        shareDialog.registerCallback(callBackManager, new FacebookCallback<Sharer.Result>() {
+                            @Override
+                            public void onSuccess(Sharer.Result result) {
+                                UserApi.share(mProduct.product_id, "facebook", "https://play.google.com/store/apps/details?id=com.fangzhich.sneakerlab", new SingleSubscriber<Object>() {
+                                    @Override
+                                    public void onSuccess(Object value) {
 
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable error) {
+                                        Timber.d(error.getMessage());
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onCancel() {
+
+                            }
+
+                            @Override
+                            public void onError(FacebookException error) {
+
+                            }
+                        });
+                        if (ShareDialog.canShow(ShareLinkContent.class)) {
+                            ShareLinkContent content = new ShareLinkContent.Builder()
+                                    .setContentUrl(Uri.parse("https://play.google.com/store/apps/details?id=com.fangzhich.sneakerlab"))
+                                    .setShareHashtag(new ShareHashtag.Builder()
+                                            .setHashtag("#Sneaker")
+                                            .build())
+                                    .build();
+
+                            shareDialog.show(content);
+                        }
+
+                    }
+                });
+                content.findViewById(R.id.icon_instagram).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ToastUtil.toast("share on instagram");
+                        // todo ins share
+                    }
+                });
+                content.findViewById(R.id.icon_twitter).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ToastUtil.toast("share on twitter");
+                        // todo twitter share
+                    }
+                });
+                content.findViewById(R.id.icon_share).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent sendIntent = new Intent();
+                        sendIntent.setAction(Intent.ACTION_SEND);
+                        sendIntent.putExtra(Intent.EXTRA_TEXT, "https://play.google.com/store/apps/details?id=com.fangzhich.sneakerlab \n --From SneakLab");
+                        sendIntent.setType("text/plain");
+                        if (sendIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                            startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.ShareTo)));
+                        } else {
+                            ToastUtil.toast("no target to share in your phone");
+                        }
+                        UserApi.share(mProduct.product_id, "", "https://play.google.com/store/apps/details?id=com.fangzhich.sneakerlab \n --From SneakLab", new SingleSubscriber<Object>() {
+                            @Override
+                            public void onSuccess(Object value) {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable error) {
+                                ToastUtil.toast("Connect to server failed,please");
+                            }
+                        });
+                    }
+                });
+                content.findViewById(R.id.bt_cancel).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
             }
 
             @Override
-            public void onError(Throwable error) {
-                ToastUtil.toast("Connect to server failed,please");
+            public void onDismiss(PopupWindow dialog, View content) {
+
             }
-        });
+        }).showPopup(getActivity().getWindow().getDecorView(), Gravity.BOTTOM);
     }
 
     @BindView(R.id.product_name)

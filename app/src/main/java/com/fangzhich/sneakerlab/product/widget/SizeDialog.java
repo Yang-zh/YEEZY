@@ -219,7 +219,7 @@ public class SizeDialog {
             case Color:
                 if (isChoose) {
                     chosenOptions[0] = colors.get(position).name;
-                    option.put(colorOption.product_option_id,sizes.get(position).product_option_value_id);
+                    option.put(colorOption.product_option_id,colors.get(position).product_option_value_id);
                 }else {
                     chosenOptions[0] = "";
                 }

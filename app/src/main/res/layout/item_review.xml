@@ -2,20 +2,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginLeft="20dp"
     android:layout_marginRight="20dp">
 
-        <RatingBar
-            android:layout_marginTop="11dp"
+        <com.iarcuschin.simpleratingbar.SimpleRatingBar
             android:id="@+id/rating_bar"
-            android:rating="4"
-            style="@style/RoomRatingBar"
-            android:isIndicator="true"
-            android:numStars="5"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:srb_isIndicator="true"
+            app:srb_starSize="16dp"
+            app:srb_numberOfStars="5"
+            app:srb_stepSize="0.1"
+            app:srb_borderColor="@color/cut_line_color2"
+            app:srb_starBorderWidth="2"
+            app:srb_fillColor="@color/star_yellow" />
         <TextView
-            android:text="Nice!loves how they fit and the color"
             android:layout_below="@+id/rating_bar"
             android:id="@+id/comment"
             android:layout_width="wrap_content"
@@ -25,7 +27,6 @@
             android:layout_marginTop="5dp" />
         <TextView
             android:layout_below="@+id/comment"
-            android:text="Jeremy David"
             android:layout_marginTop="5dp"
             android:id="@+id/author"
             android:textSize="12sp"
