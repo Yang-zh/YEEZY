@@ -34,6 +34,22 @@ interface UserService {
             @Field("equipment_id") String imei);
 
     @FormUrlEncoded
+    @POST("index.php?route=api/facebook")
+    Single<HttpResult<UserInfoEntity>> loginByFacebook(
+            @Field("accesstoken") String accesstoken,
+            @Field("facebookId") String facebookId,
+            @Field("email") String email,
+            @Field("phone") String phone,
+            @Field("firstname") String firstname,
+            @Field("middlename") String middlename,
+            @Field("lastname") String lastname,
+            @Field("avatarimage") String avatarimage,
+            @Field("timestamp") String timestamp,
+            @Field("signature") String signature,
+            @Field("apiKey") String apiKey,
+            @Field("equipment_id") String imei);
+
+    @FormUrlEncoded
     @POST("index.php?route=api/register")
     Single<HttpResult<RegisterEntity>> register(
             @Field("firstname") String firstname,

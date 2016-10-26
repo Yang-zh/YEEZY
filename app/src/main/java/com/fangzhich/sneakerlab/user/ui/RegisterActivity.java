@@ -91,8 +91,7 @@ public class RegisterActivity extends BaseActivity implements UserRegisterContra
             @Override
             public void onSuccess(UserInfoEntity value) {
                 Timber.d(value.toString());
-                Const.setUserInfo(value);
-                Const.setLogin(true);
+                Const.setLogin(true,value);
                 setResult(SplashActivity.SUCCESS);
                 Intent intent = new Intent(RegisterActivity.this, UserInfoActivity.class);
                 intent.putExtra("isFirstRegister",true);

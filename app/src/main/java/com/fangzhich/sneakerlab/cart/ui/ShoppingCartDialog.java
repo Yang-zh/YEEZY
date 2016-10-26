@@ -226,6 +226,8 @@ public class ShoppingCartDialog {
                     creditCartNumber.setText(cardNumber);
                 }
 
+                tvEstimatedShipping.setText(cart.shiping!=null&&cart.shiping.size()>=1?cart.shiping.get(0).text:"");
+
                 for (CartEntity.Totals total: cart.totals) {
                     switch (total.title) {
                         case "Sub-Total": {

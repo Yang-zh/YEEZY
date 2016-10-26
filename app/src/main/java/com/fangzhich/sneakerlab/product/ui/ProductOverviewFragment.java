@@ -3,6 +3,7 @@ package com.fangzhich.sneakerlab.product.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -40,6 +41,7 @@ import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.fangzhich.sneakerlab.util.TagFormatUtil;
 import com.iarcuschin.simpleratingbar.SimpleRatingBar;
+import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -165,18 +167,46 @@ public class ProductOverviewFragment extends BaseFragment {
 
                     }
                 });
-                content.findViewById(R.id.icon_instagram).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ToastUtil.toast("share on instagram");
-                        // todo ins share
-                    }
-                });
+//                content.findViewById(R.id.icon_instagram).setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        ToastUtil.toast("share on instagram");
+//                        Intent sendIntent = new Intent();
+//                        sendIntent.setAction(Intent.ACTION_SEND);
+////                        sendIntent.putExtra(Intent.EXTRA_TEXT, "https://play.google.com/store/apps/details?id=com.fangzhich.sneakerlab \n --From SneakLab");
+//                        sendIntent.setType("image/png");
+//                        sendIntent.putExtra(Intent.EXTRA_STREAM,uri);
+//                        List<ResolveInfo> resInfo = getActivity().getPackageManager().queryIntentActivities(sendIntent, 0);
+//                        if (resInfo!= null && resInfo.size()>0) {
+//                            for (ResolveInfo info : resInfo) {
+//                                if (info.activityInfo.packageName.toLowerCase().contains("instagram") || info.activityInfo.name.toLowerCase().contains("instagram")) {
+//                                    sendIntent.setPackage(info.activityInfo.packageName);
+//                                    startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.ShareTo)));
+//                                    UserApi.share(mProduct.product_id, "", "https://play.google.com/store/apps/details?id=com.fangzhich.sneakerlab \n --From SneakLab", new SingleSubscriber<Object>() {
+//                                        @Override
+//                                        public void onSuccess(Object value) {
+//
+//                                        }
+//
+//                                        @Override
+//                                        public void onError(Throwable error) {
+//                                            ToastUtil.toast("Connect to server failed,please");
+//                                        }
+//                                    });
+//                                } else {
+//                                    ToastUtil.toast("Didn't found Instagram installed in your phone");
+//                                }
+//                            }
+//                        }
+//                    }
+//                });
                 content.findViewById(R.id.icon_twitter).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ToastUtil.toast("share on twitter");
-                        // todo twitter share
+                        TweetComposer.Builder builder = new TweetComposer.Builder(getActivity())
+                                .text("https://play.google.com/store/apps/details?id=com.fangzhich.sneakerlab \n" +
+                                        " --From SneakLab");
+                        builder.show();
                     }
                 });
                 content.findViewById(R.id.icon_share).setOnClickListener(new View.OnClickListener() {
@@ -188,20 +218,20 @@ public class ProductOverviewFragment extends BaseFragment {
                         sendIntent.setType("text/plain");
                         if (sendIntent.resolveActivity(getActivity().getPackageManager()) != null) {
                             startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.ShareTo)));
+                            UserApi.share(mProduct.product_id, "", "https://play.google.com/store/apps/details?id=com.fangzhich.sneakerlab \n --From SneakLab", new SingleSubscriber<Object>() {
+                                @Override
+                                public void onSuccess(Object value) {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable error) {
+                                    ToastUtil.toast("Connect to server failed,please");
+                                }
+                            });
                         } else {
                             ToastUtil.toast("no target to share in your phone");
                         }
-                        UserApi.share(mProduct.product_id, "", "https://play.google.com/store/apps/details?id=com.fangzhich.sneakerlab \n --From SneakLab", new SingleSubscriber<Object>() {
-                            @Override
-                            public void onSuccess(Object value) {
-
-                            }
-
-                            @Override
-                            public void onError(Throwable error) {
-                                ToastUtil.toast("Connect to server failed,please");
-                            }
-                        });
                     }
                 });
                 content.findViewById(R.id.bt_cancel).setOnClickListener(new View.OnClickListener() {

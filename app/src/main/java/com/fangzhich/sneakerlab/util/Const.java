@@ -54,8 +54,9 @@ public class Const {
         return Obj.AppSp.getBoolean(SP.IS_LOGIN);
     }
 
-    public static void setLogin(boolean login) {
+    public static void setLogin(boolean login,UserInfoEntity entity) {
         if (login) {
+            setUserInfo(entity);
             BaseApi.refreshLoginInfo();
         } else {
             UserApi.signOut(new SingleSubscriber<Object>() {

@@ -41,12 +41,12 @@
                 android:layout_margin="16dp"
                 android:layout_width="50dp"
                 android:layout_height="50dp" />
-            <ImageView
-                android:id="@+id/icon_instagram"
-                android:src="@mipmap/icon_instagram"
-                android:layout_margin="16dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp" />
+            <!--<ImageView-->
+                <!--android:id="@+id/icon_instagram"-->
+                <!--android:src="@mipmap/icon_instagram"-->
+                <!--android:layout_margin="16dp"-->
+                <!--android:layout_width="50dp"-->
+                <!--android:layout_height="50dp" />-->
             <ImageView
                 android:id="@+id/icon_twitter"
                 android:src="@mipmap/icon_twitter"

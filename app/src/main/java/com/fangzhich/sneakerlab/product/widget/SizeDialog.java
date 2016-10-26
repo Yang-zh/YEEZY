@@ -138,7 +138,7 @@ public class SizeDialog {
                 .format());
         tvProductInventory.setText(TagFormatUtil
                 .from(mContext.getResources().getString(R.string.ProductInventoryFormat))
-                .with("number", product.quantity)
+                .with("number", product.sales_volume)
                 .format());
         tvProductSize.setText(TagFormatUtil
                 .from(mContext.getResources().getString(R.string.ProductOptionFormat))

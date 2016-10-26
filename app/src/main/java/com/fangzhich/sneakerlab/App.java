@@ -7,11 +7,15 @@ import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.ToastUtil;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.orhanobut.logger.Logger;
 import com.squareup.leakcanary.LeakCanary;
 
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.tweetcomposer.TweetComposer;
+
+import io.fabric.sdk.android.Fabric;
 import timber.log.Timber;
 
 /**
@@ -20,7 +24,9 @@ import timber.log.Timber;
  */
 public class App extends Application {
 
-
+    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
+    private static final String TWITTER_KEY = "wKgCh1BtodC7yY41kvy7DvRjM";
+    private static final String TWITTER_SECRET = "BHZHexsHvYY5T2Vhunsq27KZU9016yrYVCNfBJMxSzLs5ZyX7c";
     private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
@@ -33,6 +39,7 @@ public class App extends Application {
         if (BuildConfig.DEBUG) {
             LeakCanary.install(this);
         }
+
         if (BuildConfig.DEBUG) {
             //Logger
             Logger.init().hideThreadInfo();
@@ -44,19 +51,6 @@ public class App extends Application {
                     Logger.t(0).log(priority, tag, message, t);
                 }
             });
-
-            //StrictMode
-//            StrictMode.setThreadPolicy(
-//                    new StrictMode.ThreadPolicy.Builder()
-//                            .detectAll()
-//                            .penaltyDialog() // 弹出违规提示对话框
-//                            .penaltyLog() // 在logcat中打印违规异常信息
-//                            .build());
-//            StrictMode.setVmPolicy(
-//                    new StrictMode.VmPolicy.Builder()
-//                            .detectAll()
-//                            .penaltyLog()
-//                            .build());
         }
 
         //ToastUtil
@@ -72,6 +66,8 @@ public class App extends Application {
         //Firebase
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+        Fabric.with(this, new Twitter(authConfig), new TweetComposer());
      }
 
 

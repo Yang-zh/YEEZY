@@ -16,7 +16,7 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:theme="@style/AppTheme">
-
+        <meta-data android:name="io.fabric.ApiKey" android:value="39c06db02d46dda5f9aac41e437bebf66347fbd6" />
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
 
         <!--<provider android:authorities="com.facebook.app.FacebookContentProvider1234"-->

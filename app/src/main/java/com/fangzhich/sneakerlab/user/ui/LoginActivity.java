@@ -7,10 +7,14 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.Profile;
+import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -18,17 +22,23 @@ import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.user.data.entity.UserInfoEntity;
 import com.fangzhich.sneakerlab.main.ui.MainActivity;
+import com.fangzhich.sneakerlab.user.data.net.UserApi;
 import com.fangzhich.sneakerlab.user.presentation.contract.UserLoginContract;
 import com.fangzhich.sneakerlab.user.presentation.presenter.UserLoginPresenter;
 import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.sql.Time;
 import java.util.Arrays;
 import java.util.Timer;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.SingleSubscriber;
 import timber.log.Timber;
 
 /**
@@ -48,7 +58,7 @@ public class LoginActivity extends BaseActivity implements UserLoginContract.Vie
     EditText password;
 
     boolean isFirstLogin;
-    private CallbackManager callBackManager;
+    private FacebookLoginManager facebookLoginManager;
 
     @OnClick(R.id.bt_sign_in)
     void signIn() {
@@ -62,7 +72,17 @@ public class LoginActivity extends BaseActivity implements UserLoginContract.Vie
 
     @OnClick(R.id.bt_facebook)
     void loginByFacebook() {
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
+        facebookLoginManager.loginByFacebook(this, new FacebookLoginManager.FacebookLoginCallBack() {
+            @Override
+            public void onLoginSuccess(UserInfoEntity value) {
+                LoginActivity.this.onLoginSuccess(value);
+            }
+
+            @Override
+            public void onLoginFailed(Throwable error) {
+                LoginActivity.this.onLoginFailed(error);
+            }
+        });
     }
 
 
@@ -75,50 +95,11 @@ public class LoginActivity extends BaseActivity implements UserLoginContract.Vie
     protected void initContentView() {
         isFirstLogin = getIntent().getBooleanExtra("isFirstLogin", false);
         setPresenter(new UserLoginPresenter(this));
-        callBackManager = CallbackManager.Factory.create();
-        LoginManager.getInstance().registerCallback(callBackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                Const.setLogin(true);
-                Timber.d(loginResult.getAccessToken().toString());
-                Profile profile = Profile.getCurrentProfile();
 
-                if (profile != null) {
-                    String builder = profile.getId() +
-                            "\n" +
-                            profile.getFirstName() +
-                            "\n" +
-                            profile.getMiddleName() +
-                            "\n" +
-                            profile.getLastName() +
-                            "\n" +
-                            profile.getName() +
-                            "\n" +
-                            profile.getLinkUri() +
-                            "\n" +
-                            profile.getProfilePictureUri(150, 150);
-
-                    Timber.d(builder);
-                } else {
-                    Timber.d("profile NULLLLLLLL");
-                }
-                ToastUtil.toast("login success");
-            }
-
-            @Override
-            public void onCancel() {
-                ToastUtil.toast("login canceled");
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                Timber.e(error.getMessage());
-                ToastUtil.toast(error.getMessage());
-            }
-        });
+        facebookLoginManager = new FacebookLoginManager();
+        facebookLoginManager.initFaceBookLoginCallBackManager();
         initToolbar();
     }
-
 
     UserLoginPresenter mPresenter;
 
@@ -130,8 +111,7 @@ public class LoginActivity extends BaseActivity implements UserLoginContract.Vie
     @Override
     public void onLoginSuccess(UserInfoEntity entity) {
         ToastUtil.toast(Const.User.LOGIN_SUCCESS);
-        Const.setUserInfo(entity);
-        Const.setLogin(true);
+        Const.setLogin(true,entity);
         setResult(SplashActivity.SUCCESS);
         if (isFirstLogin) {
             startActivity(new Intent(this, MainActivity.class));
@@ -170,6 +150,6 @@ public class LoginActivity extends BaseActivity implements UserLoginContract.Vie
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callBackManager.onActivityResult(requestCode, resultCode, data);
+        facebookLoginManager.onActivityResult(requestCode,resultCode,data);
     }
 }

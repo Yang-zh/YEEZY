@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/iv_productImage"
             android:ellipsize="end"
-            android:maxLines="2"
+            android:lines="2"
             android:textColor="@color/product_list_item_text_color"
             android:textSize="@dimen/product_list_item_text_size" />
 

@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.base.widget.DialogManager;
@@ -177,7 +178,7 @@ public class MainActivity extends BaseActivity {
                         }
                         break;
                     case R.id.signout:
-                        Const.setLogin(false);
+                        Const.setLogin(false,null);
                         refreshUserInfo();
                 }
                 drawerLayout.closeDrawers();
@@ -257,7 +258,17 @@ public class MainActivity extends BaseActivity {
     }
 
     private void refreshUserInfo() {
-        userName.setText(Const.isLogin() ? Const.getUserInfo().user_info.firstname + " " + Const.getUserInfo().user_info.lastname : "SneakerHead");
+        if (Const.isLogin()) {
+            Glide.with(this)
+                    .load(Const.getUserInfo().user_info.avatarimage)
+                    .placeholder(R.mipmap.head_image_place_holder)
+                    .fitCenter()
+                    .crossFade()
+                    .into(headImage);
+            userName.setText(Const.getUserInfo().user_info.firstname + " " + Const.getUserInfo().user_info.lastname);
+        } else {
+            userName.setText("SneakerHead");
+        }
     }
 
 

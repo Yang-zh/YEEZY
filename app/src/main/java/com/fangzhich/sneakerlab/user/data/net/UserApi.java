@@ -54,6 +54,44 @@ public class UserApi extends BaseApi{
     }
 
     /**
+     * Login by facebook request
+     *
+     * @param accesstoken accesstoken
+     * @param email email
+     * @param firstname firstname
+     * @param middlename middlename
+     * @param lastname lastname
+     * @param avatarimage avatarimage
+     * @param singleSubscriber SingleSubscriber in RxJava (Callback)
+     */
+    public static void loginByFacebook(String accesstoken, String facebookId, String email, String phone,
+                                       String firstname, String middlename, String lastname, String avatarimage,
+                             SingleSubscriber<UserInfoEntity> singleSubscriber) {
+        String timestamp = getTimeStamp();
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("accesstoken", accesstoken);
+        params.put("facebookId", facebookId);
+        params.put("email", email);
+        params.put("phone", phone);
+        params.put("firstname", firstname);
+        params.put("middlename", middlename);
+        params.put("lastname", lastname);
+        params.put("timestamp", timestamp);
+
+        String signature = getSignature(params);
+
+        createService(UserService.class)
+                .loginByFacebook(accesstoken,facebookId,email,phone,firstname,
+                        middlename,lastname,avatarimage,
+                        timestamp,signature,API_KEY, Const.IMEI)
+                .map(new HttpResultFunc<UserInfoEntity>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(singleSubscriber);
+    }
+
+    /**
      * Register request
      *
      * @param firstname firstName
