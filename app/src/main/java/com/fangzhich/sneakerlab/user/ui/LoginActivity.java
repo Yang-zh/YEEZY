@@ -11,10 +11,12 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
+import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -96,6 +98,9 @@ public class LoginActivity extends BaseActivity implements UserLoginContract.Vie
         isFirstLogin = getIntent().getBooleanExtra("isFirstLogin", false);
         setPresenter(new UserLoginPresenter(this));
 
+        //Facebook
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
         facebookLoginManager = new FacebookLoginManager();
         facebookLoginManager.initFaceBookLoginCallBackManager();
         initToolbar();

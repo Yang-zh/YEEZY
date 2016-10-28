@@ -41,6 +41,8 @@ import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.fangzhich.sneakerlab.util.TagFormatUtil;
 import com.iarcuschin.simpleratingbar.SimpleRatingBar;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import java.util.ArrayList;
@@ -48,6 +50,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.fabric.sdk.android.Fabric;
 import rx.SingleSubscriber;
 import timber.log.Timber;
 
@@ -316,8 +319,12 @@ public class ProductOverviewFragment extends BaseFragment {
         return R.layout.fragment_product_overview;
     }
 
+    private static final String TWITTER_KEY = "wKgCh1BtodC7yY41kvy7DvRjM";
+    private static final String TWITTER_SECRET = "BHZHexsHvYY5T2Vhunsq27KZU9016yrYVCNfBJMxSzLs5ZyX7c";
     @Override
     protected void initContentView() {
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+        Fabric.with(getActivity(), new Twitter(authConfig), new TweetComposer());
         mProduct = getArguments().getParcelable("mProduct");
     }
 

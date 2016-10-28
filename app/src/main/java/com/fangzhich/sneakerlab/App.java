@@ -25,9 +25,6 @@ import timber.log.Timber;
 public class App extends Application {
 
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
-    private static final String TWITTER_KEY = "wKgCh1BtodC7yY41kvy7DvRjM";
-    private static final String TWITTER_SECRET = "BHZHexsHvYY5T2Vhunsq27KZU9016yrYVCNfBJMxSzLs5ZyX7c";
-    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     public void onCreate() {
@@ -58,16 +55,6 @@ public class App extends Application {
 
         //IMEI
         Const.IMEI = PhoneUtils.getPhoneIMEI(getApplicationContext());
-
-        //Facebook
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
-
-        //Firebase
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
-        Fabric.with(this, new Twitter(authConfig), new TweetComposer());
      }
 
 

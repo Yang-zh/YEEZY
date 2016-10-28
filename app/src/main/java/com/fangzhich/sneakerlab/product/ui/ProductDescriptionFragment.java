@@ -27,7 +27,9 @@ public class ProductDescriptionFragment extends BaseFragment {
     @Override
     protected void initContentView() {
         mProduct = getArguments().getParcelable("mProduct");
+
         if (mProduct!=null) {
+            productDescription.setVerticalScrollBarEnabled(false);
             productDescription.loadData("<html><body>" +
                     "<style>" +
                     "img{max-width:100%;height:auto}" +

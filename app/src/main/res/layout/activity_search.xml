@@ -28,7 +28,8 @@
             android:layout_height="27dp"/>
         <TextView
             android:id="@+id/bt_cancel"
-            android:padding="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:background="?attr/selectableItemBackground"
             android:text="@string/Cancel"
             android:textColor="@android:color/white"

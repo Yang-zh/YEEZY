@@ -2,6 +2,7 @@ package com.fangzhich.sneakerlab.main.ui;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,11 +23,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.base.widget.DialogManager;
 import com.fangzhich.sneakerlab.main.data.entity.CategoryEntity;
 import com.fangzhich.sneakerlab.main.data.net.MainApi;
+import com.fangzhich.sneakerlab.product.ui.ProductDetailActivity;
 import com.fangzhich.sneakerlab.product.ui.ProductListFragment;
 import com.fangzhich.sneakerlab.order.ui.OrderHistoryActivity;
 import com.fangzhich.sneakerlab.user.ui.LoginActivity;
@@ -38,6 +43,7 @@ import com.fangzhich.sneakerlab.user.ui.WishListActivity;
 import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.fangzhich.sneakerlab.util.MyUtil;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 
@@ -72,6 +78,7 @@ public class MainActivity extends BaseActivity {
     ArrayList<Fragment> fragments = new ArrayList<>();
     ArrayList<String> fragmentTitles = new ArrayList<>();
     FragmentPagerAdapter adapter;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     public int setContentLayout() {
@@ -80,6 +87,13 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initContentView() {
+        //Firebase
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        if (getIntent().getBooleanExtra("fromSplash",false)) {
+            Intent intent = new Intent(this,ProductDetailActivity.class);
+            intent.putExtra("product_id","79");
+            startActivity(intent);
+        }
         getNotification();
         initActionBarAndDrawer();
         initViewPager();
@@ -259,15 +273,29 @@ public class MainActivity extends BaseActivity {
 
     private void refreshUserInfo() {
         if (Const.isLogin()) {
+            Timber.d(Const.getUserInfo().user_info.avatarimage);
             Glide.with(this)
                     .load(Const.getUserInfo().user_info.avatarimage)
+                    .asBitmap()
                     .placeholder(R.mipmap.head_image_place_holder)
                     .fitCenter()
-                    .crossFade()
+                    .listener(new RequestListener<String, Bitmap>() {
+                        @Override
+                        public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            headImage.setImageBitmap(resource);
+                            return false;
+                        }
+                    })
                     .into(headImage);
             userName.setText(Const.getUserInfo().user_info.firstname + " " + Const.getUserInfo().user_info.lastname);
         } else {
             userName.setText("SneakerHead");
+            headImage.setImageResource(R.mipmap.head_image_place_holder);
         }
     }
 

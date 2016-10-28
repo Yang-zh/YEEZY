@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/product_list_background_color"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -29,16 +30,38 @@
         android:background="@color/colorPrimary"
         android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="103dp">
+        android:layout_height="wrap_content">
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/headImage"
-            android:src="@mipmap/head_image_edit"
-            android:background="@mipmap/head_image_place_holder"
+            android:src="@mipmap/head_image_place_holder"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="19dp"
+            android:layout_marginBottom="23dp"
             android:layout_width="61dp"
-            android:layout_height="61dp" />
+            android:layout_height="61dp"
+            app:civ_border_color="#00000000"
+            app:civ_border_width="0dp" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/headImageCover"
+            android:src="@mipmap/head_image_edit"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="19dp"
+            android:layout_marginBottom="23dp"
+            android:layout_width="61dp"
+            android:layout_height="61dp"
+            app:civ_border_color="#00000000"
+            app:civ_border_width="0dp" />
+        <!--<TextView-->
+            <!--android:id="@+id/userName"-->
+            <!--android:textSize="13sp"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:layout_below="@+id/headImage"-->
+            <!--android:layout_marginBottom="12dp"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
     </RelativeLayout>
+
     <ScrollView
         android:layout_below="@+id/head_layout"
         android:layout_width="match_parent"

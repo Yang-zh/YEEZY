@@ -15,7 +15,7 @@ public class CartEntity implements Parcelable {
     public Address address;
     public Payment payment;
     public List<Product> products;
-    public List<Shiping> shiping;
+    public Shiping shiping;
     public List<Totals> totals;
 
     public static class Address implements Parcelable {
@@ -356,7 +356,7 @@ public class CartEntity implements Parcelable {
         dest.writeParcelable(this.address, flags);
         dest.writeParcelable(this.payment, flags);
         dest.writeList(this.products);
-        dest.writeList(this.shiping);
+        dest.writeParcelable(this.shiping, flags);
         dest.writeList(this.totals);
     }
 
@@ -368,8 +368,7 @@ public class CartEntity implements Parcelable {
         this.payment = in.readParcelable(Payment.class.getClassLoader());
         this.products = new ArrayList<Product>();
         in.readList(this.products, Product.class.getClassLoader());
-        this.shiping = new ArrayList<Shiping>();
-        in.readList(this.shiping, Shiping.class.getClassLoader());
+        this.shiping = in.readParcelable(Payment.class.getClassLoader());
         this.totals = new ArrayList<Totals>();
         in.readList(this.totals, Totals.class.getClassLoader());
     }

@@ -226,7 +226,11 @@ public class ShoppingCartDialog {
                     creditCartNumber.setText(cardNumber);
                 }
 
-                tvEstimatedShipping.setText(cart.shiping!=null&&cart.shiping.size()>=1?cart.shiping.get(0).text:"");
+                if (cart.shiping!=null) {
+                    tvEstimatedShipping.setText(cart.shiping.text);
+                } else {
+                    tvEstimatedShipping.setText("not sure");
+                }
 
                 for (CartEntity.Totals total: cart.totals) {
                     switch (total.title) {
@@ -295,8 +299,9 @@ public class ShoppingCartDialog {
     }
 
     public void saveAddress(String id, String address) {
-        address_id = id;
-        tv_address.setText(address);
+//        address_id = id;
+//        tv_address.setText(address);
+        loadData();
     }
 
     public void saveCreditCard(String type,String number,String year,String month,String cvv) {
@@ -307,4 +312,5 @@ public class ShoppingCartDialog {
         cardNumber = number;
         creditCartNumber.setText(number);
     }
+
 }

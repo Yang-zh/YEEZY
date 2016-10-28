@@ -23,6 +23,7 @@ import com.fangzhich.sneakerlab.cart.data.net.CartApi;
 import com.fangzhich.sneakerlab.cart.ui.ShoppingCartDialog;
 import com.fangzhich.sneakerlab.order.data.entity.CountryEntity;
 import com.fangzhich.sneakerlab.order.data.entity.DistrictEntity;
+import com.fangzhich.sneakerlab.user.data.entity.UserInfoEntity;
 import com.fangzhich.sneakerlab.user.data.net.UserApi;
 import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.ToastUtil;
@@ -77,7 +78,7 @@ public class AddressDialog {
             return;
         }
 
-        if (spinnerCountry.getSelectedIndex()==0) {
+        if (spinnerCountry.getSelectedIndex()<0) {
             ToastUtil.toast("please choose country");
             return;
         }
@@ -127,7 +128,9 @@ public class AddressDialog {
                 public void onSuccess(String value) {
                     progressBar.cancel();
                     ToastUtil.toast("save address info success");
-                    Const.getUserInfo().shipping_address.address_id = value;
+                    UserInfoEntity.ShippingAddress shippingAddress = new UserInfoEntity.ShippingAddress();
+                    shippingAddress.address_id = value;
+                    Const.getUserInfo().shipping_address = shippingAddress;
                     mPopupWindow.dismiss();
                     manager.saveAddress(value,fullAddress);
                 }
@@ -232,10 +235,10 @@ public class AddressDialog {
                     for (int i=0;i<countryList.size();i++) {
                         if (countryList.get(i).country_id.equals(address.country_id)) {
                             spinnerCountry.setSelectedIndex(i);
-                            loadDistrictForPosition(i);
                         }
                     }
                 }
+                loadDistrictForPosition(spinnerCountry.getSelectedIndex());
                 Timber.d("load countries success");
             }
 
@@ -314,4 +317,5 @@ public class AddressDialog {
         }
         return this;
     }
+
 }
