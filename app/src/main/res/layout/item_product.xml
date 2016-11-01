@@ -17,6 +17,7 @@
 
         <ImageView
             android:id="@+id/iv_productImage"
+            android:src="@mipmap/product_image_placeholder"
             android:layout_centerHorizontal="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,9 +25,10 @@
             tools:ignore="ContentDescription" />
 
         <TextView
+            tools:text="ProductnameProductnameProductnameProductname"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:id="@+id/tv_productName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,20 +36,21 @@
             android:ellipsize="end"
             android:lines="2"
             android:textColor="@color/product_list_item_text_color"
-            android:textSize="@dimen/product_list_item_text_size" />
+            android:textSize="14sp" />
 
         <LinearLayout
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
             android:id="@+id/price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
             android:layout_below="@id/tv_productName"
             android:orientation="horizontal">
 
             <TextView
+                tools:text="$ 300.00"
                 android:id="@+id/tv_productPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -57,6 +60,7 @@
                 android:textSize="@dimen/product_list_item_text_size" />
 
             <TextView
+                tools:text="$ 800.00"
                 android:layout_marginLeft="12dp"
                 android:id="@+id/tv_productOriginalPrice"
                 android:layout_width="wrap_content"
@@ -72,7 +76,6 @@
             android:visibility="gone"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginBottom="5dp"
             android:id="@+id/tv_productSellVolume"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

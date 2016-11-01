@@ -1,18 +1,15 @@
-package com.fangzhich.sneakerlab.base.widget;
+package com.fangzhich.sneakerlab.cart.ui;
 
 import android.content.Context;
-import android.util.SparseIntArray;
 import android.view.View;
 
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
-import com.fangzhich.sneakerlab.cart.ui.ShoppingCartDialog;
 import com.fangzhich.sneakerlab.order.widget.AddressDialog;
 import com.fangzhich.sneakerlab.order.widget.CreditCardDialog;
 import com.fangzhich.sneakerlab.product.data.entity.ProductEntity;
 import com.fangzhich.sneakerlab.product.ui.ProductDetailActivity;
 import com.fangzhich.sneakerlab.product.widget.SizeDialog;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**

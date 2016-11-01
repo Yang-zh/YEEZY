@@ -197,6 +197,7 @@
     <string name="CustomerSupportDetail">Dear customer,SneakerLab look forward to get in touch with you, You are welcome to contact us for any assistance, our excellent service team will reply and offer you the best solution ASAP.Thank you!</string>
     <string name="send">Send</string>
     <string name="share">share</string>
+    <string name="not_sure">not sure</string>
 
     <string-array name = "currencies">
         <item>USD($)</item>

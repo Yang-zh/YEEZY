@@ -13,13 +13,12 @@ import android.widget.TextView;
 
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
-import com.fangzhich.sneakerlab.base.widget.DialogManager;
+import com.fangzhich.sneakerlab.cart.ui.DialogManager;
 import com.fangzhich.sneakerlab.product.data.entity.ProductEntity;
 import com.fangzhich.sneakerlab.product.presentation.ProductDetailContract;
 import com.fangzhich.sneakerlab.product.presentation.ProductDetailPresenter;
 import com.fangzhich.sneakerlab.util.MyUtil;
 import com.fangzhich.sneakerlab.util.TagFormatUtil;
-import com.fangzhich.sneakerlab.util.ToastUtil;
 
 import java.util.ArrayList;
 
@@ -209,6 +208,18 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
                 viewPager.setCurrentItem(4);
                 break;
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //todo deal with manager
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        manager.closeAll();
     }
 
     @Override

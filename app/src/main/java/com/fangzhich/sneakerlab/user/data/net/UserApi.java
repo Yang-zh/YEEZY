@@ -1,9 +1,12 @@
 package com.fangzhich.sneakerlab.user.data.net;
 
 
+import android.text.TextUtils;
+
 import com.fangzhich.sneakerlab.base.data.net.BaseApi;
 import com.fangzhich.sneakerlab.main.data.entity.MessageEntity;
 import com.fangzhich.sneakerlab.main.data.entity.NotificationEntity;
+import com.fangzhich.sneakerlab.base.data.net.FireBaseInitializeException;
 import com.fangzhich.sneakerlab.user.data.entity.CreditCardEntity;
 import com.fangzhich.sneakerlab.user.data.entity.PersonalInfoEntity;
 import com.fangzhich.sneakerlab.user.data.entity.UserInfoEntity;
@@ -591,7 +594,7 @@ public class UserApi extends BaseApi{
      */
     public static void sendSupportMessage(String type, String text, SingleSubscriber<Object> singleSubscriber) {
         String timestamp = getTimeStamp();
-        String fullname = Const.getUserInfo()==null?Const.getUserInfo().user_info.firstname+Const.getUserInfo().user_info.lastname:"unknownUser";
+        String fullname = Const.getUserInfo()!=null?Const.getUserInfo().user_info.firstname+Const.getUserInfo().user_info.lastname:"unknownUser";
 
         HashMap<String,String> params = new HashMap<>();
         params.put("type",type);
@@ -618,7 +621,11 @@ public class UserApi extends BaseApi{
      * Support message list request
      * @param singleSubscriber SingleSubscriber in RxJava (Callback)
      */
-    public static void getSupportMessageList(SingleSubscriber<ArrayList<MessageEntity>> singleSubscriber) {
+    public static void getSupportMessageList(SingleSubscriber<ArrayList<MessageEntity>> singleSubscriber) throws FireBaseInitializeException {
+        if (TextUtils.isEmpty(Const.fireBaseMessageToken)) {
+            throw new FireBaseInitializeException("Notify service is unavailable, please check your network connection");
+        }
+
         String timestamp = getTimeStamp();
 
         HashMap<String,String> params = new HashMap<>();

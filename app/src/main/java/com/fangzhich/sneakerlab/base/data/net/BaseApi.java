@@ -10,6 +10,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
+import retrofit2.http.HTTP;
 import rx.functions.Func1;
 import timber.log.Timber;
 
@@ -89,10 +90,18 @@ public abstract class BaseApi {
     public static class HttpResultFunc<T> implements Func1<HttpResult<T>,T> {
         @Override
         public T call(HttpResult<T> HttpResult) {
-            if (HttpResult.status_code!=0) {
-                throw new HttpResultException(HttpResult.message);
+            if (HttpResult.status_code==0) {
+                return HttpResult.data;
             }
-            return HttpResult.data;
+            switch (HttpResult.status_code) {
+                case 1:
+                    throw new HttpResultException(null);
+                case 1003:
+                    Const.setLogin(false,null);
+                    throw new HttpResultNoLoginException(HttpResult.message);
+                default:
+                    throw new HttpResultException(HttpResult.message);
+            }
         }
     }
 

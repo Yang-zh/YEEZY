@@ -58,7 +58,7 @@
 
         <activity
             android:name="com.fangzhich.sneakerlab.user.ui.SplashActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/StartAppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

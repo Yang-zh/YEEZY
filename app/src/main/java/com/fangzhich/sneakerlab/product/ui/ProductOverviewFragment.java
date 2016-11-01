@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,10 +22,12 @@ import android.widget.TextView;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.holder.Holder;
+import com.blankj.utilcode.utils.ConvertUtils;
 import com.bumptech.glide.Glide;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
 import com.facebook.share.Sharer;
 import com.facebook.share.model.ShareHashtag;
 import com.facebook.share.model.ShareLinkContent;
@@ -85,9 +89,9 @@ public class ProductOverviewFragment extends BaseFragment {
                     isLiked = false;
                     likeIcon.setImageResource(R.mipmap.like);
                     likeText.setText(TagFormatUtil.from(getResources().getString(R.string.LikeFormat))
-                            .with("LikeCount", oldLikeCount-1)
+                            .with("LikeCount", oldLikeCount - 1)
                             .format());
-                    oldLikeCount = oldLikeCount-1;
+                    oldLikeCount = oldLikeCount - 1;
                 }
 
                 @Override
@@ -103,9 +107,9 @@ public class ProductOverviewFragment extends BaseFragment {
                     isLiked = true;
                     likeIcon.setImageResource(R.mipmap.like_red);
                     likeText.setText(TagFormatUtil.from(getResources().getString(R.string.LikeFormat))
-                            .with("LikeCount", oldLikeCount+1)
+                            .with("LikeCount", oldLikeCount + 1)
                             .format());
-                    oldLikeCount = oldLikeCount+1;
+                    oldLikeCount = oldLikeCount + 1;
                 }
 
                 @Override
@@ -116,7 +120,7 @@ public class ProductOverviewFragment extends BaseFragment {
             });
         }
     }
- 
+
     @BindView(R.id.shareText)
     TextView shareText;
 
@@ -129,6 +133,11 @@ public class ProductOverviewFragment extends BaseFragment {
                 content.findViewById(R.id.icon_facebook).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Timber.d(String.valueOf(FacebookSdk.isInitialized()));
+                        if (!FacebookSdk.isInitialized()) {
+                            ToastUtil.toast("Facebook service is unavailable，please check your internet connection");
+                            return;
+                        }
                         callBackManager = CallbackManager.Factory.create();
                         shareDialog = new ShareDialog(getActivity());
                         shareDialog.registerCallback(callBackManager, new FacebookCallback<Sharer.Result>() {
@@ -167,7 +176,6 @@ public class ProductOverviewFragment extends BaseFragment {
 
                             shareDialog.show(content);
                         }
-
                     }
                 });
 //                content.findViewById(R.id.icon_instagram).setOnClickListener(new View.OnClickListener() {
@@ -259,9 +267,10 @@ public class ProductOverviewFragment extends BaseFragment {
 
     @BindView(R.id.comment_count)
     TextView commentCount;
+
     @OnClick(R.id.view_all)
     void viewAllComments() {
-        ((ProductDetailActivity)getActivity()).onTabClick("Rating");
+        ((ProductDetailActivity) getActivity()).onTabClick("Rating");
     }
 
     @BindView(R.id.comment1_layout)
@@ -293,16 +302,18 @@ public class ProductOverviewFragment extends BaseFragment {
 
     @BindView(R.id.tv_size_detail)
     TextView size;
+
     @OnClick(R.id.tv_arriveTime_view_all)
     void viewAllArriveTime() {
-        ((ProductDetailActivity)getActivity()).onTabClick("Shipping");
+        ((ProductDetailActivity) getActivity()).onTabClick("Shipping");
     }
 
     @BindView(R.id.tv_arriveTime_detail)
     TextView arriveTime;
+
     @OnClick(R.id.tv_postage_view_all)
     void viewAllPostage() {
-        ((ProductDetailActivity)getActivity()).onTabClick("Shipping");
+        ((ProductDetailActivity) getActivity()).onTabClick("Shipping");
     }
 
     @BindView(R.id.tv_postage_detail)
@@ -319,12 +330,11 @@ public class ProductOverviewFragment extends BaseFragment {
         return R.layout.fragment_product_overview;
     }
 
-    private static final String TWITTER_KEY = "wKgCh1BtodC7yY41kvy7DvRjM";
-    private static final String TWITTER_SECRET = "BHZHexsHvYY5T2Vhunsq27KZU9016yrYVCNfBJMxSzLs5ZyX7c";
     @Override
     protected void initContentView() {
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
-        Fabric.with(getActivity(), new Twitter(authConfig), new TweetComposer());
+        ViewGroup.LayoutParams params = banner.getLayoutParams();
+        params.height = getResources().getDisplayMetrics().widthPixels;
+        banner.setLayoutParams(params);
         mProduct = getArguments().getParcelable("mProduct");
     }
 
@@ -333,10 +343,10 @@ public class ProductOverviewFragment extends BaseFragment {
         ProductApi.getReviews("0", "3", mProduct.product_id, new SingleSubscriber<ArrayList<ReviewEntity>>() {
             @Override
             public void onSuccess(ArrayList<ReviewEntity> value) {
-                if (value.size()==0) {
+                if (value.size() == 0) {
                     return;
                 }
-                if (value.size()>=1) {
+                if (value.size() >= 1) {
                     ReviewEntity review = value.get(0);
                     comment1_layout.setVisibility(View.VISIBLE);
                     comment1.setText(review.text);
@@ -348,7 +358,7 @@ public class ProductOverviewFragment extends BaseFragment {
                             .start();
                     name1.setText(review.author);
                 }
-                if (value.size()>=2) {
+                if (value.size() >= 2) {
                     ReviewEntity review = value.get(1);
                     comment2_layout.setVisibility(View.VISIBLE);
                     comment2.setText(review.text);
@@ -360,7 +370,7 @@ public class ProductOverviewFragment extends BaseFragment {
                             .start();
                     name2.setText(review.author);
                 }
-                if (value.size()>=3) {
+                if (value.size() >= 3) {
                     ReviewEntity review = value.get(2);
                     comment3_layout.setVisibility(View.VISIBLE);
                     comment3.setText(review.text);
@@ -383,28 +393,30 @@ public class ProductOverviewFragment extends BaseFragment {
         imageUrls.clear();
         imageUrls.addAll(mProduct.images);
 
-        UserApi.getWishList(new SingleSubscriber<ArrayList<WishEntity>>() {
-            @Override
-            public void onSuccess(ArrayList<WishEntity> value) {
-                for (WishEntity wish : value) {
-                    if (wish.product_id.equals(mProduct.product_id)) {
-                        Timber.d("liked!");
-                        likeIcon.setImageResource(R.mipmap.like_red);
-                        isLiked = true;
+        if (Const.isLogin()) {
+            UserApi.getWishList(new SingleSubscriber<ArrayList<WishEntity>>() {
+                @Override
+                public void onSuccess(ArrayList<WishEntity> value) {
+                    for (WishEntity wish : value) {
+                        if (wish.product_id.equals(mProduct.product_id)) {
+                            Timber.d("liked!");
+                            likeIcon.setImageResource(R.mipmap.like_red);
+                            isLiked = true;
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onError(Throwable error) {
-                Timber.e(error.getMessage());
-            }
-        });
-        likeText.setText(Integer.valueOf(mProduct.collections)==0?"Like":TagFormatUtil.from(getResources().getString(R.string.LikeFormat))
+                @Override
+                public void onError(Throwable error) {
+                    Timber.e(error.getMessage());
+                }
+            });
+        }
+        likeText.setText(Integer.valueOf(mProduct.collections) == 0 ? "Like" : TagFormatUtil.from(getResources().getString(R.string.LikeFormat))
                 .with("LikeCount", mProduct.collections)
                 .format());
         oldLikeCount = Integer.parseInt(mProduct.collections);
-        shareText.setText(Integer.valueOf(mProduct.shares)==0?"Share":TagFormatUtil.from(getResources().getString(R.string.ShareFormat))
+        shareText.setText(Integer.valueOf(mProduct.shares) == 0 ? "Share" : TagFormatUtil.from(getResources().getString(R.string.ShareFormat))
                 .with("ShareCount", mProduct.shares)
                 .format());
         product_name.setText(mProduct.name);
@@ -420,7 +432,7 @@ public class ProductOverviewFragment extends BaseFragment {
 
         List<ProductEntity.Option.ProductOption> sizes = new ArrayList<>();
 
-        for (ProductEntity.Option option:mProduct.options) {
+        for (ProductEntity.Option option : mProduct.options) {
             switch (option.name) {
                 case "Size": {
                     sizes = option.product_option_value;
@@ -442,14 +454,14 @@ public class ProductOverviewFragment extends BaseFragment {
             }
         }
         StringBuilder builder = new StringBuilder();
-        if (sizes!=null) {
-            for (ProductEntity.Option.ProductOption option:sizes) {
+        if (sizes != null) {
+            for (ProductEntity.Option.ProductOption option : sizes) {
                 builder.append(option.name).append("/");
             }
 
         }
-        if (builder.length()>=1) {
-            builder.delete(builder.length()-1,builder.length());
+        if (builder.length() >= 1) {
+            builder.delete(builder.length() - 1, builder.length());
         }
         size.setText(builder.toString());
         arriveTime.setText(mProduct.shipping_info.EstimatedArrival);
@@ -468,6 +480,7 @@ public class ProductOverviewFragment extends BaseFragment {
 
     public class LocalImageHolderView implements Holder<String> {
         private ImageView imageView;
+
         @Override
         public View createView(Context context) {
             imageView = new ImageView(context);
@@ -480,7 +493,7 @@ public class ProductOverviewFragment extends BaseFragment {
             Glide.with(getContext())
                     .load(data)
                     .placeholder(R.mipmap.product_image_placeholder)
-                    .fitCenter()
+                    .centerCrop()
                     .crossFade()
                     .into(imageView);
         }
@@ -489,6 +502,6 @@ public class ProductOverviewFragment extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callBackManager.onActivityResult(requestCode,resultCode,data);
+        callBackManager.onActivityResult(requestCode, resultCode, data);
     }
 }

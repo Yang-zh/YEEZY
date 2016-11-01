@@ -6,6 +6,7 @@ import com.blankj.utilcode.utils.PhoneUtils;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.fangzhich.sneakerlab.util.Const;
+import com.fangzhich.sneakerlab.util.Installation;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.orhanobut.logger.Logger;
@@ -24,7 +25,10 @@ import timber.log.Timber;
  */
 public class App extends Application {
 
-    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
+    private FirebaseAnalytics mFirebaseAnalytics;
+
+    private static final String TWITTER_KEY = "wKgCh1BtodC7yY41kvy7DvRjM";
+    private static final String TWITTER_SECRET = "BHZHexsHvYY5T2Vhunsq27KZU9016yrYVCNfBJMxSzLs5ZyX7c";
 
     @Override
     public void onCreate() {
@@ -53,8 +57,18 @@ public class App extends Application {
         //ToastUtil
         ToastUtil.init(getApplicationContext(), BuildConfig.DEBUG);
 
+        //Facebook
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
+
+        //Firebase
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        //twitter
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+        Fabric.with(this, new Twitter(authConfig), new TweetComposer());
         //IMEI
-        Const.IMEI = PhoneUtils.getPhoneIMEI(getApplicationContext());
+        Const.IMEI = Installation.id(this);
      }
 
 

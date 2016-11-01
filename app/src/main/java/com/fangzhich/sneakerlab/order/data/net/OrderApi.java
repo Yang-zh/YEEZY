@@ -120,15 +120,10 @@ public class OrderApi extends BaseApi {
                 .subscribe(singleSubscriber);
     }
 
-    public static void checkOut(String address_id,String card_number,String card_month,String card_year,String card_cvv, SingleSubscriber<ConfirmOrderEntity> singleSubscriber) {
+    public static void checkOut(SingleSubscriber<ConfirmOrderEntity> singleSubscriber) {
         String timestamp = getTimeStamp();
 
         HashMap<String,String> params = new HashMap<>();
-        params.put("address_id", address_id);
-        params.put("card_number", card_number);
-        params.put("card_month", card_month);
-        params.put("card_year", card_year);
-        params.put("card_cvv", card_cvv);
         params.put("email", email);
         params.put("token", token);
         params.put("timestamp", timestamp);
@@ -136,7 +131,7 @@ public class OrderApi extends BaseApi {
         String signature = getSignature(params);
 
         createService(OrderService.class)
-                .checkOut(address_id,card_number,card_month,card_year,card_cvv,email,token,timestamp,signature,API_KEY, Const.IMEI)
+                .checkOut(email,token,timestamp,signature,API_KEY, Const.IMEI)
                 .map(new HttpResultFunc<ConfirmOrderEntity>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

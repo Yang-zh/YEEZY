@@ -23,12 +23,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
-import com.fangzhich.sneakerlab.base.widget.DialogManager;
+import com.fangzhich.sneakerlab.cart.ui.DialogManager;
 import com.fangzhich.sneakerlab.main.data.entity.CategoryEntity;
 import com.fangzhich.sneakerlab.main.data.net.MainApi;
 import com.fangzhich.sneakerlab.product.ui.ProductDetailActivity;
@@ -38,7 +37,6 @@ import com.fangzhich.sneakerlab.user.ui.LoginActivity;
 import com.fangzhich.sneakerlab.user.ui.NotificationActivity;
 import com.fangzhich.sneakerlab.user.ui.PersonalCenterActivity;
 import com.fangzhich.sneakerlab.user.ui.SplashActivity;
-import com.fangzhich.sneakerlab.user.ui.UserInfoActivity;
 import com.fangzhich.sneakerlab.user.ui.WishListActivity;
 import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.ToastUtil;
@@ -78,7 +76,6 @@ public class MainActivity extends BaseActivity {
     ArrayList<Fragment> fragments = new ArrayList<>();
     ArrayList<String> fragmentTitles = new ArrayList<>();
     FragmentPagerAdapter adapter;
-    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     public int setContentLayout() {
@@ -87,8 +84,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initContentView() {
-        //Firebase
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         if (getIntent().getBooleanExtra("fromSplash",false)) {
             Intent intent = new Intent(this,ProductDetailActivity.class);
             intent.putExtra("product_id","79");

@@ -1,9 +1,7 @@
 package com.fangzhich.sneakerlab.order.widget;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
-import android.text.Html;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -11,16 +9,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.PopupWindow;
-import android.widget.Spinner;
 
 import com.fangzhich.sneakerlab.R;
-import com.fangzhich.sneakerlab.base.widget.CustomDialog;
-import com.fangzhich.sneakerlab.base.widget.DialogManager;
+import com.fangzhich.sneakerlab.cart.ui.DialogManager;
 import com.fangzhich.sneakerlab.base.widget.ProgressBar;
 import com.fangzhich.sneakerlab.base.widget.spinner.NiceSpinner;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
 import com.fangzhich.sneakerlab.cart.data.net.CartApi;
-import com.fangzhich.sneakerlab.cart.ui.ShoppingCartDialog;
 import com.fangzhich.sneakerlab.order.data.entity.CountryEntity;
 import com.fangzhich.sneakerlab.order.data.entity.DistrictEntity;
 import com.fangzhich.sneakerlab.user.data.entity.UserInfoEntity;

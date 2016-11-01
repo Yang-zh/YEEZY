@@ -3,6 +3,8 @@ package com.fangzhich.sneakerlab.user.ui;
 import android.content.Intent;
 import android.os.Handler;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.fangzhich.sneakerlab.R;
@@ -52,6 +54,8 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public int setContentLayout() {
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         return R.layout.activity_user_account;
     }
 
@@ -68,7 +72,7 @@ public class SplashActivity extends BaseActivity {
                     splash.setVisibility(View.GONE);
                 }
             }
-        },3000);
+        },2500);
     }
 
     @Override

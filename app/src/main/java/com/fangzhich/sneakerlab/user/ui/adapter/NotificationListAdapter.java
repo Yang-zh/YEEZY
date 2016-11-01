@@ -10,6 +10,7 @@ import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.BaseRecyclerViewAdapter;
 import com.fangzhich.sneakerlab.main.data.entity.NotificationEntity;
 import com.fangzhich.sneakerlab.user.data.net.UserApi;
+import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 
 import java.util.ArrayList;
@@ -28,19 +29,22 @@ public class NotificationListAdapter extends BaseRecyclerViewAdapter<Notificatio
     private ArrayList<NotificationEntity> notifications;
 
     public void loadData() {
-        UserApi.getNotificationList(new SingleSubscriber<ArrayList<NotificationEntity>>() {
-            @Override
-            public void onSuccess(ArrayList<NotificationEntity> value) {
-                notifications = value;
-                notifyDataSetChanged();
-            }
+        //todo
+        if (Const.isLogin()) {
+            UserApi.getNotificationList(new SingleSubscriber<ArrayList<NotificationEntity>>() {
+                @Override
+                public void onSuccess(ArrayList<NotificationEntity> value) {
+                    notifications = value;
+                    notifyDataSetChanged();
+                }
 
-            @Override
-            public void onError(Throwable error) {
-                ToastUtil.toast(error.getMessage());
-                Timber.e(error);
-            }
-        });
+                @Override
+                public void onError(Throwable error) {
+                    ToastUtil.toast(error.getMessage());
+                    Timber.e(error);
+                }
+            });
+        }
     }
 
 

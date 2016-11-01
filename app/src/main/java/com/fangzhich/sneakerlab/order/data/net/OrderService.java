@@ -57,11 +57,6 @@ public interface OrderService {
     @FormUrlEncoded
     @POST("index.php?route=api/checkout")
     Single<HttpResult<ConfirmOrderEntity>> checkOut(
-            @Field("address_id") String address_id,
-            @Field("card_number") String card_number,
-            @Field("card_month") String card_month,
-            @Field("card_year") String card_year,
-            @Field("card_cvv") String card_cvv,
             @Field("email") String email,
             @Field("token") String token,
             @Field("timestamp") String timestamp,

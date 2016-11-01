@@ -6,7 +6,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.SparseIntArray;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,29 +14,22 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fangzhich.sneakerlab.R;
-import com.fangzhich.sneakerlab.base.data.event.RxBus;
-import com.fangzhich.sneakerlab.base.widget.DialogManager;
 import com.fangzhich.sneakerlab.base.widget.ProgressBar;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
-import com.fangzhich.sneakerlab.cart.data.event.CartItemQuantityChangeEvent;
 import com.fangzhich.sneakerlab.main.ui.ReturnPolicyActivity;
 import com.fangzhich.sneakerlab.order.data.entity.ConfirmOrderEntity;
 import com.fangzhich.sneakerlab.order.data.net.OrderApi;
 import com.fangzhich.sneakerlab.order.ui.OrderConfirmedActivity;
-import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.SingleSubscriber;
 import rx.Subscription;
-import rx.functions.Action1;
 import timber.log.Timber;
 
 /**
@@ -92,6 +84,8 @@ public class ShoppingCartDialog {
     TextView tvItemTotal;
     @BindView(R.id.tv_estimated_shipping)
     TextView tvEstimatedShipping;
+    @BindView(R.id.tv_tax)
+    TextView tvTax;
     @BindView(R.id.tv_order_total)
     TextView tvOrderTotal;
 
@@ -120,7 +114,7 @@ public class ShoppingCartDialog {
             }
         }).show();
 
-        OrderApi.checkOut(address_id, cardNumber, cardMonth, cardYear, cardCvv, new SingleSubscriber<ConfirmOrderEntity>() {
+        OrderApi.checkOut(new SingleSubscriber<ConfirmOrderEntity>() {
             @Override
             public void onSuccess(ConfirmOrderEntity value) {
                 progressBar.cancel();
@@ -229,13 +223,17 @@ public class ShoppingCartDialog {
                 if (cart.shiping!=null) {
                     tvEstimatedShipping.setText(cart.shiping.text);
                 } else {
-                    tvEstimatedShipping.setText("not sure");
+                    tvEstimatedShipping.setText(mContext.getString(R.string.not_sure));
                 }
 
                 for (CartEntity.Totals total: cart.totals) {
                     switch (total.title) {
                         case "Sub-Total": {
                             tvItemTotal.setText(total.text);
+                            break;
+                        }
+                        case "Tax": {
+                            tvTax.setText(total.text);
                             break;
                         }
                         case "Total": {

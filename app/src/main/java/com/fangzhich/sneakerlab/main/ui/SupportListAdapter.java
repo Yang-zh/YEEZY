@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fangzhich.sneakerlab.R;
+import com.fangzhich.sneakerlab.base.data.net.FireBaseInitializeException;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.BaseRecyclerViewAdapter;
 import com.fangzhich.sneakerlab.main.data.entity.MessageEntity;
 import com.fangzhich.sneakerlab.user.data.net.UserApi;
@@ -32,19 +33,24 @@ public class SupportListAdapter extends BaseRecyclerViewAdapter<MessageEntity, S
 
     @Override
     public void loadData() {
-        UserApi.getSupportMessageList(new SingleSubscriber<ArrayList<MessageEntity>>() {
-            @Override
-            public void onSuccess(ArrayList<MessageEntity> value) {
-                mData = value;
-                notifyDataSetChanged();
-            }
+        try {
+            UserApi.getSupportMessageList(new SingleSubscriber<ArrayList<MessageEntity>>() {
+                @Override
+                public void onSuccess(ArrayList<MessageEntity> value) {
+                    mData = value==null?new ArrayList<MessageEntity>():value;
+                    notifyDataSetChanged();
+                }
 
-            @Override
-            public void onError(Throwable error) {
-                ToastUtil.toast(error.getMessage());
-                Timber.e(error);
-            }
-        });
+                @Override
+                public void onError(Throwable error) {
+                    ToastUtil.toast(error.getMessage());
+                    Timber.e(error);
+                }
+            });
+        } catch (FireBaseInitializeException e) {
+            ToastUtil.toast(e.getMessage());
+            mData = new ArrayList<>();
+        }
     }
 
     @Override

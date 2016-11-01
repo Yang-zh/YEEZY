@@ -197,10 +197,32 @@
                         android:textSize="15sp" />
 
                     <TextView
-                        android:id="@+id/order_total"
+                        android:id="@+id/tax"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/estimated_shipping"
+                        android:layout_marginLeft="14dp"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/Tax"
+                        android:textColor="@color/text_color_gray"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_tax"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@+id/estimated_shipping"
+                        android:layout_marginRight="14dp"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@color/tab_layout_select_color"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/order_total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tax"
                         android:layout_marginLeft="14dp"
                         android:layout_marginTop="8dp"
                         android:text="@string/OrderTotal"
@@ -212,7 +234,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_below="@+id/estimated_shipping"
+                        android:layout_below="@+id/tax"
                         android:layout_marginRight="14dp"
                         android:layout_marginTop="8dp"
                         android:textColor="@color/tab_layout_select_color"

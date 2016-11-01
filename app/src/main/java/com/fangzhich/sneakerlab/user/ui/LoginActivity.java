@@ -98,9 +98,6 @@ public class LoginActivity extends BaseActivity implements UserLoginContract.Vie
         isFirstLogin = getIntent().getBooleanExtra("isFirstLogin", false);
         setPresenter(new UserLoginPresenter(this));
 
-        //Facebook
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
         facebookLoginManager = new FacebookLoginManager();
         facebookLoginManager.initFaceBookLoginCallBackManager();
         initToolbar();

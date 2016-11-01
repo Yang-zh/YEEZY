@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.PopupWindow;
 
 import com.fangzhich.sneakerlab.R;
-import com.fangzhich.sneakerlab.base.widget.DialogManager;
+import com.fangzhich.sneakerlab.cart.ui.DialogManager;
 import com.fangzhich.sneakerlab.base.widget.ProgressBar;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
 import com.fangzhich.sneakerlab.user.data.net.UserApi;
