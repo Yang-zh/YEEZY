@@ -1,96 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/transparent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <ImageView
-        android:src="@mipmap/background_splash"
-        android:scaleType="centerCrop"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-    <View
-        android:background="@color/background_splash"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-    <android.support.v7.widget.CardView
-        android:layout_centerInParent="true"
-        android:layout_width="225dp"
-        android:layout_height="wrap_content">
-        <RelativeLayout
-            android:background="@android:color/white"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ImageView
-                android:id="@+id/image_icon"
-                android:layout_marginTop="27.5dp"
-                android:layout_centerHorizontal="true"
-                android:src="@mipmap/logo"
-                android:layout_width="86dp"
-                android:layout_height="86dp" />
+    android:layout_height="match_parent">
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/bt_sign_up"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
-                app:cardCornerRadius="3dp"
-                app:cardUseCompatPadding="false"
-                app:cardElevation="1dp"
-                app:cardBackgroundColor="@color/buttonColorRed"
-                android:layout_below="@+id/image_icon"
+    <RelativeLayout
+        android:id="@+id/root_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/background_splash"
+            tools:ignore="ContentDescription" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background_splash" />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="225dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="8.5dp"
-                android:layout_marginRight="8.5dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="38dp" >
-                <TextView
-                    android:textColor="@color/product_list_background_color"
-                    android:gravity="center"
-                    android:text="@string/CreateAccount"
-                    android:textSize="14sp"
+                android:layout_height="match_parent"
+                android:background="@android:color/white">
+
+                <ImageView
+                    android:id="@+id/image_icon"
+                    android:layout_width="86dp"
+                    android:layout_height="86dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="27.5dp"
+                    android:src="@mipmap/logo" />
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/bt_sign_up"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
-                android:id="@+id/bt_sign_in"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
-                app:cardCornerRadius="3dp"
-                app:cardUseCompatPadding="false"
-                app:cardElevation="1dp"
-                app:cardBackgroundColor="@color/buttonColorRed"
-                android:layout_below="@+id/bt_sign_up"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="8.5dp"
-                android:layout_marginRight="8.5dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp" >
-                <TextView
-                    android:textColor="@color/product_list_background_color"
-                    android:gravity="center"
-                    android:text="@string/SignIn"
-                    android:textSize="14sp"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/image_icon"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="8.5dp"
+                    android:layout_marginRight="8.5dp"
+                    android:layout_marginTop="38dp"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    app:cardBackgroundColor="@color/buttonColorRed"
+                    app:cardCornerRadius="3dp"
+                    app:cardElevation="1dp"
+                    app:cardUseCompatPadding="false">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="@string/CreateAccount"
+                        android:textColor="@color/product_list_background_color"
+                        android:textSize="14sp" />
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/bt_sign_in"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </android.support.v7.widget.CardView>
-            <TextView
-                android:id="@+id/skip"
-                android:text="@string/skip"
-                android:textSize="12sp"
-                android:textColor="@color/text_color_gray"
-                android:background="?attr/selectableItemBackground"
-                android:layout_alignParentRight="true"
-                android:padding="7dp"
-                android:layout_below="@+id/bt_sign_in"
-                android:layout_marginTop="7dp"
-                android:layout_marginRight="6dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-    </android.support.v7.widget.CardView>
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/bt_sign_up"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="8.5dp"
+                    android:layout_marginRight="8.5dp"
+                    android:layout_marginTop="10dp"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    app:cardBackgroundColor="@color/buttonColorRed"
+                    app:cardCornerRadius="3dp"
+                    app:cardElevation="1dp"
+                    app:cardUseCompatPadding="false">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="@string/SignIn"
+                        android:textColor="@color/product_list_background_color"
+                        android:textSize="14sp" />
+                </android.support.v7.widget.CardView>
+
+                <TextView
+                    android:id="@+id/skip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/bt_sign_in"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:padding="7dp"
+                    android:text="@string/skip"
+                    android:textColor="@color/text_color_gray"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+    </RelativeLayout>
+
     <ImageView
-        android:elevation="15dp"
         android:id="@+id/splash"
-        android:background="@mipmap/splash"
+        android:background="@android:color/transparent"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </RelativeLayout>

@@ -9,14 +9,16 @@
     android:stateListAnimator="@animator/item_raise"
     app:cardBackgroundColor="@color/product_list_background_color"
     app:cardCornerRadius="0dp"
-    app:cardUseCompatPadding="false"
-    app:contentPadding="-4dp">
+    app:cardElevation="0dp"
+    app:contentPadding="0dp">
 
     <RelativeLayout
+        android:background="@drawable/background_box"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ImageView
+            android:layout_margin="0.5dp"
             android:id="@+id/iv_productImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

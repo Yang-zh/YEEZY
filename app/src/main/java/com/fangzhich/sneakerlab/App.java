@@ -2,7 +2,6 @@ package com.fangzhich.sneakerlab;
 
 import android.app.Application;
 
-import com.blankj.utilcode.utils.PhoneUtils;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.fangzhich.sneakerlab.util.Const;
@@ -11,7 +10,6 @@ import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.orhanobut.logger.Logger;
 import com.squareup.leakcanary.LeakCanary;
-
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;

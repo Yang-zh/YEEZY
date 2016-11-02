@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
@@ -23,10 +24,13 @@ public class SplashActivity extends BaseActivity {
 
     @BindView(R.id.splash)
     ImageView splash;
+    @BindView(R.id.root_view)
+    RelativeLayout rootView;
+
     @OnClick(R.id.splash)
     void onSplashClick() {
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("fromSplash",true);
+        intent.putExtra("fromSplash", true);
         startActivity(intent);
         finish();
     }
@@ -36,19 +40,19 @@ public class SplashActivity extends BaseActivity {
 
     @OnClick(R.id.bt_sign_up)
     void startSignUpActivity() {
-        startActivityForResult(new Intent(this,RegisterActivity.class),RegisterActivity.IS_REGISTER);
+        startActivityForResult(new Intent(this, RegisterActivity.class), RegisterActivity.IS_REGISTER);
     }
 
     @OnClick(R.id.bt_sign_in)
     void startSignInActivity() {
-        Intent intent = new Intent(this,LoginActivity.class);
-        intent.putExtra("isFirstLogin",true);
-        startActivityForResult(intent,LoginActivity.IS_LOGIN);
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.putExtra("isFirstLogin", true);
+        startActivityForResult(intent, LoginActivity.IS_LOGIN);
     }
 
     @OnClick(R.id.skip)
     void skip() {
-        startActivity(new Intent(this,MainActivity.class));
+        startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 
@@ -65,14 +69,16 @@ public class SplashActivity extends BaseActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (Const.isLogin()){
+                if (Const.isLogin()) {
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
                     finish();
                 } else {
+//                    splash.setVisibility(View.GONE);
+                    rootView.setVisibility(View.VISIBLE);
                     splash.setVisibility(View.GONE);
                 }
             }
-        },2500);
+        }, 2500);
     }
 
     @Override

@@ -32,7 +32,7 @@
                 android:foreground="?attr/selectableItemBackgroundBorderless"
                 app:cardCornerRadius="3dp"
                 app:cardUseCompatPadding="false"
-                app:cardElevation="1dp"
+                app:cardElevation="0dp"
                 app:cardBackgroundColor="@color/colorAccent"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/picker"

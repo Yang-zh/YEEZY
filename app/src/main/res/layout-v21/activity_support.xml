@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/shipping_info_background_color">
-
     <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -13,8 +12,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginRight="72dp">
+            android:layout_marginRight="72dp"
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/title"
@@ -26,31 +25,28 @@
                 android:textStyle="bold" />
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
-
     <TextView
         android:id="@+id/support_intro"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="15dp"
         android:background="@drawable/background_white_edit_text"
         android:padding="5dp"
         android:text="@string/CustomerSupportDetail"
         android:textColor="@color/text_color_gray"
-        android:textSize="14sp" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_support_record_list"
+        android:textSize="14sp"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content" />
+    <android.support.v7.widget.RecyclerView
         android:layout_below="@+id/support_intro"
-        android:layout_marginBottom="54dp"
+        android:id="@+id/rv_support_record_list"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp" />
-
+        android:layout_marginBottom="54dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
     <RelativeLayout
         android:id="@+id/input_layout"
         android:layout_alignParentBottom="true"
@@ -63,8 +59,8 @@
             android:layout_marginBottom="5dp"
             android:layout_toLeftOf="@+id/bt_send"
             app:cardCornerRadius="3dp"
-            app:contentPadding="-5dp"
             app:cardBackgroundColor="@android:color/white"
+            app:cardUseCompatPadding="false"
             app:cardElevation="0dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

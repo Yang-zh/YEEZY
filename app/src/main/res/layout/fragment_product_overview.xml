@@ -336,7 +336,7 @@
             android:layout_marginTop="5dp"
             android:ellipsize="end"
             android:lines="1"
-            android:textColor="@android:color/black"
+            android:textColor="@color/tab_layout_unSelect_color"
             android:textSize="12sp" />
 
         <TextView
@@ -369,7 +369,7 @@
             android:layout_below="@+id/tv_arriveTime"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
-            android:textColor="@android:color/black"
+            android:textColor="@color/tab_layout_unSelect_color"
             android:textSize="12sp" />
 
         <TextView
@@ -403,7 +403,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="28dp"
-            android:textColor="@android:color/black"
+            android:textColor="@color/tab_layout_unSelect_color"
             android:textSize="12sp" />
     </RelativeLayout>
 </ScrollView>

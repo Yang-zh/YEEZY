@@ -8,81 +8,88 @@
     app:cardBackgroundColor="@color/product_list_background_color"
     android:foreground="?selectableItemBackgroundBorderless"
     app:cardCornerRadius="0dp"
-    app:cardUseCompatPadding="true"
-    app:cardElevation="1dp">
+    app:cardUseCompatPadding="false"
+    app:contentPaddingLeft="-2.5dp"
+    app:contentPaddingRight="-2.5dp"
+    app:contentPaddingTop="-3.5dp"
+    app:contentPaddingBottom="-3.5dp"
+    app:cardElevation="0dp">
 
     <RelativeLayout
+        android:background="@drawable/background_box"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ImageView
+            android:layout_margin="0.5dp"
             android:id="@+id/iv_productImage"
-            android:src="@mipmap/product_image_placeholder"
-            android:layout_centerHorizontal="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:adjustViewBounds="true"
+            android:src="@mipmap/product_image_placeholder"
             tools:ignore="ContentDescription" />
 
         <TextView
-            tools:text="ProductnameProductnameProductnameProductname"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="10dp"
             android:id="@+id/tv_productName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/iv_productImage"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="10dp"
             android:ellipsize="end"
             android:lines="2"
             android:textColor="@color/product_list_item_text_color"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            tools:text="ProductNameProductNameProductNameProductName" />
 
         <LinearLayout
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="10dp"
             android:id="@+id/price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_productName"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <TextView
-                tools:text="$ 300.00"
                 android:id="@+id/tv_productPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:lines="1"
                 android:textColor="@color/product_list_item_text_color"
-                android:textSize="@dimen/product_list_item_text_size" />
+                android:textSize="@dimen/product_list_item_text_size"
+                tools:text="$ 300.00" />
 
             <TextView
-                tools:text="$ 800.00"
-                android:layout_marginLeft="12dp"
                 android:id="@+id/tv_productOriginalPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
                 android:ellipsize="end"
                 android:lines="1"
                 android:textColor="@color/text_color_gray"
                 android:textSize="10sp"
-                tools:ignore="SmallSp" />
+                tools:ignore="SmallSp"
+                tools:text="$ 800.00" />
         </LinearLayout>
 
         <TextView
-            android:visibility="gone"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
             android:id="@+id/tv_productSellVolume"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/price"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:ellipsize="end"
             android:lines="1"
             android:textColor="@color/product_list_item_subText_color"
-            android:textSize="@dimen/product_list_item_subText_size"/>
+            android:textSize="@dimen/product_list_item_subText_size"
+            android:visibility="gone" />
     </RelativeLayout>
 </android.support.v7.widget.CardView>

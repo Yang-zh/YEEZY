@@ -94,8 +94,8 @@ public abstract class BaseApi {
                 return HttpResult.data;
             }
             switch (HttpResult.status_code) {
-                case 1:
-                    throw new HttpResultException(null);
+//                case 1:
+//                    throw new HttpResultException(null);
                 case 1003:
                     Const.setLogin(false,null);
                     throw new HttpResultNoLoginException(HttpResult.message);
