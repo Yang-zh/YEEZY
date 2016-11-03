@@ -136,7 +136,6 @@
             android:id="@+id/bt_buy"
             android:foreground="?selectableItemBackgroundBorderless"
             app:cardCornerRadius="0dp"
-            app:cardUseCompatPadding="false"
             app:cardElevation="0dp"
             app:cardBackgroundColor="@color/colorAccent"
             android:layout_below="@+id/quantity_view"

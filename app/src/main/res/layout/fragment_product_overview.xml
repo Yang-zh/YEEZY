@@ -34,8 +34,7 @@
                 android:foreground="?selectableItemBackgroundBorderless"
                 app:cardBackgroundColor="@color/cut_line_color"
                 app:cardCornerRadius="0dp"
-                app:cardElevation="0dp"
-                app:cardUseCompatPadding="false">
+                app:cardElevation="0dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -74,8 +73,7 @@
                 android:foreground="?selectableItemBackgroundBorderless"
                 app:cardBackgroundColor="@color/cut_line_color"
                 app:cardCornerRadius="0dp"
-                app:cardElevation="0dp"
-                app:cardUseCompatPadding="false">
+                app:cardElevation="0dp">
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">

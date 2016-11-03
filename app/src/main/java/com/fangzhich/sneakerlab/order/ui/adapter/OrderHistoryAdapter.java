@@ -141,7 +141,7 @@ public class OrderHistoryAdapter extends BaseRecyclerViewAdapter<OrderItemEntity
                             public void onDismiss(PopupWindow dialog, View content) {
 
                             }
-                        }).showPopup(((Activity)v.getContext()).getWindow().getDecorView(), Gravity.CENTER);
+                        }).showPopup(holder.itemView, Gravity.CENTER);
                     }
                 });
                 break;

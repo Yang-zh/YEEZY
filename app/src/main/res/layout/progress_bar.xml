@@ -9,7 +9,7 @@
         android:layout_width="90dp"
         android:layout_height="90dp"
         app:cardBackgroundColor="@color/light_gray"
-        app:cardElevation="5dp"
+        app:cardElevation="0dp"
         app:cardCornerRadius="0dp">
         <fr.castorflex.android.circularprogressbar.CircularProgressBar
             android:id="@+id/progress_bar"

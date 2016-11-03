@@ -338,10 +338,10 @@ public class OrderDetailActivity extends BaseActivity {
         orderId.setText(TagFormatUtil.from(getResources().getString(R.string.OrderId))
                         .with("content",order.order_id)
                         .format());
-        shippingAddressDetail1.setText(order.shipping.suite+", "+order.shipping.address_1);
-        shippingAddressDetail2.setText(order.shipping.city);
-        shippingAddressDetail3.setText(order.shipping.zone_code+", "+order.shipping.postcode);
-        shippingAddressDetail4.setText(order.shipping.country);
+        shippingAddressDetail1.setText(order.address.suite+", "+order.address.address_1);
+        shippingAddressDetail2.setText(order.address.city);
+        shippingAddressDetail3.setText(order.address.zone_code+", "+order.address.postcode);
+        shippingAddressDetail4.setText(order.address.country);
         paymentMethodDetail1.setText(getResources().getString(R.string.CreditCard));
         paymentMethodDetail2.setText(TagFormatUtil.from(getResources().getString(R.string.numberFormat))
                         .with("number",order.payment.card_number)
@@ -349,15 +349,29 @@ public class OrderDetailActivity extends BaseActivity {
         paymentMethodDetail3.setText(TagFormatUtil.from(getResources().getString(R.string.codeFormat))
                         .with("code",order.payment.zip_code)
                         .format());
-        itemTotalDetail.setText(TagFormatUtil.from(getResources().getString(R.string.priceFormat))
-                .with("price",order.price)
-                .format());
+        if (order.totals!=null && order.totals.size()!=0) {
+            for (OrderEntity.Totals total:order.totals) {
+                switch (total.title) {
+                    case "Sub-Total":
+                        itemTotalDetail.setText(TagFormatUtil.from(getResources().getString(R.string.priceFormat))
+                                .with("price",total.value)
+                                .format());
+                        break;
+                    case "Tax":
+                        taxDetail.setText(TagFormatUtil.from(getResources().getString(R.string.priceFormat))
+                                .with("price",total.value)
+                                .format());
+                        break;
+                    case "Total":
+                        orderTotalDetail.setText(TagFormatUtil.from(getResources().getString(R.string.priceFormat))
+                                .with("price",total.value)
+                                .format());
+                        break;
+                }
+            }
+        }
         shippingDetail.setText(TagFormatUtil.from(getResources().getString(R.string.priceFormat))
-                .with("price",order.service_charge)
-                .format());
-        taxDetail.setText("");
-        orderTotalDetail.setText(TagFormatUtil.from(getResources().getString(R.string.priceFormat))
-                .with("price",order.total)
+                .with("price",order.shipping.text)
                 .format());
     }
 

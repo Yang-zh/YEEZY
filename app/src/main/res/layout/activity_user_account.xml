@@ -54,8 +54,7 @@
                     android:foreground="?attr/selectableItemBackgroundBorderless"
                     app:cardBackgroundColor="@color/buttonColorRed"
                     app:cardCornerRadius="3dp"
-                    app:cardElevation="1dp"
-                    app:cardUseCompatPadding="false">
+                    app:cardElevation="0dp">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -78,8 +77,7 @@
                     android:foreground="?attr/selectableItemBackgroundBorderless"
                     app:cardBackgroundColor="@color/buttonColorRed"
                     app:cardCornerRadius="3dp"
-                    app:cardElevation="1dp"
-                    app:cardUseCompatPadding="false">
+                    app:cardElevation="0dp">
 
                     <TextView
                         android:layout_width="match_parent"

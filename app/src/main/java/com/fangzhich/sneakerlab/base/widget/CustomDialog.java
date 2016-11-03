@@ -31,7 +31,7 @@ public class CustomDialog {
         });
 
         mPopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
-        mPopupWindow.setAnimationStyle(R.style.Dialog);
+        mPopupWindow.setAnimationStyle(R.style.FadeOut);
         return this;
     }
 

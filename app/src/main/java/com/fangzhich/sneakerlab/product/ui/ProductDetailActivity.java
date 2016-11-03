@@ -19,7 +19,10 @@ import com.fangzhich.sneakerlab.product.presentation.ProductDetailContract;
 import com.fangzhich.sneakerlab.product.presentation.ProductDetailPresenter;
 import com.fangzhich.sneakerlab.util.MyUtil;
 import com.fangzhich.sneakerlab.util.TagFormatUtil;
+import com.fangzhich.sneakerlab.util.ToastUtil;
 
+import java.lang.reflect.Proxy;
+import java.net.Socket;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -37,7 +40,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
     @BindView(R.id.title)
     TextView title;
 
-    private String productId;
+    private static String productId;
 
     @BindView(R.id.tabLayout_productDetail)
     TabLayout tabLayout;
@@ -46,7 +49,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
     ArrayList<Fragment> fragments = new ArrayList<>();
     ArrayList<String> fragmentTitles = new ArrayList<>();
     FragmentPagerAdapter adapter;
-
 
     DialogManager manager;
 

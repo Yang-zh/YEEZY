@@ -50,15 +50,15 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/order_info"
-            android:background="@color/shipping_info_background_color"
             android:layout_margin="15dp"
             android:layout_below="@+id/orderId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardElevation="3dp"
+            app:cardElevation="0dp"
             app:cardCornerRadius="0dp">
             <RelativeLayout
                 android:padding="15dp"
+                android:background="@drawable/background_table"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             <TextView
@@ -144,7 +144,6 @@
         </android.support.v7.widget.CardView>
         <android.support.v7.widget.CardView
             android:id="@+id/order_detail"
-            android:background="@color/shipping_info_background_color"
             android:layout_margin="15dp"
             android:layout_below="@+id/order_info"
             android:layout_width="match_parent"
@@ -152,6 +151,7 @@
             app:cardElevation="3dp"
             app:cardCornerRadius="0dp">
             <RelativeLayout
+                android:background="@drawable/background_table"
                 android:padding="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

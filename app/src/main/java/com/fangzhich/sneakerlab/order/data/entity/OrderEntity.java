@@ -14,16 +14,15 @@ public class OrderEntity implements Parcelable {
 
     public String order_id;
     public String date_added;
+    public Address address;
     public Shipping shipping;
     public Payment payment;
-    public String price;
-    public String service_charge;
-    public String total;
     public String order_status;
     public String order_comment;
     public List<Product> product;
+    public List<Totals> totals;
 
-    public static class Shipping implements Parcelable {
+    public static class Address implements Parcelable {
         public String address_id;
         public String fullname;
         public String phone;
@@ -60,10 +59,10 @@ public class OrderEntity implements Parcelable {
             dest.writeString(this.country);
         }
 
-        public Shipping() {
+        public Address() {
         }
 
-        protected Shipping(Parcel in) {
+        protected Address(Parcel in) {
             this.address_id = in.readString();
             this.fullname = in.readString();
             this.phone = in.readString();
@@ -77,6 +76,51 @@ public class OrderEntity implements Parcelable {
             this.zone_code = in.readString();
             this.country_id = in.readString();
             this.country = in.readString();
+        }
+
+        public static final Creator<Address> CREATOR = new Creator<Address>() {
+            @Override
+            public Address createFromParcel(Parcel source) {
+                return new Address(source);
+            }
+
+            @Override
+            public Address[] newArray(int size) {
+                return new Address[size];
+            }
+        };
+    }
+
+    public static class Shipping implements Parcelable {
+        public String code;
+        public String title;
+        public String cost;
+        public String text;
+        public String sort_order;
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.code);
+            dest.writeString(this.title);
+            dest.writeString(this.cost);
+            dest.writeString(this.text);
+            dest.writeString(this.sort_order);
+        }
+
+        public Shipping() {
+        }
+
+        protected Shipping(Parcel in) {
+            this.code = in.readString();
+            this.title = in.readString();
+            this.cost = in.readString();
+            this.text = in.readString();
+            this.sort_order = in.readString();
         }
 
         public static final Creator<Shipping> CREATOR = new Creator<Shipping>() {
@@ -140,19 +184,112 @@ public class OrderEntity implements Parcelable {
         };
     }
 
-    public static class Product {
+    public static class Product implements Parcelable {
         public String order_product_id;
         public String name;
         public String image;
         public String quantity;
         public String price;
         public String total;
+        public String review_status;
         public List<Option> option;
 
         public static class Option {
             public String name;
             public String value;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.order_product_id);
+            dest.writeString(this.name);
+            dest.writeString(this.image);
+            dest.writeString(this.quantity);
+            dest.writeString(this.price);
+            dest.writeString(this.total);
+            dest.writeString(this.review_status);
+            dest.writeList(this.option);
+        }
+
+        public Product() {
+        }
+
+        protected Product(Parcel in) {
+            this.order_product_id = in.readString();
+            this.name = in.readString();
+            this.image = in.readString();
+            this.quantity = in.readString();
+            this.price = in.readString();
+            this.total = in.readString();
+            this.review_status = in.readString();
+            this.option = new ArrayList<Option>();
+            in.readList(this.option, Option.class.getClassLoader());
+        }
+
+        public static final Creator<Product> CREATOR = new Creator<Product>() {
+            @Override
+            public Product createFromParcel(Parcel source) {
+                return new Product(source);
+            }
+
+            @Override
+            public Product[] newArray(int size) {
+                return new Product[size];
+            }
+        };
+    }
+
+    public static class Totals implements Parcelable {
+        public String order_total_id;
+        public String order_id;
+        public String code;
+        public String title;
+        public String value;
+        public String sort_order;
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.order_total_id);
+            dest.writeString(this.order_id);
+            dest.writeString(this.code);
+            dest.writeString(this.title);
+            dest.writeString(this.value);
+            dest.writeString(this.sort_order);
+        }
+
+        public Totals() {
+        }
+
+        protected Totals(Parcel in) {
+            this.order_total_id = in.readString();
+            this.order_id = in.readString();
+            this.code = in.readString();
+            this.title = in.readString();
+            this.value = in.readString();
+            this.sort_order = in.readString();
+        }
+
+        public static final Creator<Totals> CREATOR = new Creator<Totals>() {
+            @Override
+            public Totals createFromParcel(Parcel source) {
+                return new Totals(source);
+            }
+
+            @Override
+            public Totals[] newArray(int size) {
+                return new Totals[size];
+            }
+        };
     }
 
     @Override
@@ -164,14 +301,13 @@ public class OrderEntity implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.order_id);
         dest.writeString(this.date_added);
+        dest.writeParcelable(this.address, flags);
         dest.writeParcelable(this.shipping, flags);
         dest.writeParcelable(this.payment, flags);
-        dest.writeString(this.price);
-        dest.writeString(this.service_charge);
-        dest.writeString(this.total);
         dest.writeString(this.order_status);
         dest.writeString(this.order_comment);
         dest.writeList(this.product);
+        dest.writeList(this.totals);
     }
 
     public OrderEntity() {
@@ -180,15 +316,15 @@ public class OrderEntity implements Parcelable {
     protected OrderEntity(Parcel in) {
         this.order_id = in.readString();
         this.date_added = in.readString();
+        this.address = in.readParcelable(Address.class.getClassLoader());
         this.shipping = in.readParcelable(Shipping.class.getClassLoader());
         this.payment = in.readParcelable(Payment.class.getClassLoader());
-        this.price = in.readString();
-        this.service_charge = in.readString();
-        this.total = in.readString();
         this.order_status = in.readString();
         this.order_comment = in.readString();
         this.product = new ArrayList<Product>();
         in.readList(this.product, Product.class.getClassLoader());
+        this.totals = new ArrayList<Totals>();
+        in.readList(this.totals, Totals.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<OrderEntity> CREATOR = new Parcelable.Creator<OrderEntity>() {

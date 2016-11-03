@@ -6,7 +6,6 @@
     android:layout_height="wrap_content">
     <android.support.v7.widget.CardView
         android:layout_centerInParent="true"
-        app:cardUseCompatPadding="false"
         android:foreground="?attr/selectableItemBackground"
         app:cardElevation="0dp"
         android:background="@color/colorPrimary"

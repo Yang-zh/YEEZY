@@ -10,7 +10,7 @@
     android:layout_height="140dp"
     android:layout_centerInParent="true"
     app:cardCornerRadius="3dp"
-    app:cardElevation="1dp">
+    app:cardElevation="0dp">
     <RelativeLayout
         android:background="@color/dialog_background"
         android:layout_width="match_parent"
@@ -29,8 +29,7 @@
             android:id="@+id/bt_yes"
             android:foreground="?attr/selectableItemBackgroundBorderless"
             app:cardCornerRadius="3dp"
-            app:cardUseCompatPadding="false"
-            app:cardElevation="1dp"
+            app:cardElevation="0dp"
             app:cardBackgroundColor="@color/colorAccent"
             android:layout_below="@+id/text"
             android:layout_width="98dp"
@@ -49,8 +48,7 @@
             android:id="@+id/bt_no"
             android:foreground="?attr/selectableItemBackgroundBorderless"
             app:cardCornerRadius="3dp"
-            app:cardUseCompatPadding="false"
-            app:cardElevation="1dp"
+            app:cardElevation="0dp"
             app:cardBackgroundColor="@color/text_color_gray"
             android:layout_below="@+id/text"
             android:layout_alignParentRight="true"

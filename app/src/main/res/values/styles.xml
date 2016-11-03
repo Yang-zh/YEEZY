@@ -32,6 +32,9 @@
     <style name="Dialog" parent="Animation.Design.BottomSheetDialog">
     </style>
 
+    <style name="FadeOut" parent="Animation.AppCompat.Dialog">
+    </style>
+
     <style name="EditText" parent="Widget.AppCompat.EditText">
         <item name="android:textColor">@color/tab_layout_select_color</item>
         <item name="android:textColorHint">@color/text_color_gray</item>
