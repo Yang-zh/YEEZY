@@ -7,6 +7,9 @@ package com.fangzhich.sneakerlab.user.data.entity;
 
 public class WishEntity {
 
+    //used for check if no data
+    public boolean isNull = false;
+
     public String product_id;
     public String name;
     public String price;

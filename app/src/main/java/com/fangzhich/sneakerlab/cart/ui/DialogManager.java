@@ -1,8 +1,10 @@
 package com.fangzhich.sneakerlab.cart.ui;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.View;
 
+import com.fangzhich.sneakerlab.base.widget.CustomDialog;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
 import com.fangzhich.sneakerlab.order.widget.AddressDialog;
 import com.fangzhich.sneakerlab.order.widget.CreditCardDialog;
@@ -38,10 +40,14 @@ public class DialogManager {
         return this;
     }
 
+    public void showCustomDialog(int layout, CustomDialog.Listener listener) {
+        new CustomDialog().initPopup(mContext, layout, listener).showPopup(mContentView, Gravity.CENTER);
+    }
+
     //------------ShoppingCart-------------------
 
     public void startShoppingCartDialog() {
-        mCartDialog.initPopup(this, mContext).showPopup(mSizeDialog.isShowing() ? mSizeDialog.getContentView() : mContentView);
+        mCartDialog.initPopup(this, mContext).showPopup(mContentView);
     }
 
     public void startShoppingCartDialog(String product_id, String quantity, HashMap<String,String> option, String recurring_id) {

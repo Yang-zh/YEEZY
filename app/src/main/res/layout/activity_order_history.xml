@@ -24,6 +24,16 @@
                 android:textStyle="bold" />
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
+    <TextView
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        android:id="@+id/no_data_notice"
+        android:text="@string/NoOrderYet"
+        android:textColor="@color/text_color_gray"
+        android:textSize="16sp"
+        android:layout_marginTop="260dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_history"
         android:background="@color/another_gray"

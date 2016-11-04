@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@android:color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -50,6 +51,7 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/order_info"
+            app:cardBackgroundColor="@color/product_list_background_color"
             android:layout_margin="15dp"
             android:layout_below="@+id/orderId"
             android:layout_width="match_parent"
@@ -144,11 +146,12 @@
         </android.support.v7.widget.CardView>
         <android.support.v7.widget.CardView
             android:id="@+id/order_detail"
+            app:cardBackgroundColor="@color/product_list_background_color"
             android:layout_margin="15dp"
             android:layout_below="@+id/order_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardElevation="3dp"
+            app:cardElevation="0dp"
             app:cardCornerRadius="0dp">
             <RelativeLayout
                 android:background="@drawable/background_table"

@@ -45,7 +45,7 @@ public class RelateProductListAdapter extends BaseRecyclerViewAdapter<PopularPro
     @Override
     public void loadData() {
         if (mPresenter!=null) {
-            mPresenter.getPopularProductList("1","20");
+            mPresenter.getPopularProductList("1","50");
             totalPage = 1;
         }
     }

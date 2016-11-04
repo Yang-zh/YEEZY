@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/cardViewMargin"
-    app:cardBackgroundColor="@color/product_list_background_color"
+    app:cardBackgroundColor="@android:color/white"
     android:foreground="?selectableItemBackgroundBorderless"
     app:cardCornerRadius="0dp"
     app:cardUseCompatPadding="false"
@@ -39,7 +39,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginTop="10dp"
             android:ellipsize="end"
-            android:lines="2"
+            android:lines="1"
             android:textColor="@color/product_list_item_text_color"
             android:textSize="14sp"
             tools:text="ProductNameProductNameProductNameProductName" />
@@ -62,7 +62,7 @@
                 android:ellipsize="end"
                 android:lines="1"
                 android:textColor="@color/product_list_item_text_color"
-                android:textSize="@dimen/product_list_item_text_size"
+                android:textSize="14sp"
                 tools:text="$ 300.00" />
 
             <TextView
@@ -73,7 +73,7 @@
                 android:ellipsize="end"
                 android:lines="1"
                 android:textColor="@color/text_color_gray"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 tools:ignore="SmallSp"
                 tools:text="$ 800.00" />
         </LinearLayout>

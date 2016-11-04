@@ -44,6 +44,7 @@ import timber.log.Timber;
 public class OrderDetailActivity extends BaseActivity {
 
 
+
     //result_code
     private static final int REVIEWED = 201;
 
@@ -303,7 +304,7 @@ public class OrderDetailActivity extends BaseActivity {
 
                 @Override
                 public void onError(Throwable error) {
-                    Timber.e(error.getMessage());
+                    Timber.e(error);
                     ToastUtil.toast(error.getMessage());
                 }
             });
@@ -371,7 +372,7 @@ public class OrderDetailActivity extends BaseActivity {
             }
         }
         shippingDetail.setText(TagFormatUtil.from(getResources().getString(R.string.priceFormat))
-                .with("price",order.shipping.text)
+                .with("price",order.shipping.cost)
                 .format());
     }
 

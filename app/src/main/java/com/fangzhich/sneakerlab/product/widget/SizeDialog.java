@@ -191,9 +191,9 @@ public class SizeDialog {
             rvColor.setAdapter(colorAdapter);
             colorAdapter.loadData();
         } else {
-            rvColor.setVisibility(View.INVISIBLE);
-            tvColor.setVisibility(View.INVISIBLE);
-            lineSecond.setVisibility(View.INVISIBLE);
+            rvColor.setVisibility(View.GONE);
+            tvColor.setVisibility(View.GONE);
+            lineSecond.setVisibility(View.GONE);
         }
 
         if (sizes != null && sizes.size() != 0) {
@@ -208,9 +208,9 @@ public class SizeDialog {
             rvSize.setAdapter(sizeAdapter);
             sizeAdapter.loadData();
         } else {
-            rvSize.setVisibility(View.INVISIBLE);
-            tvSize.setVisibility(View.INVISIBLE);
-            lineThird.setVisibility(View.INVISIBLE);
+            rvSize.setVisibility(View.GONE);
+            tvSize.setVisibility(View.GONE);
+            lineThird.setVisibility(View.GONE);
         }
     }
 

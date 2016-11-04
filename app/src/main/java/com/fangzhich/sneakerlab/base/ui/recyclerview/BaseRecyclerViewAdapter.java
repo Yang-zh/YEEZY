@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 
 import com.fangzhich.sneakerlab.main.data.entity.MessageEntity;
 import com.fangzhich.sneakerlab.product.data.entity.ProductEntity;
+import com.fangzhich.sneakerlab.product.ui.adapter.ReviewListAdapter;
 
 import java.util.List;
 
@@ -54,5 +55,14 @@ public abstract class BaseRecyclerViewAdapter<T, VH extends RecyclerView.ViewHol
     public void addItem(T entity) {
         mData.add(entity);
         notifyItemInserted(mData.size());
+    }
+
+    protected OnAdapterStatusChangeListener listener;
+    public void setOnAdapterStatusChangeListener(OnAdapterStatusChangeListener listener) {
+        this.listener = listener;
+    }
+
+    public interface OnAdapterStatusChangeListener {
+        void noData();
     }
 }

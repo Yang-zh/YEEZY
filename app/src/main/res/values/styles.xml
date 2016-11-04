@@ -11,7 +11,7 @@
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="actionMenuTextColor">@android:color/white</item>
-        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:windowBackground">@color/shipping_info_background_color</item>
     </style>
     <style name="StartAppTheme" parent="AppTheme">
         <item name="android:windowBackground">@mipmap/splash</item>

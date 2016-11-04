@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@color/popup_background"
+xmlns:app="http://schemas.android.com/apk/res-auto">
+<android.support.v7.widget.CardView
+    android:layout_centerInParent="true"
+    app:cardCornerRadius="3dp"
+    app:cardElevation="0dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:background="@color/dialog_background"
+        android:layout_width="195dp"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/close"
+            android:src="@mipmap/close_checkout"
+            android:layout_marginRight="7.5dp"
+            android:layout_marginTop="7.5dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="18dp"
+            android:layout_height="19dp" />
+        <TextView
+            android:id="@+id/oops"
+            android:text="@string/Oops"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginBottom="21dp"
+            android:layout_marginLeft="13dp"
+            android:layout_marginRight="13dp"
+            android:text="@string/checkout_fail_notice"
+            android:textSize="13sp"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="12dp"
+            android:layout_below="@+id/oops"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
+</RelativeLayout>

@@ -80,6 +80,7 @@
         android:textColor="@color/tab_layout_select_color"
         android:textSize="12sp"
         android:layout_marginTop="6dp"
+        android:layout_marginLeft="5dp"
         android:layout_below="@+id/color_is"
         android:layout_toRightOf="@+id/size_is"
         android:layout_width="wrap_content"

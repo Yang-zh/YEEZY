@@ -46,6 +46,8 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Product, CartLi
         void loadCartData(CartEntity cart);
 
         void checkSubscribe();
+
+        void noData();
     }
 
     public void setOnLoadDataListener (OnLoadDataListener listener) {
@@ -70,7 +72,11 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Product, CartLi
 
                 @Override
                 public void onError(Throwable throwable) {
-                    ToastUtil.toast(throwable.getMessage());
+
+                    if (onLoadDataListener!=null) {
+                        onLoadDataListener.noData();
+                    }
+
                     Timber.e(throwable.getMessage());
                 }
             });

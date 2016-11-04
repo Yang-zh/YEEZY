@@ -36,7 +36,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginTop="10dp"
             android:ellipsize="end"
-            android:lines="2"
+            android:lines="1"
             android:textColor="@color/product_list_item_text_color"
             android:textSize="14sp"
             tools:text="ProductNameProductNameProductNameProductName" />
@@ -46,10 +46,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_productName"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="14dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <TextView
@@ -59,7 +58,7 @@
                 android:ellipsize="end"
                 android:lines="1"
                 android:textColor="@color/product_list_item_text_color"
-                android:textSize="@dimen/product_list_item_text_size"
+                android:textSize="14sp"
                 tools:text="$ 300.00" />
 
             <TextView
@@ -70,7 +69,7 @@
                 android:ellipsize="end"
                 android:lines="1"
                 android:textColor="@color/text_color_gray"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 tools:ignore="SmallSp"
                 tools:text="$ 800.00" />
         </LinearLayout>

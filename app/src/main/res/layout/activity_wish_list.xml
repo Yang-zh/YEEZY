@@ -24,12 +24,9 @@
                 android:textStyle="bold" />
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
-    <ScrollView
-        android:layout_below="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
         <RelativeLayout
             android:layout_width="match_parent"
+            android:layout_below="@+id/toolbar"
             android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/content_title"
@@ -46,6 +43,40 @@
                 android:layout_below="@+id/content_title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
+            <RelativeLayout
+                android:layout_below="@+id/content_title"
+                android:id="@+id/no_data_notice"
+                android:visibility="gone"
+                android:layout_centerInParent="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/icon"
+                    android:layout_marginTop="60dp"
+                    android:src="@mipmap/collect_big"
+                    android:layout_width="81dp"
+                    android:layout_height="81dp" />
+                <TextView
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/text"
+                    android:text="@string/CollectionStillEmpty"
+                    android:textSize="15sp"
+                    android:textColor="@color/text_color_gray"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@+id/icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/continue_shopping"
+                    android:text="@string/ContinueShoppingUnderLine"
+                    android:textSize="13sp"
+                    android:textColor="@color/tab_layout_unSelect_color"
+                    android:layout_below="@+id/text"
+                    android:layout_marginTop="180dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
         </RelativeLayout>
-    </ScrollView>
 </RelativeLayout>

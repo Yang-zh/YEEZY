@@ -73,6 +73,9 @@ public class OrderHistoryAdapter extends BaseRecyclerViewAdapter<OrderItemEntity
 
     @Override
     public void onLoadOrderListFailed(Throwable throwable) {
+        if (listener!=null) {
+            listener.noData();
+        }
         Timber.e(throwable.getMessage());
     }
 
@@ -186,7 +189,7 @@ public class OrderHistoryAdapter extends BaseRecyclerViewAdapter<OrderItemEntity
                         public void onDismiss(PopupWindow dialog, View content) {
 
                         }
-                    }).showPopup(((Activity)v.getContext()).getWindow().getDecorView(), Gravity.CENTER);
+                    }).showPopup(holder.itemView, Gravity.CENTER);
                     }
                 });
                 break;

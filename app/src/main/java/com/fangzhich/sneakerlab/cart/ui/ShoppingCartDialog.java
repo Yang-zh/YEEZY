@@ -1,5 +1,6 @@
 package com.fangzhich.sneakerlab.cart.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
@@ -14,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fangzhich.sneakerlab.R;
+import com.fangzhich.sneakerlab.base.widget.CustomDialog;
 import com.fangzhich.sneakerlab.base.widget.ProgressBar;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
 import com.fangzhich.sneakerlab.main.ui.ReturnPolicyActivity;
@@ -47,6 +49,8 @@ public class ShoppingCartDialog {
     void cancel() {
         mPopupWindow.dismiss();
     }
+    @BindView(R.id.dialog)
+    RelativeLayout dialog;
 
     //----------address dialog-------------
     @BindView(R.id.ship_layout)
@@ -129,6 +133,23 @@ public class ShoppingCartDialog {
             @Override
             public void onError(Throwable error) {
                 progressBar.cancel();
+                manager.showCustomDialog(R.layout.dialog_checkout_fail, new CustomDialog.Listener() {
+                    @Override
+                    public void onInit(final PopupWindow dialog, View content) {
+                        content.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onDismiss(PopupWindow dialog, View content) {
+
+                    }
+                });
+                Timber.e(error);
                 ToastUtil.toast(error.getMessage());
             }
         });
@@ -136,6 +157,10 @@ public class ShoppingCartDialog {
 
     @BindView(R.id.rv_shoppingCart_list)
     RecyclerView recyclerView;
+    @BindView(R.id.no_data_notice)
+    RelativeLayout noDataNotice;
+    @BindView(R.id.continue_shopping)
+    TextView continueShopping;
 
     private CartListAdapter adapter = new CartListAdapter();
 
@@ -200,12 +225,13 @@ public class ShoppingCartDialog {
         adapter.loadData();
         adapter.setOnLoadDataListener(new CartListAdapter.OnLoadDataListener() {
 
+            @SuppressLint("SetTextI18n")
             @Override
             public void loadCartData(CartEntity cart) {
                 ShoppingCartDialog.this.cart = cart;
 
                 if (cart.products==null || cart.products.size()==0) {
-                    // todo
+
                 }
 
                 if (cart.address!=null) {
@@ -217,7 +243,7 @@ public class ShoppingCartDialog {
                     cardMonth = cart.payment.card_month;
                     cardYear = cart.payment.card_year;
                     cardCvv = cart.payment.card_cvv;
-                    creditCartNumber.setText(cardNumber);
+                    creditCartNumber.setText(cardNumber.length()>4?"****"+cardNumber.substring(cardNumber.length()-4):cardNumber);
                 }
 
                 if (cart.shiping!=null) {
@@ -247,6 +273,18 @@ public class ShoppingCartDialog {
             @Override
             public void checkSubscribe() {
                 checkIfSubscribe();
+            }
+
+            @Override
+            public void noData() {
+                dialog.setVisibility(View.GONE);
+                noDataNotice.setVisibility(View.VISIBLE);
+                continueShopping.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        manager.closeAll();
+                    }
+                });
             }
         });
 
@@ -308,7 +346,7 @@ public class ShoppingCartDialog {
         cardMonth = month;
         cardCvv = cvv;
         cardNumber = number;
-        creditCartNumber.setText(number);
+        creditCartNumber.setText(number.length()>4?"****"+number.substring(number.length()-4):number);
     }
 
 }

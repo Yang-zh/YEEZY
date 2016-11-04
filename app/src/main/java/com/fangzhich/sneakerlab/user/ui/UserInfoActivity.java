@@ -157,7 +157,7 @@ public class UserInfoActivity extends BaseActivity implements PersonalInfoContra
         }
         switch (item.getItemId()) {
             case R.id.skip:
-                Intent intent = new Intent(this,WelcomeActivity.class);
+                Intent intent = new Intent(this,MainActivity.class);
                 intent.putExtra("isFirstRegister",false);
                 startActivity(intent);
                 setResult(RegisterActivity.SUCCESS);

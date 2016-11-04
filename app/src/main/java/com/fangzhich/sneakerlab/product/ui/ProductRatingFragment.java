@@ -3,6 +3,7 @@ package com.fangzhich.sneakerlab.product.ui;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,6 +36,9 @@ public class ProductRatingFragment extends BaseFragment {
     SimpleRatingBar ratingBar;
     @BindView(R.id.rating_number)
     TextView ratingNumber;
+
+    @BindView(R.id.no_data_notice)
+    TextView noDataNotice;
     @BindView(R.id.rv_comments)
     RecyclerView rvComments;
 
@@ -53,10 +57,25 @@ public class ProductRatingFragment extends BaseFragment {
 
     private void initRecyclerView() {
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        ReviewListAdapter adapter = new ReviewListAdapter(product.product_id);
+        final ReviewListAdapter adapter = new ReviewListAdapter(product.product_id);
         rvComments.setLayoutManager(manager);
         rvComments.addItemDecoration(new LinearLayoutItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         rvComments.setAdapter(adapter);
+        adapter.setOnAdapterStatusChangeListener(new ReviewListAdapter.OnAdapterStatusChangeListener() {
+            @Override
+            public void noData() {
+                rvComments.setVisibility(View.GONE);
+                noDataNotice.setVisibility(View.VISIBLE);
+            }
+        });
+        noDataNotice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rvComments.setVisibility(View.VISIBLE);
+                noDataNotice.setVisibility(View.GONE);
+                adapter.loadData();
+            }
+        });
     }
 
     @Override

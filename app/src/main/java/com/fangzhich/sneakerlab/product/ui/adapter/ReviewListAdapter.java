@@ -56,6 +56,12 @@ public class ReviewListAdapter extends BaseRecyclerViewAdapter<ReviewEntity,Revi
 
     @Override
     public void onLoadReviewListFailed(Throwable throwable) {
+        if (mData==null || mData.size()==0) {
+            if (listener!=null) {
+                listener.noData();
+            }
+            return;
+        }
         Timber.e(throwable.getMessage());
     }
 

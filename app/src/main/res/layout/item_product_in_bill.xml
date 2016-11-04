@@ -5,6 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <ImageView
         android:id="@+id/iv_productImage"
+        android:background="@drawable/background_box"
+        android:padding="-0.5dp"
         android:src="@mipmap/product_image_placeholder"
         android:layout_marginTop="12dp"
         android:layout_marginRight="15dp"
@@ -135,7 +137,7 @@
     <TextView
         android:id="@+id/remove"
         android:text="@string/Remove"
-        android:textColor="@color/tab_layout_select_color"
+        android:textColor="@color/text_color_gray"
         android:textSize="12sp"
         android:layout_below="@+id/tv_productPrice"
         android:layout_toLeftOf="@+id/edit"
@@ -146,7 +148,7 @@
     <TextView
         android:id="@+id/edit"
         android:text="@string/Edit"
-        android:textColor="@color/tab_layout_select_color"
+        android:textColor="@color/text_color_gray"
         android:textSize="12sp"
         android:layout_below="@+id/tv_productPrice"
         android:layout_marginTop="12dp"

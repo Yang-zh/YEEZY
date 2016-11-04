@@ -5,6 +5,7 @@
     android:layout_height="600dp"
     android:background="@color/popup_background">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -46,6 +47,41 @@
                 <!--android:layout_height="50dp" />-->
         <!--</RelativeLayout>-->
 
+        <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/no_data_notice"
+            android:background="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <ImageView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/icon"
+                android:layout_marginTop="60dp"
+                android:src="@mipmap/cart_grey"
+                android:layout_width="81dp"
+                android:layout_height="81dp" />
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/text"
+                android:text="@string/CartEmptyNotice"
+                android:textSize="15sp"
+                android:textColor="@color/text_color_gray"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/continue_shopping"
+                android:text="@string/ContinueShoppingUnderLine"
+                android:textSize="13sp"
+                android:textColor="@color/tab_layout_unSelect_color"
+                android:layout_below="@+id/text"
+                android:layout_marginTop="180dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
         <RelativeLayout
             android:id="@+id/dialog"
             android:layout_width="match_parent"
@@ -96,7 +132,7 @@
                         android:layout_marginRight="14dp"
                         android:layout_marginTop="5dp"
                         android:text="@string/Edit"
-                        android:textColor="@color/tab_layout_select_color"
+                        android:textColor="@color/text_color_gray"
                         android:textSize="15sp" />
 
                     </RelativeLayout>
@@ -148,7 +184,7 @@
                         android:layout_marginRight="14dp"
                         android:layout_marginTop="5dp"
                         android:text="@string/Edit"
-                        android:textColor="@color/tab_layout_select_color"
+                        android:textColor="@color/text_color_gray"
                         android:textSize="15sp" />
 
                     </RelativeLayout>

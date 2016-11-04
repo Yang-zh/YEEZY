@@ -5,6 +5,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.utils.SizeUtils;
@@ -12,6 +14,7 @@ import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.GridSpaceItemDecoration;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.OnScrollLoadMoreHelper;
+import com.fangzhich.sneakerlab.product.ui.adapter.ReviewListAdapter;
 import com.fangzhich.sneakerlab.user.ui.adapter.WishListAdapter;
 import com.fangzhich.sneakerlab.util.Const;
 
@@ -30,6 +33,10 @@ public class WishListActivity extends BaseActivity {
     TextView title;
     @BindView(R.id.rv_wish_list)
     RecyclerView recyclerView;
+    @BindView(R.id.no_data_notice)
+    RelativeLayout noDataNotice;
+    @BindView(R.id.continue_shopping)
+    TextView continueShopping;
     private WishListAdapter adapter;
 
     private boolean isInit = false;
@@ -63,6 +70,19 @@ public class WishListActivity extends BaseActivity {
         recyclerView.addItemDecoration(new GridSpaceItemDecoration(SizeUtils.dp2px(this,8),2));
         recyclerView.addOnScrollListener(new OnScrollLoadMoreHelper(adapter));
         recyclerView.setAdapter(adapter);
+        adapter.setOnAdapterStatusChangeListener(new ReviewListAdapter.OnAdapterStatusChangeListener() {
+            @Override
+            public void noData() {
+                recyclerView.setVisibility(View.GONE);
+                noDataNotice.setVisibility(View.VISIBLE);
+            }
+        });
+        continueShopping.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override

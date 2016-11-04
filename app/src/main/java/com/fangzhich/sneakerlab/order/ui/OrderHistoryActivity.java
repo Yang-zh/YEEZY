@@ -14,6 +14,7 @@ import com.blankj.utilcode.utils.ConvertUtils;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.order.ui.adapter.OrderHistoryAdapter;
+import com.fangzhich.sneakerlab.product.ui.adapter.ReviewListAdapter;
 
 import butterknife.BindView;
 
@@ -40,6 +41,8 @@ public class OrderHistoryActivity extends BaseActivity {
     @BindView(R.id.rv_history)
     RecyclerView recyclerView;
     OrderHistoryAdapter adapter;
+    @BindView(R.id.no_data_notice)
+    TextView noDataNotice;
 
     @Override
     public int setContentLayout() {
@@ -75,7 +78,13 @@ public class OrderHistoryActivity extends BaseActivity {
         });
         adapter = new OrderHistoryAdapter();
         recyclerView.setAdapter(adapter);
-        adapter.loadData();
+        adapter.setOnAdapterStatusChangeListener(new ReviewListAdapter.OnAdapterStatusChangeListener() {
+            @Override
+            public void noData() {
+                recyclerView.setVisibility(View.GONE);
+                noDataNotice.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
