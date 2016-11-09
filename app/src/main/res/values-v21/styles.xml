@@ -19,6 +19,11 @@
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowBackground">@mipmap/splash</item>
     </style>
+    <style name="TransparentAppTheme" parent="AppTheme">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
 
 
 </resources>

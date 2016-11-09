@@ -84,7 +84,7 @@
     <string name="FirstName">First Name</string>
     <string name="LastName">Last Name</string>
     <string name="CreateAccount">Create Account</string>
-    <string name="Email">email</string>
+    <string name="Email">Email</string>
     <string name="ConfirmPassword">Confirm Password</string>
     <string name="Or">OR</string>
     <string name="JoinWithFacebook">Join with Facebook</string>
@@ -206,6 +206,22 @@
     <string name="CartEmptyNotice">Your cart is empty, go pick some cool sneaker.</string>
     <string name="NoOrderYet">No order yet</string>
     <string name="FullName">FullName*</string>
+    <string name="WishList">Wishlist</string>
+    <string name="MaybeYouLike">Maybe you like</string>
+    <string name="MyLab">MyLab</string>
+    <string name="logout">logout</string>
+    <string name="ChangePassword">Change Password</string>
+    <string name="OldPassword">Old password</string>
+    <string name="NewPassword">New password</string>
+    <string name="Name">Name</string>
+    <string name="Sex">Sex</string>
+    <string name="Age">Age</string>
+    <string name="Tel">Tel</string>
+    <string name="CityChoose">City</string>
+    <string name="PersonalInfo">Personal Info</string>
+    <string name="ProfilePhoto">Profile Photo</string>
+    <string name="Password">Password</string>
+    <string name="SignInWith">Sign in with</string>
 
     <string-array name = "currencies">
         <item>USD($)</item>

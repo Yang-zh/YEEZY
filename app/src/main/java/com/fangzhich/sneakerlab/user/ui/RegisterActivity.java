@@ -31,7 +31,6 @@ public class RegisterActivity extends BaseActivity implements UserRegisterContra
 
     public static final int IS_REGISTER = 200;
     public static final int SUCCESS = 201;
-    public static final int FAILED = 202;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.title)
@@ -44,8 +43,6 @@ public class RegisterActivity extends BaseActivity implements UserRegisterContra
     EditText email;
     @BindView(R.id.password)
     EditText password;
-    @BindView(R.id.confirmPassword)
-    EditText confirmPassword;
 
     @BindView(R.id.bt_create_account)
     CardView btCreateAccount;
@@ -58,12 +55,6 @@ public class RegisterActivity extends BaseActivity implements UserRegisterContra
                 email.getText().toString(),
                 password.getText().toString());
     }
-
-    @OnClick(R.id.bt_facebook)
-    void joinWithFaceBook() {
-        ToastUtil.toast("Join with Facebook");
-    }
-
     @Override
     public int setContentLayout() {
         return R.layout.activity_sign_up;
@@ -92,10 +83,7 @@ public class RegisterActivity extends BaseActivity implements UserRegisterContra
             public void onSuccess(UserInfoEntity value) {
                 Timber.d(value.toString());
                 Const.setLogin(true,value);
-                setResult(SplashActivity.SUCCESS);
-                Intent intent = new Intent(RegisterActivity.this, UserInfoActivity.class);
-                intent.putExtra("isFirstRegister",true);
-                startActivity(intent);
+                setResult(SUCCESS);
                 finish();
             }
 
@@ -129,7 +117,6 @@ public class RegisterActivity extends BaseActivity implements UserRegisterContra
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            setResult(SplashActivity.FAILED);
             onBackPressed();
             return true;
         }

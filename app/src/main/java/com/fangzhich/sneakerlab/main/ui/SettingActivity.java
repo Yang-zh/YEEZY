@@ -1,14 +1,24 @@
 package com.fangzhich.sneakerlab.main.ui;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fangzhich.sneakerlab.R;
+import com.fangzhich.sneakerlab.base.data.event.RxBus;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
+import com.fangzhich.sneakerlab.main.data.event.UserLogOutEvent;
+import com.fangzhich.sneakerlab.user.ui.ChangePasswordActivity;
+import com.fangzhich.sneakerlab.util.Const;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * SettingActivity
@@ -21,6 +31,32 @@ public class SettingActivity extends BaseActivity {
     @BindView(R.id.title)
     TextView title;
 
+    @OnClick(R.id.bt_currency)
+    void curreny() {
+        startActivity(new Intent(this, CurrencyActivity.class));
+    }
+
+    @OnClick(R.id.bt_language)
+    void language() {
+        startActivity(new Intent(this, LanguageActivity.class));
+    }
+
+    @OnClick(R.id.bt_return_policy)
+    void returnPolicy() {
+        startActivity(new Intent(this, ReturnPolicyActivity.class));
+    }
+
+    @OnClick(R.id.bt_change_password)
+    void changePassword() {
+        startActivity(new Intent(this, ChangePasswordActivity.class));
+    }
+
+    @OnClick(R.id.bt_logout)
+    void logout() {
+        Const.setLogin(false,null);
+        RxBus.getDefault().post(new UserLogOutEvent());
+    }
+
     @Override
     public int setContentLayout() {
         return R.layout.activity_settings;
@@ -30,20 +66,16 @@ public class SettingActivity extends BaseActivity {
     protected void initContentView() {
         initToolbar();
     }
+
     private void initToolbar() {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar!=null) {
+        if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         title.setText(R.string.Settings);
-    }
-
-    @Override
-    protected void loadData() {
-
     }
 
     @Override

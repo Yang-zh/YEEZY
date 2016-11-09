@@ -68,6 +68,10 @@ public class FacebookLoginManager {
     private void sendProfileRequest(final LoginResult loginResult) {
         Timber.d("send Facebook profile request");
         Profile.fetchProfileForCurrentAccessToken();
+        getProfile(loginResult);
+    }
+
+    private void getProfile(LoginResult loginResult) {
         Profile currentProfile = Profile.getCurrentProfile();
         if (currentProfile!=null) {
             profile = currentProfile;
@@ -90,6 +94,12 @@ public class FacebookLoginManager {
                     "\n" +
                     currentProfile.getProfilePictureUri(150, 150);
             Timber.d(builder);
+        } else {
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 

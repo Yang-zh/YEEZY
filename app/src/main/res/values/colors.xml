@@ -29,6 +29,7 @@
     <color name="spinner_background">#F3F4F6</color>
     <color name="cut_line_color">#D2D2D2</color>
     <color name="cut_line_color2">#DDDDDD</color>
+    <color name="cut_line_color3">#CCCCCC</color>
     <color name="text_color_gray">#999999</color>
     <color name="popup_background">#80000000</color>
     <color name="buttonColorBlue">#6FC8EA</color>
@@ -44,4 +45,5 @@
     <color name="background_splash">#887A7A7A</color>
     <color name="dialog_background">#AA333333</color>
     <color name="star_yellow">#F4C600</color>
+    <color name="background_jordan">#96000000</color>
 </resources>

@@ -15,6 +15,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,9 +27,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.fangzhich.sneakerlab.R;
+import com.fangzhich.sneakerlab.base.data.event.RxBus;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.cart.ui.DialogManager;
 import com.fangzhich.sneakerlab.main.data.entity.CategoryEntity;
+import com.fangzhich.sneakerlab.main.data.event.UserLogOutEvent;
 import com.fangzhich.sneakerlab.main.data.net.MainApi;
 import com.fangzhich.sneakerlab.product.ui.ProductDetailActivity;
 import com.fangzhich.sneakerlab.product.ui.ProductListFragment;
@@ -42,11 +45,14 @@ import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.fangzhich.sneakerlab.util.MyUtil;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import rx.SingleSubscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import timber.log.Timber;
 
 public class MainActivity extends BaseActivity {
@@ -161,17 +167,11 @@ public class MainActivity extends BaseActivity {
                             startActivity(new Intent(MainActivity.this, OrderHistoryActivity.class));
                         }
                         break;
-                    case R.id.currency:
-                        startActivity(new Intent(MainActivity.this, CurrencyActivity.class));
-                        break;
                     case R.id.contact:
                         startActivity(new Intent(MainActivity.this, ContactActivity.class));
                         break;
                     case R.id.support:
                         startActivity(new Intent(MainActivity.this, SupportActivity.class));
-                        break;
-                    case R.id.language:
-                        startActivity(new Intent(MainActivity.this, LanguageActivity.class));
                         break;
                     case R.id.about:
                         startActivity(new Intent(MainActivity.this, AboutActivity.class));
@@ -179,16 +179,6 @@ public class MainActivity extends BaseActivity {
                     case R.id.return_policy:
                         startActivity(new Intent(MainActivity.this, ReturnPolicyActivity.class));
                         break;
-                    case R.id.collection:
-                        if (!Const.isLogin()) {
-                            startActivityForResult(new Intent(MainActivity.this, LoginActivity.class),LoginActivity.IS_LOGIN);
-                        } else {
-                            startActivity(new Intent(MainActivity.this, WishListActivity.class));
-                        }
-                        break;
-                    case R.id.signout:
-                        Const.setLogin(false,null);
-                        refreshUserInfo();
                 }
                 drawerLayout.closeDrawers();
                 return true;
@@ -264,6 +254,21 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void loadData() {
         refreshUserInfo();
+        RxBus.getDefault()
+                .toObservable(UserLogOutEvent.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<UserLogOutEvent>() {
+                    @Override
+                    public void call(UserLogOutEvent userLogOutEvent) {
+                        refreshUserInfo();
+                    }
+                });
+
+        //firebase token initialize
+        Const.fireBaseMessageToken = FirebaseInstanceId.getInstance().getToken();
+//        ToastUtil.toast(FirebaseInstanceId.getInstance().getToken()+"----"+FirebaseInstanceId.getInstance().getCreationTime());
+//        Log.e("firebasetest",FirebaseInstanceId.getInstance().getToken()+"----"+FirebaseInstanceId.getInstance().getCreationTime());
+//        Log.e("firebasetest",Const.fireBaseMessageToken);
     }
 
     private void refreshUserInfo() {
@@ -289,7 +294,7 @@ public class MainActivity extends BaseActivity {
                     .into(headImage);
             userName.setText(Const.getUserInfo().user_info.firstname + " " + Const.getUserInfo().user_info.lastname);
         } else {
-            userName.setText("SneakerHead");
+            userName.setText(R.string.SignIn);
             headImage.setImageResource(R.mipmap.head_image_place_holder);
         }
     }

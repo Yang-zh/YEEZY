@@ -18,10 +18,6 @@
             android:icon="@mipmap/order"
             android:title="@string/OrderHistory"/>
         <item
-            android:id="@+id/currency"
-            android:icon="@mipmap/currency"
-            android:title="@string/Currency"/>
-        <item
             android:id="@+id/contact"
             android:icon="@mipmap/contact_us"
             android:title="@string/ContactUs"/>
@@ -30,25 +26,9 @@
             android:icon="@mipmap/support"
             android:title="@string/CustomerSupport"/>
         <item
-            android:id="@+id/language"
-            android:icon="@mipmap/language"
-            android:title="@string/Language"/>
-        <item
             android:id="@+id/about"
             android:icon="@mipmap/about_us"
             android:title="@string/AboutUs"/>
-        <item
-            android:id="@+id/return_policy"
-            android:icon="@mipmap/return_policy"
-            android:title="@string/ReturnPolicy"/>
-        <item
-            android:id="@+id/collection"
-            android:icon="@mipmap/collect"
-            android:title="@string/Collection"/>
-        <item
-            android:id="@+id/signout"
-            android:icon="@mipmap/logout"
-            android:title="@string/Logout" />
     </group>
 
     <!--<item android:title="SubItems">-->

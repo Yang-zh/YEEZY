@@ -16,7 +16,6 @@ import com.fangzhich.sneakerlab.base.ui.recyclerview.GridSpaceItemDecoration;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.OnScrollLoadMoreHelper;
 import com.fangzhich.sneakerlab.product.ui.adapter.ReviewListAdapter;
 import com.fangzhich.sneakerlab.user.ui.adapter.WishListAdapter;
-import com.fangzhich.sneakerlab.util.Const;
 
 import butterknife.BindView;
 
@@ -31,7 +30,7 @@ public class WishListActivity extends BaseActivity {
     Toolbar toolbar;
     @BindView(R.id.title)
     TextView title;
-    @BindView(R.id.rv_wish_list)
+    @BindView(R.id.rv_related)
     RecyclerView recyclerView;
     @BindView(R.id.no_data_notice)
     RelativeLayout noDataNotice;

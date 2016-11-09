@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="42dp" />
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_wish_list"
+                android:id="@+id/rv_related"
                 android:background="@color/product_list_background_color"
                 android:layout_below="@+id/content_title"
                 android:layout_width="match_parent"

@@ -1,6 +1,7 @@
 package com.fangzhich.sneakerlab;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -8,6 +9,7 @@ import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.Installation;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.orhanobut.logger.Logger;
 import com.squareup.leakcanary.LeakCanary;
 import com.twitter.sdk.android.Twitter;

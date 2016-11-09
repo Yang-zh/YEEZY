@@ -13,6 +13,7 @@ import timber.log.Timber;
 
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
+
     @Override
     public void onTokenRefresh() {
         Timber.d(FirebaseInstanceId.getInstance().getToken());

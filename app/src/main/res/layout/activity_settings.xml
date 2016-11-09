@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
@@ -23,4 +24,187 @@
                 android:textStyle="bold" />
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
+    <LinearLayout
+        android:layout_below="@+id/toolbar"
+        android:id="@+id/content_view"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <View
+            android:background="@color/cut_line_color2"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"/>
+        <RelativeLayout
+            android:background="?attr/selectableItemBackground"
+            android:id="@+id/bt_currency"
+            android:layout_width="match_parent"
+            android:layout_height="43.5dp">
+            <ImageView
+                android:id="@+id/icon_currency"
+                android:src="@mipmap/currency_black"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="21dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                tools:ignore="ContentDescription" />
+            <TextView
+                android:layout_toRightOf="@+id/icon_currency"
+                android:layout_centerVertical="true"
+                android:text="@string/Currency"
+                android:textColor="@color/tab_layout_select_color"
+                android:textSize="13sp"
+                android:layout_marginLeft="8.5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="17dp"
+                android:src="@mipmap/forward_black"
+                android:layout_width="11.5dp"
+                android:layout_height="11.5dp"
+                tools:ignore="ContentDescription" />
+        </RelativeLayout>
+        <View
+            android:background="@color/cut_line_color2"
+            android:layout_marginLeft="17.5dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <RelativeLayout
+            android:background="?attr/selectableItemBackground"
+            android:id="@+id/bt_language"
+            android:layout_width="match_parent"
+            android:layout_height="43.5dp">
+            <ImageView
+                android:id="@+id/icon_language"
+                android:src="@mipmap/language_black"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="21dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                tools:ignore="ContentDescription" />
+            <TextView
+                android:layout_toRightOf="@+id/icon_language"
+                android:layout_centerVertical="true"
+                android:text="@string/Language"
+                android:textColor="@color/tab_layout_select_color"
+                android:textSize="13sp"
+                android:layout_marginLeft="8.5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="17dp"
+                android:src="@mipmap/forward_black"
+                android:layout_width="11.5dp"
+                android:layout_height="11.5dp"
+                tools:ignore="ContentDescription" />
+        </RelativeLayout>
+        <View
+            android:background="@color/cut_line_color2"
+            android:layout_marginLeft="17.5dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <RelativeLayout
+            android:background="?attr/selectableItemBackground"
+            android:id="@+id/bt_return_policy"
+            android:layout_width="match_parent"
+            android:layout_height="43.5dp">
+            <ImageView
+                android:id="@+id/icon_return_policy"
+                android:src="@mipmap/return_policy_black"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="21dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                tools:ignore="ContentDescription" />
+            <TextView
+                android:layout_toRightOf="@+id/icon_return_policy"
+                android:layout_centerVertical="true"
+                android:text="@string/ReturnPolicy"
+                android:textColor="@color/tab_layout_select_color"
+                android:textSize="13sp"
+                android:layout_marginLeft="8.5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="17dp"
+                android:src="@mipmap/forward_black"
+                android:layout_width="11.5dp"
+                android:layout_height="11.5dp"
+                tools:ignore="ContentDescription" />
+        </RelativeLayout>
+        <View
+            android:background="@color/cut_line_color2"
+            android:layout_marginLeft="17.5dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <RelativeLayout
+            android:background="?attr/selectableItemBackground"
+            android:id="@+id/bt_change_password"
+            android:layout_width="match_parent"
+            android:layout_height="43.5dp">
+            <ImageView
+                android:id="@+id/icon_change_password"
+                android:src="@mipmap/change_password_black"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="21dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                tools:ignore="ContentDescription" />
+            <TextView
+                android:layout_toRightOf="@+id/icon_change_password"
+                android:layout_centerVertical="true"
+                android:text="@string/ChangePassword"
+                android:textColor="@color/tab_layout_select_color"
+                android:textSize="13sp"
+                android:layout_marginLeft="8.5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="17dp"
+                android:src="@mipmap/forward_black"
+                android:layout_width="11.5dp"
+                android:layout_height="11.5dp"
+                tools:ignore="ContentDescription" />
+        </RelativeLayout>
+        <View
+            android:background="@color/cut_line_color2"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:foreground="?attr/selectableItemBackground"
+        android:background="@android:color/white"
+        android:id="@+id/bt_logout"
+        android:layout_below="@+id/content_view"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <View
+            android:background="@color/cut_line_color2"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"/>
+        <TextView
+            android:text="@string/logout"
+            android:textColor="@color/text_color_gray"
+            android:textSize="13sp"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="14dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <View
+            android:background="@color/cut_line_color2"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"/>
+    </LinearLayout>
 </RelativeLayout>

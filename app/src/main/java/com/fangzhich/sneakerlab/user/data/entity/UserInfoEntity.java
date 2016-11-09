@@ -32,6 +32,8 @@ public class UserInfoEntity {
         public String token;
         public String code;
         public String date_added;
+        public int sex;
+        public int age;
 
         //facebook
         public String facebook_id;

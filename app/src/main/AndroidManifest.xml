@@ -25,10 +25,11 @@
 
         <activity
             android:name="com.fangzhich.sneakerlab.main.ui.MainActivity"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme" />
         <activity
             android:name="com.fangzhich.sneakerlab.user.ui.LoginActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/TransparentAppTheme" />
         <activity
             android:name=".user.ui.ForgetPasswordActivity"
             android:theme="@style/AppTheme" />
@@ -88,6 +89,21 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name="com.fangzhich.sneakerlab.user.ui.PersonalCenterActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.fangzhich.sneakerlab.user.ui.UserEditInfoActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.fangzhich.sneakerlab.user.ui.ChangePasswordActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.fangzhich.sneakerlab.user.ui.ChangeEmailActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.fangzhich.sneakerlab.user.ui.ChangeTelActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.fangzhich.sneakerlab.user.ui.ChangeNameActivity"
             android:theme="@style/AppTheme" />
         <activity
             android:name="com.fangzhich.sneakerlab.main.ui.SearchActivity"

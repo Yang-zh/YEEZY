@@ -19,6 +19,7 @@ import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.data.event.RxBus;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.BaseRecyclerViewAdapter;
 import com.fangzhich.sneakerlab.base.widget.NumberView;
+import com.fangzhich.sneakerlab.base.widget.PickerView;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
 import com.fangzhich.sneakerlab.cart.data.event.CartItemQuantityChangeEvent;
 import com.fangzhich.sneakerlab.cart.data.event.CartItemRemoveEvent;
@@ -158,28 +159,16 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Product, CartLi
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View numberView = View.inflate(v.getContext(),R.layout.dialog_number_view,null);
-                final AlertDialog dialog = new AlertDialog.Builder(v.getContext(),R.style.alertDialog).create();
-                dialog.setView(numberView);
-                final NumberPickerView picker = (NumberPickerView) numberView.findViewById(R.id.picker);
-                String[] values = new String[99];
-                for (int i=1;i<100;i++) {
-                    values[i-1] = String.valueOf(i);
-                }
-                picker.setDisplayedValues(values);
-                picker.setMinValue(1);
-                picker.setMaxValue(99);
-                picker.setValue(Integer.valueOf(holder.quantityDetail.getText().toString()));
-                CardView btConfirm = (CardView) numberView.findViewById(R.id.bt_confirm);
-                btConfirm.setOnClickListener(new View.OnClickListener() {
+                final PickerView pickerView = new PickerView(v.getContext());
+                pickerView.initPickerView(R.layout.dialog_number_view, 1, 99, Integer.valueOf(holder.quantityDetail.getText().toString()), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        picker.setClickable(false);
-                        final int quantity = picker.getValue();
+                        pickerView.setClickable(false);
+                        final int quantity = pickerView.getValue();
                         CartApi.editItemInCart(cartItem.cart_id, String.valueOf(quantity), new SingleSubscriber<Object>() {
                             @Override
                             public void onSuccess(Object value) {
-                                dialog.dismiss();
+                                pickerView.dismiss();
                                 holder.quantityDetail.setText(String.valueOf(quantity));
                                 loadData();
                             }
@@ -191,7 +180,7 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Product, CartLi
                         });
                     }
                 });
-                dialog.show();
+                pickerView.show();
             }
         });
 

@@ -7,6 +7,7 @@ import com.fangzhich.sneakerlab.base.data.net.BaseApi;
 import com.fangzhich.sneakerlab.user.data.entity.UserInfoEntity;
 import com.fangzhich.sneakerlab.user.data.entity.WishEntity;
 import com.fangzhich.sneakerlab.user.data.net.UserApi;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;

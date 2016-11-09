@@ -69,14 +69,10 @@ public class SplashActivity extends BaseActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (Const.isLogin()) {
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
                     finish();
-                } else {
+//                    rootView.setVisibility(View.VISIBLE);
 //                    splash.setVisibility(View.GONE);
-                    rootView.setVisibility(View.VISIBLE);
-                    splash.setVisibility(View.GONE);
-                }
             }
         }, 2500);
     }
