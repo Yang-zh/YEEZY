@@ -27,7 +27,7 @@ import timber.log.Timber;
  * productListAdapter
  * Created by Khorium on 2016/8/30.
  */
-public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntity,ProductListAdapter.ViewHolder> implements ProductListContract.View{
+public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntity, ProductListAdapter.ViewHolder> implements ProductListContract.View {
 
     private ProductListPresenter mPresenter;
 
@@ -49,8 +49,8 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
 
     @Override
     public void loadData() {
-        if (mPresenter!=null) {
-            mPresenter.getProductList("1",pageCount,categoryId);
+        if (mPresenter != null) {
+            mPresenter.getProductList("1", pageCount, categoryId);
         }
         totalPage = 1;
     }
@@ -74,7 +74,7 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
 
     @Override
     public void loadMore() {
-        mPresenter.getProductListMore(String.valueOf(++totalPage),pageCount,categoryId);
+        mPresenter.getProductListMore(String.valueOf(++totalPage), pageCount, categoryId);
         notifyDataSetChanged();
     }
 
@@ -103,21 +103,22 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
         holder.productName.setText(productItem.name);
         holder.productPrice.setText(TagFormatUtil
                 .from(holder.itemView.getContext().getResources().getString(R.string.priceFormat))
-                .with("price",productItem.special_price)
+                .with("price", productItem.special_price)
                 .format());
-        if (Double.valueOf(productItem.original_price)>Double.valueOf(productItem.special_price)) {
+        if (Double.valueOf(productItem.original_price) > Double.valueOf(productItem.special_price)) {
             holder.productOriginalPrice.setText(TagFormatUtil
                     .from(holder.itemView.getContext().getResources().getString(R.string.priceFormat))
-                    .with("price",productItem.original_price)
+                    .with("price", productItem.original_price)
                     .format());
         }
         holder.productOriginalPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         holder.productSellVolume.setText(R.string.nulll);
+        holder.promotion.setVisibility(productItem.promotion==1?View.VISIBLE:View.GONE);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Timber.d("On Item %d Click",position);
-                Intent intent = new Intent(v.getContext(),ProductDetailActivity.class);
+                Timber.d("On Item %d Click", position);
+                Intent intent = new Intent(v.getContext(), ProductDetailActivity.class);
                 intent.putExtra("product_id", mData.get(holder.getAdapterPosition()).product_id);
                 v.getContext().startActivity(intent);
             }
@@ -136,10 +137,12 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
         TextView productOriginalPrice;
         @BindView(R.id.tv_productSellVolume)
         TextView productSellVolume;
+        @BindView(R.id.promotion)
+        ImageView promotion;
 
         ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

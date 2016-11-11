@@ -35,6 +35,7 @@ import com.fangzhich.sneakerlab.main.data.net.MainApi;
 import com.fangzhich.sneakerlab.product.ui.ProductDetailActivity;
 import com.fangzhich.sneakerlab.product.ui.ProductListFragment;
 import com.fangzhich.sneakerlab.order.ui.OrderHistoryActivity;
+import com.fangzhich.sneakerlab.product.ui.ProductRecommendListFragment;
 import com.fangzhich.sneakerlab.user.ui.LoginActivity;
 import com.fangzhich.sneakerlab.user.ui.NotificationActivity;
 import com.fangzhich.sneakerlab.user.ui.PersonalCenterActivity;
@@ -192,13 +193,19 @@ public class MainActivity extends BaseActivity {
                     return;
                 }
                 for (CategoryEntity category : categoryList) {
-                    ProductListFragment fragment = new ProductListFragment();
                     Bundle args = new Bundle();
-
                     args.putString("category_id", category.category_id);
-                    fragment.setArguments(args);
 
-                    fragments.add(fragment);
+                    if (category.name.equals("Recommended")) {
+                        ProductRecommendListFragment fragment = new ProductRecommendListFragment();
+                        fragment.setArguments(args);
+                        fragments.add(fragment);
+                    } else {
+                        ProductListFragment fragment = new ProductListFragment();
+                        fragment.setArguments(args);
+                        fragments.add(fragment);
+                    }
+
                     fragmentTitles.add(category.name);
                 }
                 adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {

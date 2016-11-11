@@ -1,5 +1,6 @@
 package com.fangzhich.sneakerlab.user.ui;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.CardView;
@@ -33,6 +34,7 @@ import timber.log.Timber;
  */
 public class ChangeNameActivity extends BaseActivity {
 
+    public static final int CHANGE_SUCCESS = 101;
     private boolean isFirstNameCorrect;
     private boolean isLastNameCorrect;
 
@@ -76,20 +78,23 @@ public class ChangeNameActivity extends BaseActivity {
                 @Override
                 public void onSuccess(List value) {
                     ToastUtil.toast("Change name success!");
+                    Intent intent = new Intent();
+                    intent.putExtra("name",firstName.getText().toString()+" "+lastName.getText().toString());
+                    setIntent(intent);
+                    setResult(CHANGE_SUCCESS);
                     finish();
                 }
 
                 @Override
                 public void onError(Throwable error) {
                     ToastUtil.toast(error.getMessage());
-                    submit.setClickable(false);
+                    submit.setClickable(true);
                     Timber.e(error);
                 }
             });
         } else {
             validateInput();
         }
-
     }
 
     @Override

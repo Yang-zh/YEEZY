@@ -48,4 +48,6 @@
     <color name="star_yellow">#F4C600</color>
     <color name="background_jordan">#96000000</color>
     <color name="textColorHint">#B1B1B1</color>
+    <color name="text_color_yellowFFA057">#FFA057</color>
+    <color name="discount_type_background_yellowFF897D">#FF897D</color>
 </resources>

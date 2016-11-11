@@ -1,13 +1,16 @@
 package com.fangzhich.sneakerlab.product.ui;
 
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fangzhich.sneakerlab.R;
-import com.fangzhich.sneakerlab.base.ui.BaseFragment;
+import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.BaseRecyclerViewAdapter;
 import com.fangzhich.sneakerlab.product.data.entity.ProductEntity;
 import com.fangzhich.sneakerlab.product.data.entity.ShippingInfo;
@@ -17,10 +20,17 @@ import java.util.ArrayList;
 import butterknife.BindView;
 
 /**
- * ShippingInfo
- * Created by Khorium on 2016/8/31.
+ * ProductShippingInfoActivity
+ * Created by Khorium on 2016/11/11.
  */
-public class ProductShippingInfoFragment extends BaseFragment {
+
+public class ProductShippingInfoActivity extends BaseActivity {
+
+    @BindView(R.id.title)
+    TextView title;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
     @BindView(R.id.rv_shipping)
     RecyclerView rvShipping;
 
@@ -29,14 +39,29 @@ public class ProductShippingInfoFragment extends BaseFragment {
 
     @Override
     public int setContentLayout() {
-        return R.layout.fragment_product_shippinginfo;
+        return R.layout.activity_product_shippinginfo;
     }
 
     @Override
     protected void initContentView() {
-        product = getArguments().getParcelable("mProduct");
+        product = getIntent().getParcelableExtra("mProduct");
+        initToolbar();
+        initRecyclerView();
+    }
 
-        rvShipping.setLayoutManager(new LinearLayoutManager(getActivity()));
+    private void initToolbar() {
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar!=null) {
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        title.setText(R.string.ShippingSpaceInfo);
+    }
+
+    private void initRecyclerView() {
+        rvShipping.setLayoutManager(new LinearLayoutManager(this));
         adapter = new BaseRecyclerViewAdapter<ShippingInfo,RecyclerView.ViewHolder>() {
             @Override
             public void loadData() {
@@ -68,5 +93,15 @@ public class ProductShippingInfoFragment extends BaseFragment {
     @Override
     protected void loadData() {
         adapter.loadData();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -91,5 +91,11 @@
             android:textColor="@color/product_list_item_subText_color"
             android:textSize="@dimen/product_list_item_subText_size"
             android:visibility="gone" />
+        <ImageView
+            android:id="@+id/promotion"
+            android:visibility="gone"
+            android:src="@mipmap/promotion_black_friday"
+            android:layout_width="66.5dp"
+            android:layout_height="65.5dp" />
     </RelativeLayout>
 </android.support.v7.widget.CardView>

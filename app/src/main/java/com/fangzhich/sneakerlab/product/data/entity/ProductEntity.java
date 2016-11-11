@@ -12,6 +12,8 @@ import java.util.List;
  */
 public class ProductEntity implements Parcelable {
 
+    public String promotion;
+
     public String product_id;
     public String name;
     public String description;
@@ -26,6 +28,7 @@ public class ProductEntity implements Parcelable {
     public String special_price;
     public String reward;
     public String sales_volume;
+    public String discount;
     public int points;
     public String collections;
     public String shares;
@@ -214,6 +217,8 @@ public class ProductEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.promotion);
+
         dest.writeString(this.product_id);
         dest.writeString(this.name);
         dest.writeString(this.description);
@@ -228,6 +233,7 @@ public class ProductEntity implements Parcelable {
         dest.writeString(this.special_price);
         dest.writeString(this.reward);
         dest.writeString(this.sales_volume);
+        dest.writeString(this.discount);
         dest.writeInt(this.points);
         dest.writeString(this.collections);
         dest.writeString(this.shares);
@@ -257,6 +263,8 @@ public class ProductEntity implements Parcelable {
     }
 
     protected ProductEntity(Parcel in) {
+        this.promotion = in.readString();
+
         this.product_id = in.readString();
         this.name = in.readString();
         this.description = in.readString();
@@ -271,6 +279,7 @@ public class ProductEntity implements Parcelable {
         this.special_price = in.readString();
         this.reward = in.readString();
         this.sales_volume = in.readString();
+        this.discount = in.readString();
         this.points = in.readInt();
         this.collections = in.readString();
         this.shares = in.readString();

@@ -16,11 +16,18 @@ import com.bumptech.glide.request.target.Target;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.base.widget.PickerView;
+import com.fangzhich.sneakerlab.cart.data.net.CartApi;
 import com.fangzhich.sneakerlab.user.data.entity.UserInfoEntity;
+import com.fangzhich.sneakerlab.user.data.net.UserApi;
 import com.fangzhich.sneakerlab.util.Const;
+import com.fangzhich.sneakerlab.util.ToastUtil;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.SingleSubscriber;
+import timber.log.Timber;
 
 /**
  * UserEditInfoActivity
@@ -29,6 +36,9 @@ import butterknife.OnClick;
 public class UserEditInfoActivity extends BaseActivity {
 
 
+    private static final int IS_CHANGE_USERNAME_SUCCESS = 101;
+    private static final int IS_CHANGE_EMAIL_SUCCESS = 102;
+    private static final int IS_CHANGE_TEL_SUCCESS = 103;
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.toolbar)
@@ -36,6 +46,7 @@ public class UserEditInfoActivity extends BaseActivity {
 
     @BindView(R.id.avatar)
     ImageView avatar;
+
     @OnClick(R.id.bt_avatar)
     void changeAvatar() {
 
@@ -43,13 +54,15 @@ public class UserEditInfoActivity extends BaseActivity {
 
     @BindView(R.id.userName)
     TextView userName;
+
     @OnClick(R.id.bt_userName)
     void changeUserName() {
-        startActivity(new Intent(this,ChangeNameActivity.class));
+        startActivityForResult(new Intent(this, ChangeNameActivity.class), IS_CHANGE_USERNAME_SUCCESS);
     }
 
     @BindView(R.id.sex)
     TextView sex;
+
     @OnClick(R.id.bt_sex)
     void changeSex() {
 
@@ -57,30 +70,33 @@ public class UserEditInfoActivity extends BaseActivity {
 
     @BindView(R.id.age)
     TextView age;
+
     @OnClick(R.id.bt_age)
     void changeAge() {
         final PickerView pickerView = new PickerView(this);
         String ageString = age.getText().toString();
-        int ageValue = TextUtils.isEmpty(ageString)?1:Integer.parseInt(ageString);
-        pickerView.initPickerView(R.layout.dialog_number_view, 1, 99, ageValue==0?1:ageValue, new View.OnClickListener() {
+        int ageValue = TextUtils.isEmpty(ageString) ? 1 : Integer.parseInt(ageString);
+        pickerView.initPickerView(R.layout.dialog_number_view, 1, 99, ageValue == 0 ? 1 : ageValue, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pickerView.setClickable(false);
                 final int quantity = pickerView.getValue();
                 pickerView.dismiss();
-//                CartApi.editItemInCart(cartItem.cart_id, String.valueOf(quantity), new SingleSubscriber<Object>() {
-//                    @Override
-//                    public void onSuccess(Object value) {
-//                        pickerView.dismiss();
-//                        holder.quantityDetail.setText(String.valueOf(quantity));
-//                        loadData();
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable error) {
-//                        ToastUtil.toast(error.getMessage());
-//                    }
-//                });
+                UserInfoEntity.UserInfo userInfo = Const.getUserInfo().user_info;
+                UserApi.editPersonalInfo(userInfo.firstname, userInfo.lastname, userInfo.telephone, String.valueOf(userInfo.sex), String.valueOf(quantity), new SingleSubscriber<List>() {
+                    @Override
+                    public void onSuccess(List value) {
+                        ToastUtil.toast("Change age success!");
+                        age.setText(quantity);
+                        finish();
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        ToastUtil.toast(error.getMessage());
+                        Timber.e(error);
+                    }
+                });
             }
         });
         pickerView.show();
@@ -88,16 +104,18 @@ public class UserEditInfoActivity extends BaseActivity {
 
     @BindView(R.id.email)
     TextView email;
+
     @OnClick(R.id.bt_email)
     void changeEmail() {
-        startActivity(new Intent(this,ChangeEmailActivity.class));
+        startActivityForResult(new Intent(this, ChangeEmailActivity.class), IS_CHANGE_EMAIL_SUCCESS);
     }
 
     @BindView(R.id.tel)
     TextView tel;
+
     @OnClick(R.id.bt_tel)
     void changeTel() {
-        startActivity(new Intent(this,ChangeTelActivity.class));
+        startActivityForResult(new Intent(this, ChangeTelActivity.class), IS_CHANGE_TEL_SUCCESS);
     }
 
     @Override
@@ -143,7 +161,7 @@ public class UserEditInfoActivity extends BaseActivity {
                 })
                 .into(avatar);
         userName.setText(Const.getUserInfo().user_info.firstname + " " + Const.getUserInfo().user_info.lastname);
-        sex.setText(userInfo.sex==0?"Secret":userInfo.sex==1?"Male":"Female");
+        sex.setText(userInfo.sex == 0 ? "Secret" : userInfo.sex == 1 ? "Male" : "Female");
         age.setText(String.valueOf(userInfo.age));
         email.setText(userInfo.email);
         tel.setText(userInfo.telephone);
@@ -158,5 +176,26 @@ public class UserEditInfoActivity extends BaseActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case IS_CHANGE_EMAIL_SUCCESS:
+                if (resultCode == ChangeEmailActivity.CHANGE_SUCCESS) {
+                    email.setText(data.getStringExtra("email"));
+                }
+                break;
+            case IS_CHANGE_TEL_SUCCESS:
+                if (resultCode == ChangeTelActivity.CHANGE_SUCCESS) {
+                    tel.setText(data.getStringExtra("tel"));
+                }
+                break;
+            case IS_CHANGE_USERNAME_SUCCESS:
+                if (resultCode == ChangeNameActivity.CHANGE_SUCCESS) {
+                    userName.setText(data.getStringExtra("name"));
+                }
+                break;
+        }
     }
 }

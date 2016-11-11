@@ -229,6 +229,13 @@
     <string name="NameNotValid">name shouldn\'t be null</string>
     <string name="SeemNotValidTel">Tel seems not valid</string>
     <string name="EmailOrPasswordNotNull">please enter your email and password</string>
+    <string name="Ratings">Ratings</string>
+    <string name="ViewAll">View all</string>
+    <string name="ShippingSpaceInfo">Shipping info</string>
+    <string name="ServiceGuarantee">Service Guarantee</string>
+    <string name="Fast">Fast</string>
+    <string name="Quality">Quality</string>
+    <string name="Secure">Secure</string>
 
     <string-array name = "currencies">
         <item>USD($)</item>

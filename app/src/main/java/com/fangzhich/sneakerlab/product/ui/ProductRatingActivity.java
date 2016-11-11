@@ -1,8 +1,10 @@
 package com.fangzhich.sneakerlab.product.ui;
 
-
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
@@ -10,7 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.fangzhich.sneakerlab.R;
-import com.fangzhich.sneakerlab.base.ui.BaseFragment;
+import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.LinearLayoutItemDecoration;
 import com.fangzhich.sneakerlab.product.data.entity.ProductEntity;
 import com.fangzhich.sneakerlab.product.ui.adapter.ReviewListAdapter;
@@ -20,10 +22,17 @@ import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 import butterknife.BindView;
 
 /**
- * Rating
- * Created by Khorium on 2016/8/31.
+ * ProductRatingActivity
+ * Created by Khorium on 2016/11/11.
  */
-public class ProductRatingFragment extends BaseFragment {
+
+public class ProductRatingActivity extends BaseActivity {
+
+    @BindView(R.id.title)
+    TextView title;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
     @BindView(R.id.product_image)
     ImageView productImage;
     @BindView(R.id.product_name)
@@ -46,20 +55,33 @@ public class ProductRatingFragment extends BaseFragment {
 
     @Override
     public int setContentLayout() {
-        return R.layout.fragment_product_rating;
+        return R.layout.activity_product_rating;
     }
 
     @Override
     protected void initContentView() {
-        product = getArguments().getParcelable("mProduct");
+        product = getIntent().getParcelableExtra("mProduct");
+        initToolbar();
         initRecyclerView();
     }
 
+    private void initToolbar() {
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar!=null) {
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        title.setText(R.string.Ratings);
+    }
+
+
     private void initRecyclerView() {
-        LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         final ReviewListAdapter adapter = new ReviewListAdapter(product.product_id);
         rvComments.setLayoutManager(manager);
-        rvComments.addItemDecoration(new LinearLayoutItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        rvComments.addItemDecoration(new LinearLayoutItemDecoration(this, LinearLayoutManager.VERTICAL));
         rvComments.setAdapter(adapter);
         adapter.setOnAdapterStatusChangeListener(new ReviewListAdapter.OnAdapterStatusChangeListener() {
             @Override
@@ -80,7 +102,7 @@ public class ProductRatingFragment extends BaseFragment {
 
     @Override
     protected void loadData() {
-        Glide.with(getContext())
+        Glide.with(this)
                 .load(product.images==null?null:product.images.get(0))
                 .placeholder(R.mipmap.product_image_placeholder)
                 .fitCenter()
@@ -103,5 +125,15 @@ public class ProductRatingFragment extends BaseFragment {
                 .with("number", product.reviews)
                 .format());
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -1,5 +1,6 @@
 package com.fangzhich.sneakerlab.cart.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
@@ -23,7 +24,7 @@ public class DialogManager {
 
     private Context mContext;
     private View mContentView;
-    private ProductDetailActivity activity;
+    private Activity activity;
 
     public DialogManager(Context context, View contentView) {
         mContentView = contentView;
@@ -35,7 +36,7 @@ public class DialogManager {
     private AddressDialog mAddressDialog = new AddressDialog();
     private SizeDialog mSizeDialog = new SizeDialog();
 
-    public DialogManager withProductDetailControl(ProductDetailActivity activity) {
+    public DialogManager withProductDetailControl(Activity activity) {
         this.activity = activity;
         return this;
     }

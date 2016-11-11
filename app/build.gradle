@@ -12,6 +12,7 @@ android {
         targetSdkVersion 24
         versionCode 6
         versionName "1.0.5"
+        multiDexEnabled false
     }
 
     buildTypes {
@@ -70,14 +71,8 @@ dependencies {
 
     compile 'com.google.code.gson:gson:2.7'
 
-//    compile 'com.pushtorefresh.storio:sqlite:1.10.0'
-//    compile 'com.pushtorefresh.storio:content-resolver:1.10.0'
-
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxjava:1.1.9'
-
-//    compile 'com.google.dagger:dagger:2.6.1'
-//    annotationProcessor 'com.google.dagger:dagger-compiler:2.6.1'
 
     compile 'com.jakewharton:butterknife:8.4.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
@@ -92,6 +87,4 @@ dependencies {
 
     compile 'com.orhanobut:logger:1.15'
     compile 'com.jakewharton.timber:timber:4.3.0'
-
-    compile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
 }

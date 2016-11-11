@@ -1,7 +1,6 @@
 package com.fangzhich.sneakerlab;
 
 import android.app.Application;
-import android.util.Log;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -9,9 +8,7 @@ import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.Installation;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.orhanobut.logger.Logger;
-import com.squareup.leakcanary.LeakCanary;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
@@ -35,11 +32,6 @@ public class App extends Application {
         super.onCreate();
 
         Const.init(this);
-
-        //LeakCanary
-        if (BuildConfig.DEBUG) {
-            LeakCanary.install(this);
-        }
 
         if (BuildConfig.DEBUG) {
             //Logger
@@ -70,23 +62,4 @@ public class App extends Application {
         //IMEI
         Const.IMEI = Installation.id(this);
      }
-
-
-//    public void addActivity(Activity act) {
-//        allActivities.add(act);
-//    }
-//
-//    public void removeActivity(Activity act) {
-//        allActivities.remove(act);
-//    }
-//
-//    public void exitApp() {
-//        synchronized (allActivities) {
-//            for (Activity act : allActivities) {
-//                act.finish();
-//            }
-//        }
-//        android.os.Process.killProcess(android.os.Process.myPid());
-//        System.exit(0);
-//    }
 }

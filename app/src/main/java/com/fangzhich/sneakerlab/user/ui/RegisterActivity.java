@@ -23,7 +23,6 @@ import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.METValidator;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
-import com.squareup.haha.perflib.analysis.TopologicalSort;
 
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;

@@ -105,6 +105,7 @@ public class RelateProductListAdapter extends BaseRecyclerViewAdapter<PopularPro
         }
         holder.productOriginalPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         holder.productSellVolume.setText(R.string.nulll);
+//        holder.promotion.setVisibility(productItem.promotion==1?View.VISIBLE:View.GONE);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,6 +129,8 @@ public class RelateProductListAdapter extends BaseRecyclerViewAdapter<PopularPro
         TextView productOriginalPrice;
         @BindView(R.id.tv_productSellVolume)
         TextView productSellVolume;
+        @BindView(R.id.promotion)
+        ImageView promotion;
 
         ViewHolder(View itemView) {
             super(itemView);

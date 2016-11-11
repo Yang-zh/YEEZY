@@ -118,6 +118,17 @@ interface UserService {
             @Field("equipment_id") String imei);
 
     @FormUrlEncoded
+    @POST("index.php?route=api/customer/editEmail")
+    Single<HttpResult<Object>> editEmail(
+            @Field("email_new") String newEmail,
+            @Field("email") String email,
+            @Field("token") String token,
+            @Field("timestamp") String timestamp,
+            @Field("signature") String signature,
+            @Field("apiKey") String apiKey,
+            @Field("equipment_id") String imei);
+
+    @FormUrlEncoded
     @POST("index.php?route=api/address/add")
     Single<HttpResult<String>> addAddress(
             @Field("fullname") String fullname,

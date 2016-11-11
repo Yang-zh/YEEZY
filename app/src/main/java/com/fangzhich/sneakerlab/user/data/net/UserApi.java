@@ -266,6 +266,34 @@ public class UserApi extends BaseApi{
                 .subscribe(singleSubscriber);
     }
 
+    /**
+     * Edit email request
+     * @param newEmail new email
+     * @param singleSubscriber SingleSubscriber in RxJava (Callback)
+     */
+    public static void editEmail(String newEmail,
+                                        SingleSubscriber<Object> singleSubscriber) {
+
+        String timestamp = getTimeStamp();
+
+        HashMap<String,String> params = new HashMap<>();
+        params.put("email_new",newEmail);
+        params.put("email",email);
+        params.put("token",token);
+        params.put("timestamp",timestamp);
+
+        String signature = getSignature(params);
+
+        createService(UserService.class)
+                .editEmail(newEmail,
+                        email, token,
+                        timestamp, signature, API_KEY, Const.IMEI)
+                .map(new HttpResultFunc<Object>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(singleSubscriber);
+    }
+
     //--------------------------------------------------------------------------
     //---------------------------Credit Card------------------------------------
     //--------------------------------------------------------------------------

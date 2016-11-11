@@ -1,6 +1,7 @@
 package com.fangzhich.sneakerlab.product.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
@@ -86,7 +87,7 @@ public class ReviewListAdapter extends BaseRecyclerViewAdapter<ReviewEntity,Revi
     @Override
     protected void onBindHolder(ViewHolder holder, int position) {
         ReviewEntity review = mData.get(position);
-        holder.comment.setText(review.text);
+        holder.comment.setText(review.text.replace("&quot;", "\""));
         holder.ratingBar.getAnimationBuilder()
                 .setRatingTarget(review.rating)
                 .setDuration(1000)

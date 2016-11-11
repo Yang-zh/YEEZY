@@ -1,5 +1,6 @@
 package com.fangzhich.sneakerlab.user.ui;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +11,7 @@ import com.blankj.utilcode.utils.ConstUtils;
 import com.blankj.utilcode.utils.RegularUtils;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
+import com.fangzhich.sneakerlab.user.data.net.UserApi;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
@@ -18,6 +20,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
 import butterknife.OnTextChanged;
+import rx.SingleSubscriber;
+import timber.log.Timber;
 
 /**
  * ChangePasswordActivity
@@ -25,6 +29,7 @@ import butterknife.OnTextChanged;
  */
 public class ChangeEmailActivity extends BaseActivity {
 
+    public static final int CHANGE_SUCCESS = 101;
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.toolbar)
@@ -59,7 +64,25 @@ public class ChangeEmailActivity extends BaseActivity {
     @OnClick(R.id.bt_submit)
     void submit() {
         if (isEmailCorrect) {
-            ToastUtil.toast("Submit success(fake now)");
+            submit.setClickable(false);
+            UserApi.editEmail(email.getText().toString(), new SingleSubscriber<Object>() {
+                @Override
+                public void onSuccess(Object value) {
+                    ToastUtil.toast("Change email success!");
+                    Intent intent = new Intent();
+                    intent.putExtra("email",email.getText().toString());
+                    setIntent(intent);
+                    setResult(CHANGE_SUCCESS);
+                    finish();
+                }
+
+                @Override
+                public void onError(Throwable error) {
+                    ToastUtil.toast(error.getMessage());
+                    submit.setClickable(true);
+                    Timber.e(error);
+                }
+            });
             finish();
         } else {
             validateInput();

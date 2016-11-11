@@ -1,5 +1,6 @@
 package com.fangzhich.sneakerlab.user.ui;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -11,10 +12,14 @@ import com.blankj.utilcode.utils.ConstUtils;
 import com.blankj.utilcode.utils.RegularUtils;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
+import com.fangzhich.sneakerlab.user.data.entity.UserInfoEntity;
 import com.fangzhich.sneakerlab.user.data.net.UserApi;
+import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -29,6 +34,7 @@ import timber.log.Timber;
  */
 public class ChangeTelActivity extends BaseActivity {
 
+    public static final int CHANGE_SUCCESS = 101;
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.toolbar)
@@ -62,8 +68,26 @@ public class ChangeTelActivity extends BaseActivity {
     @OnClick(R.id.bt_submit)
     void submit() {
         if (isTelCorrect) {
-            ToastUtil.toast("Submit success(fake now)");
-            finish();
+            submit.setClickable(false);
+            UserInfoEntity.UserInfo userInfo = Const.getUserInfo().user_info;
+            UserApi.editPersonalInfo(userInfo.firstname, userInfo.lastname, tel.getText().toString(),String.valueOf(userInfo.sex),String.valueOf(userInfo.age), new SingleSubscriber<List>() {
+                @Override
+                public void onSuccess(List value) {
+                    ToastUtil.toast("Change tel success!");
+                    setResult(CHANGE_SUCCESS);
+                    Intent intent = new Intent();
+                    intent.putExtra("tel",tel.getText().toString());
+                    setIntent(intent);
+                    finish();
+                }
+
+                @Override
+                public void onError(Throwable error) {
+                    ToastUtil.toast(error.getMessage());
+                    submit.setClickable(true);
+                    Timber.e(error);
+                }
+            });
         } else {
             validateInput();
         }
