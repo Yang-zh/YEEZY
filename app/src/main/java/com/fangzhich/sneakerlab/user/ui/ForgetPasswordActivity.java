@@ -3,16 +3,20 @@ package com.fangzhich.sneakerlab.user.ui;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.EditText;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.ConstUtils;
+import com.blankj.utilcode.utils.RegularUtils;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.user.data.net.UserApi;
 import com.fangzhich.sneakerlab.util.ToastUtil;
+import com.rengwuxian.materialedittext.MaterialEditText;
+import com.rengwuxian.materialedittext.validation.RegexpValidator;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 import rx.SingleSubscriber;
 
 /**
@@ -25,10 +29,32 @@ public class ForgetPasswordActivity extends BaseActivity {
     Toolbar toolbar;
     @BindView(R.id.title)
     TextView title;
+
+
+    private boolean isEmailCorrect;
+
     @BindView(R.id.et_email)
-    EditText etEmail;
+    MaterialEditText etEmail;
+    @OnTextChanged(R.id.et_email)
+    void onEmailChanged(CharSequence s) {
+        isEmailCorrect = RegularUtils.isEmail(s.toString());
+        checkInput();
+    }
+
+    private void checkInput() {
+
+    }
+
+    private void validateInput() {
+        etEmail.validate();
+    }
+
     @OnClick(R.id.bt_submit)
     void submit() {
+        if (!isEmailCorrect) {
+            validateInput();
+            return;
+        }
         UserApi.forgetPassword(etEmail.getText().toString(), new SingleSubscriber<Object>() {
             @Override
             public void onSuccess(Object value) {
@@ -37,7 +63,7 @@ public class ForgetPasswordActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable error) {
-                ToastUtil.toast("can't send email,please retry");
+                ToastUtil.toast("send email failed, please retry or contact us by service@fangzhich.com");
             }
         });
     }
@@ -50,6 +76,13 @@ public class ForgetPasswordActivity extends BaseActivity {
     @Override
     protected void initContentView() {
         initToolbar();
+        initEditText();
+    }
+
+    private void initEditText() {
+        etEmail.setAutoValidate(true);
+        etEmail.addValidator(new RegexpValidator(getString(R.string.InValidEmail), ConstUtils.REGEX_EMAIL));
+        etEmail.setValidateOnFocusLost(false);
     }
 
     private void initToolbar() {

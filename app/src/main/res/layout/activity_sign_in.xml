@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
+
     <RelativeLayout
         android:id="@+id/root_view"
         android:layout_width="match_parent"
@@ -13,161 +14,190 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@mipmap/background_jordan"
+            android:src="@mipmap/background_splash"
             tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryAlpha80"
+            android:scaleType="centerCrop"
+            tools:ignore="ContentDescription" />
+
         <ImageView
             android:id="@+id/bt_close"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="20dp"
+            android:background="?attr/selectableItemBackground"
+            android:layout_width="37.5dp"
+            android:layout_height="37.5dp"
             android:layout_alignParentRight="true"
-            android:src="@mipmap/close_white"
-            android:layout_width="22.5dp"
-            android:layout_height="22.5dp" />
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="30dp"
+            android:padding="10dp"
+            android:src="@mipmap/close_bigger" />
+
         <ImageView
             android:id="@+id/title"
-            android:layout_marginTop="80dp"
-            android:layout_centerHorizontal="true"
-            android:src="@mipmap/title_white"
             android:layout_width="198.5dp"
-            android:layout_height="31.5dp" />
+            android:layout_height="31.5dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="110dp"
+            android:src="@mipmap/title_white" />
+
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/title"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:layout_marginTop="50dp"
             android:gravity="center"
             android:hint="@string/Email"
             android:inputType="textEmailAddress"
-            android:textSize="12sp"
-            android:layout_marginTop="50dp"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="60dp"
-            app:met_primaryColor="@android:color/white"
-            app:met_floatingLabel="normal"
-            app:met_floatingLabelText="@string/Email"
-            app:met_baseColor="@android:color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:textSize="16sp"
+            android:textCursorDrawable="@null"
+            app:met_textColor="@android:color/white"
+            app:met_textColorHint="@color/textColorHint"
+            app:met_errorColor="@color/colorAccent"
+            app:met_underlineColor="@color/cut_line_color3"
+            app:met_primaryColor="@color/cut_line_color3"/>
+
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/email"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:hint="@string/Password"
             android:inputType="textPassword"
-            android:textSize="12sp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="60dp"
-            android:layout_below="@+id/email"
-            app:met_floatingLabel="normal"
-            app:met_floatingLabelText="@string/Password"
-            app:met_baseColor="@android:color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <android.support.v7.widget.CardView
+            android:textSize="16sp"
+            android:textCursorDrawable="@null"
+            app:met_textColor="@android:color/white"
+            app:met_textColorHint="@color/textColorHint"
+            app:met_errorColor="@color/colorAccent"
+            app:met_underlineColor="@color/cut_line_color3"
+            app:met_primaryColor="@android:color/white"/>
+
+        <CheckBox
+            android:id="@+id/cb_password"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:padding="5dp"
+            android:layout_alignRight="@+id/password"
+            android:layout_alignTop="@+id/password"
+            android:layout_marginTop="5dp"
+            android:button="@drawable/password_selector" />
+        <ImageView
+            android:clickable="false"
             android:id="@+id/bt_sign_in"
-            android:foreground="?attr/selectableItemBackgroundBorderless"
-            app:cardCornerRadius="3dp"
-            app:cardElevation="0dp"
-            app:cardBackgroundColor="@color/colorAccent"
-            android:layout_below="@+id/password"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/password"
+            android:layout_centerHorizontal="true"
             android:layout_marginLeft="60dp"
             android:layout_marginRight="60dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="35dp" >
-            <TextView
-                android:textColor="@color/product_list_background_color"
-                android:gravity="center"
-                android:text="@string/SignIn"
-                android:textSize="15sp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </android.support.v7.widget.CardView>
+            android:layout_marginTop="35dp"
+            android:src="@mipmap/bt_sign_in_unclickable"
+            android:gravity="center"
+            tools:ignore="ContentDescription" />
         <View
             android:id="@+id/center_cut_Line"
-            android:layout_below="@+id/bt_sign_in"
-            android:layout_centerHorizontal="true"
             android:layout_width="1dp"
             android:layout_height="16dp"
+            android:layout_below="@+id/bt_sign_in"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="15.5dp"
-            android:background="@color/cut_line_color3"/>
+            android:background="@color/cut_line_color3" />
+
         <TextView
             android:id="@+id/bt_create_account"
-            android:textSize="12sp"
-            android:textColor="@color/cut_line_color3"
-            android:text="@string/CreateAccount"
-            android:layout_below="@+id/bt_sign_in"
-            android:layout_toLeftOf="@+id/center_cut_Line"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="15.5dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bt_sign_in"
+            android:background="?attr/selectableItemBackground"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10.5dp"
+            android:padding="5dp"
+            android:layout_toLeftOf="@+id/center_cut_Line"
+            android:text="@string/CreateAccount"
+            android:textColor="@color/cut_line_color3"
+            android:textSize="12sp" />
+
         <TextView
             android:id="@+id/bt_forget_password"
-            android:textSize="12sp"
-            android:textColor="@color/cut_line_color3"
-            android:text="@string/ForgetPassword"
-            android:layout_below="@+id/bt_sign_in"
-            android:layout_toRightOf="@+id/center_cut_Line"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="15.5dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bt_sign_in"
+            android:background="?attr/selectableItemBackground"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10.5dp"
+            android:padding="5dp"
+            android:layout_toRightOf="@+id/center_cut_Line"
+            android:text="@string/ForgetPassword"
+            android:textColor="@color/cut_line_color3"
+            android:textSize="12sp" />
         <!--<android.support.v7.widget.CardView-->
-            <!--android:id="@+id/bt_facebook"-->
-            <!--android:foreground="?attr/selectableItemBackgroundBorderless"-->
-            <!--app:cardCornerRadius="3dp"-->
-            <!--app:cardElevation="0dp"-->
-            <!--app:cardBackgroundColor="@color/login_by_facebook_button_background_gray"-->
-            <!--android:layout_below="@+id/bt_sign_in"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="40dp"-->
-            <!--android:layout_marginLeft="8dp"-->
-            <!--android:layout_marginRight="8dp"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:layout_marginTop="15dp" >-->
-            <!--<TextView-->
-                <!--android:textColor="@color/tab_layout_unSelect_color"-->
-                <!--android:gravity="center"-->
-                <!--android:text="@string/SignInWithFaceBook"-->
-                <!--android:textSize="14sp"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent" />-->
+        <!--android:id="@+id/bt_facebook"-->
+        <!--android:foreground="?attr/selectableItemBackgroundBorderless"-->
+        <!--app:cardCornerRadius="3dp"-->
+        <!--app:cardElevation="0dp"-->
+        <!--app:cardBackgroundColor="@color/login_by_facebook_button_background_gray"-->
+        <!--android:layout_below="@+id/bt_sign_in"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="40dp"-->
+        <!--android:layout_marginLeft="8dp"-->
+        <!--android:layout_marginRight="8dp"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginTop="15dp" >-->
+        <!--<TextView-->
+        <!--android:textColor="@color/tab_layout_unSelect_color"-->
+        <!--android:gravity="center"-->
+        <!--android:text="@string/SignInWithFaceBook"-->
+        <!--android:textSize="14sp"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
         <!--</android.support.v7.widget.CardView>-->
         <TextView
             android:id="@+id/signInWith"
-            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_above="@+id/bt_facebook"
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="15dp"
             android:text="@string/SignInWith"
-            android:textSize="12sp"
             android:textColor="@color/cut_line_color3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="12sp" />
+
         <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
             android:layout_above="@+id/bt_facebook"
             android:layout_marginBottom="22dp"
-            android:layout_toLeftOf="@+id/signInWith"
             android:layout_marginLeft="60dp"
             android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/signInWith"
+            android:background="@color/cut_line_color3" />
+
+        <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/cut_line_color3"/>
-        <View
             android:layout_above="@+id/bt_facebook"
             android:layout_marginBottom="22dp"
-            android:layout_toRightOf="@+id/signInWith"
-            android:layout_marginRight="60dp"
             android:layout_marginLeft="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/cut_line_color3"/>
+            android:layout_marginRight="60dp"
+            android:layout_toRightOf="@+id/signInWith"
+            android:background="@color/cut_line_color3" />
+
         <ImageView
             android:id="@+id/bt_facebook"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="41dp"
-            android:src="@mipmap/icon_facebook_rec"
-            android:layout_width="36dp"
-            android:layout_height="36dp" />
+            android:src="@mipmap/icon_facebook_rec" />
     </RelativeLayout>
 </RelativeLayout>

@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 public class OnScrollLoadMoreHelper extends RecyclerView.OnScrollListener{
 
     private BaseRecyclerViewAdapter mAdapter;
+    private boolean isLoadData;
 
     public OnScrollLoadMoreHelper(BaseRecyclerViewAdapter adapter){
         mAdapter = adapter;
@@ -24,8 +25,18 @@ public class OnScrollLoadMoreHelper extends RecyclerView.OnScrollListener{
         int totalItemCount = layoutManager.getItemCount();
 
         if (visibleItemCount>0 && newState == RecyclerView.SCROLL_STATE_IDLE
-                && lastVisibleItemPosition >= totalItemCount-1) {
-            mAdapter.loadMore();
+                && lastVisibleItemPosition >= totalItemCount-1 &&!isLoadData) {
+            isLoadData = true;
+            mAdapter.loadMore(new BaseRecyclerViewAdapter.OnLoadFinishListener() {
+                @Override
+                public void onLoadFinish() {
+                    setLoadDataStatus(false);
+                }
+            });
         }
+    }
+
+    public void setLoadDataStatus(boolean isLoadData){
+        this.isLoadData = isLoadData;
     }
 }

@@ -83,7 +83,8 @@ public class OrderConfirmedActivity extends BaseActivity {
         recyclerView.setLayoutManager(manager);
         recyclerView.addItemDecoration(new GridSpaceItemDecoration(SizeUtils.dp2px(OrderConfirmedActivity.this, 8), SPAN_COUNT));
         recyclerView.setAdapter(adapter);
-//        recyclerView.addOnScrollListener(new OnScrollLoadMoreHelper(adapter));
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.addOnScrollListener(new OnScrollLoadMoreHelper(adapter));
 
     }
 

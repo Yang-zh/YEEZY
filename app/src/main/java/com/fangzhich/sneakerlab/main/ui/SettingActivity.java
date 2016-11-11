@@ -1,23 +1,19 @@
 package com.fangzhich.sneakerlab.main.ui;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.data.event.RxBus;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
-import com.fangzhich.sneakerlab.main.data.event.UserLogOutEvent;
+import com.fangzhich.sneakerlab.main.data.event.UserInfoRefreshEvent;
 import com.fangzhich.sneakerlab.user.ui.ChangePasswordActivity;
 import com.fangzhich.sneakerlab.util.Const;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -30,6 +26,7 @@ public class SettingActivity extends BaseActivity {
     Toolbar toolbar;
     @BindView(R.id.title)
     TextView title;
+    public final static int LOG_OUT = 101;
 
     @OnClick(R.id.bt_currency)
     void curreny() {
@@ -54,7 +51,9 @@ public class SettingActivity extends BaseActivity {
     @OnClick(R.id.bt_logout)
     void logout() {
         Const.setLogin(false,null);
-        RxBus.getDefault().post(new UserLogOutEvent());
+        RxBus.getDefault().post(new UserInfoRefreshEvent());
+        setResult(LOG_OUT);
+        finish();
     }
 
     @Override

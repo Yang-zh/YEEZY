@@ -6,8 +6,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -40,6 +42,7 @@ import butterknife.OnClick;
 
 public class PersonalCenterActivity extends BaseActivity {
 
+    private static final int PERSONAL_CENTER = 101;
     //title
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -51,6 +54,7 @@ public class PersonalCenterActivity extends BaseActivity {
     ImageView headImage;
     @BindView(R.id.userName)
     TextView userName;
+
     @OnClick(R.id.edit_info)
     void editInfo() {
         startActivity(new Intent(this, UserEditInfoActivity.class));
@@ -61,10 +65,12 @@ public class PersonalCenterActivity extends BaseActivity {
     void shoppingCart() {
         new DialogManager(this, getWindow().getDecorView()).startShoppingCartDialog();
     }
+
     @OnClick(R.id.orderHistory)
     void orderHistory() {
         startActivity(new Intent(this, OrderHistoryActivity.class));
     }
+
     @OnClick(R.id.wishList)
     void wishlist() {
         startActivity(new Intent(this, WishListActivity.class));
@@ -119,6 +125,7 @@ public class PersonalCenterActivity extends BaseActivity {
         adapter = new RelateProductListAdapter();
         recyclerView.addItemDecoration(new GridSpaceItemDecoration(SizeUtils.dp2px(this, 8), 2));
         recyclerView.addOnScrollListener(new OnScrollLoadMoreHelper(adapter));
+        recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(adapter);
         adapter.setOnAdapterStatusChangeListener(new ReviewListAdapter.OnAdapterStatusChangeListener() {
             @Override
@@ -165,6 +172,7 @@ public class PersonalCenterActivity extends BaseActivity {
             adapter.loadData();
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_person_center, menu);
@@ -178,9 +186,20 @@ public class PersonalCenterActivity extends BaseActivity {
                 onBackPressed();
                 return true;
             case R.id.settings:
-                startActivity(new Intent(this, SettingActivity.class));
+                startActivityForResult(new Intent(this, SettingActivity.class), PERSONAL_CENTER);
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case PERSONAL_CENTER:
+                if (resultCode == SettingActivity.LOG_OUT) {
+                    finish();
+                    break;
+                }
+        }
     }
 }

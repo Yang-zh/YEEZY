@@ -1,5 +1,6 @@
 package com.fangzhich.sneakerlab.product.ui;
 
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.cart.ui.DialogManager;
+import com.fangzhich.sneakerlab.main.ui.MainActivity;
 import com.fangzhich.sneakerlab.product.data.entity.ProductEntity;
 import com.fangzhich.sneakerlab.product.presentation.ProductDetailContract;
 import com.fangzhich.sneakerlab.product.presentation.ProductDetailPresenter;
@@ -33,7 +35,7 @@ import timber.log.Timber;
  * ProductDetail Activity
  * Created by Khorium on 2016/8/31.
  */
-public class ProductDetailActivity extends BaseActivity implements ProductDetailContract.View{
+public class ProductDetailActivity extends BaseActivity implements ProductDetailContract.View {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -60,7 +62,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
 
     @OnClick(R.id.bt_buy)
     void buy() {
-        if (product!=null) {
+        if (product != null) {
             manager.withProductDetailControl(this).startSizeDialog(product);
         }
     }
@@ -78,6 +80,8 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
         mPresenter = (ProductDetailPresenter) presenter;
     }
 
+    Boolean fromSplash;
+
     @Override
     protected void initContentView() {
         setPresenter(new ProductDetailPresenter(this));
@@ -90,7 +94,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
     private void initToolbar() {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar!=null) {
+        if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -100,7 +104,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
 
     private void initViewPager(ProductEntity product) {
         Bundle args = new Bundle();
-        args.putParcelable("mProduct",product);
+        args.putParcelable("mProduct", product);
 
         ProductOverviewFragment productOverviewFragment = new ProductOverviewFragment();
         productOverviewFragment.setArguments(args);
@@ -158,12 +162,12 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
             }
         });
         tabLayout.setupWithViewPager(viewPager);
-        MyUtil.dynamicSetTabLayoutMode(tabLayout,this);
+        MyUtil.dynamicSetTabLayoutMode(tabLayout, this);
     }
 
     private void initBottomBarAndPopup() {
         priceOriginal.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        manager = new DialogManager(this,getWindow().getDecorView());
+        manager = new DialogManager(this, getWindow().getDecorView());
     }
 
     @Override
@@ -175,11 +179,11 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
     public void onGetProductDetailSuccess(ProductEntity product) {
         this.product = product;
         price.setText(TagFormatUtil.from(getResources().getString(R.string.priceFormat))
-                .with("price",String.valueOf(product.special_price))
+                .with("price", String.valueOf(product.special_price))
                 .format());
-        if (Double.valueOf(product.special_price)<Double.valueOf(product.original_price)) {
+        if (Double.valueOf(product.special_price) < Double.valueOf(product.original_price)) {
             priceOriginal.setText(TagFormatUtil.from(getResources().getString(R.string.priceFormat))
-                    .with("price",String.valueOf(product.original_price))
+                    .with("price", String.valueOf(product.original_price))
                     .format());
         } else {
             priceOriginal.setText("");

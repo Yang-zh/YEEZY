@@ -8,7 +8,7 @@
     android:background="@mipmap/head_background">
 
     <RelativeLayout
-        android:background="#9132303D"
+        android:background="@color/colorPrimaryAlpha80"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <!--<RelativeLayout-->

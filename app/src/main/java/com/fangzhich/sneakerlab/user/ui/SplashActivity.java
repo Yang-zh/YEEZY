@@ -22,6 +22,7 @@ import butterknife.OnClick;
  */
 public class SplashActivity extends BaseActivity {
 
+    boolean splashClick;
     @BindView(R.id.splash)
     ImageView splash;
     @BindView(R.id.root_view)
@@ -29,6 +30,7 @@ public class SplashActivity extends BaseActivity {
 
     @OnClick(R.id.splash)
     void onSplashClick() {
+        splashClick = true;
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("fromSplash", true);
         startActivity(intent);
@@ -69,8 +71,10 @@ public class SplashActivity extends BaseActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                if (!splashClick) {
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
                     finish();
+                }
 //                    rootView.setVisibility(View.VISIBLE);
 //                    splash.setVisibility(View.GONE);
             }

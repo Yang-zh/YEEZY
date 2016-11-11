@@ -222,6 +222,13 @@
     <string name="ProfilePhoto">Profile Photo</string>
     <string name="Password">Password</string>
     <string name="SignInWith">Sign in with</string>
+    <string name="InValidEmail">not a valid email address</string>
+    <string name="PasswordTooShort">password too short</string>
+    <string name="email">email</string>
+    <string name="EmailOrPasswordIncorrect">email or password incorrect</string>
+    <string name="NameNotValid">name shouldn\'t be null</string>
+    <string name="SeemNotValidTel">Tel seems not valid</string>
+    <string name="EmailOrPasswordNotNull">please enter your email and password</string>
 
     <string-array name = "currencies">
         <item>USD($)</item>

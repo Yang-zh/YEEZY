@@ -3,7 +3,9 @@ package com.fangzhich.sneakerlab.util;
 import android.content.Context;
 
 import com.blankj.utilcode.utils.SPUtils;
+import com.fangzhich.sneakerlab.base.data.event.RxBus;
 import com.fangzhich.sneakerlab.base.data.net.BaseApi;
+import com.fangzhich.sneakerlab.main.data.event.UserInfoRefreshEvent;
 import com.fangzhich.sneakerlab.user.data.entity.UserInfoEntity;
 import com.fangzhich.sneakerlab.user.data.entity.WishEntity;
 import com.fangzhich.sneakerlab.user.data.net.UserApi;
@@ -74,6 +76,7 @@ public class Const {
             BaseApi.refreshLoginInfo();
         }
         Obj.AppSp.putBoolean(SP.IS_LOGIN,login);
+        RxBus.getDefault().post(new UserInfoRefreshEvent());
     }
 
 

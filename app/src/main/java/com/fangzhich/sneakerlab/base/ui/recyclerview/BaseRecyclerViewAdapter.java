@@ -23,6 +23,10 @@ public abstract class BaseRecyclerViewAdapter<T, VH extends RecyclerView.ViewHol
     public abstract void loadData();
 
     public void loadMore() {
+
+    }
+
+    public void loadMore(OnLoadFinishListener listener) {
     }
 
     @Override
@@ -55,6 +59,14 @@ public abstract class BaseRecyclerViewAdapter<T, VH extends RecyclerView.ViewHol
     public void addItem(T entity) {
         mData.add(entity);
         notifyItemInserted(mData.size());
+    }
+
+    protected OnLoadFinishListener onLoadFinishListener;
+    public void setOnLoadFinishListener(OnLoadFinishListener listener) {
+        this.onLoadFinishListener = listener;
+    }
+    public interface OnLoadFinishListener {
+        void onLoadFinish();
     }
 
     protected OnAdapterStatusChangeListener listener;

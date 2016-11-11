@@ -15,7 +15,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,7 +30,7 @@ import com.fangzhich.sneakerlab.base.data.event.RxBus;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.cart.ui.DialogManager;
 import com.fangzhich.sneakerlab.main.data.entity.CategoryEntity;
-import com.fangzhich.sneakerlab.main.data.event.UserLogOutEvent;
+import com.fangzhich.sneakerlab.main.data.event.UserInfoRefreshEvent;
 import com.fangzhich.sneakerlab.main.data.net.MainApi;
 import com.fangzhich.sneakerlab.product.ui.ProductDetailActivity;
 import com.fangzhich.sneakerlab.product.ui.ProductListFragment;
@@ -40,11 +39,9 @@ import com.fangzhich.sneakerlab.user.ui.LoginActivity;
 import com.fangzhich.sneakerlab.user.ui.NotificationActivity;
 import com.fangzhich.sneakerlab.user.ui.PersonalCenterActivity;
 import com.fangzhich.sneakerlab.user.ui.SplashActivity;
-import com.fangzhich.sneakerlab.user.ui.WishListActivity;
 import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.fangzhich.sneakerlab.util.MyUtil;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
@@ -255,11 +252,11 @@ public class MainActivity extends BaseActivity {
     protected void loadData() {
         refreshUserInfo();
         RxBus.getDefault()
-                .toObservable(UserLogOutEvent.class)
+                .toObservable(UserInfoRefreshEvent.class)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<UserLogOutEvent>() {
+                .subscribe(new Action1<UserInfoRefreshEvent>() {
                     @Override
-                    public void call(UserLogOutEvent userLogOutEvent) {
+                    public void call(UserInfoRefreshEvent userInfoRefreshEvent) {
                         refreshUserInfo();
                     }
                 });

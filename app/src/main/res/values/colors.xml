@@ -11,6 +11,7 @@
     <color name="colorPrimary">#32303D</color>
     <color name="colorPrimaryDark">#32303D</color>
     <color name="colorAccent">#DC483E</color>
+    <color name="colorPrimaryAlpha80">#9132303D</color>
     <color name="textColorWhite">#FDFDFD</color>
     <color name="textColorBlack">#2A2A2A</color>
     <color name="backgroundGray">#57636F</color>
@@ -46,4 +47,5 @@
     <color name="dialog_background">#AA333333</color>
     <color name="star_yellow">#F4C600</color>
     <color name="background_jordan">#96000000</color>
+    <color name="textColorHint">#B1B1B1</color>
 </resources>

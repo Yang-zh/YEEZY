@@ -180,14 +180,17 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"/>
     </LinearLayout>
-    <LinearLayout
-        android:foreground="?attr/selectableItemBackground"
+    <FrameLayout
         android:background="@android:color/white"
-        android:id="@+id/bt_logout"
         android:layout_below="@+id/content_view"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="41dp">
+    <LinearLayout
+        android:background="?attr/selectableItemBackground"
+        android:id="@+id/bt_logout"
+        android:layout_width="match_parent"
+        android:layout_height="41dp"
         android:orientation="vertical">
         <View
             android:background="@color/cut_line_color2"
@@ -197,14 +200,15 @@
             android:text="@string/logout"
             android:textColor="@color/text_color_gray"
             android:textSize="13sp"
-            android:layout_marginTop="14dp"
-            android:layout_marginBottom="14dp"
+            android:gravity="center"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
         <View
             android:background="@color/cut_line_color2"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"/>
     </LinearLayout>
+    </FrameLayout>
 </RelativeLayout>

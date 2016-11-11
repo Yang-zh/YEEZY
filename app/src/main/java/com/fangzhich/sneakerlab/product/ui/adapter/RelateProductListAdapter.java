@@ -54,7 +54,7 @@ public class RelateProductListAdapter extends BaseRecyclerViewAdapter<PopularPro
     public void onLoadDataSuccess(ArrayList<PopularProductEntity> popularProductList) {
         mData = popularProductList;
         notifyDataSetChanged();
-
+        onLoadFinishListener.onLoadFinish();
     }
 
     @Override
@@ -73,7 +73,7 @@ public class RelateProductListAdapter extends BaseRecyclerViewAdapter<PopularPro
         int positionStart = mData.size() + 1;
         mData.addAll(popularProductList);
         notifyItemRangeChanged(positionStart, popularProductList.size());
-
+        onLoadFinishListener.onLoadFinish();
     }
 
     @Override
