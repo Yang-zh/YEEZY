@@ -54,7 +54,9 @@ public class RelateProductListAdapter extends BaseRecyclerViewAdapter<PopularPro
     public void onLoadDataSuccess(ArrayList<PopularProductEntity> popularProductList) {
         mData = popularProductList;
         notifyDataSetChanged();
-        onLoadFinishListener.onLoadFinish();
+        if (onLoadFinishListener!=null) {
+            onLoadFinishListener.onLoadFinish();
+        }
     }
 
     @Override
