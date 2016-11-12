@@ -99,5 +99,32 @@ public class Const {
         //save userInfo in RAM
         Const.Obj.userInfo = entity;
     }
+
+    public static void refreshEmail(String newEmail) {
+        Obj.userInfo.user_info.email = newEmail;
+        setUserInfo(Obj.userInfo);
+        BaseApi.refreshLoginInfo();
+    }
+
+    public static void refreshAge(int age) {
+        Obj.userInfo.user_info.age = age;
+        setUserInfo(Obj.userInfo);
+    }
+
+    public static void refreshTel(String tel) {
+        Obj.userInfo.user_info.telephone = tel;
+        setUserInfo(Obj.userInfo);
+    }
+
+    public static void refreshName(String firstName, String lastName) {
+        Obj.userInfo.user_info.firstname = firstName;
+        Obj.userInfo.user_info.lastname = lastName;
+        setUserInfo(Obj.userInfo);
+    }
+
+    public static void refreshSex(int gender) {
+        Obj.userInfo.user_info.sex = gender;
+        setUserInfo(Obj.userInfo);
+    }
 }
 

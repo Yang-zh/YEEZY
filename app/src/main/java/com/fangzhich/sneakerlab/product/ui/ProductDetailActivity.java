@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -47,13 +48,19 @@ import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.TagFormatUtil;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.iarcuschin.simpleratingbar.SimpleRatingBar;
+import com.twitter.sdk.android.tweetcomposer.BuildConfig;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import rx.SingleSubscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -86,6 +93,8 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
     TextView productPriceOriginal;
     @BindView(R.id.product_discount)
     TextView productDiscount;
+    @BindView(R.id.discount_type)
+    TextView discountType;
     @BindView(R.id.product_sale_volume)
     TextView productSaleVolume;
     @BindView(R.id.product_name)
@@ -157,6 +166,9 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
         }
     }
 
+    @BindView(R.id.self_tag)
+    ImageView saleTag;
+
     @BindView(R.id.product_price_bottom)
     TextView productPriceBottom;
 
@@ -225,6 +237,18 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
 
     private void initProductInfo() {
         //-------------product info---------------------
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            final ImageView transitionImage = (ImageView) findViewById(R.id.product_Image_for_transition);
+//            rx.Observable.timer(2000, TimeUnit.MILLISECONDS)
+//                    .asObservable()
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(new Action1<Long>() {
+//                        @Override
+//                        public void call(Long aLong) {
+//                            transitionImage.setVisibility(View.GONE);
+//                        }
+//                    });
+//        }
         imageUrls.clear();
         imageUrls.addAll(mProduct.images);
         banner.setPages(
@@ -234,8 +258,8 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
                         return new LocalImageHolderView();
                     }
                 }, imageUrls)
-                .setPageIndicator(new int[]{R.drawable.ic_page_indicator, R.drawable.ic_page_indicator_focused})
-                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT);
+                .setPageIndicator(new int[]{R.mipmap.point_grey, R.mipmap.point_black})
+                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL);
 
         productName.setText(mProduct.name);
         productPrice.setText(TagFormatUtil.from(getResources().getString(R.string.priceFormat))
@@ -248,10 +272,12 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
         } else {
             productPriceOriginal.setText("");
         }
-        if (!TextUtils.isEmpty(mProduct.discount)) {
+        if (TextUtils.isEmpty(mProduct.discount) || mProduct.discount.equals("0")) {
             productDiscount.setVisibility(View.GONE);
+            saleTag.setVisibility(View.GONE);
+            discountType.setVisibility(View.GONE);
         } else {
-            productDiscount.setText(mProduct.discount);
+            productDiscount.setText("-"+mProduct.discount);
         }
         productSaleVolume.setText(TagFormatUtil.from(getResources().getString(R.string.SellNumberFormat))
                 .with("number", mProduct.sales_volume)

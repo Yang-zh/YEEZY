@@ -188,8 +188,8 @@ public class ShoppingCartDialog {
                 manager.closeAll();
             }
         });
-
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setNestedScrollingEnabled(false);
 
         return this;
     }

@@ -66,7 +66,6 @@
                     android:layout_below="@+id/product_name"
                     android:layout_marginTop="12.5dp"
                     android:paddingLeft="20dp"
-                    android:text="$288.00"
                     android:textColor="@color/text_color_red"
                     android:textSize="17sp" />
 
@@ -78,7 +77,6 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="15.5dp"
                     android:layout_toRightOf="@+id/product_price"
-                    android:text="$450.00"
                     android:textColor="@color/text_color_gray"
                     android:textSize="12sp" />
 
@@ -95,7 +93,6 @@
                     android:paddingLeft="5.5dp"
                     android:paddingRight="5.5dp"
                     android:paddingTop="2dp"
-                    android:text="-50%"
                     android:textColor="@color/text_color_yellowFFA057"
                     android:textSize="12sp" />
 
@@ -107,7 +104,6 @@
                     android:layout_below="@+id/product_name"
                     android:layout_marginTop="16dp"
                     android:paddingRight="20dp"
-                    android:text="300 bought"
                     android:textColor="@color/text_color_gray"
                     android:textSize="12sp" />
 
@@ -159,7 +155,6 @@
                     android:paddingRight="20dp"
                     android:ellipsize="end"
                     android:maxLines="2"
-                    android:text="Men’s casual high-top men’s cocount yeezy men’s cocount yeezy"
                     android:textColor="@color/tab_layout_select_color"
                     android:textSize="16sp" />
             </RelativeLayout>
@@ -170,14 +165,14 @@
                 android:layout_height="match_parent"
                 android:layout_below="@+id/summary_layout"
                 android:layout_marginTop="10dp"
-                android:background="@android:color/white"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp">
+                android:background="@android:color/white">
 
                 <RelativeLayout
                     android:id="@+id/bt_product_rating"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
                     android:background="?attr/selectableItemBackground">
 
                     <TextView
@@ -212,7 +207,6 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="8dp"
                         android:layout_toRightOf="@+id/rating_bar"
-                        android:text="(520)"
                         android:textColor="@color/text_color_gray"
                         android:textSize="14sp" />
 
@@ -242,6 +236,8 @@
                     android:id="@+id/cut_line2"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:layout_below="@+id/bt_product_rating"
                     android:background="@color/cut_line_color2" />
 
@@ -249,6 +245,8 @@
                     android:id="@+id/bt_product_shipping"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
                     android:layout_below="@+id/cut_line2"
                     android:background="?attr/selectableItemBackground">
 
@@ -448,8 +446,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="com.fangzhich.sneakerlab.base.widget.FooterBehavior">
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:id="@+id/bottomBar"
@@ -486,7 +483,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
                 android:layout_toRightOf="@+id/cut_line_bottom_bar"
-                android:src="@mipmap/self_tag"
+                android:src="@mipmap/sale_tag"
                 tools:ignore="ContentDescription" />
 
             <TextView
@@ -494,9 +491,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="8dp"
-                android:layout_toRightOf="@+id/self_tag"
-                android:text="$288.00"
+                android:layout_marginRight="12dp"
+                android:layout_toLeftOf="@+id/bt_buy"
                 android:textColor="@color/text_color_red"
                 android:textSize="17sp" />
 

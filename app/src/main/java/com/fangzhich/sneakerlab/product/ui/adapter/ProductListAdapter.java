@@ -1,8 +1,14 @@
 package com.fangzhich.sneakerlab.product.ui.adapter;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.os.Build;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.transition.ChangeImageTransform;
+import android.transition.Transition;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -11,11 +17,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.BaseRecyclerViewAdapter;
+import com.fangzhich.sneakerlab.main.ui.MainActivity;
 import com.fangzhich.sneakerlab.product.data.entity.ProductItemEntity;
 import com.fangzhich.sneakerlab.product.presentation.ProductListContract;
 import com.fangzhich.sneakerlab.product.presentation.ProductListPresenter;
 import com.fangzhich.sneakerlab.product.ui.ProductDetailActivity;
 import com.fangzhich.sneakerlab.util.TagFormatUtil;
+import com.fangzhich.sneakerlab.util.ToastUtil;
 
 import java.util.ArrayList;
 
@@ -114,15 +122,34 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
         holder.productOriginalPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         holder.productSellVolume.setText(R.string.nulll);
         holder.promotion.setVisibility(productItem.promotion==1?View.VISIBLE:View.GONE);
+        holder.discount.setText("-"+productItem.discount);
+        holder.discount.setVisibility(TextUtils.isEmpty(productItem.discount) || productItem.discount.equals("0")?View.GONE:View.VISIBLE);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Timber.d("On Item %d Click", position);
                 Intent intent = new Intent(v.getContext(), ProductDetailActivity.class);
                 intent.putExtra("product_id", mData.get(holder.getAdapterPosition()).product_id);
-                v.getContext().startActivity(intent);
+
+                if (onStartActivityListener!=null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    onStartActivityListener.beforeIntentSend(intent, holder.itemView);
+//                    v.getContext().startActivity(intent,bundle);
+                } else {
+                    intent.putExtra("product_id", mData.get(holder.getAdapterPosition()).product_id);
+                    v.getContext().startActivity(intent);
+                }
             }
         });
+    }
+
+    private OnStartActivityListener onStartActivityListener;
+
+    public interface OnStartActivityListener {
+        Bundle beforeIntentSend(Intent intent, View itemView);
+    }
+
+    public void setOnStartActivityListener(OnStartActivityListener listener) {
+        this.onStartActivityListener = listener;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -139,6 +166,8 @@ public class ProductListAdapter extends BaseRecyclerViewAdapter<ProductItemEntit
         TextView productSellVolume;
         @BindView(R.id.promotion)
         ImageView promotion;
+        @BindView(R.id.product_discount)
+        TextView discount;
 
         ViewHolder(View itemView) {
             super(itemView);

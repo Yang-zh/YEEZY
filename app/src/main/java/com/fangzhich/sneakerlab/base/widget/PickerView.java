@@ -45,6 +45,17 @@ public class PickerView {
         btConfirm.setOnClickListener(onConfirmListener);
     }
 
+    public void initPickerView(int layoutRes, String[] displayValues, int currentIndex, View.OnClickListener onConfirmListener) {
+
+        View numberView = View.inflate(mContext, layoutRes,null);
+        mDialog = new AlertDialog.Builder(mContext, R.style.alertDialog).create();
+        mDialog.setView(numberView);
+        mPickerView = (NumberPickerView) numberView.findViewById(R.id.picker);
+        mPickerView.setDisplayedValuesAndPickedIndex(displayValues,currentIndex,false);
+        CardView btConfirm = (CardView) numberView.findViewById(R.id.bt_confirm);
+        btConfirm.setOnClickListener(onConfirmListener);
+    }
+
     public void setClickable(boolean clickable) {
         mPickerView.setClickable(clickable);
     }
