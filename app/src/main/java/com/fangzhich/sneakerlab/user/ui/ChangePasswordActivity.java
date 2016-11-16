@@ -7,7 +7,6 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.MenuItem;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.fangzhich.sneakerlab.R;
@@ -96,8 +95,7 @@ public class ChangePasswordActivity extends BaseActivity {
         newPassword.invalidate();
     }
 
-
-    @BindView(R.id.bt_submit)
+    @BindView(R.id.bt_change_password)
     CardView submit;
     @OnClick(R.id.bt_change_password)
     void changePassword() {

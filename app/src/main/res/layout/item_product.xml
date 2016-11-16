@@ -78,6 +78,7 @@
                 tools:text="$ 800.00" />
         </LinearLayout>
         <TextView
+            android:visibility="gone"
             android:layout_below="@id/tv_productName"
             android:layout_alignParentRight="true"
             android:id="@+id/product_discount"

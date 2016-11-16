@@ -43,6 +43,7 @@ public class SupportListAdapter extends BaseRecyclerViewAdapter<MessageEntity, S
 
                 @Override
                 public void onError(Throwable error) {
+                    mData = new ArrayList<>();
                     ToastUtil.toast(error.getMessage());
                     Timber.e(error);
                 }

@@ -52,6 +52,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/tabLayout_main" />
+        <TextView
+            android:id="@+id/debug"
+            android:visibility="gone"
+            android:layout_marginTop="300dp"
+            android:layout_centerHorizontal="true"
+            android:text="这是这是这是DebugDebugDebug版"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView
