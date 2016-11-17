@@ -22,6 +22,7 @@ public class UserInfoEntity {
         public String fax;
         public Object cart;
         public Object wishlist;
+        public String avatar;
         public String newsletter;
         public String address_id;
         public String custom_field;

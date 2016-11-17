@@ -7,12 +7,14 @@ import com.fangzhich.sneakerlab.base.data.net.BaseApi;
 import com.fangzhich.sneakerlab.main.data.entity.MessageEntity;
 import com.fangzhich.sneakerlab.main.data.entity.NotificationEntity;
 import com.fangzhich.sneakerlab.base.data.net.FireBaseInitializeException;
+import com.fangzhich.sneakerlab.user.data.entity.AvatarEntity;
 import com.fangzhich.sneakerlab.user.data.entity.CreditCardEntity;
 import com.fangzhich.sneakerlab.user.data.entity.PersonalInfoEntity;
 import com.fangzhich.sneakerlab.user.data.entity.UserInfoEntity;
 import com.fangzhich.sneakerlab.user.data.entity.RegisterEntity;
 import com.fangzhich.sneakerlab.user.data.entity.WishEntity;
 import com.fangzhich.sneakerlab.util.Const;
+import com.squareup.okhttp.MultipartBuilder;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -23,6 +25,9 @@ import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import retrofit2.http.Multipart;
+import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import rx.SingleSubscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -281,7 +286,7 @@ public class UserApi extends BaseApi {
     /**
      * Edit email request
      *
-     * @param newEmail         new email
+     * @param newEmail new email
      * @param singleSubscriber SingleSubscriber in RxJava (Callback)
      */
     public static void editEmail(String newEmail,
@@ -307,18 +312,43 @@ public class UserApi extends BaseApi {
                 .subscribe(singleSubscriber);
     }
 
-    public static void editAvatar(byte[] file, SingleSubscriber<Object> singleSubscriber) {
+    public static void editAvatar(byte[] file, SingleSubscriber<AvatarEntity> singleSubscriber) {
+
+        String timestamp = getTimeStamp();
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("email", email);
+        params.put("token", token);
+        params.put("timestamp", timestamp);
+        String signature = getSignature(params);
 
         RequestBody requestFile =
                 RequestBody.create(MediaType.parse("image/png"), file);
-
-
         MultipartBody.Part body =
-                MultipartBody.Part.createFormData("avatar", "avatar.png", requestFile);
+                MultipartBody.Part.createFormData("file", "avatar.png", requestFile);
+
+        MultipartBody.Part emailField = MultipartBody.Part.create(Headers.of("Content-Disposition",
+                "form-data; name=\"email\""),RequestBody.create(null,email));
+
+        MultipartBody.Part tokenField = MultipartBody.Part.create(Headers.of("Content-Disposition",
+                "form-data; name=\"token\""),RequestBody.create(null,token));
+
+        MultipartBody.Part timestampField = MultipartBody.Part.create(Headers.of("Content-Disposition",
+                "form-data; name=\"timestamp\""),RequestBody.create(null,timestamp));
+
+        MultipartBody.Part signatureField = MultipartBody.Part.create(Headers.of("Content-Disposition",
+                "form-data; name=\"signature\""),RequestBody.create(null,signature));
+
+        MultipartBody.Part API_KEY_Field = MultipartBody.Part.create(Headers.of("Content-Disposition",
+                "form-data; name=\"apiKey\""),RequestBody.create(null,API_KEY));
+
+        MultipartBody.Part IMEI_Field = MultipartBody.Part.create(Headers.of("Content-Disposition",
+                "form-data; name=\"equipment_id\""),RequestBody.create(null,Const.IMEI));
 
         createService(UserService.class)
-                .editAvatar(body)
-                .map(new HttpResultFunc<Object>())
+                .editAvatar(body,emailField, tokenField,
+                        timestampField, signatureField, API_KEY_Field, IMEI_Field)
+                .map(new HttpResultFunc<AvatarEntity>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(singleSubscriber);

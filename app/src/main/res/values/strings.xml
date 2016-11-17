@@ -236,6 +236,9 @@
     <string name="Fast">Fast</string>
     <string name="Quality">Quality</string>
     <string name="Secure">Secure</string>
+    <string name="ChooseAvatar">Choose Avatar</string>
+    <string name="ShippingFree">shipping free</string>
+    <string name="fake_shipping_zero">$ 0.00</string>
 
     <string-array name = "currencies">
         <item>USD($)</item>

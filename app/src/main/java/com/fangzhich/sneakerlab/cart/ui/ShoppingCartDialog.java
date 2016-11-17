@@ -3,6 +3,7 @@ package com.fangzhich.sneakerlab.cart.ui;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -88,6 +89,8 @@ public class ShoppingCartDialog {
     TextView tvItemTotal;
     @BindView(R.id.tv_estimated_shipping)
     TextView tvEstimatedShipping;
+    @BindView(R.id.tv_estimated_shipping_fake)
+    TextView tvEstimatedShippingFake;
     @BindView(R.id.tv_tax)
     TextView tvTax;
     @BindView(R.id.tv_order_total)
@@ -245,9 +248,11 @@ public class ShoppingCartDialog {
                     cardCvv = cart.payment.card_cvv;
                     creditCartNumber.setText(cardNumber.length()>4?"****"+cardNumber.substring(cardNumber.length()-4):cardNumber);
                 }
-
+                tvEstimatedShippingFake.setText("$ 25.00");
+                tvEstimatedShippingFake.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 if (cart.shiping!=null) {
-                    tvEstimatedShipping.setText(cart.shiping.text);
+//                    tvEstimatedShipping.setText(cart.shiping.text);
+                    tvEstimatedShipping.setText(mContext.getString(R.string.fake_shipping_zero));
                 } else {
                     tvEstimatedShipping.setText(mContext.getString(R.string.not_sure));
                 }

@@ -1,13 +1,9 @@
 package com.fangzhich.sneakerlab.main.ui;
 
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -25,9 +21,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.blankj.utilcode.utils.ConvertUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
@@ -43,7 +37,6 @@ import com.fangzhich.sneakerlab.product.ui.ProductDetailActivity;
 import com.fangzhich.sneakerlab.product.ui.ProductListFragment;
 import com.fangzhich.sneakerlab.order.ui.OrderHistoryActivity;
 import com.fangzhich.sneakerlab.product.ui.ProductRecommendListFragment;
-import com.fangzhich.sneakerlab.user.data.net.UserApi;
 import com.fangzhich.sneakerlab.user.ui.LoginActivity;
 import com.fangzhich.sneakerlab.user.ui.NotificationActivity;
 import com.fangzhich.sneakerlab.user.ui.PersonalCenterActivity;
@@ -53,12 +46,11 @@ import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.fangzhich.sneakerlab.util.MyUtil;
 import com.google.firebase.iid.FirebaseInstanceId;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import rx.SingleSubscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import timber.log.Timber;
@@ -276,7 +268,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void loadData() {
         refreshUserInfo();
-        RxBus.getDefault()
+        rxBus = RxBus.getDefault()
                 .toObservable(UserInfoRefreshEvent.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<UserInfoRefreshEvent>() {
@@ -295,25 +287,46 @@ public class MainActivity extends BaseActivity {
 
     private void refreshUserInfo() {
         if (Const.isLogin()) {
-            Timber.d(Const.getUserInfo().user_info.avatarimage);
-            Glide.with(this)
-                    .load(Const.getUserInfo().user_info.avatarimage)
-                    .asBitmap()
-                    .placeholder(R.mipmap.head_image_place_holder)
-                    .fitCenter()
-                    .listener(new RequestListener<String, Bitmap>() {
-                        @Override
-                        public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
-                            return false;
-                        }
+            if (Const.getUserInfo().user_info.facebook_id!=null) {
+                Glide.with(this)
+                        .load(Const.getUserInfo().user_info.avatar)
+                        .asBitmap()
+                        .placeholder(R.mipmap.head_image_place_holder)
+                        .fitCenter()
+                        .listener(new RequestListener<String, Bitmap>() {
+                            @Override
+                            public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                                return false;
+                            }
 
-                        @Override
-                        public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                            headImage.setImageBitmap(resource);
-                            return false;
-                        }
-                    })
-                    .into(headImage);
+                            @Override
+                            public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                                headImage.setImageBitmap(resource);
+                                return false;
+                            }
+                        })
+                        .into(headImage);
+            } else {
+                Timber.d(Const.getUserInfo().user_info.avatar);
+                Glide.with(this)
+                        .load(Const.getUserInfo().user_info.avatar)
+                        .asBitmap()
+                        .placeholder(R.mipmap.head_image_place_holder)
+                        .fitCenter()
+                        .listener(new RequestListener<String, Bitmap>() {
+                            @Override
+                            public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                                headImage.setImageBitmap(resource);
+                                return false;
+                            }
+                        })
+                        .into(headImage);
+            }
             userName.setText(Const.getUserInfo().user_info.firstname + " " + Const.getUserInfo().user_info.lastname);
         } else {
             userName.setText(R.string.SignIn);
@@ -344,11 +357,6 @@ public class MainActivity extends BaseActivity {
         return true;
     }
 
-    private static final int CODE_GALLERY_REQUEST = 0xa0;
-    private static final int CODE_CAMERA_REQUEST = 0xa1;
-    private static final int CODE_RESULT_REQUEST = 0xa2;
-    private static final String IMAGE_FILE_NAME = "temp_head_image.jpg";
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (drawerToggle.onOptionsItemSelected(item)) {
@@ -356,12 +364,7 @@ public class MainActivity extends BaseActivity {
         }
         switch (item.getItemId()) {
             case R.id.search:
-                Intent intentFromGallery = new Intent();
-                // 设置文件类型
-                intentFromGallery.setType("image/*");
-                intentFromGallery.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intentFromGallery, CODE_GALLERY_REQUEST);
-//                startActivity(new Intent(MainActivity.this, SearchActivity.class));
+                startActivity(new Intent(MainActivity.this, SearchActivity.class));
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -379,87 +382,8 @@ public class MainActivity extends BaseActivity {
                     refreshUserInfo();
                 }
                 break;
-
-            case CODE_GALLERY_REQUEST:
-                cropRawPhoto(data.getData());
-                break;
-
-            case CODE_CAMERA_REQUEST:
-                if (hasSdcard()) {
-                    File tempFile = new File(
-                            Environment.getExternalStorageDirectory(),
-                            IMAGE_FILE_NAME);
-                    cropRawPhoto(Uri.fromFile(tempFile));
-                } else {
-                    Toast.makeText(getApplication(), "没有SDCard!", Toast.LENGTH_LONG)
-                            .show();
-                }
-                break;
-
-            case CODE_RESULT_REQUEST:
-                if (data != null) {
-                    Bitmap photo = data.getExtras().getParcelable("data");
-                    if (photo!=null) {
-                        ByteArrayOutputStream output = new ByteArrayOutputStream();
-                        photo.compress(Bitmap.CompressFormat.PNG, 100, output);
-                        photo.recycle();
-
-                        byte[] result = output.toByteArray();
-                        UserApi.editAvatar(result, new SingleSubscriber<Object>() {
-                            @Override
-                            public void onSuccess(Object value) {
-                                ToastUtil.toast("upload Avatar success!");
-                            }
-
-                            @Override
-                            public void onError(Throwable error) {
-                                Timber.d(error);
-                                ToastUtil.toast(error.getMessage());
-                            }
-                        });
-
-                        try {
-                            output.close();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-                break;
         }
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    public void cropRawPhoto(Uri uri) {
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-
-        // 设置裁剪
-        intent.putExtra("crop", "true");
-
-        // aspectX , aspectY :宽高的比例
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-
-        // outputX , outputY : 裁剪图片宽高
-        intent.putExtra("outputX", 300);
-        intent.putExtra("outputY", 300);
-        intent.putExtra("return-data", true);
-
-        startActivityForResult(intent, CODE_RESULT_REQUEST);
-    }
-
-    /**
-     * 检查设备是否存在SDCard的工具方法
-     */
-    public static boolean hasSdcard() {
-        String state = Environment.getExternalStorageState();
-        if (state.equals(Environment.MEDIA_MOUNTED)) {
-            // 有存储的SDCard
-            return true;
-        } else {
-            return false;
-        }
     }
 
     @Override
@@ -468,4 +392,13 @@ public class MainActivity extends BaseActivity {
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
+    Subscription rxBus;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (rxBus!=null && !rxBus.isUnsubscribed()) {
+            rxBus.unsubscribe();
+        }
+    }
 }

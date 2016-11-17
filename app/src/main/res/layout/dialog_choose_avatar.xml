@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/popup_background"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:layout_alignParentBottom="true"
+        android:id="@+id/dialog_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white">
+        <TextView
+            android:id="@+id/dialog_content_title"
+            android:layout_marginTop="11dp"
+            android:layout_centerHorizontal="true"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:text="@string/ChooseAvatar"
+            android:textColor="@color/tab_layout_unSelect_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <View
+            android:id="@+id/cutLine"
+            android:layout_marginTop="11dp"
+            android:layout_below="@+id/dialog_content_title"
+            android:background="@color/cut_line_color2"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"/>
+        <LinearLayout
+            android:id="@+id/share_layout"
+            android:layout_below="@+id/cutLine"
+            android:layout_marginTop="9dp"
+            android:layout_marginBottom="14dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/icon_gallery"
+                android:src="@mipmap/icon_gallery"
+                android:layout_margin="16dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+            <ImageView
+                android:id="@+id/icon_camera"
+                android:src="@mipmap/icon_camera"
+                android:layout_margin="16dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+        </LinearLayout>
+        <android.support.v7.widget.CardView
+            android:id="@+id/bt_cancel"
+            android:layout_below="@+id/share_layout"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            app:cardCornerRadius="3dp"
+            app:cardUseCompatPadding="false"
+            app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/product_option_background"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="15dp" >
+            <TextView
+                android:textColor="@color/tab_layout_unSelect_color"
+                android:gravity="center"
+                android:text="@string/Cancel"
+                android:textSize="15sp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </android.support.v7.widget.CardView>
+    </RelativeLayout>
+</RelativeLayout>
