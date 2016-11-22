@@ -4,15 +4,15 @@ apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    buildToolsVersion "24.0.3"
 
     defaultConfig {
         applicationId "com.fangzhich.sneakerlab"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 24
-        versionCode 6
-        versionName "1.0.5"
-        multiDexEnabled false
+        versionCode 8
+        versionName "1.1.1"
+//        multiDexEnabled true
     }
 
     buildTypes {
@@ -51,6 +51,7 @@ dependencies {
     compile 'com.google.firebase:firebase-messaging:9.6.1'
     compile 'com.google.firebase:firebase-auth:9.6.1'
 
+//    compile 'com.android.support:MultiDex:24.2.1'
     //noinspection GradleDependency
     compile 'com.android.support:appcompat-v7:24.2.1'
     //noinspection GradleDependency

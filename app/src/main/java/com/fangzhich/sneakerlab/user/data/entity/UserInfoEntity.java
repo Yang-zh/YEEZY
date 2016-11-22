@@ -32,6 +32,7 @@ public class UserInfoEntity {
         public String token;
         public String code;
         public String date_added;
+        public String avatar;
         public int sex;
         public int age;
 

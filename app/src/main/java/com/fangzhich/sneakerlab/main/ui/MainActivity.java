@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.fangzhich.sneakerlab.BuildConfig;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.data.event.RxBus;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
@@ -44,11 +45,13 @@ import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.fangzhich.sneakerlab.util.MyUtil;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import rx.SingleSubscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import timber.log.Timber;
@@ -81,6 +84,9 @@ public class MainActivity extends BaseActivity {
     ArrayList<String> fragmentTitles = new ArrayList<>();
     FragmentPagerAdapter adapter;
 
+    @BindView(R.id.debug)
+    TextView debug;
+
     @Override
     public int setContentLayout() {
         return R.layout.activity_main;
@@ -88,9 +94,15 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initContentView() {
-        if (getIntent().getBooleanExtra("fromSplash",false)) {
-            Intent intent = new Intent(this,ProductDetailActivity.class);
-            intent.putExtra("product_id","79");
+
+        //check if show debug notice
+        if (BuildConfig.BASE_URL.equals("http://api.fangzhich.com")) {
+            debug.setVisibility(View.VISIBLE);
+        }
+
+        if (getIntent().getBooleanExtra("fromSplash", false)) {
+            Intent intent = new Intent(this, ProductDetailActivity.class);
+            intent.putExtra("product_id", "79");
             startActivity(intent);
         }
         getNotification();
@@ -133,7 +145,7 @@ public class MainActivity extends BaseActivity {
                 if (Const.isLogin()) {
                     startActivity(new Intent(MainActivity.this, PersonalCenterActivity.class));
                 } else {
-                    startActivityForResult(new Intent(MainActivity.this,LoginActivity.class),LoginActivity.IS_LOGIN);
+                    startActivityForResult(new Intent(MainActivity.this, LoginActivity.class), LoginActivity.IS_LOGIN);
                 }
 
             }
@@ -153,14 +165,14 @@ public class MainActivity extends BaseActivity {
                         break;
                     case R.id.shoppingCart:
                         if (!Const.isLogin()) {
-                            startActivityForResult(new Intent(MainActivity.this, LoginActivity.class),LoginActivity.IS_LOGIN);
+                            startActivityForResult(new Intent(MainActivity.this, LoginActivity.class), LoginActivity.IS_LOGIN);
                         } else {
                             new DialogManager(MainActivity.this, getWindow().getDecorView()).startShoppingCartDialog();
                         }
                         break;
                     case R.id.history:
                         if (!Const.isLogin()) {
-                            startActivityForResult(new Intent(MainActivity.this, LoginActivity.class),LoginActivity.IS_LOGIN);
+                            startActivityForResult(new Intent(MainActivity.this, LoginActivity.class), LoginActivity.IS_LOGIN);
                         } else {
                             startActivity(new Intent(MainActivity.this, OrderHistoryActivity.class));
                         }
@@ -258,7 +270,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void loadData() {
         refreshUserInfo();
-        RxBus.getDefault()
+        rxBus = RxBus.getDefault()
                 .toObservable(UserInfoRefreshEvent.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<UserInfoRefreshEvent>() {
@@ -277,25 +289,46 @@ public class MainActivity extends BaseActivity {
 
     private void refreshUserInfo() {
         if (Const.isLogin()) {
-            Timber.d(Const.getUserInfo().user_info.avatarimage);
-            Glide.with(this)
-                    .load(Const.getUserInfo().user_info.avatarimage)
-                    .asBitmap()
-                    .placeholder(R.mipmap.head_image_place_holder)
-                    .fitCenter()
-                    .listener(new RequestListener<String, Bitmap>() {
-                        @Override
-                        public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
-                            return false;
-                        }
+            if (Const.getUserInfo().user_info.facebook_id!=null) {
+                Glide.with(this)
+                        .load(Const.getUserInfo().user_info.avatarimage)
+                        .asBitmap()
+                        .placeholder(R.mipmap.head_image_place_holder)
+                        .fitCenter()
+                        .listener(new RequestListener<String, Bitmap>() {
+                            @Override
+                            public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                                return false;
+                            }
 
-                        @Override
-                        public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                            headImage.setImageBitmap(resource);
-                            return false;
-                        }
-                    })
-                    .into(headImage);
+                            @Override
+                            public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                                headImage.setImageBitmap(resource);
+                                return false;
+                            }
+                        })
+                        .into(headImage);
+            } else {
+                Timber.d(Const.getUserInfo().user_info.avatar);
+                Glide.with(this)
+                        .load(Const.getUserInfo().user_info.avatar)
+                        .asBitmap()
+                        .placeholder(R.mipmap.head_image_place_holder)
+                        .fitCenter()
+                        .listener(new RequestListener<String, Bitmap>() {
+                            @Override
+                            public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                                headImage.setImageBitmap(resource);
+                                return false;
+                            }
+                        })
+                        .into(headImage);
+            }
             userName.setText(Const.getUserInfo().user_info.firstname + " " + Const.getUserInfo().user_info.lastname);
         } else {
             userName.setText(R.string.SignIn);
@@ -327,16 +360,6 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == LoginActivity.IS_LOGIN) {
-            if (resultCode == SplashActivity.SUCCESS) {
-                refreshUserInfo();
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
@@ -350,9 +373,34 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_CANCELED) {
+            return;
+        }
+
+        switch (requestCode) {
+            case LoginActivity.IS_LOGIN:
+                if (resultCode == SplashActivity.SUCCESS) {
+                    refreshUserInfo();
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
+    Subscription rxBus;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (rxBus!=null && !rxBus.isUnsubscribed()) {
+            rxBus.unsubscribe();
+        }
+    }
 }
