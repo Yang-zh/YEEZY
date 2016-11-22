@@ -40,6 +40,7 @@ public class ProductRecommendListFragment extends BaseFragment {
     @Override
     protected void initContentView() {
         categoryId = getArguments().getString("category_id");
+
         Glide.with(this)
                 .load(R.drawable.banner_black_friday)
                 .asGif()

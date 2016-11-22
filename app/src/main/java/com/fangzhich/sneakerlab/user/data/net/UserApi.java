@@ -243,6 +243,7 @@ public class UserApi extends BaseApi{
                                         SingleSubscriber<List> singleSubscriber) {
 
         String timestamp = getTimeStamp();
+        String birthday = "";
 
         HashMap<String,String> params = new HashMap<>();
         params.put("firstname",firstname);
@@ -250,6 +251,7 @@ public class UserApi extends BaseApi{
         params.put("phone",phone);
         params.put("sex",sex);
         params.put("age",age);
+        params.put("birthday",birthday);
         params.put("email",email);
         params.put("token",token);
         params.put("timestamp",timestamp);
@@ -257,7 +259,7 @@ public class UserApi extends BaseApi{
         String signature = getSignature(params);
 
         createService(UserService.class)
-                .editPersonalInfo(firstname, lastname, phone, sex, age,
+                .editPersonalInfo(firstname, lastname, phone, sex, age,birthday,
                         email, token,
                         timestamp, signature, API_KEY, Const.IMEI)
                 .map(new HttpResultFunc<List>())

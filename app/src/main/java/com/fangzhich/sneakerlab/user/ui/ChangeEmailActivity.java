@@ -12,6 +12,7 @@ import com.blankj.utilcode.utils.RegularUtils;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.user.data.net.UserApi;
+import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
@@ -29,13 +30,14 @@ import timber.log.Timber;
  */
 public class ChangeEmailActivity extends BaseActivity {
 
-    public static final int CHANGE_SUCCESS = 101;
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
     private boolean isEmailCorrect;
+
+    private String newEmailRequest;
 
     @BindView(R.id.email)
     MaterialEditText email;
@@ -65,14 +67,13 @@ public class ChangeEmailActivity extends BaseActivity {
     void submit() {
         if (isEmailCorrect) {
             submit.setClickable(false);
-            UserApi.editEmail(email.getText().toString(), new SingleSubscriber<Object>() {
+            newEmailRequest = email.getText().toString();
+            UserApi.editEmail(newEmailRequest, new SingleSubscriber<Object>() {
                 @Override
                 public void onSuccess(Object value) {
                     ToastUtil.toast("Change email success!");
-                    Intent intent = new Intent();
-                    intent.putExtra("email",email.getText().toString());
-                    setIntent(intent);
-                    setResult(CHANGE_SUCCESS);
+                    Const.refreshEmail(newEmailRequest);
+                    setResult(UserEditInfoActivity.CHANGE_SUCCESS);
                     finish();
                 }
 
@@ -83,30 +84,9 @@ public class ChangeEmailActivity extends BaseActivity {
                     Timber.e(error);
                 }
             });
-            finish();
         } else {
             validateInput();
         }
-//        String newPassword = this.newPassword.getText().toString();
-//
-//        if (newPassword.length()<6) {
-//            ToastUtil.toast("New password must longer than 6");
-//            return;
-//        }
-//
-//        UserApi.editPassword(oldPassword.getText().toString(), this.newPassword.getText().toString(), new SingleSubscriber<Object>() {
-//            @Override
-//            public void onSuccess(Object value) {
-//                ToastUtil.toast("Change password success!");
-//                finish();
-//            }
-//
-//            @Override
-//            public void onError(Throwable error) {
-//                ToastUtil.toast(error.getMessage());
-//                Timber.e(error);
-//            }
-//        });
     }
 
     @Override
@@ -132,6 +112,7 @@ public class ChangeEmailActivity extends BaseActivity {
     }
 
     private void initEditText() {
+        email.setText(Const.getUserInfo().user_info.email);
         email.setAutoValidate(true);
         email.addValidator(new RegexpValidator(getString(R.string.InValidEmail), ConstUtils.REGEX_EMAIL));
         email.setValidateOnFocusLost(false);

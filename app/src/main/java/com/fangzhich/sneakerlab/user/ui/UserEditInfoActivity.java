@@ -22,6 +22,7 @@ import com.fangzhich.sneakerlab.user.data.net.UserApi;
 import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -36,9 +37,11 @@ import timber.log.Timber;
 public class UserEditInfoActivity extends BaseActivity {
 
 
-    private static final int IS_CHANGE_USERNAME_SUCCESS = 101;
-    private static final int IS_CHANGE_EMAIL_SUCCESS = 102;
-    private static final int IS_CHANGE_TEL_SUCCESS = 103;
+    private static final int IS_CHANGE_USERNAME_SUCCESS = 1001;
+    private static final int IS_CHANGE_EMAIL_SUCCESS = 1002;
+    private static final int IS_CHANGE_TEL_SUCCESS = 1003;
+
+    public static final int CHANGE_SUCCESS = 2001;
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.toolbar)
@@ -65,7 +68,33 @@ public class UserEditInfoActivity extends BaseActivity {
 
     @OnClick(R.id.bt_sex)
     void changeSex() {
+        final PickerView pickerView = new PickerView(this);
+        final String[] genders = getResources().getStringArray(R.array.genders);
+        pickerView.initPickerView(R.layout.dialog_number_view, genders, Const.getUserInfo().user_info.sex, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickerView.setClickable(false);
+                final int value = pickerView.getValue();
+                UserInfoEntity.UserInfo userInfo = Const.getUserInfo().user_info;
+                UserApi.editPersonalInfo(userInfo.firstname, userInfo.lastname, userInfo.telephone, String.valueOf(value), String.valueOf(userInfo.age), new SingleSubscriber<List>() {
+                    @Override
+                    public void onSuccess(List list) {
+                        ToastUtil.toast("Change success!");
+                        sex.setText(genders[value]);
+                        Const.refreshSex(value);
+                        pickerView.dismiss();
+                    }
 
+                    @Override
+                    public void onError(Throwable error) {
+                        pickerView.setClickable(true);
+                        ToastUtil.toast(error.getMessage());
+                        Timber.e(error);
+                    }
+                });
+            }
+        });
+        pickerView.show();
     }
 
     @BindView(R.id.age)
@@ -81,18 +110,19 @@ public class UserEditInfoActivity extends BaseActivity {
             public void onClick(View v) {
                 pickerView.setClickable(false);
                 final int quantity = pickerView.getValue();
-                pickerView.dismiss();
                 UserInfoEntity.UserInfo userInfo = Const.getUserInfo().user_info;
                 UserApi.editPersonalInfo(userInfo.firstname, userInfo.lastname, userInfo.telephone, String.valueOf(userInfo.sex), String.valueOf(quantity), new SingleSubscriber<List>() {
                     @Override
                     public void onSuccess(List value) {
-                        ToastUtil.toast("Change age success!");
-                        age.setText(quantity);
-                        finish();
+                        ToastUtil.toast("Change success!");
+                        age.setText(String.valueOf(quantity));
+                        Const.refreshAge(quantity);
+                        pickerView.dismiss();
                     }
 
                     @Override
                     public void onError(Throwable error) {
+                        pickerView.setClickable(true);
                         ToastUtil.toast(error.getMessage());
                         Timber.e(error);
                     }
@@ -182,18 +212,20 @@ public class UserEditInfoActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case IS_CHANGE_EMAIL_SUCCESS:
-                if (resultCode == ChangeEmailActivity.CHANGE_SUCCESS) {
-                    email.setText(data.getStringExtra("email"));
+                ToastUtil.toast(String.valueOf(resultCode));
+                if (resultCode == CHANGE_SUCCESS) {
+                    email.setText(Const.getUserInfo().user_info.email);
                 }
                 break;
             case IS_CHANGE_TEL_SUCCESS:
-                if (resultCode == ChangeTelActivity.CHANGE_SUCCESS) {
-                    tel.setText(data.getStringExtra("tel"));
+                if (resultCode == CHANGE_SUCCESS) {
+                    tel.setText(Const.getUserInfo().user_info.telephone);
                 }
                 break;
             case IS_CHANGE_USERNAME_SUCCESS:
-                if (resultCode == ChangeNameActivity.CHANGE_SUCCESS) {
-                    userName.setText(data.getStringExtra("name"));
+                if (resultCode == CHANGE_SUCCESS) {
+                    String name = Const.getUserInfo().user_info.firstname+" "+Const.getUserInfo().user_info.lastname;
+                    email.setText(name);
                 }
                 break;
         }

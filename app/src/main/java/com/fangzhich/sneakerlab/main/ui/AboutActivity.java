@@ -5,6 +5,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.fangzhich.sneakerlab.BuildConfig;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 
@@ -20,6 +21,9 @@ public class AboutActivity extends BaseActivity {
     Toolbar toolbar;
     @BindView(R.id.title)
     TextView title;
+
+    @BindView(R.id.version_code)
+    TextView versionCode;
 
     @Override
     public int setContentLayout() {
@@ -43,7 +47,7 @@ public class AboutActivity extends BaseActivity {
 
     @Override
     protected void loadData() {
-
+        versionCode.setText(String.valueOf(BuildConfig.VERSION_NAME));
     }
 
     @Override

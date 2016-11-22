@@ -110,6 +110,7 @@ interface UserService {
             @Field("phone") String phone,
             @Field("sex") String sex,
             @Field("age") String age,
+            @Field("birthday") String birthday,
             @Field("email") String email,
             @Field("token") String token,
             @Field("timestamp") String timestamp,

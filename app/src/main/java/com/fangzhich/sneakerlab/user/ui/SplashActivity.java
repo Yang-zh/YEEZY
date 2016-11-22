@@ -30,11 +30,11 @@ public class SplashActivity extends BaseActivity {
 
     @OnClick(R.id.splash)
     void onSplashClick() {
-        splashClick = true;
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("fromSplash", true);
-        startActivity(intent);
-        finish();
+//        splashClick = true;
+//        Intent intent = new Intent(this, MainActivity.class);
+//        intent.putExtra("fromSplash", true);
+//        startActivity(intent);
+//        finish();
     }
 
     public static final int SUCCESS = 501;
