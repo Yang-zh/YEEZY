@@ -1,6 +1,7 @@
 package com.fangzhich.sneakerlab.user.ui;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -17,6 +18,7 @@ import com.fangzhich.sneakerlab.user.data.net.UserApi;
 import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.rengwuxian.materialedittext.validation.METValidator;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
 
 import java.util.List;
@@ -34,7 +36,6 @@ import timber.log.Timber;
  */
 public class ChangeTelActivity extends BaseActivity {
 
-    public static final int CHANGE_SUCCESS = 101;
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.toolbar)
@@ -45,7 +46,7 @@ public class ChangeTelActivity extends BaseActivity {
     MaterialEditText tel;
     @OnTextChanged(R.id.tel)
     void onTelFocusChanged(CharSequence s) {
-        isTelCorrect = RegularUtils.isTel(s.toString());
+        isTelCorrect = s.length()>=6;
         checkInput();
     }
     @OnFocusChange(R.id.tel)
@@ -74,10 +75,8 @@ public class ChangeTelActivity extends BaseActivity {
                 @Override
                 public void onSuccess(List value) {
                     ToastUtil.toast("Change tel success!");
-                    setResult(CHANGE_SUCCESS);
-                    Intent intent = new Intent();
-                    intent.putExtra("tel",tel.getText().toString());
-                    setIntent(intent);
+                    Const.refreshTel(tel.getText().toString());
+                    setResult(UserEditInfoActivity.CHANGE_SUCCESS);
                     finish();
                 }
 
@@ -136,8 +135,14 @@ public class ChangeTelActivity extends BaseActivity {
     }
 
     private void initEditText() {
+        tel.setText(Const.getUserInfo().user_info.telephone);
         tel.setAutoValidate(true);
-        tel.addValidator(new RegexpValidator(getString(R.string.SeemNotValidTel), ConstUtils.REGEX_TEL));
+        tel.addValidator(new METValidator(getString(R.string.SeemNotValidTel)) {
+            @Override
+            public boolean isValid(@NonNull CharSequence text, boolean isEmpty) {
+                return text.length()>=6;
+            }
+        });
         tel.setValidateOnFocusLost(false);
     }
 

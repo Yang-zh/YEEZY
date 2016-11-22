@@ -109,6 +109,16 @@
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/tv_estimated_shipping_fake"
+                    android:layout_toLeftOf="@+id/shipping"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/item_total"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/text_color_gray"
+                    android:textSize="15sp" />
+                <TextView
                     android:id="@+id/shipping"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

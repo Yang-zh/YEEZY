@@ -14,6 +14,12 @@ public class OnScrollLoadMoreHelper extends RecyclerView.OnScrollListener{
 
     public OnScrollLoadMoreHelper(BaseRecyclerViewAdapter adapter){
         mAdapter = adapter;
+        mAdapter.setOnLoadFinishListener(new BaseRecyclerViewAdapter.OnLoadFinishListener() {
+            @Override
+            public void onLoadFinish() {
+                isLoadData = false;
+            }
+        });
     }
 
     @Override

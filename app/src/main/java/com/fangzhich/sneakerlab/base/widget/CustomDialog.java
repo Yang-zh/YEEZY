@@ -43,4 +43,11 @@ public class CustomDialog {
         void onInit(final PopupWindow dialog, final View content);
         void onDismiss(final PopupWindow dialog, final View content);
     }
+
+    public void dismiss(){
+        if (mPopupWindow!=null) {
+            mPopupWindow.dismiss();
+        }
+    }
+
 }

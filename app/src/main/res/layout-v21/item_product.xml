@@ -65,7 +65,7 @@
                 android:id="@+id/tv_productOriginalPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
+                android:layout_marginLeft="4dp"
                 android:ellipsize="end"
                 android:lines="1"
                 android:textColor="@color/text_color_gray"
@@ -73,6 +73,23 @@
                 tools:ignore="SmallSp"
                 tools:text="$ 800.00" />
         </LinearLayout>
+        <TextView
+            android:visibility="gone"
+            android:layout_below="@id/tv_productName"
+            android:layout_alignParentRight="true"
+            android:id="@+id/product_discount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/discount_background_orange"
+            android:paddingBottom="1.5dp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:paddingTop="1.5dp"
+            android:textColor="@android:color/white"
+            android:textSize="10sp"
+            tools:ignore="SmallSp" />
 
         <TextView
             android:id="@+id/tv_productSellVolume"

@@ -1,6 +1,7 @@
 package com.fangzhich.sneakerlab.order.ui;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
@@ -229,6 +230,7 @@ public class OrderDetailActivity extends BaseActivity {
         title.setText(R.string.OrderDetail);
     }
 
+
     private void initRecyclerView() {
         productAdapter = new BaseRecyclerViewAdapter<OrderEntity.Product, ProductViewHolder>() {
 
@@ -371,10 +373,15 @@ public class OrderDetailActivity extends BaseActivity {
                 }
             }
         }
+        tvEstimatedShippingFake.setText("$ 25.00");
+        tvEstimatedShippingFake.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         shippingDetail.setText(TagFormatUtil.from(getResources().getString(R.string.priceFormat))
                 .with("price",order.shipping.cost)
                 .format());
     }
+
+    @BindView(R.id.tv_estimated_shipping_fake)
+    TextView tvEstimatedShippingFake;
 
     static class ProductViewHolder extends RecyclerView.ViewHolder{
 

@@ -34,7 +34,6 @@ import timber.log.Timber;
  */
 public class ChangeNameActivity extends BaseActivity {
 
-    public static final int CHANGE_SUCCESS = 101;
     private boolean isFirstNameCorrect;
     private boolean isLastNameCorrect;
 
@@ -78,10 +77,8 @@ public class ChangeNameActivity extends BaseActivity {
                 @Override
                 public void onSuccess(List value) {
                     ToastUtil.toast("Change name success!");
-                    Intent intent = new Intent();
-                    intent.putExtra("name",firstName.getText().toString()+" "+lastName.getText().toString());
-                    setIntent(intent);
-                    setResult(CHANGE_SUCCESS);
+                    Const.refreshName(firstName.getText().toString(),lastName.getText().toString());
+                    setResult(UserEditInfoActivity.CHANGE_SUCCESS);
                     finish();
                 }
 
@@ -109,6 +106,7 @@ public class ChangeNameActivity extends BaseActivity {
     }
 
     private void initEditText() {
+        firstName.setText(Const.getUserInfo().user_info.firstname);
         firstName.setAutoValidate(true);
         firstName.addValidator(new METValidator(getString(R.string.NameNotValid)) {
             @Override
@@ -118,6 +116,7 @@ public class ChangeNameActivity extends BaseActivity {
         });
         firstName.setValidateOnFocusLost(false);
 
+        lastName.setText(Const.getUserInfo().user_info.lastname);
         lastName.setAutoValidate(true);
         lastName.addValidator(new METValidator(getString(R.string.NameNotValid)) {
             @Override

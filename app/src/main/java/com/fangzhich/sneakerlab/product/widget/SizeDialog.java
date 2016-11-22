@@ -21,6 +21,7 @@ import com.fangzhich.sneakerlab.product.data.entity.ProductEntity;
 import com.fangzhich.sneakerlab.user.ui.LoginActivity;
 import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.TagFormatUtil;
+import com.fangzhich.sneakerlab.util.ToastUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -84,11 +85,30 @@ public class SizeDialog {
     @OnClick(R.id.bt_buy)
     void buy() {
         if (Const.isLogin()) {
-            manager.hideSizeDialog();
-            manager.startShoppingCartDialog(String.valueOf(product.product_id), String.valueOf(quantity), option, "0");
+            if (isChosenOption()) {
+                manager.hideSizeDialog();
+                manager.startShoppingCartDialog(String.valueOf(product.product_id), String.valueOf(quantity), option, "0");
+            } else {
+                ToastUtil.toast("Please choose product option you need");
+            }
         } else {
             mContext.startActivity(new Intent(mContext, LoginActivity.class));
         }
+    }
+
+    private boolean colorNeed = false;
+    private boolean sizeNeed = false;
+
+    private boolean isChosenOption() {
+        if (option.size()<=0) {
+            return false;
+        }
+        if (colorNeed && sizeNeed && option.size()<2) {
+            return false;
+        } else if (option.size()<1) {
+            return false;
+        }
+        return true;
     }
 
     private ProductEntity product;
@@ -180,6 +200,7 @@ public class SizeDialog {
         }
 
         if (colors != null && colors.size() != 0) {
+            colorNeed = true;
             rvColor.setLayoutManager(new GridLayoutManager(mContext, 2, GridLayoutManager.HORIZONTAL, false));
             colorAdapter = new OptionAdapter(colors,OptionType.Color);
             colorAdapter.setOnOptionChooseListener(new OptionAdapter.OnOptionChooseListener() {
@@ -191,12 +212,14 @@ public class SizeDialog {
             rvColor.setAdapter(colorAdapter);
             colorAdapter.loadData();
         } else {
+            colorNeed = false;
             rvColor.setVisibility(View.GONE);
             tvColor.setVisibility(View.GONE);
             lineSecond.setVisibility(View.GONE);
         }
 
         if (sizes != null && sizes.size() != 0) {
+            sizeNeed = true;
             rvSize.setLayoutManager(new GridLayoutManager(mContext, 2, GridLayoutManager.HORIZONTAL, false));
             sizeAdapter = new OptionAdapter(sizes,OptionType.Size);
             sizeAdapter.setOnOptionChooseListener(new OptionAdapter.OnOptionChooseListener() {
@@ -208,6 +231,7 @@ public class SizeDialog {
             rvSize.setAdapter(sizeAdapter);
             sizeAdapter.loadData();
         } else {
+            sizeNeed = false;
             rvSize.setVisibility(View.GONE);
             tvSize.setVisibility(View.GONE);
             lineThird.setVisibility(View.GONE);

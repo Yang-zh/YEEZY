@@ -1,20 +1,25 @@
 package com.fangzhich.sneakerlab.user.data.net;
 
+import com.fangzhich.sneakerlab.base.data.net.HttpResult;
 import com.fangzhich.sneakerlab.main.data.entity.MessageEntity;
 import com.fangzhich.sneakerlab.main.data.entity.NotificationEntity;
+import com.fangzhich.sneakerlab.user.data.entity.AvatarEntity;
 import com.fangzhich.sneakerlab.user.data.entity.CreditCardEntity;
 import com.fangzhich.sneakerlab.user.data.entity.PersonalInfoEntity;
-import com.fangzhich.sneakerlab.user.data.entity.UserInfoEntity;
 import com.fangzhich.sneakerlab.user.data.entity.RegisterEntity;
-import com.fangzhich.sneakerlab.base.data.net.HttpResult;
+import com.fangzhich.sneakerlab.user.data.entity.UserInfoEntity;
 import com.fangzhich.sneakerlab.user.data.entity.WishEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MultipartBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.Query;
 import rx.Single;
 
 /**
@@ -110,6 +115,7 @@ interface UserService {
             @Field("phone") String phone,
             @Field("sex") String sex,
             @Field("age") String age,
+            @Field("birthday") String birthday,
             @Field("email") String email,
             @Field("token") String token,
             @Field("timestamp") String timestamp,
@@ -127,6 +133,17 @@ interface UserService {
             @Field("signature") String signature,
             @Field("apiKey") String apiKey,
             @Field("equipment_id") String imei);
+
+    @Multipart
+    @POST(" index.php?route=api/customer/editAvatar")
+    Single<HttpResult<AvatarEntity>> editAvatar(
+            @Part MultipartBody.Part avatar,
+            @Part MultipartBody.Part email,
+            @Part MultipartBody.Part token,
+            @Part MultipartBody.Part timestamp,
+            @Part MultipartBody.Part signature,
+            @Part MultipartBody.Part apiKey,
+            @Part MultipartBody.Part imei);
 
     @FormUrlEncoded
     @POST("index.php?route=api/address/add")
