@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -98,17 +99,10 @@ public class ShoppingCartDialog {
         mContext.startActivity(new Intent(mContext, ReturnPolicyActivity.class));
     }
 
+    @BindView(R.id.bt_checkout)
+    CardView btCheckOut;
     @OnClick(R.id.bt_checkout)
     void checkout() {
-        if (TextUtils.isEmpty(address_id)) {
-            ToastUtil.toast("please add address info");
-            return;
-        }
-//        TextUtils.isEmpty(cardType) ||
-        if (TextUtils.isEmpty(cardNumber)) {
-            ToastUtil.toast("Please add credit card info");
-            return;
-        }
 
         final ProgressBar progressBar = ProgressBar.getInstance();
         progressBar.init(mContext, new ProgressBar.Callback() {
@@ -117,6 +111,21 @@ public class ShoppingCartDialog {
 
             }
         }).show();
+
+        btCheckOut.setClickable(false);
+        if (TextUtils.isEmpty(address_id)) {
+            ToastUtil.toast("please add address info");
+            progressBar.cancel();
+            btCheckOut.setClickable(true);
+            return;
+        }
+//        TextUtils.isEmpty(cardType) ||
+        if (TextUtils.isEmpty(cardNumber)) {
+            ToastUtil.toast("Please add credit card info");
+            progressBar.cancel();
+            btCheckOut.setClickable(true);
+            return;
+        }
 
         OrderApi.checkOut(new SingleSubscriber<ConfirmOrderEntity>() {
             @Override
@@ -133,6 +142,7 @@ public class ShoppingCartDialog {
             @Override
             public void onError(Throwable error) {
                 progressBar.cancel();
+                btCheckOut.setClickable(true);
                 manager.showCustomDialog(R.layout.dialog_checkout_fail, new CustomDialog.Listener() {
                     @Override
                     public void onInit(final PopupWindow dialog, View content) {
@@ -341,12 +351,13 @@ public class ShoppingCartDialog {
     }
 
     public void saveCreditCard(String type,String number,String year,String month,String cvv) {
-        cardType = type;
-        cardYear = year;
-        cardMonth = month;
-        cardCvv = cvv;
-        cardNumber = number;
-        creditCartNumber.setText(number.length()>4?"****"+number.substring(number.length()-4):number);
+//        cardType = type;
+//        cardYear = year;
+//        cardMonth = month;
+//        cardCvv = cvv;
+//        cardNumber = number;
+//        creditCartNumber.setText(number.length()>4?"****"+number.substring(number.length()-4):number);
+        loadData();
     }
 
 }
