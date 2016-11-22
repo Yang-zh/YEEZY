@@ -13,7 +13,10 @@ import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.cart.ui.DialogManager;
 import com.fangzhich.sneakerlab.base.widget.ProgressBar;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
+import com.fangzhich.sneakerlab.cart.ui.ShoppingCartDialog;
+import com.fangzhich.sneakerlab.user.data.entity.UserInfoEntity;
 import com.fangzhich.sneakerlab.user.data.net.UserApi;
+import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 
 import java.util.regex.Pattern;
@@ -28,6 +31,8 @@ import rx.SingleSubscriber;
  * Created by Khorium on 2016/9/1.
  */
 public class CreditCardDialog {
+
+    private CartEntity.Payment card;
 
     @OnClick(R.id.bt_cancel)
     void cancel() {
@@ -70,9 +75,10 @@ public class CreditCardDialog {
             ToastUtil.toast("please enter expiry date like 00/00");
             return;
         }
+
         String[] date = expiryDate.split("/");
-        final String year = date[0];
-        final String month = date[1];
+        final String month = date[0];
+        final String year = date[1];
 
         String zipPostalCode = etBillingPostalCode.getText().toString();
         if (TextUtils.isEmpty(zipPostalCode)) {
@@ -87,21 +93,39 @@ public class CreditCardDialog {
             }
         }).show();
 
-        UserApi.addCreditCard(cardNumber, month, year, securityCode, zipPostalCode, new SingleSubscriber<String>() {
-            @Override
-            public void onSuccess(String value) {
-                progressBar.cancel();
-                ToastUtil.toast("save credit card info success");
-                mPopupWindow.dismiss();
-                manager.saveCreditCard("CreditCard",cardNumber,year,month,securityCode);
-            }
+        if (this.card==null) {
+            UserApi.addCreditCard(cardNumber, month, year, securityCode, zipPostalCode, new SingleSubscriber<String>() {
+                @Override
+                public void onSuccess(String value) {
+                    progressBar.cancel();
+                    ToastUtil.toast("save credit card info success");
+                    mPopupWindow.dismiss();
+                    manager.saveCreditCard("CreditCard",cardNumber,year,month,securityCode);
+                }
 
-            @Override
-            public void onError(Throwable error) {
-                progressBar.cancel();
-                ToastUtil.toast(error.getMessage());
-            }
-        });
+                @Override
+                public void onError(Throwable error) {
+                    progressBar.cancel();
+                    ToastUtil.toast(error.getMessage());
+                }
+            });
+        } else {
+            UserApi.editCreditCard(cardNumber, month, year, securityCode, zipPostalCode, new SingleSubscriber<Object>() {
+                @Override
+                public void onSuccess(Object value) {
+                    progressBar.cancel();
+                    ToastUtil.toast("save credit card info success");
+                    mPopupWindow.dismiss();
+                    manager.saveCreditCard("CreditCard",cardNumber,year,month,securityCode);
+                }
+
+                @Override
+                public void onError(Throwable error) {
+                    progressBar.cancel();
+                    ToastUtil.toast(error.getMessage());
+                }
+            });
+        }
         mPopupWindow.dismiss();
     }
 
@@ -171,6 +195,7 @@ public class CreditCardDialog {
     }
 
     public CreditCardDialog withCreditCard(CartEntity.Payment card) {
+        this.card = card;
         if (card!=null) {
             etCreditCardNumber.setText(card.card_number);
             etSecurityCode.setText(card.card_cvv);

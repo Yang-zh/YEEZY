@@ -15,4 +15,6 @@ public class WishEntity {
     public String price;
     public String date_added;
     public String image;
+    public String discount;
+    public int promotion;
 }

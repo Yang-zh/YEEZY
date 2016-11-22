@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/shipping_info_background_color">
@@ -39,7 +40,8 @@
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_marginLeft="7dp"
-            android:layout_marginTop="15dp" />
+            android:layout_marginTop="15dp"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/product_name"
@@ -93,7 +95,7 @@
             app:srb_fillColor="@color/star_yellow"
             app:srb_isIndicator="true"
             app:srb_numberOfStars="5"
-            app:srb_starBorderWidth="2"
+            app:srb_starBorderWidth="1"
             app:srb_starSize="16dp"
             app:srb_stepSize="0.1" />
 

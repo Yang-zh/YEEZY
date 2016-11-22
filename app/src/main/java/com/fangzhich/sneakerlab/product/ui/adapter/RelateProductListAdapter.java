@@ -3,6 +3,7 @@ package com.fangzhich.sneakerlab.product.ui.adapter;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -107,7 +108,9 @@ public class RelateProductListAdapter extends BaseRecyclerViewAdapter<PopularPro
         }
         holder.productOriginalPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         holder.productSellVolume.setText(R.string.nulll);
-//        holder.promotion.setVisibility(productItem.promotion==1?View.VISIBLE:View.GONE);
+        holder.promotion.setVisibility(productItem.promotion==1?View.VISIBLE:View.GONE);
+        holder.discount.setText("-"+productItem.discount);
+        holder.discount.setVisibility(TextUtils.isEmpty(productItem.discount) || productItem.discount.equals("0")?View.GONE:View.VISIBLE);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -133,6 +136,8 @@ public class RelateProductListAdapter extends BaseRecyclerViewAdapter<PopularPro
         TextView productSellVolume;
         @BindView(R.id.promotion)
         ImageView promotion;
+        @BindView(R.id.product_discount)
+        TextView discount;
 
         ViewHolder(View itemView) {
             super(itemView);

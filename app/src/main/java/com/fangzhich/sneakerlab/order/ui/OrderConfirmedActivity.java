@@ -1,6 +1,7 @@
 package com.fangzhich.sneakerlab.order.ui;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,7 +40,7 @@ public class OrderConfirmedActivity extends BaseActivity {
 
     @OnClick(R.id.bt_viewOrders)
     void viewOrders() {
-        startActivity(new Intent(this,OrderHistoryActivity.class));
+        startActivity(new Intent(this, OrderHistoryActivity.class));
         finish();
     }
 
@@ -88,10 +89,16 @@ public class OrderConfirmedActivity extends BaseActivity {
 
     }
 
+    @BindView(R.id.tv_estimated_shipping_fake)
+    TextView tvEstimatedShippingFake;
+
     @Override
     protected void loadData() {
+
+        tvEstimatedShippingFake.setText("$ 25.00");
+        tvEstimatedShippingFake.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         shipping.setText(cart.shiping.text);
-        for (CartEntity.Totals total: cart.totals) {
+        for (CartEntity.Totals total : cart.totals) {
             switch (total.title) {
                 case "Sub-Total": {
                     itemTotal.setText(total.text);

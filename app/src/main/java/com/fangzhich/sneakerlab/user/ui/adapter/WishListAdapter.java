@@ -3,6 +3,7 @@ package com.fangzhich.sneakerlab.user.ui.adapter;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -114,6 +115,9 @@ public class WishListAdapter extends BaseRecyclerViewAdapter<WishEntity, Recycle
 //                    .with("price",productItem.original_price)
 //                    .format()));
 //        }
+        defaultHolder.promotion.setVisibility(wish.promotion==1?View.VISIBLE:View.GONE);
+        defaultHolder.discount.setText("-"+wish.discount);
+        defaultHolder.discount.setVisibility(TextUtils.isEmpty(wish.discount) || wish.discount.equals("0")?View.GONE:View.VISIBLE);
                 defaultHolder.productOriginalPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 defaultHolder.productSellVolume.setText(R.string.nulll);
                 defaultHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -157,6 +161,10 @@ public class WishListAdapter extends BaseRecyclerViewAdapter<WishEntity, Recycle
         TextView productOriginalPrice;
         @BindView(R.id.tv_productSellVolume)
         TextView productSellVolume;
+        @BindView(R.id.promotion)
+        ImageView promotion;
+        @BindView(R.id.product_discount)
+        TextView discount;
 
         public ViewHolder(View itemView) {
             super(itemView);

@@ -100,6 +100,12 @@ public class Const {
         Const.Obj.userInfo = entity;
     }
 
+    public static void refreshAvatar(String avatar) {
+        Obj.userInfo.user_info.avatar = avatar;
+        setUserInfo(Obj.userInfo);
+        RxBus.getDefault().post(new UserInfoRefreshEvent());
+    }
+
     public static void refreshEmail(String newEmail) {
         Obj.userInfo.user_info.email = newEmail;
         setUserInfo(Obj.userInfo);

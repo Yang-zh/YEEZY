@@ -11,4 +11,6 @@ public class PopularProductEntity {
     public String original_price;
     public String special_price;
     public String viewed;
+    public String discount;
+    public int promotion;
 }

@@ -94,7 +94,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initContentView() {
-
         //check if show debug notice
         if (BuildConfig.BASE_URL.equals("http://api.fangzhich.com")) {
             debug.setVisibility(View.VISIBLE);

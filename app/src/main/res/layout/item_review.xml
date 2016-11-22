@@ -16,7 +16,7 @@
             app:srb_numberOfStars="5"
             app:srb_stepSize="0.1"
             app:srb_borderColor="@color/cut_line_color2"
-            app:srb_starBorderWidth="2"
+            app:srb_starBorderWidth="1"
             app:srb_fillColor="@color/star_yellow" />
         <TextView
             android:layout_below="@+id/rating_bar"
