@@ -261,8 +261,8 @@ public class ShoppingCartDialog {
                 tvEstimatedShippingFake.setText("$ 25.00");
                 tvEstimatedShippingFake.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 if (cart.shiping!=null) {
-//                    tvEstimatedShipping.setText(cart.shiping.text);
-                    tvEstimatedShipping.setText(mContext.getString(R.string.fake_shipping_zero));
+                    tvEstimatedShipping.setText(cart.shiping.text);
+//                    tvEstimatedShipping.setText(mContext.getString(R.string.fake_shipping_zero));
                 } else {
                     tvEstimatedShipping.setText(mContext.getString(R.string.not_sure));
                 }

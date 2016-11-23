@@ -40,7 +40,7 @@ public class NotificationListAdapter extends BaseRecyclerViewAdapter<Notificatio
 
                 @Override
                 public void onError(Throwable error) {
-                    ToastUtil.toast(error.getMessage());
+//                    ToastUtil.toast(error.getMessage());
                     Timber.e(error);
                 }
             });

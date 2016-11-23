@@ -112,7 +112,7 @@ public class ChangeEmailActivity extends BaseActivity {
     }
 
     private void initEditText() {
-        email.setText(Const.getUserInfo().user_info.email);
+        email.setText(Const.getUserInfo().user_info.email.contains("fangzhi.com")?"":Const.getUserInfo().user_info.email);
         email.setAutoValidate(true);
         email.addValidator(new RegexpValidator(getString(R.string.InValidEmail), ConstUtils.REGEX_EMAIL));
         email.setValidateOnFocusLost(false);

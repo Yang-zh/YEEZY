@@ -199,7 +199,7 @@ public class CreditCardDialog {
         if (card!=null) {
             etCreditCardNumber.setText(card.card_number);
             etSecurityCode.setText(card.card_cvv);
-            etExpiryDateNumber.setText(card.card_year+"/"+card.card_month);
+            etExpiryDateNumber.setText(card.card_month+"/"+card.card_year);
             etBillingPostalCode.setText(card.zip_code);
         }
         return this;

@@ -155,7 +155,7 @@ public class UserEditInfoActivity extends BaseActivity {
     void changeAge() {
         final PickerView pickerView = new PickerView(this);
         String ageString = age.getText().toString();
-        int ageValue = TextUtils.isEmpty(ageString) ? 1 : Integer.parseInt(ageString);
+        int ageValue = TextUtils.isEmpty(ageString) ? 1 : ageString.length() > 5 ? 1 : Integer.parseInt(ageString);
         pickerView.initPickerView(R.layout.dialog_number_view, 1, 99, ageValue == 0 ? 1 : ageValue, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -236,29 +236,55 @@ public class UserEditInfoActivity extends BaseActivity {
 
     private void refreshUserInfo() {
         UserInfoEntity.UserInfo userInfo = Const.getUserInfo().user_info;
-        Glide.with(this)
-                .load(Const.getUserInfo().user_info.avatar)
-                .asBitmap()
-                .placeholder(R.mipmap.head_image_place_holder)
-                .fitCenter()
-                .listener(new RequestListener<String, Bitmap>() {
-                    @Override
-                    public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
-                        return false;
-                    }
+        if (Const.getUserInfo().user_info.facebook_id != null) {
+            Glide.with(this)
+                    .load(Const.getUserInfo().user_info.avatarimage)
+                    .asBitmap()
+                    .placeholder(R.mipmap.head_image_place_holder)
+                    .fitCenter()
+                    .listener(new RequestListener<String, Bitmap>() {
+                        @Override
+                        public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                            return false;
+                        }
 
-                    @Override
-                    public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        avatar.setImageBitmap(resource);
-                        return false;
-                    }
-                })
-                .into(avatar);
+                        @Override
+                        public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            avatar.setImageBitmap(resource);
+                            return false;
+                        }
+                    })
+                    .into(avatar);
+            if (userInfo.email.contains("fangzhi.com")) {
+                email.setText("Please set your email address");
+            } else {
+                email.setText(userInfo.email);
+            }
+        } else {
+            Glide.with(this)
+                    .load(Const.getUserInfo().user_info.avatar)
+                    .asBitmap()
+                    .placeholder(R.mipmap.head_image_place_holder)
+                    .fitCenter()
+                    .listener(new RequestListener<String, Bitmap>() {
+                        @Override
+                        public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            avatar.setImageBitmap(resource);
+                            return false;
+                        }
+                    })
+                    .into(avatar);
+            email.setText(userInfo.email);
+        }
         userName.setText(Const.getUserInfo().user_info.firstname + " " + Const.getUserInfo().user_info.lastname);
         sex.setText(userInfo.sex == 0 ? "Secret" : userInfo.sex == 1 ? "Male" : "Female");
-        age.setText(String.valueOf(userInfo.age));
-        email.setText(userInfo.email);
-        tel.setText(userInfo.telephone);
+        age.setText(userInfo.age == 0 ? "Click to set your age" : String.valueOf(userInfo.age));
+        tel.setText(TextUtils.isEmpty(userInfo.telephone) ? "Click to set your phone number" : userInfo.telephone);
     }
 
     @Override
@@ -275,7 +301,7 @@ public class UserEditInfoActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (rxBus!=null && !rxBus.isUnsubscribed()) {
+        if (rxBus != null && !rxBus.isUnsubscribed()) {
             rxBus.unsubscribe();
         }
     }
@@ -299,7 +325,7 @@ public class UserEditInfoActivity extends BaseActivity {
                 break;
             case IS_CHANGE_USERNAME_SUCCESS:
                 if (resultCode == CHANGE_SUCCESS) {
-                    String name = Const.getUserInfo().user_info.firstname+" "+Const.getUserInfo().user_info.lastname;
+                    String name = Const.getUserInfo().user_info.firstname + " " + Const.getUserInfo().user_info.lastname;
                     email.setText(name);
                 }
                 break;
