@@ -28,6 +28,7 @@ import com.bumptech.glide.request.target.Target;
 import com.fangzhich.sneakerlab.BuildConfig;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.data.event.RxBus;
+import com.fangzhich.sneakerlab.base.data.log.GLogManager;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.cart.ui.DialogManager;
 import com.fangzhich.sneakerlab.main.data.entity.CategoryEntity;
@@ -144,6 +145,7 @@ public class MainActivity extends BaseActivity {
                 if (Const.isLogin()) {
                     startActivity(new Intent(MainActivity.this, PersonalCenterActivity.class));
                 } else {
+                    GLogManager.loginEntryClick(MainActivity.this);
                     startActivityForResult(new Intent(MainActivity.this, LoginActivity.class), LoginActivity.IS_LOGIN);
                 }
 

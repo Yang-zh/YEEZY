@@ -27,10 +27,14 @@ public class LinearLayoutItemDecoration extends RecyclerView.ItemDecoration {
 
     private int mOrientation;
 
-    public LinearLayoutItemDecoration(Context context, int orientation) {
-        final TypedArray a = context.obtainStyledAttributes(ATTRS);
-        mDivider = a.getDrawable(0);
-        a.recycle();
+    public LinearLayoutItemDecoration(Context context, int orientation, int drawableResource) {
+        if (drawableResource!=0) {
+            mDivider = context.getResources().getDrawable(drawableResource);
+        } else {
+            final TypedArray a = context.obtainStyledAttributes(ATTRS);
+            mDivider = a.getDrawable(0);
+            a.recycle();
+        }
         setOrientation(orientation);
     }
 

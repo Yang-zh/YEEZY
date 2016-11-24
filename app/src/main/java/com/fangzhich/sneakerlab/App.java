@@ -23,7 +23,7 @@ import timber.log.Timber;
  */
 public class App extends Application {
 
-    private FirebaseAnalytics mFirebaseAnalytics;
+    private static FirebaseAnalytics mFirebaseAnalytics;
 
     private static final String TWITTER_KEY = "wKgCh1BtodC7yY41kvy7DvRjM";
     private static final String TWITTER_SECRET = "BHZHexsHvYY5T2Vhunsq27KZU9016yrYVCNfBJMxSzLs5ZyX7c";
@@ -63,6 +63,13 @@ public class App extends Application {
         //IMEI
         Const.IMEI = Installation.id(this);
      }
+
+    public static FirebaseAnalytics getFireBaseAnalytics() {
+        if (mFirebaseAnalytics!=null) {
+            return mFirebaseAnalytics;
+        }
+        return null;
+    }
 
 //    @Override
 //    protected void attachBaseContext(Context base) {

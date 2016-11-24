@@ -85,6 +85,8 @@ public class OrderDetailActivity extends BaseActivity {
 
     @BindView(R.id.bt_cancel)
     TextView btCancel;
+    private boolean review = false;
+
     @OnClick(R.id.bt_cancel)
     void cancel() {
         new CustomDialog().initPopup(this, R.layout.dialog_cancel, new CustomDialog.Listener() {
@@ -289,7 +291,7 @@ public class OrderDetailActivity extends BaseActivity {
             }
         };
         rvOrderDetailList.setLayoutManager(new LinearLayoutManager(this));
-        rvOrderDetailList.addItemDecoration(new LinearLayoutItemDecoration(this,LinearLayoutItemDecoration.VERTICAL_LIST));
+        rvOrderDetailList.addItemDecoration(new LinearLayoutItemDecoration(this,LinearLayoutItemDecoration.VERTICAL_LIST,0));
         rvOrderDetailList.setAdapter(productAdapter);
     }
 
@@ -328,7 +330,12 @@ public class OrderDetailActivity extends BaseActivity {
                 break;
             case "Completed":
                 orderOperation.setVisibility(View.VISIBLE);
-                btReview.setVisibility(View.VISIBLE);
+                for (OrderEntity.Product product:order.product) {
+                    if (product.review_status.equals("0")) {
+                        review = false;
+                    }
+                }
+                btReview.setVisibility(review?View.GONE:View.VISIBLE);
                 btRefund.setVisibility(View.VISIBLE);
                 break;
             case "Canceled":

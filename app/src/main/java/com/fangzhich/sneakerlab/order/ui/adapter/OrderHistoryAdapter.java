@@ -278,7 +278,7 @@ public class OrderHistoryAdapter extends BaseRecyclerViewAdapter<OrderItemEntity
 
         holder.recyclerView.setLayoutManager(new LinearLayoutManager(holder.recyclerView.getContext()));
         holder.recyclerView.setAdapter(productAdapter);
-        holder.recyclerView.addItemDecoration(new LinearLayoutItemDecoration(holder.recyclerView.getContext(),LinearLayoutItemDecoration.VERTICAL_LIST));
+        holder.recyclerView.addItemDecoration(new LinearLayoutItemDecoration(holder.recyclerView.getContext(),LinearLayoutItemDecoration.VERTICAL_LIST,0));
         productAdapter.loadData();
         productAdapter.notifyDataSetChanged();
 

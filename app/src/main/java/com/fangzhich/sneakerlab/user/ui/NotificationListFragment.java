@@ -34,7 +34,7 @@ public class NotificationListFragment extends BaseFragment {
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         adapter = new NotificationListAdapter();
         recyclerView.setLayoutManager(manager);
-        recyclerView.addItemDecoration(new LinearLayoutItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        recyclerView.addItemDecoration(new LinearLayoutItemDecoration(getActivity(), LinearLayoutManager.VERTICAL,0));
         recyclerView.setAdapter(adapter);
     }
 

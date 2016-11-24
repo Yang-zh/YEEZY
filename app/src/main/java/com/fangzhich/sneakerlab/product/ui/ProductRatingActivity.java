@@ -81,7 +81,7 @@ public class ProductRatingActivity extends BaseActivity {
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         final ReviewListAdapter adapter = new ReviewListAdapter(product.product_id);
         rvComments.setLayoutManager(manager);
-        rvComments.addItemDecoration(new LinearLayoutItemDecoration(this, LinearLayoutManager.VERTICAL));
+        rvComments.addItemDecoration(new LinearLayoutItemDecoration(this, LinearLayoutManager.VERTICAL,0));
         rvComments.setAdapter(adapter);
         adapter.setOnAdapterStatusChangeListener(new ReviewListAdapter.OnAdapterStatusChangeListener() {
             @Override
