@@ -25,4 +25,14 @@ interface MainService {
             @Field("signature") String signature,
             @Field("apiKey") String apiKey,
             @Field("equipment_id") String imei);
+
+    @FormUrlEncoded
+    @POST("index.php?route=api/firebasetoken/add")
+    Single<HttpResult<Object>> refreshFireBaseToken(
+            @Field("token") String fireBaseToken,
+            @Field("customer_id") String customer_id,
+            @Field("timestamp") String timestamp,
+            @Field("signature") String signature,
+            @Field("apiKey") String apiKey,
+            @Field("equipment_id") String imei);
 }

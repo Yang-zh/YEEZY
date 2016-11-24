@@ -33,6 +33,7 @@ interface UserService {
     Single<HttpResult<UserInfoEntity>> login(
             @Field("email") String email,
             @Field("password") String password,
+            @Field("firebase_token") String firebase_token,
             @Field("timestamp") String timestamp,
             @Field("signature") String signature,
             @Field("apiKey") String apiKey,
@@ -49,6 +50,7 @@ interface UserService {
             @Field("middlename") String middlename,
             @Field("lastname") String lastname,
             @Field("avatarimage") String avatarimage,
+            @Field("firebase_token") String firebase_token,
             @Field("timestamp") String timestamp,
             @Field("signature") String signature,
             @Field("apiKey") String apiKey,

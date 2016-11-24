@@ -58,7 +58,7 @@ public class UserApi extends BaseApi {
         String signature = getSignature(params);
 
         createService(UserService.class)
-                .login(email, password,
+                .login(email, password, Const.fireBaseMessageToken,
                         timestamp, signature, API_KEY, Const.IMEI)
                 .map(new HttpResultFunc<UserInfoEntity>())
                 .subscribeOn(Schedulers.io())
@@ -96,7 +96,7 @@ public class UserApi extends BaseApi {
 
         createService(UserService.class)
                 .loginByFacebook(accesstoken, facebookId, email, phone, firstname,
-                        middlename, lastname, avatarimage,
+                        middlename, lastname, avatarimage, Const.fireBaseMessageToken,
                         timestamp, signature, API_KEY, Const.IMEI)
                 .map(new HttpResultFunc<UserInfoEntity>())
                 .subscribeOn(Schedulers.io())
