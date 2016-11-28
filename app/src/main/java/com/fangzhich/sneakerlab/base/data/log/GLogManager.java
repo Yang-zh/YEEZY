@@ -13,7 +13,11 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 public class GLogManager {
 
     public static void loginEntryClick(Context context) {
-        createSelectContent(context, "0001","LOGIN_ENTRY", "DrawerHeaderOfMainActivity");
+        createSelectContent(context, "0001","LOGIN_ENTRY", "登录入口");
+    }
+
+    public static void registerEntryClick(Context context) {
+        createSelectContent(context, "0001","REGISTER_ENTRY", "注册入口");
     }
 
     private static void createSelectContent(Context context, String itemId, String itemName, String contentType) {

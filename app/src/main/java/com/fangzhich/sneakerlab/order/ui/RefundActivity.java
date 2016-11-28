@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
-import com.fangzhich.sneakerlab.util.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;

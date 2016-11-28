@@ -8,7 +8,9 @@ import com.fangzhich.sneakerlab.util.Const;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import rx.Observable;
 import rx.SingleSubscriber;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 

@@ -144,7 +144,7 @@ public class OrderReviewActivity extends BaseActivity {
         });
     }
 
-    private class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.product_image)
         ImageView productImage;
