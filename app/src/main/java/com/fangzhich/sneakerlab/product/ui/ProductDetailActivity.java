@@ -175,7 +175,11 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
     @OnClick(R.id.bt_buy)
     void buy() {
         if (mProduct != null) {
-            manager.withProductDetailControl(this).startSizeDialog(mProduct);
+            if (mProduct.options==null || mProduct.options.size()==0) {
+                manager.withProductDetailControl(this).startShoppingCartDialog(mProduct.product_id, "1", null, "0");
+            } else {
+                manager.withProductDetailControl(this).startSizeDialog(mProduct);
+            }
         }
     }
 
