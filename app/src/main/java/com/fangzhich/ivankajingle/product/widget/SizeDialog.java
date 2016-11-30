@@ -84,15 +84,15 @@ public class SizeDialog {
 
     @OnClick(R.id.bt_buy)
     void buy() {
-        if (Const.isLogin()) {
+        if (!Const.isLogin()) {
+            mContext.startActivity(new Intent(mContext, LoginActivity.class));
+        } else {
             if (isChosenOption()) {
                 manager.hideSizeDialog();
                 manager.startShoppingCartDialog(String.valueOf(product.product_id), String.valueOf(quantity), option, "0");
             } else {
                 ToastUtil.toast("Please choose product option you need");
             }
-        } else {
-            mContext.startActivity(new Intent(mContext, LoginActivity.class));
         }
     }
 
@@ -125,6 +125,7 @@ public class SizeDialog {
     private int quantity = 1;
 
     public SizeDialog initPopup(DialogManager manager, Context context) {
+
         mContext = context;
         this.manager = manager;
         mPopupContent = View.inflate(context, R.layout.dialog_choose_size, null);

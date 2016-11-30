@@ -13,7 +13,7 @@ public class Installation {
     private static final String INSTALLATION = "INSTALLATION";
 
     public synchronized static String id(Context context) {
-        if (sID == null) {  
+        if (sID == null) {
             File installation = new File(context.getFilesDir(), INSTALLATION);
             try {
                 if (!installation.exists())
