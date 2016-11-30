@@ -114,7 +114,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <com.fangzhich.sneakerlab.base.widget.spinner.NiceSpinner
+            <com.fangzhich.ivankajingle.base.widget.spinner.NiceSpinner
                 android:id="@+id/spinner_country"
                 android:textSize="12sp"
                 app:textTint="@color/tab_layout_select_color"
@@ -123,7 +123,7 @@
                 android:layout_weight="1"
                 android:layout_height="32dp"/>
 
-            <com.fangzhich.sneakerlab.base.widget.spinner.NiceSpinner
+            <com.fangzhich.ivankajingle.base.widget.spinner.NiceSpinner
                 android:id="@+id/spinner_state"
                 android:textSize="12sp"
                 app:textTint="@color/tab_layout_select_color"

@@ -117,7 +117,7 @@
             <!--style="@style/Spinner"-->
             <!--android:layout_centerHorizontal="true"-->
             <!--android:layout_marginTop="8dp" />-->
-        <com.fangzhich.sneakerlab.base.widget.spinner.NiceSpinner
+        <com.fangzhich.ivankajingle.base.widget.spinner.NiceSpinner
             android:id="@+id/spinner_sex"
             android:layout_width="127dp"
             android:layout_height="40dp"

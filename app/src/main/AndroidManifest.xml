@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.fangzhich.sneakerlab">
+    package="com.fangzhich.ivankajingle">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name="com.fangzhich.sneakerlab.App"
+        android:name="com.fangzhich.ivankajingle.App"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
@@ -26,14 +26,14 @@
             <!--android:exported="true" />-->
 
         <activity
-            android:name="com.fangzhich.sneakerlab.main.ui.MainActivity"
+            android:name="com.fangzhich.ivankajingle.main.ui.MainActivity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.fangzhich.sneakerlab.user.ui.LoginActivity"
+            android:name="com.fangzhich.ivankajingle.user.ui.LoginActivity"
             android:theme="@style/TransparentAppTheme" />
         <activity
-            android:name=".user.ui.ForgetPasswordActivity"
+            android:name="com.fangzhich.ivankajingle.user.ui.ForgetPasswordActivity"
             android:theme="@style/AppTheme" />
 
         <!--FaceBook Login-->
@@ -60,7 +60,7 @@
         <!--</activity>-->
 
         <activity
-            android:name="com.fangzhich.sneakerlab.user.ui.SplashActivity"
+            android:name="com.fangzhich.ivankajingle.user.ui.SplashActivity"
             android:theme="@style/StartAppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -69,76 +69,76 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.fangzhich.sneakerlab.user.ui.RegisterActivity"
+            android:name="com.fangzhich.ivankajingle.user.ui.RegisterActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.fangzhich.sneakerlab.user.ui.WelcomeActivity"
+            android:name="com.fangzhich.ivankajingle.user.ui.WelcomeActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.fangzhich.sneakerlab.product.ui.ProductDetailActivity"
+            android:name="com.fangzhich.ivankajingle.product.ui.ProductDetailActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.fangzhich.sneakerlab.product.ui.ProductRatingActivity"
+            android:name="com.fangzhich.ivankajingle.product.ui.ProductRatingActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.fangzhich.sneakerlab.product.ui.ProductShippingInfoActivity"
+            android:name="com.fangzhich.ivankajingle.product.ui.ProductShippingInfoActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.fangzhich.sneakerlab.order.ui.OrderConfirmedActivity"
+            android:name="com.fangzhich.ivankajingle.order.ui.OrderConfirmedActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.fangzhich.sneakerlab.product.ui.PhotoViewPagerActivity"
+            android:name="com.fangzhich.ivankajingle.product.ui.PhotoViewPagerActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.fangzhich.sneakerlab.user.ui.UserInfoActivity"
+            android:name="com.fangzhich.ivankajingle.user.ui.UserInfoActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.fangzhich.sneakerlab.user.ui.PersonalCenterActivity"
+            android:name="com.fangzhich.ivankajingle.user.ui.PersonalCenterActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.fangzhich.sneakerlab.user.ui.UserEditInfoActivity"
+            android:name="com.fangzhich.ivankajingle.user.ui.UserEditInfoActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.fangzhich.sneakerlab.user.ui.ChangePasswordActivity"
+            android:name="com.fangzhich.ivankajingle.user.ui.ChangePasswordActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.fangzhich.sneakerlab.user.ui.ChangeEmailActivity"
+            android:name="com.fangzhich.ivankajingle.user.ui.ChangeEmailActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.fangzhich.sneakerlab.user.ui.ChangeTelActivity"
+            android:name="com.fangzhich.ivankajingle.user.ui.ChangeTelActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.fangzhich.sneakerlab.user.ui.ChangeNameActivity"
+            android:name="com.fangzhich.ivankajingle.user.ui.ChangeNameActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.fangzhich.sneakerlab.main.ui.SearchActivity"
+            android:name="com.fangzhich.ivankajingle.main.ui.SearchActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.fangzhich.sneakerlab.user.ui.NotificationActivity"
+            android:name="com.fangzhich.ivankajingle.user.ui.NotificationActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.fangzhich.sneakerlab.order.ui.OrderHistoryActivity"
+            android:name="com.fangzhich.ivankajingle.order.ui.OrderHistoryActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.fangzhich.sneakerlab.order.ui.OrderDetailActivity"
+            android:name="com.fangzhich.ivankajingle.order.ui.OrderDetailActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.fangzhich.sneakerlab.order.ui.OrderReviewActivity"
+            android:name="com.fangzhich.ivankajingle.order.ui.OrderReviewActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.fangzhich.sneakerlab.main.ui.CurrencyActivity"
+            android:name="com.fangzhich.ivankajingle.main.ui.CurrencyActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.fangzhich.sneakerlab.main.ui.LanguageActivity"
+            android:name="com.fangzhich.ivankajingle.main.ui.LanguageActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.fangzhich.sneakerlab.main.ui.AboutActivity"
+            android:name="com.fangzhich.ivankajingle.main.ui.AboutActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.fangzhich.sneakerlab.main.ui.ContactActivity"
+            android:name="com.fangzhich.ivankajingle.main.ui.ContactActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.fangzhich.sneakerlab.main.ui.SupportActivity"
+            android:name="com.fangzhich.ivankajingle.main.ui.SupportActivity"
             android:theme="@style/AppTheme" >
             <intent-filter>
                 <action android:name="OPEN_ACTIVITY_SUPPORT" />
@@ -146,27 +146,27 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.fangzhich.sneakerlab.main.ui.ReturnPolicyActivity"
+            android:name="com.fangzhich.ivankajingle.main.ui.ReturnPolicyActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.fangzhich.sneakerlab.main.ui.SettingActivity"
+            android:name="com.fangzhich.ivankajingle.main.ui.SettingActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".order.ui.RefundActivity"
+            android:name="com.fangzhich.ivankajingle.order.ui.RefundActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".user.ui.WishListActivity"
+            android:name="com.fangzhich.ivankajingle.user.ui.WishListActivity"
             android:theme="@style/AppTheme" />
 
         <service
-            android:name=".base.service.MyFirebaseMessagingService">
+            android:name="com.fangzhich.ivankajingle.base.service.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
 
         <service
-            android:name=".base.service.MyFirebaseInstanceIDService">
+            android:name="com.fangzhich.ivankajingle.base.service.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>

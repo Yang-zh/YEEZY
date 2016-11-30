@@ -125,7 +125,7 @@
             android:layout_marginLeft="8.5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <com.fangzhich.sneakerlab.base.widget.NumberView
+        <com.fangzhich.ivankajingle.base.widget.NumberView
             android:id="@+id/quantity_view"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/line_third"

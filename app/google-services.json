@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "1094032223589",
-    "firebase_url": "https://sneakerlab-5762d.firebaseio.com",
-    "project_id": "sneakerlab-5762d",
-    "storage_bucket": "sneakerlab-5762d.appspot.com"
+    "project_number": "54346539654",
+    "firebase_url": "https://ivankajingle.firebaseio.com",
+    "project_id": "ivankajingle",
+    "storage_bucket": "ivankajingle.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1094032223589:android:a1685ba569ece75a",
+        "mobilesdk_app_id": "1:54346539654:android:6379b53ce736b86b",
         "android_client_info": {
-          "package_name": "com.fangzhich.sneakerlab"
+          "package_name": "com.fangzhich.ivankajingle"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1094032223589-b7tlrhls4k2415oamelrndjesp3s4nqt.apps.googleusercontent.com",
+          "client_id": "54346539654-l51gl0c1usmcagev0b4bu0suorho3fa6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBnZFTutSiM0w7LjgBvmvMEN3LrO99z86Y"
+          "current_key": "AIzaSyAF_BxzM9U_dBfjnAxHLl4fDJ7jcJiY0H8"
         }
       ],
       "services": {

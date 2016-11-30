@@ -35,7 +35,7 @@
         android:textSize="14sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-    <com.fangzhich.sneakerlab.base.widget.spinner.NiceSpinner
+    <com.fangzhich.ivankajingle.base.widget.spinner.NiceSpinner
         android:layout_below="@+id/chooseLanguageText"
         android:id="@+id/spinner_language"
         android:gravity="center"

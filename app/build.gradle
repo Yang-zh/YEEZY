@@ -7,11 +7,11 @@ android {
     buildToolsVersion "24.0.3"
 
     defaultConfig {
-        applicationId "com.fangzhich.sneakerlab"
+        applicationId "com.fangzhich.ivankajingle"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 10
-        versionName "1.1.3"
+        versionCode 1
+        versionName "1.0"
 //        multiDexEnabled true
     }
 
