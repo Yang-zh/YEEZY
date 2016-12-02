@@ -58,7 +58,7 @@ public class UserApi extends BaseApi {
         String signature = getSignature(params);
 
         createService(UserService.class)
-                .login(email, password, Const.fireBaseMessageToken,
+                .login(email, password, Const.getFireBaseMessageToken(),
                         timestamp, signature, API_KEY, Const.IMEI)
                 .map(new HttpResultFunc<UserInfoEntity>())
                 .subscribeOn(Schedulers.io())
@@ -96,7 +96,7 @@ public class UserApi extends BaseApi {
 
         createService(UserService.class)
                 .loginByFacebook(accesstoken, facebookId, email, phone, firstname,
-                        middlename, lastname, avatarimage, Const.fireBaseMessageToken,
+                        middlename, lastname, avatarimage, Const.getFireBaseMessageToken(),
                         timestamp, signature, API_KEY, Const.IMEI)
                 .map(new HttpResultFunc<UserInfoEntity>())
                 .subscribeOn(Schedulers.io())
@@ -699,7 +699,7 @@ public class UserApi extends BaseApi {
         params.put("type", type);
         params.put("fullname", fullname);
         params.put("text", text);
-        params.put("equipment_token", Const.fireBaseMessageToken);
+        params.put("equipment_token", Const.getFireBaseMessageToken());
         params.put("email", email);
         params.put("token", token);
         params.put("timestamp", timestamp);
@@ -707,7 +707,7 @@ public class UserApi extends BaseApi {
         String signature = getSignature(params);
 
         createService(UserService.class)
-                .requestSupport(type, fullname, text, Const.fireBaseMessageToken,
+                .requestSupport(type, fullname, text, Const.getFireBaseMessageToken(),
                         email, token,
                         timestamp, signature, API_KEY, Const.IMEI)
                 .map(new HttpResultFunc<Object>())
@@ -722,14 +722,14 @@ public class UserApi extends BaseApi {
      * @param singleSubscriber SingleSubscriber in RxJava (Callback)
      */
     public static void getSupportMessageList(SingleSubscriber<ArrayList<MessageEntity>> singleSubscriber) throws FireBaseInitializeException {
-        if (TextUtils.isEmpty(Const.fireBaseMessageToken)) {
+        if (TextUtils.isEmpty(Const.getFireBaseMessageToken())) {
             throw new FireBaseInitializeException("Notify service is unavailable, please check your network connection");
         }
 
         String timestamp = getTimeStamp();
 
         HashMap<String, String> params = new HashMap<>();
-        params.put("equipment_token", Const.fireBaseMessageToken);
+        params.put("equipment_token", Const.getFireBaseMessageToken());
         params.put("email", email);
         params.put("token", token);
         params.put("timestamp", timestamp);
@@ -737,7 +737,7 @@ public class UserApi extends BaseApi {
         String signature = getSignature(params);
 
         createService(UserService.class)
-                .getSupportMessageList(Const.fireBaseMessageToken,
+                .getSupportMessageList(Const.getFireBaseMessageToken(),
                         email, token,
                         timestamp, signature, API_KEY, Const.IMEI)
                 .map(new HttpResultFunc<ArrayList<MessageEntity>>())

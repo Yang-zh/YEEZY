@@ -49,16 +49,16 @@ public class MainApi extends BaseApi {
 
     public static void refreshFireBaseToken(String fireBaseToken, SingleSubscriber<Object> singleSubscriber) {
         String timestamp = getTimeStamp();
-
+        String customerId = Const.getUserInfo()==null?"":Const.getUserInfo().user_info.customer_id;
         HashMap<String, String> params = new HashMap<>();
         params.put("token", fireBaseToken);
-        params.put("customer_id", Const.getUserInfo().user_info.customer_id);
+        params.put("customer_id", customerId);
         params.put("timestamp", timestamp);
 
         String signature = getSignature(params);
 
         createService(MainService.class)
-                .refreshFireBaseToken(fireBaseToken, Const.getUserInfo().user_info.customer_id, timestamp, signature, API_KEY, Const.IMEI)
+                .refreshFireBaseToken(fireBaseToken, customerId, timestamp, signature, API_KEY, Const.IMEI)
                 .map(new HttpResultFunc<Object>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -15,6 +15,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +30,8 @@ import com.fangzhich.sneakerlab.BuildConfig;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.data.event.RxBus;
 import com.fangzhich.sneakerlab.base.data.log.GLogManager;
+import com.fangzhich.sneakerlab.base.service.MyFirebaseInstanceIDService;
+import com.fangzhich.sneakerlab.base.service.MyFirebaseMessagingService;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.cart.ui.DialogManager;
 import com.fangzhich.sneakerlab.main.data.entity.CategoryEntity;
@@ -47,6 +50,7 @@ import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.fangzhich.sneakerlab.util.MyUtil;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingService;
 
 import java.util.ArrayList;
 
@@ -282,7 +286,24 @@ public class MainActivity extends BaseActivity {
                 });
 
         //firebase token initialize
-        Const.fireBaseMessageToken = FirebaseInstanceId.getInstance().getToken();
+        final String token = FirebaseInstanceId.getInstance().getToken();
+        if (!TextUtils.isEmpty(token)) {
+            MainApi.refreshFireBaseToken(token, new SingleSubscriber<Object>() {
+                @Override
+                public void onSuccess(Object value) {
+                    Const.setFireBaseMessageToken(token);
+                    Timber.e("refresh firebaseMessageToken success");
+                    ToastUtil.toast("refresh firebaseMessageToken success");
+                }
+
+                @Override
+                public void onError(Throwable error) {
+                    Timber.e(error);
+                }
+            });
+        } else {
+            Timber.e("firebase token is empty");
+        }
 //        ToastUtil.toast(FirebaseInstanceId.getInstance().getToken()+"----"+FirebaseInstanceId.getInstance().getCreationTime());
 //        Log.e("firebasetest",FirebaseInstanceId.getInstance().getToken()+"----"+FirebaseInstanceId.getInstance().getCreationTime());
 //        Log.e("firebasetest",Const.fireBaseMessageToken);

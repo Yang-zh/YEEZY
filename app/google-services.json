@@ -1,27 +1,35 @@
 {
   "project_info": {
-    "project_number": "1094032223589",
-    "firebase_url": "https://sneakerlab-5762d.firebaseio.com",
-    "project_id": "sneakerlab-5762d",
-    "storage_bucket": "sneakerlab-5762d.appspot.com"
+    "project_number": "121776061585",
+    "firebase_url": "https://sneakerlab-f30be.firebaseio.com",
+    "project_id": "sneakerlab-f30be",
+    "storage_bucket": "sneakerlab-f30be.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1094032223589:android:a1685ba569ece75a",
+        "mobilesdk_app_id": "1:121776061585:android:a1685ba569ece75a",
         "android_client_info": {
           "package_name": "com.fangzhich.sneakerlab"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1094032223589-b7tlrhls4k2415oamelrndjesp3s4nqt.apps.googleusercontent.com",
+          "client_id": "121776061585-m4k8tl8171ff76eqfcdiehv7e0ila2kj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fangzhich.sneakerlab",
+            "certificate_hash": "B4A67539EC9254A5B355A2C4D5B36091A0E23258"
+          }
+        },
+        {
+          "client_id": "121776061585-lbe29suuj8duq5baq2n4491em5phf1ft.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBnZFTutSiM0w7LjgBvmvMEN3LrO99z86Y"
+          "current_key": "AIzaSyCMjKXDFmxXtEcySEHSPEYAXvXRxrsD-nE"
         }
       ],
       "services": {
@@ -29,8 +37,20 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "121776061585-qeoj1tm4ffbqefn1vh4arcd80bsmiqlf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.foundzilla.sneakerlab"
+              }
+            },
+            {
+              "client_id": "121776061585-lbe29suuj8duq5baq2n4491em5phf1ft.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
