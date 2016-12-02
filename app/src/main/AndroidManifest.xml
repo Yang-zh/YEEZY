@@ -28,7 +28,12 @@
         <activity
             android:name="com.fangzhich.ivankajingle.main.ui.MainActivity"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme" >
+            <intent-filter>
+                <action android:name="start_application" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="com.fangzhich.ivankajingle.user.ui.LoginActivity"
             android:theme="@style/TransparentAppTheme" />
@@ -138,13 +143,8 @@
             android:name="com.fangzhich.ivankajingle.main.ui.ContactActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.fangzhich.ivankajingle.main.ui.SupportActivity"
-            android:theme="@style/AppTheme" >
-            <intent-filter>
-                <action android:name="OPEN_ACTIVITY_SUPPORT" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:name="com.fangzhich.sneakerlab.main.ui.SupportActivity"
+            android:theme="@style/AppTheme" />
         <activity
             android:name="com.fangzhich.ivankajingle.main.ui.ReturnPolicyActivity"
             android:theme="@style/AppTheme" />

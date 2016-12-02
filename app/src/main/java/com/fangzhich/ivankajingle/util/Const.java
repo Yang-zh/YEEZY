@@ -1,6 +1,7 @@
 package com.fangzhich.ivankajingle.util;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.blankj.utilcode.utils.SPUtils;
 import com.fangzhich.ivankajingle.base.data.event.RxBus;
@@ -30,7 +31,7 @@ public class Const {
 
     public static String IMEI;
 
-    public static String fireBaseMessageToken;
+    private static String fireBaseMessageToken;
 
     public static class Obj {
         public static final SPUtils AppSp = new SPUtils(mContext,SP.APP);
@@ -43,6 +44,8 @@ public class Const {
         static final String APP = "APP";
         public static final String USER_INFO = "UserInfo";
         public static final String IS_LOGIN = "IsLogin";
+        public static final String IS_HAVE_TOKEN = "IsHavaFirebaseToken";
+        public static final String FIREBASE_TOKEN = "FirebaseToken";
     }
 
     public static class User {
@@ -97,6 +100,30 @@ public class Const {
         Const.Obj.AppSp.putString(Const.SP.USER_INFO,Const.Obj.gson.toJson(entity));
         //save userInfo in RAM
         Const.Obj.userInfo = entity;
+    }
+
+    public static void setFireBaseMessageToken(String token) {
+        //save login status
+        Const.Obj.AppSp.putBoolean(Const.SP.IS_HAVE_TOKEN,true);
+        //save userInfo in SharedPreference
+        Const.Obj.AppSp.putString(Const.SP.FIREBASE_TOKEN,token);
+        //save userInfo in RAM
+        Const.fireBaseMessageToken = token;
+    }
+
+
+    public static String getFireBaseMessageToken() {
+        if (TextUtils.isEmpty(fireBaseMessageToken)) {
+            return fireBaseMessageToken;
+        }
+
+        fireBaseMessageToken = Obj.AppSp.getString(SP.FIREBASE_TOKEN);
+
+        return fireBaseMessageToken;
+    }
+
+    public static void addRemoteMessage(RemoteMessage remoteMessage) {
+        //todo
     }
 
     public static void refreshAvatar(String avatar) {

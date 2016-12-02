@@ -53,6 +53,7 @@ public class App extends Application {
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
 
+        Timber.e("firebase initialize");
         //Firebase
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
@@ -62,13 +63,6 @@ public class App extends Application {
         //IMEI
         Const.IMEI = Installation.id(this);
      }
-
-    public static FirebaseAnalytics getFireBaseAnalytics() {
-        if (mFirebaseAnalytics!=null) {
-            return mFirebaseAnalytics;
-        }
-        return null;
-    }
 
 //    @Override
 //    protected void attachBaseContext(Context base) {
