@@ -63,6 +63,7 @@ public class MainActivity extends BaseActivity {
 
     public static final int NOTIFY_DEFAULT = 100;
     public static final int NOTIFY_CART = 101;
+    public static final int NOTIFY_BLACK_FRIDAY = 102;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
     @BindView(R.id.navigation)
@@ -107,6 +108,7 @@ public class MainActivity extends BaseActivity {
             intent.putExtra("product_id", "79");
             startActivity(intent);
         }
+
         getNotification();
         initActionBarAndDrawer();
         initViewPager();
@@ -291,7 +293,6 @@ public class MainActivity extends BaseActivity {
                 public void onSuccess(Object value) {
                     Const.setFireBaseMessageToken(token);
                     Timber.e("refresh firebaseMessageToken success");
-                    ToastUtil.toast("refresh firebaseMessageToken success");
                 }
 
                 @Override

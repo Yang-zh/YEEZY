@@ -10,6 +10,7 @@ import com.fangzhich.ivankajingle.main.data.event.UserInfoRefreshEvent;
 import com.fangzhich.ivankajingle.user.data.entity.UserInfoEntity;
 import com.fangzhich.ivankajingle.user.data.entity.WishEntity;
 import com.fangzhich.ivankajingle.user.data.net.UserApi;
+import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;

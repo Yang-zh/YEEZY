@@ -11,6 +11,8 @@ import android.support.v4.app.NotificationCompat;
 import com.fangzhich.ivankajingle.R;
 import com.fangzhich.ivankajingle.main.ui.MainActivity;
 import com.fangzhich.ivankajingle.main.ui.SupportActivity;
+import com.fangzhich.ivankajingle.user.ui.NotificationActivity;
+import com.fangzhich.ivankajingle.util.Const;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -35,14 +37,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             return;
         }
 
-        Timber.d("PushMessage Body: "+remoteMessage.getNotification().getBody());
+        Timber.d("PushMessage Body: "+remoteMessage.getNotification().toString());
+        Timber.d("PushMessage Body: "+remoteMessage.getData().toString());
 
         Const.addRemoteMessage(remoteMessage);
 
-        if (!remoteMessage.getFrom().equals("all")) {
-            Timber.d("no special notification type find, send default notification");
-            sendNotification(remoteMessage.getNotification(), MainActivity.class, MainActivity.NOTIFY_DEFAULT);
-        }
+        Timber.d(remoteMessage.getFrom());
+//        if (!remoteMessage.getFrom().equals("/topics/all")) {
+//            Timber.d("no special notification type find, send default notification");
+//            sendNotification(remoteMessage.getNotification(), MainActivity.class, MainActivity.NOTIFY_DEFAULT);
+//        }
 
         Observable.just(remoteMessage.getData())
                 .flatMap(new Func1<Map<String, String>, Observable<Map.Entry<String, String>>>() {
@@ -67,20 +71,36 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     public void call(Map.Entry<String, String> entry) {
                         switch (PushMessageCode.innerValueOf(entry.getValue())) {
                             case SUCCESS_ORDER_CODE:
+                                Timber.d("SUCCESS_ORDER_CODE");
+                                sendNotification(remoteMessage.getNotification(), MainActivity.class, MainActivity.NOTIFY_DEFAULT);
                                 break;
                             case SHIPPING_ORDER_CODE:
+                                Timber.d("SHIPPING_ORDER_CODE");
+                                sendNotification(remoteMessage.getNotification(), MainActivity.class, MainActivity.NOTIFY_DEFAULT);
                                 break;
                             case COMPLETE_ORDER_CODE:
+                                Timber.d("COMPLETE_ORDER_CODE");
+                                sendNotification(remoteMessage.getNotification(), MainActivity.class, MainActivity.NOTIFY_DEFAULT);
                                 break;
                             case CANCEL_ORDER_CODE:
+                                Timber.d("CANCEL_ORDER_CODE");
+                                sendNotification(remoteMessage.getNotification(), MainActivity.class, MainActivity.NOTIFY_DEFAULT);
                                 break;
                             case OPERATION_BLACK_FRIDAY_CODE:
+                                Timber.d("OPERATION_BLACK_FRIDAY_CODE");
+                                sendNotification(remoteMessage.getNotification(), MainActivity.class, MainActivity.NOTIFY_BLACK_FRIDAY);
                                 break;
                             case OPERATION_NETWORK_MONDAY_CODE:
+                                Timber.d("OPERATION_NETWORK_MONDAY_CODE");
+                                sendNotification(remoteMessage.getNotification(), MainActivity.class, MainActivity.NOTIFY_DEFAULT);
                                 break;
                             case PROMOTIONS_SUMMARY_CODE:
+                                Timber.d("PROMOTIONS_SUMMARY_CODE");
+                                sendNotification(remoteMessage.getNotification(), MainActivity.class, MainActivity.NOTIFY_DEFAULT);
                                 break;
                             case PROMOTIONS_ONLY_ONE_CODE:
+                                Timber.d("PROMOTIONS_ONLY_ONE_CODE");
+                                sendNotification(remoteMessage.getNotification(), MainActivity.class, MainActivity.NOTIFY_DEFAULT);
                                 break;
                             case UNDEFINED:
                                 Timber.d("no special notification type find, send default notification");

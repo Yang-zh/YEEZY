@@ -2,6 +2,7 @@ package com.fangzhich.ivankajingle.base.service;
 
 import com.fangzhich.ivankajingle.main.data.net.MainApi;
 import com.fangzhich.ivankajingle.util.Const;
+import com.fangzhich.ivankajingle.util.ToastUtil;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -26,7 +27,6 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
             public void onSuccess(Object value) {
                 Const.setFireBaseMessageToken(FirebaseInstanceId.getInstance().getToken());
                 Timber.e("refresh firebaseMessageToken success");
-                ToastUtil.toast("refresh firebaseMessageToken success");
             }
 
             @Override

@@ -1,4 +1,4 @@
-package com.fangzhich.sneakerlab.base.service;
+package com.fangzhich.ivankajingle.base.service;
 
 /**
  * PushMessageCode

@@ -143,7 +143,7 @@
             android:name="com.fangzhich.ivankajingle.main.ui.ContactActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.fangzhich.sneakerlab.main.ui.SupportActivity"
+            android:name="com.fangzhich.ivankajingle.main.ui.SupportActivity"
             android:theme="@style/AppTheme" />
         <activity
             android:name="com.fangzhich.ivankajingle.main.ui.ReturnPolicyActivity"
