@@ -1,10 +1,15 @@
 package com.fangzhich.ivankajingle.user.ui;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -35,6 +40,8 @@ import com.fangzhich.ivankajingle.util.ToastUtil;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -55,10 +62,7 @@ public class UserEditInfoActivity extends BaseActivity {
     private static final int IS_CHANGE_USERNAME_SUCCESS = 1001;
     private static final int IS_CHANGE_EMAIL_SUCCESS = 1002;
     private static final int IS_CHANGE_TEL_SUCCESS = 1003;
-    private static final int CODE_GALLERY_REQUEST = 0xa0;
-    private static final int CODE_CAMERA_REQUEST = 0xa1;
-    private static final int CODE_RESULT_REQUEST = 0xa2;
-    private static final String IMAGE_FILE_NAME = "temp_head_image.jpg";
+    private static final int CODE_PERMISSION_REQUEST = 0xa4;
 
     public static final int CHANGE_SUCCESS = 2001;
     @BindView(R.id.title)
@@ -73,19 +77,40 @@ public class UserEditInfoActivity extends BaseActivity {
 
     @OnClick(R.id.bt_avatar)
     void changeAvatar() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            ArrayList<String> permissions = new ArrayList<>();
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            }
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+            }
+            if (permissions.size() != 0) {
+                Timber.e(Arrays.toString(permissions.toArray()));
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, CODE_PERMISSION_REQUEST);
+//                (String[]) permissions.toArray()
+            } else {
+                initImageDialog();
+            }
+        } else {
+            initImageDialog();
+        }
+    }
+
+    private void initImageDialog() {
         dialog.initPopup(this, R.layout.dialog_choose_avatar, new CustomDialog.Listener() {
             @Override
             public void onInit(final PopupWindow dialog, View content) {
                 content.findViewById(R.id.icon_gallery).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        choseHeadImageFromGallery();
+                        AvatarUtil.choseHeadImageFromGallery(UserEditInfoActivity.this);
                     }
                 });
                 content.findViewById(R.id.icon_camera).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        choseHeadImageFromCameraCapture();
+                        AvatarUtil.choseHeadImageFromCameraCapture(UserEditInfoActivity.this);
                     }
                 });
                 content.findViewById(R.id.bt_cancel).setOnClickListener(new View.OnClickListener() {
@@ -326,29 +351,33 @@ public class UserEditInfoActivity extends BaseActivity {
                     email.setText(name);
                 }
                 break;
-            case CODE_GALLERY_REQUEST:
-                cropRawPhoto(data.getData());
+            case CODE_PERMISSION_REQUEST:
+                initImageDialog();
                 break;
-
-            case CODE_CAMERA_REQUEST:
+            case AvatarUtil.CODE_GALLERY_REQUEST:
+                AvatarUtil.cropRawPhoto(UserEditInfoActivity.this,data.getData());
+                break;
+            case AvatarUtil.REQUEST_PICK_IMAGE_KITKAT:
+                AvatarUtil.cropRawPhoto(UserEditInfoActivity.this,data.getData());
+                break;
+            case AvatarUtil.CODE_CAMERA_REQUEST:
                 if (AvatarUtil.hasSdcard()) {
                     File tempFile = new File(
                             Environment.getExternalStorageDirectory(),
-                            IMAGE_FILE_NAME);
-                    cropRawPhoto(Uri.fromFile(tempFile));
+                            AvatarUtil.IMAGE_FILE_NAME);
+                    AvatarUtil.cropRawPhoto(UserEditInfoActivity.this,Uri.fromFile(tempFile));
                 } else {
                     Toast.makeText(getApplication(), "didn't find SD card", Toast.LENGTH_LONG)
                             .show();
                 }
                 break;
 
-            case CODE_RESULT_REQUEST:
-                if (data.getData() == null) {
-                    ToastUtil.toast("not a valid image");
-                    return;
-                }
-                Uri originalUri = data.getData();
-                File file = AvatarUtil.getFileFromMediaUri(this, originalUri);
+            case AvatarUtil.CODE_RESULT_REQUEST:
+//                if (data.getData()==null) {
+//                    ToastUtil.toast("invalid image");
+//                    return;
+//                }
+                File file = AvatarUtil.getFileFromMediaUri(this,AvatarUtil.tempUri);
                 Bitmap photoBmp = null;
                 try {
                     photoBmp = AvatarUtil.getBitmapFormUri(this, Uri.fromFile(file));
@@ -392,44 +421,4 @@ public class UserEditInfoActivity extends BaseActivity {
         });
     }
 
-    // 从本地相册选取图片作为头像
-    private void choseHeadImageFromGallery() {
-        Intent intentFromGallery = new Intent();
-        // 设置文件类型
-        intentFromGallery.setType("image/*");
-        intentFromGallery.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intentFromGallery, CODE_GALLERY_REQUEST);
-    }
-
-    // 启动手机相机拍摄照片作为头像
-    private void choseHeadImageFromCameraCapture() {
-        Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-        // 判断存储卡是否可用，存储照片文件
-        if (AvatarUtil.hasSdcard()) {
-            intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, Uri
-                    .fromFile(new File(Environment
-                            .getExternalStorageDirectory(), IMAGE_FILE_NAME)));
-        }
-
-        startActivityForResult(intentFromCapture, CODE_CAMERA_REQUEST);
-    }
-
-    public void cropRawPhoto(Uri uri) {
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-
-        // 设置裁剪
-        intent.putExtra("crop", "true");
-
-        // aspectX , aspectY :宽高的比例
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-
-        // outputX , outputY : 裁剪图片宽高
-        intent.putExtra("outputX", 300);
-        intent.putExtra("outputY", 300);
-        intent.putExtra("return-data", false);
-        startActivityForResult(intent, CODE_RESULT_REQUEST);
-    }
 }
