@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -101,6 +102,44 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
     TextView productName;
 
     //------------------product detail--------------
+    @OnClick(R.id.bt_product_size_chart)
+    void onProductSizeChartClick() {
+        new CustomDialog().initPopup(this, R.layout.dialog_size_chart, new CustomDialog.Listener() {
+            @Override
+            public void onInit(final PopupWindow dialog, View content) {
+                LinearLayout linearLayout = (LinearLayout) content.findViewById(R.id.chart_content);
+
+                String[] size_us = getResources().getStringArray(R.array.size_us);
+                String[] size_eu = getResources().getStringArray(R.array.size_eu);
+
+                for (int i=0; i<size_us.length; i++) {
+                    View innerLinearLayout = View.inflate(ProductDetailActivity.this, R.layout.item_product_chart_size_item,null);
+                    ((TextView)innerLinearLayout.findViewById(R.id.size_us)).setText(size_us[i]);
+                    ((TextView)innerLinearLayout.findViewById(R.id.size_eu)).setText(size_eu[i]);
+                    linearLayout.addView(innerLinearLayout);
+                }
+
+                content.findViewById(R.id.bt_continue).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+            }
+
+            @Override
+            public void onDismiss(PopupWindow dialog, View content) {
+
+            }
+        }).showPopup(getWindow().getDecorView(),Gravity.BOTTOM);
+    }
+    @OnClick(R.id.bt_product_shipping)
+    void onProductShippingClick() {
+        Intent intent = new Intent(this, ProductShippingInfoActivity.class);
+        intent.putExtra("mProduct",mProduct);
+        startActivity(intent);
+    }
+
     @BindView(R.id.rating_bar)
     SimpleRatingBar ratingBar;
     @BindView(R.id.rating_number)
@@ -108,12 +147,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
     @OnClick(R.id.bt_product_rating)
     void onProductRatingClick() {
         Intent intent = new Intent(this, ProductRatingActivity.class);
-        intent.putExtra("mProduct",mProduct);
-        startActivity(intent);
-    }
-    @OnClick(R.id.bt_product_shipping)
-    void onProductShippingClick() {
-        Intent intent = new Intent(this, ProductShippingInfoActivity.class);
         intent.putExtra("mProduct",mProduct);
         startActivity(intent);
     }

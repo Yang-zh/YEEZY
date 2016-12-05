@@ -123,7 +123,7 @@
                     android:layout_marginTop="8.5dp"
                     android:paddingLeft="20dp"
                     android:layout_marginBottom="8.5dp"
-                    android:text="Price-off promotions" />
+                    android:text="@string/PriceOffPromotions" />
 
                 <LinearLayout
                     android:layout_alignParentRight="true"
@@ -188,7 +188,7 @@
                 android:background="@android:color/white">
 
                 <RelativeLayout
-                    android:id="@+id/bt_product_rating"
+                    android:id="@+id/bt_product_size_chart"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:paddingLeft="20dp"
@@ -196,54 +196,16 @@
                     android:background="?attr/selectableItemBackground">
 
                     <TextView
-                        android:id="@+id/rating_is"
+                        android:id="@+id/size__chart_is"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="@string/Ratings"
+                        android:text="@string/Sizechart"
                         android:textColor="@color/tab_layout_select_color"
                         android:textSize="14sp" />
 
-                    <com.iarcuschin.simpleratingbar.SimpleRatingBar
-                        android:id="@+id/rating_bar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="18.5dp"
-                        android:layout_toRightOf="@+id/rating_is"
-                        app:srb_borderColor="@color/cut_line_color2"
-                        app:srb_fillColor="@color/star_yellow"
-                        app:srb_isIndicator="true"
-                        app:srb_numberOfStars="5"
-                        app:srb_rating="4"
-                        app:srb_starBorderWidth="1"
-                        app:srb_starSize="16dp"
-                        app:srb_stepSize="0.1" />
-
-                    <TextView
-                        android:id="@+id/rating_number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="8dp"
-                        android:layout_toRightOf="@+id/rating_bar"
-                        android:textColor="@color/text_color_gray"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/view_all_rating"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="10dp"
-                        android:layout_toLeftOf="@+id/forward_rating"
-                        android:ellipsize="end"
-                        android:text="@string/ViewAll"
-                        android:textColor="@color/text_color_gray"
-                        android:textSize="13sp" />
-
                     <ImageView
-                        android:id="@+id/forward_rating"
+                        android:id="@+id/forward_size_chart"
                         android:layout_width="11.5dp"
                         android:layout_height="11.5dp"
                         android:layout_alignParentRight="true"
@@ -258,7 +220,7 @@
                     android:layout_height="0.5dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:layout_below="@+id/bt_product_rating"
+                    android:layout_below="@+id/bt_product_size_chart"
                     android:background="@color/cut_line_color2" />
 
                 <RelativeLayout
@@ -302,11 +264,100 @@
                 </RelativeLayout>
             </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/rating_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/detail_layout"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/white">
+
+            <RelativeLayout
+                android:id="@+id/bt_product_rating"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:background="?attr/selectableItemBackground">
+
+                <TextView
+                    android:id="@+id/rating_is"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/Ratings"
+                    android:textColor="@color/tab_layout_select_color"
+                    android:textSize="14sp" />
+
+                <com.iarcuschin.simpleratingbar.SimpleRatingBar
+                    android:id="@+id/rating_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="18.5dp"
+                    android:layout_toRightOf="@+id/rating_is"
+                    app:srb_borderColor="@color/cut_line_color2"
+                    app:srb_fillColor="@color/star_yellow"
+                    app:srb_isIndicator="true"
+                    app:srb_numberOfStars="5"
+                    app:srb_rating="4"
+                    app:srb_starBorderWidth="1"
+                    app:srb_starSize="16dp"
+                    app:srb_stepSize="0.1" />
+
+                <TextView
+                    android:id="@+id/rating_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toRightOf="@+id/rating_bar"
+                    android:textColor="@color/text_color_gray"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/view_all_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@+id/forward_rating"
+                    android:ellipsize="end"
+                    android:text="@string/ViewAll"
+                    android:textColor="@color/text_color_gray"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:id="@+id/forward_rating"
+                    android:layout_width="11.5dp"
+                    android:layout_height="11.5dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/forward_black"
+                    tools:ignore="ContentDescription" />
+            </RelativeLayout>
+
+
+            <View
+                android:id="@+id/cut_line_rating"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_below="@+id/bt_product_rating"
+                android:background="@color/cut_line_color2" />
+            <android.support.v7.widget.RecyclerView
+                android:layout_below="@+id/cut_line_rating"
+                android:id="@+id/rv_product_detail_rating"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/description_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/detail_layout"
+                android:layout_below="@+id/rating_layout"
                 android:layout_marginTop="10dp"
                 android:background="@android:color/white"
                 android:paddingLeft="10dp"

@@ -239,6 +239,13 @@
     <string name="ChooseAvatar">Choose Avatar</string>
     <string name="ShippingFree">shipping free</string>
     <string name="fake_shipping_zero">$ 0.00</string>
+    <string name="PriceOffPromotions">Price-off promotions</string>
+    <string name="Sizechart">Size chart</string>
+    <string name="SizeChart">Size Chart</string>
+    <string name="Continue">Continue</string>
+    <string name="SizeChartIntro">This size chart is intended for reference only. Size can vary between brands.</string>
+    <string name="US">US</string>
+    <string name="Europe">Europe</string>
 
     <string-array name = "currencies">
         <item>USD($)</item>
@@ -250,5 +257,47 @@
         <item>Secret</item>
         <item>Male</item>
         <item>Female</item>
+    </string-array>
+    <string-array name = "size_us">
+        <item>4</item>
+        <item>4.5</item>
+        <item>5</item>
+        <item>5.5</item>
+        <item>6</item>
+        <item>6.5</item>
+        <item>7</item>
+        <item>7.5</item>
+        <item>8</item>
+        <item>8.5</item>
+        <item>9</item>
+        <item>9.5</item>
+        <item>10</item>
+        <item>10.5</item>
+        <item>11</item>
+        <item>11.5</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+    </string-array>
+    <string-array name = "size_eu">
+        <item>36.5</item>
+        <item>37</item>
+        <item>38</item>
+        <item>38.5</item>
+        <item>39.5</item>
+        <item>40</item>
+        <item>40.5</item>
+        <item>41</item>
+        <item>41.5</item>
+        <item>42</item>
+        <item>43</item>
+        <item>44</item>
+        <item>44.5</item>
+        <item>45</item>
+        <item>45.5</item>
+        <item>46.5</item>
+        <item>47.5</item>
+        <item>49</item>
+        <item>50</item>
     </string-array>
 </resources>

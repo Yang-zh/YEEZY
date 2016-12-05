@@ -22,13 +22,15 @@ public class CustomDialog {
         mPopupContent = View.inflate(context, layout, null);
         mPopupWindow = new PopupWindow(mPopupContent, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
 
-        listener.onInit(mPopupWindow, mPopupContent);
-        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                listener.onDismiss(mPopupWindow, mPopupContent);
-            }
-        });
+        if (listener!=null) {
+            listener.onInit(mPopupWindow, mPopupContent);
+            mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                @Override
+                public void onDismiss() {
+                    listener.onDismiss(mPopupWindow, mPopupContent);
+                }
+            });
+        }
 
         mPopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         mPopupWindow.setAnimationStyle(R.style.FadeOut);
