@@ -46,12 +46,11 @@ class OptionAdapter extends BaseRecyclerViewAdapter<ProductEntity.Option.Product
     @Override
     protected void onBindHolder(RecyclerView.ViewHolder holder, final int position) {
         View itemView = holder.itemView;
-        ((TextView) itemView.findViewById(R.id.text)).setText(mData.get(position).name);
-        CardView card = ((CardView) itemView.findViewById(R.id.cardItem));
         TextView text = ((TextView) itemView.findViewById(R.id.text));
-        card.setCardBackgroundColor(itemView.getResources().getColor(getColor(position)));
+        text.setText(mData.get(position).name);
+        text.setBackgroundResource(getBackgroundDrawable(position));
         text.setTextColor(itemView.getResources().getColor(getTextColor(position)));
-        card.setOnClickListener(new View.OnClickListener() {
+        text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setChooseStatus(position);
@@ -65,12 +64,12 @@ class OptionAdapter extends BaseRecyclerViewAdapter<ProductEntity.Option.Product
     private ArrayList<Boolean> chooseStatus = new ArrayList<>();
     private int oldPosition;
 
-    private int getColor(int position) {
-        return chooseStatus.get(position) ? R.color.colorAccent : R.color.product_option_background;
+    private int getBackgroundDrawable(int position) {
+        return chooseStatus.get(position) ? R.drawable.background_edit_text_choose : R.drawable.background_edit_text;
     }
 
     private int getTextColor(int position) {
-        return chooseStatus.get(position) ? R.color.textColorWhite : R.color.tab_layout_unSelect_color;
+        return chooseStatus.get(position) ? R.color.colorAccent : R.color.text_color_gray;
     }
 
     private synchronized void setChooseStatus(int position) {

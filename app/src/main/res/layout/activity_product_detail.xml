@@ -563,35 +563,29 @@
                 android:layout_height="match_parent">
                 <ImageView
                     android:id="@+id/bt_support"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_width="33dp"
-                    android:layout_height="33dp"
+                    android:layout_width="49dp"
+                    android:layout_height="49dp"
+                    android:padding="13dp"
                     android:layout_gravity="center_vertical"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:padding="5dp"
                     android:src="@mipmap/icon_im"
                     tools:ignore="ContentDescription" />
                 <ImageView
                     android:id="@+id/bt_like"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_width="33dp"
-                    android:layout_height="33dp"
+                    android:layout_width="49dp"
+                    android:layout_height="49dp"
+                    android:padding="13dp"
                     android:layout_gravity="center_vertical"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:padding="5dp"
                     android:src="@mipmap/like"
                     tools:ignore="ContentDescription" />
                 <ImageView
                     android:id="@+id/bt_cart"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_width="33dp"
-                    android:layout_height="33dp"
+                    android:layout_width="49dp"
+                    android:layout_height="49dp"
+                    android:padding="13dp"
                     android:layout_gravity="center_vertical"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:padding="5dp"
                     android:src="@mipmap/cart_small"
                     tools:ignore="ContentDescription" />
             </LinearLayout>

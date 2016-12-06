@@ -11,15 +11,23 @@ import com.fangzhich.sneakerlab.order.widget.AddressDialog;
 import com.fangzhich.sneakerlab.order.widget.CreditCardDialog;
 import com.fangzhich.sneakerlab.product.data.entity.ProductEntity;
 import com.fangzhich.sneakerlab.product.ui.SizeDialog;
+import com.fangzhich.sneakerlab.util.ToastUtil;
 
 import java.util.HashMap;
 
 /**
- * DialogManager
+ * PaymentManager
  * Created by Khorium on 2016/9/29.
  */
 
 public class PaymentManager {
+
+    private ProductEntity mProduct;
+
+    public enum ChargeType {
+        AddCart,BuyNow
+    }
+
 
     private Context mContext;
     private View mContentView;
@@ -40,10 +48,26 @@ public class PaymentManager {
         return this;
     }
 
-    public void showCustomDialog(int layout, CustomDialog.Listener listener) {
-        new CustomDialog().initPopup(mContext, layout, listener).showPopup(mContentView, Gravity.CENTER);
+
+    public void startPayment(ChargeType type, ProductEntity product, String quantity) {
+        this.mProduct = product;
+        if (product.options!=null && product.options.size()!=0) {
+            startSizeDialog(mProduct,type,quantity);
+            return;
+        }
+        switch (type) {
+            case AddCart:
+                startShoppingCartDialog(mProduct.product_id,quantity,null,"0");
+                break;
+            case BuyNow:
+                startCheckOut(mProduct.product_id,quantity,null,"0");
+                break;
+        }
     }
 
+    public void startCheckOut(String product_id, String quantity, HashMap<String,String> option, String recurring_id) {
+        ToastUtil.toast("checkout!");
+    }
     //------------ShoppingCart-------------------
 
     public void startShoppingCartDialog() {
@@ -91,13 +115,8 @@ public class PaymentManager {
     }
 
     //----------Size-----------------
-
-    public void startSizeDialog() {
-        mSizeDialog.initPopup(this, mContext).showPopup(mContentView);
-    }
-
-    public void startSizeDialog(ProductEntity product) {
-        mSizeDialog.initPopup(this, mContext).withProductDetail(product).showPopup(mContentView);
+    public void startSizeDialog(ProductEntity product, ChargeType type, String quantity) {
+        mSizeDialog.initPopup(this, mContext).withProductDetail(product, type, quantity).showPopup(mContentView);
     }
 
     public void hideSizeDialog() {
@@ -109,6 +128,7 @@ public class PaymentManager {
     }
 
 
+    //-----------------------other===================================
     public void closeAll() {
         if (mCartDialog.isShowing()) {
             mCartDialog.dismiss();
@@ -130,14 +150,15 @@ public class PaymentManager {
         }
     }
 
+    public void showCustomDialog(int layout, CustomDialog.Listener listener) {
+        new CustomDialog().initPopup(mContext, layout, listener).showPopup(mContentView, Gravity.CENTER);
+    }
+
     public void saveAddress(String id,String address) {
         mCartDialog.saveAddress(id,address);
     }
 
     public void saveCreditCard(String type, String cardNumber,String year,String month,String cvv) {
         mCartDialog.saveCreditCard(type,cardNumber,year,month,cvv);
-    }
-
-    public void startCheckOut(String product_id, String quantity, HashMap<String,String> option, String recurring_id) {
     }
 }

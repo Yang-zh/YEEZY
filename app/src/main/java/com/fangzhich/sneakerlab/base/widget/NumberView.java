@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,12 +83,12 @@ public class NumberView extends LinearLayout implements View.OnClickListener, Te
         if (i == R.id.btnDecrease) {
             if (amount > 1) {
                 amount--;
-                etAmount.setText(amount + "");
+                etAmount.setText(String.valueOf(amount));
             }
         } else if (i == R.id.btnIncrease) {
             if (amount < goods_storage) {
                 amount++;
-                etAmount.setText(amount + "");
+                etAmount.setText(String.valueOf(amount));
             }
         }
 
@@ -95,6 +96,15 @@ public class NumberView extends LinearLayout implements View.OnClickListener, Te
 
         if (mListener != null) {
             mListener.onAmountChange(this, amount);
+        }
+    }
+
+    public void setAmount(int amount) {
+        if (amount>0 && amount<goods_storage) {
+            this.amount = amount;
+            etAmount.setText(String.valueOf(amount));
+        } else {
+            Log.e("NumberView","amount shouldn't set to <0 or >goods_storage");
         }
     }
 

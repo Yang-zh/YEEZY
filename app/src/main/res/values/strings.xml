@@ -249,6 +249,8 @@
     <string name="ProductDescription">Product Description</string>
     <string name="AddCart">Add cart</string>
     <string name="BuyNow">Buy now</string>
+    <string name="ChosenIs">Chosen:</string>
+    <string name="InventoryIs">Inventory:</string>
 
     <string-array name = "currencies">
         <item>USD($)</item>

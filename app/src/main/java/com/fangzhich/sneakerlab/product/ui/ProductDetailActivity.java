@@ -41,6 +41,7 @@ import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.LinearLayoutItemDecoration;
 import com.fangzhich.sneakerlab.base.widget.CustomDialog;
 import com.fangzhich.sneakerlab.cart.ui.PaymentManager;
+import com.fangzhich.sneakerlab.main.ui.SupportActivity;
 import com.fangzhich.sneakerlab.product.data.entity.ProductEntity;
 import com.fangzhich.sneakerlab.product.presentation.ProductDetailContract;
 import com.fangzhich.sneakerlab.product.presentation.ProductDetailPresenter;
@@ -197,26 +198,36 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
             });
         }
     }
+    @BindView(R.id.bt_support)
+    ImageView btSupport;
+
+    @OnClick(R.id.bt_support)
+    void iNeedSupport() {
+        Intent intent = new Intent(this, SupportActivity.class);
+        startActivity(intent);
+    }
+
+    @BindView(R.id.bt_cart)
+    ImageView btCart;
+
+    @OnClick(R.id.bt_cart)
+    void openCart() {
+        manager.startShoppingCartDialog();
+    }
 
     @OnClick(R.id.bt_buy)
     void buy() {
-        if (mProduct != null) {
-            if (mProduct.options==null || mProduct.options.size()==0) {
-                manager.withProductDetailControl(this).startShoppingCartDialog(mProduct.product_id, "1", null, "0");
-            } else {
-                manager.withProductDetailControl(this).startSizeDialog(mProduct);
-            }
-        }
+        startChooseSize(PaymentManager.ChargeType.AddCart);
     }
+
     @OnClick(R.id.bt_buy_now)
     void buyNow() {
-        ToastUtil.toast("Buy now");
+        startChooseSize(PaymentManager.ChargeType.BuyNow);
+    }
+
+    private void startChooseSize(PaymentManager.ChargeType type) {
         if (mProduct != null) {
-            if (mProduct.options==null || mProduct.options.size()==0) {
-                manager.withProductDetailControl(this).startCheckOut(mProduct.product_id, "1", null, "0");
-            } else {
-                manager.withProductDetailControl(this).startSizeDialog(mProduct);
-            }
+            manager.withProductDetailControl(this).startPayment(type,mProduct,"1");
         }
     }
 
@@ -361,6 +372,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
                             Timber.d("liked!");
                             likeIcon.setImageResource(R.mipmap.like_red);
                             isLiked = true;
+                            break;
                         }
                     }
                 }

@@ -3,6 +3,7 @@ package com.fangzhich.sneakerlab.product.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -58,8 +59,12 @@ public class SizeDialog {
     TextView tvProductPrice;
     @BindView(R.id.tv_productInventory)
     TextView tvProductInventory;
+    @BindView(R.id.tv_productInventoryDetail)
+    TextView tvProductInventoryDetail;
     @BindView(R.id.tv_productSize)
     TextView tvProductSize;
+    @BindView(R.id.tv_productSizeDetail)
+    TextView tvProductSizeDetail;
 
 
     @BindView(R.id.tv_color)
@@ -82,8 +87,10 @@ public class SizeDialog {
     @BindView(R.id.quantity_view)
     NumberView numberButton;
 
+    @BindView(R.id.bt_buy)
+    CardView btBuy;
     @OnClick(R.id.bt_buy)
-    void buy() {
+    void addCart() {
         if (!Const.isLogin()) {
             mContext.startActivity(new Intent(mContext, LoginActivity.class));
         } else {
@@ -95,11 +102,27 @@ public class SizeDialog {
             }
         }
     }
+    @BindView(R.id.bt_buy_now)
+    CardView btBuyNow;
+    @OnClick(R.id.bt_buy_now)
+    void buyNow() {
+        if (!Const.isLogin()) {
+            mContext.startActivity(new Intent(mContext, LoginActivity.class));
+        } else {
+            if (isChosenOption()) {
+                manager.hideSizeDialog();
+                manager.startCheckOut(String.valueOf(product.product_id), String.valueOf(quantity), option, "0");
+            } else {
+                ToastUtil.toast("Please choose product option you need");
+            }
+        }
+    }
 
     private boolean colorNeed = false;
     private boolean sizeNeed = false;
 
     private boolean isChosenOption() {
+        ToastUtil.toast("Option Size:"+option.size()+" ColorNeed:"+colorNeed+" SizeNeed:"+sizeNeed);
         if (option.size()<=0) {
             return false;
         }
@@ -146,10 +169,25 @@ public class SizeDialog {
         return this;
     }
 
-    public SizeDialog withProductDetail(ProductEntity product) {
+    public SizeDialog withProductDetail(ProductEntity product, PaymentManager.ChargeType type, String quantity) {
         this.product = product;
+        dynamicSetView(type, quantity);
         initRecyclerView();
         return this;
+    }
+
+    private void dynamicSetView(PaymentManager.ChargeType type, String quantity) {
+        numberButton.setAmount(Integer.parseInt(quantity));
+        switch (type) {
+            case AddCart:
+                btBuy.setVisibility(View.VISIBLE);
+                btBuyNow.setVisibility(View.GONE);
+                break;
+            case BuyNow:
+                btBuy.setVisibility(View.GONE);
+                btBuyNow.setVisibility(View.VISIBLE);
+                break;
+        }
     }
 
     private void initRecyclerView() {
@@ -157,14 +195,9 @@ public class SizeDialog {
                 .from(mContext.getResources().getString(R.string.ProductPriceFormat))
                 .with("number", product.special_price)
                 .format());
-        tvProductInventory.setText(TagFormatUtil
-                .from(mContext.getResources().getString(R.string.ProductInventoryFormat))
-                .with("number", product.sales_volume)
-                .format());
-        tvProductSize.setText(TagFormatUtil
-                .from(mContext.getResources().getString(R.string.ProductOptionFormat))
-                .with("content", "")
-                .format());
+        tvProductInventoryDetail.setText(product.sales_volume);
+        tvProductSizeDetail.setText("");
+
         Glide.with(mContext)
                 .load(product.images == null ? null : product.images.get(0))
                 .placeholder(R.mipmap.product_image_placeholder)
@@ -247,6 +280,7 @@ public class SizeDialog {
                     option.put(colorOption.product_option_id,colors.get(position).product_option_value_id);
                 }else {
                     chosenOptions[0] = "";
+                    option.remove(colorOption.product_option_id);
                 }
                 break;
             case Size:
@@ -255,6 +289,7 @@ public class SizeDialog {
                     option.put(sizeOption.product_option_id,sizes.get(position).product_option_value_id);
                 }else {
                     chosenOptions[1] = "";
+                    option.remove(sizeOption.product_option_id);
                 }
                 break;
         }
@@ -271,10 +306,7 @@ public class SizeDialog {
         if (builder.length()>0) {
             builder.deleteCharAt(builder.length()-1);
         }
-        tvProductSize.setText(TagFormatUtil
-                .from(mContext.getResources().getString(R.string.ProductOptionFormat))
-                .with("content", builder)
-                .format());
+        tvProductSizeDetail.setText(builder);
     }
 
     public void showPopup(View contentView) {
