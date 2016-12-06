@@ -10,8 +10,7 @@ import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
 import com.fangzhich.sneakerlab.order.widget.AddressDialog;
 import com.fangzhich.sneakerlab.order.widget.CreditCardDialog;
 import com.fangzhich.sneakerlab.product.data.entity.ProductEntity;
-import com.fangzhich.sneakerlab.product.ui.ProductDetailActivity;
-import com.fangzhich.sneakerlab.product.widget.SizeDialog;
+import com.fangzhich.sneakerlab.product.ui.SizeDialog;
 
 import java.util.HashMap;
 
@@ -20,13 +19,13 @@ import java.util.HashMap;
  * Created by Khorium on 2016/9/29.
  */
 
-public class DialogManager {
+public class PaymentManager {
 
     private Context mContext;
     private View mContentView;
     private Activity activity;
 
-    public DialogManager(Context context, View contentView) {
+    public PaymentManager(Context context, View contentView) {
         mContentView = contentView;
         mContext = context;
     }
@@ -36,7 +35,7 @@ public class DialogManager {
     private AddressDialog mAddressDialog = new AddressDialog();
     private SizeDialog mSizeDialog = new SizeDialog();
 
-    public DialogManager withProductDetailControl(Activity activity) {
+    public PaymentManager withProductDetailControl(Activity activity) {
         this.activity = activity;
         return this;
     }
@@ -139,4 +138,6 @@ public class DialogManager {
         mCartDialog.saveCreditCard(type,cardNumber,year,month,cvv);
     }
 
+    public void startCheckOut(String product_id, String quantity, HashMap<String,String> option, String recurring_id) {
+    }
 }

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">SneakerLab</string>
 
-    <string name="facebook_app_id">602641603253963</string>
+    <string name="facebook_app_id">637256776443104</string>
 
     <string name="CloseDrawer">Close drawer</string>
     <string name="OpenDrawer">Open Drawer</string>
@@ -246,6 +246,9 @@
     <string name="SizeChartIntro">This size chart is intended for reference only. Size can vary between brands.</string>
     <string name="US">US</string>
     <string name="Europe">Europe</string>
+    <string name="ProductDescription">Product Description</string>
+    <string name="AddCart">Add cart</string>
+    <string name="BuyNow">Buy now</string>
 
     <string-array name = "currencies">
         <item>USD($)</item>

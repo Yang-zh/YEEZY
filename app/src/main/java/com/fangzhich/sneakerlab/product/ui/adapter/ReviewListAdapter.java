@@ -5,6 +5,7 @@ import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -30,9 +31,16 @@ public class ReviewListAdapter extends BaseRecyclerViewAdapter<ReviewEntity,Revi
     private final String mProduct_id;
     private ProductReviewListContract.Presenter mPresenter;
     private int mTotalPage = -1;
+    private String limit = "20";
 
-    public ReviewListAdapter(String product_id) {
+    /**
+     *
+     * @param product_id product id that your want to get reviews from
+     * @param limit reviews count per page
+     */
+    public ReviewListAdapter(String product_id,String limit) {
         mProduct_id = product_id;
+        this.limit = limit;
         setPresenter(new ProductReviewListPresenter(this));
         loadData();
     }
@@ -42,9 +50,13 @@ public class ReviewListAdapter extends BaseRecyclerViewAdapter<ReviewEntity,Revi
         mPresenter = presenter;
     }
 
+    public void setLimit(String limit) {
+        this.limit = limit;
+    }
+
     public void loadData() {
         if (mPresenter!=null) {
-            mPresenter.getProductReviewList(mProduct_id);
+            mPresenter.getProductReviewList(mProduct_id, limit);
         }
         mTotalPage = 0;
     }
@@ -68,7 +80,7 @@ public class ReviewListAdapter extends BaseRecyclerViewAdapter<ReviewEntity,Revi
 
     @Override
     public void loadMore() {
-        mPresenter.getProductReviewList(String.valueOf(++mTotalPage),"20",mProduct_id);
+        mPresenter.getProductReviewList(String.valueOf(++mTotalPage),limit,mProduct_id);
         notifyDataSetChanged();
     }
 
@@ -98,6 +110,8 @@ public class ReviewListAdapter extends BaseRecyclerViewAdapter<ReviewEntity,Revi
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.headImage)
+        ImageView headImage;
         @BindView(R.id.rating_bar)
         SimpleRatingBar ratingBar;
         @BindView(R.id.comment)

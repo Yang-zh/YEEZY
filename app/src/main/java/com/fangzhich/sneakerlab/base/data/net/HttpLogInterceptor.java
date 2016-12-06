@@ -190,17 +190,17 @@ class HttpLogInterceptor implements Interceptor {
 
 //                logger.log("");
                 message.append("\n").append("");
-//                if (isPlaintext(buffer)) {
-////                    logger.log(buffer.readString(charset));
-//                    message.append("\n").append(buffer.readString(charset));
-////                    logger.log("--> END " + request.method()
-////                            + " (" + requestBody.contentLength() + "-byte body)");
-//                    message.append("\n").append("--> END ").append(request.method()).append(" (").append(requestBody.contentLength()).append("-byte body)");
-//                } else {
-////                    logger.log("--> END " + request.method() + " (binary "
-////                            + requestBody.contentLength() + "-byte body omitted)");
-//                    message.append("\n").append("--> END ").append(request.method()).append(" (binary ").append(requestBody.contentLength()).append("-byte body omitted)");
-//                }
+                if (isPlaintext(buffer)) {
+//                    logger.log(buffer.readString(charset));
+                    message.append("\n").append(buffer.readString(charset));
+//                    logger.log("--> END " + request.method()
+//                            + " (" + requestBody.contentLength() + "-byte body)");
+                    message.append("\n").append("--> END ").append(request.method()).append(" (").append(requestBody.contentLength()).append("-byte body)");
+                } else {
+//                    logger.log("--> END " + request.method() + " (binary "
+//                            + requestBody.contentLength() + "-byte body omitted)");
+                    message.append("\n").append("--> END ").append(request.method()).append(" (binary ").append(requestBody.contentLength()).append("-byte body omitted)");
+                }
             }
         }
 

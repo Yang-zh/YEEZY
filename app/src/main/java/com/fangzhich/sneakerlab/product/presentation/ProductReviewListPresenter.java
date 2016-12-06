@@ -21,8 +21,8 @@ public class ProductReviewListPresenter implements ProductReviewListContract.Pre
     }
 
     @Override
-    public void getProductReviewList(String product_id) {
-        ProductApi.getReviews("0", "20", product_id, new SingleSubscriber<ArrayList<ReviewEntity>>() {
+    public void getProductReviewList(String product_id, String limit) {
+        ProductApi.getReviews("0", limit, product_id, new SingleSubscriber<ArrayList<ReviewEntity>>() {
             @Override
             public void onSuccess(ArrayList<ReviewEntity> reviewList) {
                 mView.onLoadReviewListSuccess(reviewList);

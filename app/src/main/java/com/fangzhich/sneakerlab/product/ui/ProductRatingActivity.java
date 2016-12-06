@@ -79,9 +79,9 @@ public class ProductRatingActivity extends BaseActivity {
 
     private void initRecyclerView() {
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        final ReviewListAdapter adapter = new ReviewListAdapter(product.product_id);
+        final ReviewListAdapter adapter = new ReviewListAdapter(product.product_id,"20");
+        rvComments.addItemDecoration(new LinearLayoutItemDecoration(this, LinearLayoutItemDecoration.VERTICAL_LIST,R.drawable.background_half_line));
         rvComments.setLayoutManager(manager);
-        rvComments.addItemDecoration(new LinearLayoutItemDecoration(this, LinearLayoutManager.VERTICAL,0));
         rvComments.setAdapter(adapter);
         adapter.setOnAdapterStatusChangeListener(new ReviewListAdapter.OnAdapterStatusChangeListener() {
             @Override

@@ -4,8 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
-import android.os.Build;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.TextUtils;
@@ -37,11 +38,13 @@ import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
+import com.fangzhich.sneakerlab.base.ui.recyclerview.LinearLayoutItemDecoration;
 import com.fangzhich.sneakerlab.base.widget.CustomDialog;
-import com.fangzhich.sneakerlab.cart.ui.DialogManager;
+import com.fangzhich.sneakerlab.cart.ui.PaymentManager;
 import com.fangzhich.sneakerlab.product.data.entity.ProductEntity;
 import com.fangzhich.sneakerlab.product.presentation.ProductDetailContract;
 import com.fangzhich.sneakerlab.product.presentation.ProductDetailPresenter;
+import com.fangzhich.sneakerlab.product.ui.adapter.ReviewListAdapter;
 import com.fangzhich.sneakerlab.user.data.entity.WishEntity;
 import com.fangzhich.sneakerlab.user.data.net.UserApi;
 import com.fangzhich.sneakerlab.user.ui.LoginActivity;
@@ -49,19 +52,13 @@ import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.TagFormatUtil;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.iarcuschin.simpleratingbar.SimpleRatingBar;
-import com.twitter.sdk.android.tweetcomposer.BuildConfig;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import rx.SingleSubscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -80,7 +77,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
     //-----------------product object---------------
     private ProductEntity mProduct;
     private String productId;
-    DialogManager manager;
+    PaymentManager manager;
 
     //-----------------banner------------------
     private ArrayList<String> imageUrls = new ArrayList<>();
@@ -150,6 +147,8 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
         intent.putExtra("mProduct",mProduct);
         startActivity(intent);
     }
+    @BindView(R.id.rv_product_detail_rating)
+    RecyclerView rvProductRating;
 
     //------------------product description------------
     @BindView(R.id.tv_productDescription)
@@ -199,17 +198,22 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
         }
     }
 
-    @BindView(R.id.self_tag)
-    ImageView saleTag;
-
-    @BindView(R.id.product_price_bottom)
-    TextView productPriceBottom;
-
     @OnClick(R.id.bt_buy)
     void buy() {
         if (mProduct != null) {
             if (mProduct.options==null || mProduct.options.size()==0) {
                 manager.withProductDetailControl(this).startShoppingCartDialog(mProduct.product_id, "1", null, "0");
+            } else {
+                manager.withProductDetailControl(this).startSizeDialog(mProduct);
+            }
+        }
+    }
+    @OnClick(R.id.bt_buy_now)
+    void buyNow() {
+        ToastUtil.toast("Buy now");
+        if (mProduct != null) {
+            if (mProduct.options==null || mProduct.options.size()==0) {
+                manager.withProductDetailControl(this).startCheckOut(mProduct.product_id, "1", null, "0");
             } else {
                 manager.withProductDetailControl(this).startSizeDialog(mProduct);
             }
@@ -257,7 +261,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
 
     private void initBottomBarAndPopup() {
         productPriceOriginal.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        manager = new DialogManager(this, getWindow().getDecorView());
+        manager = new PaymentManager(this, getWindow().getDecorView());
     }
 
     @Override
@@ -311,7 +315,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
         }
         if (TextUtils.isEmpty(mProduct.discount) || mProduct.discount.equals("0")) {
             productDiscount.setVisibility(View.GONE);
-            saleTag.setVisibility(View.GONE);
             discountType.setVisibility(View.GONE);
         } else {
             productDiscount.setText("-"+mProduct.discount);
@@ -330,6 +333,11 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
         ratingNumber.setText(TagFormatUtil.from(getResources().getString(R.string.RatingNumberFormat))
                 .with("number", mProduct.reviews)
                 .format());
+        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        rvProductRating.addItemDecoration(new LinearLayoutItemDecoration(this, LinearLayoutItemDecoration.VERTICAL_LIST,R.drawable.background_half_line));
+        ReviewListAdapter adapter = new ReviewListAdapter(mProduct.product_id,"2");
+        rvProductRating.setLayoutManager(manager);
+        rvProductRating.setAdapter(adapter);
 
         //---------------product description-------------
         if (mProduct.description!=null && mProduct.description.length()>0) {
@@ -363,9 +371,9 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
                 }
             });
         }
-        productPriceBottom.setText(TagFormatUtil.from(getResources().getString(R.string.priceFormat))
-                .with("price", String.valueOf(mProduct.special_price))
-                .format());
+//        productPriceBottom.setText(TagFormatUtil.from(getResources().getString(R.string.priceFormat))
+//                .with("price", String.valueOf(mProduct.special_price))
+//                .format());
     }
 
     @Override

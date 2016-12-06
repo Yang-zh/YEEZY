@@ -30,10 +30,8 @@ import com.fangzhich.sneakerlab.BuildConfig;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.data.event.RxBus;
 import com.fangzhich.sneakerlab.base.data.log.GLogManager;
-import com.fangzhich.sneakerlab.base.service.MyFirebaseInstanceIDService;
-import com.fangzhich.sneakerlab.base.service.MyFirebaseMessagingService;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
-import com.fangzhich.sneakerlab.cart.ui.DialogManager;
+import com.fangzhich.sneakerlab.cart.ui.PaymentManager;
 import com.fangzhich.sneakerlab.main.data.entity.CategoryEntity;
 import com.fangzhich.sneakerlab.main.data.event.UserInfoRefreshEvent;
 import com.fangzhich.sneakerlab.main.data.net.MainApi;
@@ -49,8 +47,6 @@ import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.fangzhich.sneakerlab.util.MyUtil;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.FirebaseMessagingService;
 
 import java.util.ArrayList;
 
@@ -172,7 +168,7 @@ public class MainActivity extends BaseActivity {
                         if (!Const.isLogin()) {
                             startActivityForResult(new Intent(MainActivity.this, LoginActivity.class), LoginActivity.IS_LOGIN);
                         } else {
-                            new DialogManager(MainActivity.this, getWindow().getDecorView()).startShoppingCartDialog();
+                            new PaymentManager(MainActivity.this, getWindow().getDecorView()).startShoppingCartDialog();
                         }
                         break;
                     case R.id.history:

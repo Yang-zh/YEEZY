@@ -1,16 +1,9 @@
 package com.fangzhich.sneakerlab.user.ui;
 
-import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -20,11 +13,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -36,44 +27,29 @@ import com.blankj.utilcode.utils.SizeUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.share.Sharer;
-import com.facebook.share.model.ShareHashtag;
-import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.widget.ShareDialog;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.data.event.RxBus;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.GridSpaceItemDecoration;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.OnScrollLoadMoreHelper;
 import com.fangzhich.sneakerlab.base.widget.CustomDialog;
-import com.fangzhich.sneakerlab.cart.ui.DialogManager;
+import com.fangzhich.sneakerlab.cart.ui.PaymentManager;
 import com.fangzhich.sneakerlab.main.data.event.UserInfoRefreshEvent;
-import com.fangzhich.sneakerlab.main.ui.MainActivity;
 import com.fangzhich.sneakerlab.main.ui.SettingActivity;
 import com.fangzhich.sneakerlab.order.ui.OrderHistoryActivity;
-import com.fangzhich.sneakerlab.product.ui.ProductDetailActivity;
 import com.fangzhich.sneakerlab.product.ui.adapter.RelateProductListAdapter;
 import com.fangzhich.sneakerlab.product.ui.adapter.ReviewListAdapter;
 import com.fangzhich.sneakerlab.user.data.entity.AvatarEntity;
 import com.fangzhich.sneakerlab.user.data.net.UserApi;
-import com.fangzhich.sneakerlab.user.ui.adapter.WishListAdapter;
 import com.fangzhich.sneakerlab.util.AvatarUtil;
 import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.ToastUtil;
-import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.io.InputStream;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -169,7 +145,7 @@ public class PersonalCenterActivity extends BaseActivity {
     //list
     @OnClick(R.id.shoppingCart)
     void shoppingCart() {
-        new DialogManager(this, getWindow().getDecorView()).startShoppingCartDialog();
+        new PaymentManager(this, getWindow().getDecorView()).startShoppingCartDialog();
     }
 
     @OnClick(R.id.orderHistory)

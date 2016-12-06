@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.PopupWindow;
 
 import com.fangzhich.sneakerlab.R;
-import com.fangzhich.sneakerlab.cart.ui.DialogManager;
+import com.fangzhich.sneakerlab.cart.ui.PaymentManager;
 import com.fangzhich.sneakerlab.base.widget.ProgressBar;
 import com.fangzhich.sneakerlab.base.widget.spinner.NiceSpinner;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
@@ -177,10 +177,10 @@ public class AddressDialog {
     private Context mContext;
     private View mContentView;
 
-    private DialogManager manager;
+    private PaymentManager manager;
 
-    public AddressDialog initPopup(DialogManager dialogManager, Context context) {
-        manager = dialogManager;
+    public AddressDialog initPopup(PaymentManager paymentManager, Context context) {
+        manager = paymentManager;
         mContext = context;
 
         View mPopupContent = View.inflate(context, R.layout.dialog_address, null);

@@ -1,4 +1,4 @@
-package com.fangzhich.sneakerlab.product.widget;
+package com.fangzhich.sneakerlab.product.ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.fangzhich.sneakerlab.R;
-import com.fangzhich.sneakerlab.cart.ui.DialogManager;
+import com.fangzhich.sneakerlab.cart.ui.PaymentManager;
 import com.fangzhich.sneakerlab.base.widget.NumberView;
 import com.fangzhich.sneakerlab.product.data.entity.ProductEntity;
 import com.fangzhich.sneakerlab.user.ui.LoginActivity;
@@ -120,11 +120,11 @@ public class SizeDialog {
     private View mContentView;
     private View mPopupContent;
 
-    private DialogManager manager;
+    private PaymentManager manager;
 
     private int quantity = 1;
 
-    public SizeDialog initPopup(DialogManager manager, Context context) {
+    public SizeDialog initPopup(PaymentManager manager, Context context) {
 
         mContext = context;
         this.manager = manager;

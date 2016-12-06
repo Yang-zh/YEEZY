@@ -44,7 +44,7 @@ public class ShoppingCartDialog {
 
     private Context mContext;
     private View mContentView;
-    private DialogManager manager;
+    private PaymentManager manager;
     private Subscription mSubscription;
 
     @OnClick(R.id.bt_cancel)
@@ -186,7 +186,7 @@ public class ShoppingCartDialog {
     private View mPopupContent;
 
 
-    public ShoppingCartDialog initPopup(final DialogManager manager, Context context) {
+    public ShoppingCartDialog initPopup(final PaymentManager manager, Context context) {
         this.manager = manager;
         mContext = context;
         mPopupContent = View.inflate(context, R.layout.dialog_shoppingcart, null);

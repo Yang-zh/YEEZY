@@ -10,13 +10,10 @@ import android.widget.EditText;
 import android.widget.PopupWindow;
 
 import com.fangzhich.sneakerlab.R;
-import com.fangzhich.sneakerlab.cart.ui.DialogManager;
+import com.fangzhich.sneakerlab.cart.ui.PaymentManager;
 import com.fangzhich.sneakerlab.base.widget.ProgressBar;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
-import com.fangzhich.sneakerlab.cart.ui.ShoppingCartDialog;
-import com.fangzhich.sneakerlab.user.data.entity.UserInfoEntity;
 import com.fangzhich.sneakerlab.user.data.net.UserApi;
-import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 
 import java.util.regex.Pattern;
@@ -144,10 +141,10 @@ public class CreditCardDialog {
     private View mContentView;
     private View mPopupContent;
 
-    private DialogManager manager;
+    private PaymentManager manager;
 
-    public CreditCardDialog initPopup(DialogManager dialogManager, Context context) {
-        manager = dialogManager;
+    public CreditCardDialog initPopup(PaymentManager paymentManager, Context context) {
+        manager = paymentManager;
         mContext = context;
         mPopupContent = View.inflate(context, R.layout.dialog_payment_info, null);
         ButterKnife.bind(this, mPopupContent);

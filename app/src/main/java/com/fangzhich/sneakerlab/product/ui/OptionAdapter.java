@@ -1,6 +1,5 @@
-package com.fangzhich.sneakerlab.product.widget;
+package com.fangzhich.sneakerlab.product.ui;
 
-import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
