@@ -162,7 +162,9 @@
             android:layout_marginTop="12dp"
             android:layout_marginRight="22.5dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            app:btnWidth="28dp"
+            app:tvWidth="36dp"/>
         <android.support.v7.widget.CardView
             android:id="@+id/bt_buy"
             android:foreground="?selectableItemBackgroundBorderless"

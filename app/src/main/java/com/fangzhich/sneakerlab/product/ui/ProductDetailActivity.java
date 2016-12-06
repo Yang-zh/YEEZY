@@ -227,7 +227,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
 
     private void startChooseSize(PaymentManager.ChargeType type) {
         if (mProduct != null) {
-            manager.withProductDetailControl(this).startPayment(type,mProduct,"1");
+            manager.startPayment(type,mProduct,"1");
         }
     }
 

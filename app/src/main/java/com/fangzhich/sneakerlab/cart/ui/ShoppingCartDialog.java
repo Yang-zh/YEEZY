@@ -236,7 +236,7 @@ public class ShoppingCartDialog {
     private void loadData() {
         recyclerView.setAdapter(adapter);
         adapter.loadData();
-        adapter.setOnLoadDataListener(new CartListAdapter.OnLoadDataListener() {
+        adapter.setOnCartStatusChangeListener(new CartListAdapter.OnCartStatusChangeListener() {
 
             @SuppressLint("SetTextI18n")
             @Override

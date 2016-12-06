@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.fangzhich.sneakerlab.cart.ui.PaymentManager;
 import com.fangzhich.sneakerlab.util.Const;
 import com.fangzhich.sneakerlab.util.Installation;
 import com.fangzhich.sneakerlab.util.ToastUtil;
@@ -22,6 +23,9 @@ import timber.log.Timber;
  * Created by Khorium on 2016/8/30.
  */
 public class App extends Application {
+
+    //PaymentManager for multi activities usage.
+    public PaymentManager mPaymentManager;
 
     private static FirebaseAnalytics mFirebaseAnalytics;
 

@@ -202,8 +202,8 @@
     <string name="Oops">Oops!</string>
     <string name="checkout_fail_notice">Something went wrong with your payment. Recheck and try it again pls.</string>
     <string name="CollectionStillEmpty">Collection still empty</string>
-    <string name="ContinueShoppingUnderLine"><u>continue shopping</u></string>
-    <string name="CartEmptyNotice">Your cart is empty, go pick some cool sneaker.</string>
+    <string name="ContinueShoppingUnderLine">Continue Shopping</string>
+    <string name="CartEmptyNotice">Your cart is empty Go pick some cool sneaker.</string>
     <string name="NoOrderYet">No order yet</string>
     <string name="FullName">FullName*</string>
     <string name="WishList">Wishlist</string>
@@ -251,6 +251,10 @@
     <string name="BuyNow">Buy now</string>
     <string name="ChosenIs">Chosen:</string>
     <string name="InventoryIs">Inventory:</string>
+    <string name="ShoppingCartNotice">You should checkout items you left in your shopping cart quickly cause these gonna sold out!</string>
+    <string name="LaterForShopping">later for shopping</string>
+    <string name="Delete">Delete</string>
+    <string name="SaveForLater">Save for later</string>
 
     <string-array name = "currencies">
         <item>USD($)</item>

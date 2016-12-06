@@ -95,7 +95,7 @@ public class SizeDialog {
             mContext.startActivity(new Intent(mContext, LoginActivity.class));
         } else {
             if (isChosenOption()) {
-                manager.hideSizeDialog();
+                dismiss();
                 manager.startShoppingCartDialog(String.valueOf(product.product_id), String.valueOf(quantity), option, "0");
             } else {
                 ToastUtil.toast("Please choose product option you need");
@@ -110,7 +110,7 @@ public class SizeDialog {
             mContext.startActivity(new Intent(mContext, LoginActivity.class));
         } else {
             if (isChosenOption()) {
-                manager.hideSizeDialog();
+                dismiss();
                 manager.startCheckOut(String.valueOf(product.product_id), String.valueOf(quantity), option, "0");
             } else {
                 ToastUtil.toast("Please choose product option you need");
@@ -122,7 +122,6 @@ public class SizeDialog {
     private boolean sizeNeed = false;
 
     private boolean isChosenOption() {
-        ToastUtil.toast("Option Size:"+option.size()+" ColorNeed:"+colorNeed+" SizeNeed:"+sizeNeed);
         if (option.size()<=0) {
             return false;
         }

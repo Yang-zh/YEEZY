@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView
+        android:id="@+id/iv_productImage"
+        android:background="@drawable/background_box"
+        android:padding="-0.5dp"
+        android:src="@mipmap/product_image_placeholder"
+        android:layout_marginTop="18.5dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_width="92dp"
+        android:layout_height="92dp" />
+    <TextView
+        android:id="@+id/tv_productName"
+        android:text="@string/ProductNameSample"
+        android:textColor="@color/tab_layout_select_color"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:layout_toRightOf="@+id/iv_productImage"
+        android:layout_marginTop="15.5dp"
+        android:layout_marginLeft="12.5dp"
+        android:layout_marginRight="38dp"
+        android:lines="2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:id="@+id/option"
+        android:layout_below="@+id/tv_productName"
+        android:layout_toRightOf="@+id/iv_productImage"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/color_is"
+            android:text="@string/ColorIs"
+            android:textColor="@color/text_color_gray"
+            android:textSize="12sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/color_detail"
+            android:layout_marginLeft="5dp"
+            android:text="@string/Blue"
+            android:textColor="@color/tab_layout_unSelect_color"
+            android:textSize="12sp"
+            android:layout_toRightOf="@+id/color_is"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/size_is"
+            android:text="@string/SizeIs"
+            android:textColor="@color/text_color_gray"
+            android:textSize="12sp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/color_is"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/size_detail"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/tab_layout_unSelect_color"
+            android:textSize="12sp"
+            android:layout_toRightOf="@+id/size_is"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/color_is"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/tv_productPrice"
+        android:text="$ 1058.94"
+        android:textColor="@color/colorAccent"
+        android:textSize="15sp"
+        android:layout_toRightOf="@+id/iv_productImage"
+        android:layout_marginLeft="14dp"
+        android:layout_below="@+id/tv_productName"
+        android:layout_marginTop="54.5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tv_productOriginalPrice"
+        android:text="$ 1058.94"
+        android:textColor="@color/text_color_gray"
+        android:textSize="13sp"
+        android:layout_toRightOf="@+id/tv_productPrice"
+        android:layout_marginLeft="21dp"
+        android:layout_below="@id/tv_productName"
+        android:layout_marginTop="56dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <com.fangzhich.sneakerlab.base.widget.NumberView
+        android:id="@+id/quantity_view"
+        android:layout_below="@+id/iv_productImage"
+        android:layout_marginTop="39.5dp"
+        android:layout_marginLeft="15.5dp"
+        android:layout_marginBottom="15.5dp"
+        android:layout_width="92dp"
+        android:layout_height="wrap_content"
+        app:btnWidth="28dp"
+        app:tvWidth="36dp"/>
+
+
+    <TextView
+        android:id="@+id/delete"
+        android:text="@string/Delete"
+        android:textColor="@color/tab_layout_unSelect_color"
+        android:textSize="12sp"
+        android:background="@drawable/selector_box_grey_red"
+        android:padding="5.5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/quantity_view"
+        android:layout_toLeftOf="@+id/saveForLater"
+        android:layout_marginRight="15dp"/>
+    <TextView
+        android:id="@+id/saveForLater"
+        android:text="@string/SaveForLater"
+        android:textColor="@color/tab_layout_unSelect_color"
+        android:textSize="12sp"
+        android:background="@drawable/selector_box_grey_red"
+        android:padding="5.5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/quantity_view"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"/>
+
+
+</RelativeLayout>

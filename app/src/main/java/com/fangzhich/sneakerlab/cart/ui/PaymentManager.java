@@ -2,9 +2,13 @@ package com.fangzhich.sneakerlab.cart.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.view.Gravity;
 import android.view.View;
 
+import com.fangzhich.sneakerlab.App;
 import com.fangzhich.sneakerlab.base.widget.CustomDialog;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
 import com.fangzhich.sneakerlab.order.widget.AddressDialog;
@@ -20,7 +24,7 @@ import java.util.HashMap;
  * Created by Khorium on 2016/9/29.
  */
 
-public class PaymentManager {
+public class PaymentManager{
 
     private ProductEntity mProduct;
 
@@ -33,21 +37,17 @@ public class PaymentManager {
     private View mContentView;
     private Activity activity;
 
-    public PaymentManager(Context context, View contentView) {
+    public PaymentManager(Activity context, View contentView) {
         mContentView = contentView;
         mContext = context;
+        activity = context;
+        ((App)activity.getApplication()).mPaymentManager = this;
     }
 
     private ShoppingCartDialog mCartDialog = new ShoppingCartDialog();
     private CreditCardDialog mCardDialog = new CreditCardDialog();
     private AddressDialog mAddressDialog = new AddressDialog();
     private SizeDialog mSizeDialog = new SizeDialog();
-
-    public PaymentManager withProductDetailControl(Activity activity) {
-        this.activity = activity;
-        return this;
-    }
-
 
     public void startPayment(ChargeType type, ProductEntity product, String quantity) {
         this.mProduct = product;
@@ -71,11 +71,17 @@ public class PaymentManager {
     //------------ShoppingCart-------------------
 
     public void startShoppingCartDialog() {
-        mCartDialog.initPopup(this, mContext).showPopup(mContentView);
+        Intent intent = new Intent(activity,ShoppingCartActivity.class);
+        mContext.startActivity(intent);
     }
 
     public void startShoppingCartDialog(String product_id, String quantity, HashMap<String,String> option, String recurring_id) {
-        mCartDialog.initPopup(this, mContext).addToCart(product_id, quantity, option, recurring_id).showPopup(mContentView);
+        Intent intent = new Intent(activity,ShoppingCartActivity.class);
+        intent.putExtra("product_id",product_id);
+        intent.putExtra("quantity",quantity);
+        intent.putExtra("option",option);
+        intent.putExtra("recurring_id",recurring_id);
+        mContext.startActivity(intent);
     }
 
     public void hideShoppingCartDialog() {
@@ -161,4 +167,5 @@ public class PaymentManager {
     public void saveCreditCard(String type, String cardNumber,String year,String month,String cvv) {
         mCartDialog.saveCreditCard(type,cardNumber,year,month,cvv);
     }
+
 }
