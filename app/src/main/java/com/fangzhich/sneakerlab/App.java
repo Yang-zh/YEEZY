@@ -2,6 +2,7 @@ package com.fangzhich.sneakerlab;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.support.multidex.MultiDex;
 
 import com.facebook.FacebookSdk;
@@ -68,6 +69,7 @@ public class App extends Application {
         Fabric.with(this, new Twitter(authConfig), new TweetComposer());
         //IMEI
         Const.IMEI = Installation.id(this);
+
      }
 
     @Override

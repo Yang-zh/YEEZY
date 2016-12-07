@@ -111,7 +111,7 @@ public class PaymentMethodListActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode!=SUCCESS) {
+        if (resultCode!=RESULT_OK) {
             return;
         }
         switch (requestCode) {

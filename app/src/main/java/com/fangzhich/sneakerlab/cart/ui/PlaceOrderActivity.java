@@ -18,16 +18,36 @@ import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.BaseRecyclerViewAdapter;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.LinearLayoutItemDecoration;
+import com.fangzhich.sneakerlab.util.ToastUtil;
+import com.paypal.android.sdk.payments.PayPalConfiguration;
+import com.paypal.android.sdk.payments.PayPalPayment;
+import com.paypal.android.sdk.payments.PayPalService;
+import com.paypal.android.sdk.payments.PaymentActivity;
+import com.paypal.android.sdk.payments.PaymentConfirmation;
+
+import org.json.JSONException;
+
+import java.math.BigDecimal;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 /**
  * PlaceOrderActivity
  * Created by Khorium on 2016/12/7.
  */
 public class PlaceOrderActivity extends BaseActivity {
+
+
+    private static PayPalConfiguration config = new PayPalConfiguration()
+
+            // Start with mock environment.  When ready, switch to sandbox (ENVIRONMENT_SANDBOX)
+            // or live (ENVIRONMENT_PRODUCTION)
+            .environment(PayPalConfiguration.ENVIRONMENT_NO_NETWORK)
+
+            .clientId("AXW45ZT-wBhh3i5k98TP3hBOPCbpQp-h8jaDfzyKHI6tPuNq2gW7EpOAyz_5bisrtpz8h-3Mep4DlgT6");
 
     private static final int SUCCESS = 1001;
     @BindView(R.id.toolbar)
@@ -90,8 +110,25 @@ public class PlaceOrderActivity extends BaseActivity {
     @BindView(R.id.product_price)
     TextView productPrice;
 
-    @BindView(R.id.bt_place_order)
-    CardView btPlaceOrder;
+    @OnClick(R.id.bt_place_order)
+    void placeOrder() {
+        //todo
+        payPal();
+    }
+
+    private void payPal() {
+        PayPalPayment payment = new PayPalPayment(new BigDecimal("1.75"), "USD", "sample item",
+                PayPalPayment.PAYMENT_INTENT_SALE);
+
+        Intent intent = new Intent(this, PaymentActivity.class);
+
+        // send the same configuration for restart resiliency
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+
+        intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
+
+        startActivityForResult(intent, 0);
+    }
 
     private PaymentManager mPaymentManger;
 
@@ -104,9 +141,17 @@ public class PlaceOrderActivity extends BaseActivity {
     protected void initContentView() {
         mPaymentManger = ((App) getApplication()).mPaymentManager;
 
+        initPaypalService();
+
         initToolbar();
 
         initRecyclerView();
+    }
+
+    private void initPaypalService() {
+        Intent intent = new Intent(this, PayPalService.class);
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+        startService(intent);
     }
 
 
@@ -194,12 +239,37 @@ public class PlaceOrderActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != SUCCESS) {
+        if (resultCode != RESULT_OK) {
             return;
         }
+
+        if (resultCode== PaymentActivity.RESULT_EXTRAS_INVALID) {
+            ToastUtil.toast("invalid payment");
+        }
+
+        PaymentConfirmation confirm = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+        if (confirm != null) {
+            try {
+                Timber.e(confirm.toJSONObject().toString(4));
+                ToastUtil.toast("Paypal Success");
+                // TODO: send 'confirm' to your server for verification.
+                // see https://developer.paypal.com/webapps/developer/docs/integration/mobile/verify-mobile-payment/
+                // for more details.
+
+            } catch (JSONException e) {
+                Timber.e(e);
+            }
+        }
+
         switch (requestCode) {
             case PaymentMethodListActivity.CHOOSE_PAYMENT_METHOD:
                 break;
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        stopService(new Intent(this, PayPalService.class));
+        super.onDestroy();
     }
 }
