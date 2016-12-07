@@ -2,14 +2,17 @@ package com.fangzhich.sneakerlab.cart.ui;
 
 import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.BaseRecyclerViewAdapter;
+import com.fangzhich.sneakerlab.base.widget.CustomDialog;
 import com.fangzhich.sneakerlab.base.widget.NumberView;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
 import com.fangzhich.sneakerlab.util.TagFormatUtil;
@@ -116,20 +119,42 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Product, CartLi
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        cartManager.removeCartItem(cartItem.cart_id, new CartManager.RemoveItemCallBack() {
+                        new CustomDialog().initPopup(v.getContext(), R.layout.dialog_shopping_cart_delete, new CustomDialog.Listener() {
                             @Override
-                            public void onSuccess() {
-                                mData.remove(holder.getAdapterPosition());
-                                onCartStatusChangeListener.checkSubscribe();
-                                notifyItemRemoved(holder.getAdapterPosition());
-                                loadData();
+                            public void onInit(final PopupWindow dialog, View content) {
+                                content.findViewById(R.id.bt_yes).setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        dialog.dismiss();
+                                        cartManager.removeCartItem(cartItem.cart_id, new CartManager.RemoveItemCallBack() {
+                                            @Override
+                                            public void onSuccess() {
+                                                mData.remove(holder.getAdapterPosition());
+                                                onCartStatusChangeListener.checkSubscribe();
+                                                notifyItemRemoved(holder.getAdapterPosition());
+                                                loadData();
+                                            }
+
+                                            @Override
+                                            public void onError(Throwable throwable) {
+                                                Timber.e(throwable);
+                                            }
+                                        });
+                                    }
+                                });
+                                content.findViewById(R.id.bt_no).setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        dialog.dismiss();
+                                    }
+                                });
                             }
 
                             @Override
-                            public void onError(Throwable throwable) {
-                                Timber.e(throwable);
+                            public void onDismiss(PopupWindow dialog, View content) {
+
                             }
-                        });
+                        }).showPopup(v.getRootView(), Gravity.CENTER);
                     }
                 });
         holder.numberView.setGoods_storage(99);

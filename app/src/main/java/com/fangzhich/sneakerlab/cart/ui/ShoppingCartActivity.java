@@ -60,7 +60,7 @@ public class ShoppingCartActivity extends BaseActivity {
 
     @OnClick(R.id.bt_checkout)
     void checkOut() {
-        mPaymentManger.startCheckOut("","",null,"");
+        mPaymentManger.startCheckOut(this,"","",null,"");
     }
 
     private PaymentManager mPaymentManger;
@@ -127,12 +127,12 @@ public class ShoppingCartActivity extends BaseActivity {
                     switch (total.title) {
                         case "Sub-Total": {
                             //todo
-                            productPrice.setText(total.text);
+                            productPrice.setText("Total:" +total.text);
                             break;
                         }
                         case "Total": {
                             //todo
-                            productPriceOriginal.setText(total.text);
+                            productPriceOriginal.setText("Cost saving: "+total.text);
                             break;
                         }
                     }

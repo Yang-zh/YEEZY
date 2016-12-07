@@ -48,7 +48,7 @@
     <string name="CONTINUE_SHOPPING">CONTINUE SHOPPING</string>
     <string name="BillTo">Bill To:</string>
     <string name="CreditCard">Credit Card</string>
-    <string name="CardNumber">Card Number</string>
+    <string name="CardNumber">Card number</string>
     <string name="SecurityCode">Security Code</string>
     <string name="CVV">CVV</string>
     <string name="SecurityDetail">The 3 or 4 digit security code on the front or back of your credit card</string>
@@ -205,7 +205,7 @@
     <string name="ContinueShoppingUnderLine">Continue Shopping</string>
     <string name="CartEmptyNotice">Your cart is empty Go pick some cool sneaker.</string>
     <string name="NoOrderYet">No order yet</string>
-    <string name="FullName">FullName*</string>
+    <string name="FullName">Full name*</string>
     <string name="WishList">Wishlist</string>
     <string name="MaybeYouLike">Maybe you like</string>
     <string name="MyLab">MyLab</string>
@@ -255,6 +255,32 @@
     <string name="LaterForShopping">later for shopping</string>
     <string name="Delete">Delete</string>
     <string name="SaveForLater">Save for later</string>
+    <string name="EditShippingInfo">Edit Shipping Info</string>
+    <string name="EditShippingInfoIntro">Please input your address accurately and we will deliver your purchase quickly. The safety of your information is guaranteed.</string>
+    <string name="SaveAndNext">Save and next</string>
+    <string name="BillingZip">Billing Zip</string>
+    <string name="SaveAndContinue">Save and continue</string>
+    <string name="EditPaymentMethodIntro">Any information about your credit card will be stored only in your phone and will be encrypted strictly.</string>
+    <string name="PayPal">PayPal</string>
+    <string name="SafeIntro">Trusted by over 11 million shoppers in fifteen countries.</string>
+    <string name="Skip">Skip</string>
+    <string name="WarnIfSkipFinishCreditCard">In case your credit card is not by your side right now, you can go on and add these information before you place your order.</string>
+    <string name="YES">YES</string>
+    <string name="NO">NO</string>
+    <string name="Payment_method">Payment method</string>
+    <string name="Billing_address">Billing address</string>
+    <string name="SameAsShippingAddress">Same as shipping address</string>
+    <string name="Items_price">Items price</string>
+    <string name="Shipping_price">Shipping price</string>
+    <string name="Tax_price">Tax price</string>
+    <string name="Total_price">Total price</string>
+    <string name="short_run">short run</string>
+    <string name="TotalIs">Total:</string>
+    <string name="Place_order">Place order</string>
+    <string name="complete_information">complete information</string>
+    <string name="The_other_payment_method">The other payment method</string>
+    <string name="WarnIfChoosePaypalAndClearInfo">If you choose to continue with paypal then any information about your credit card will be deleted.</string>
+    <string name="WarnIfDeleteItemInCart">Would you want delete these items?</string>
 
     <string-array name = "currencies">
         <item>USD($)</item>

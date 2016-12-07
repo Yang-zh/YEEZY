@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:id="@+id/main_content"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <android.support.design.widget.AppBarLayout
+    android:id="@+id/appbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:elevation="0dp">
+
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+      android:id="@+id/toolbar"
+      android:layout_width="match_parent"
+      android:layout_height="?attr/actionBarSize"
+      android:background="@color/colorPrimary">
+
+      <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="72dp">
+
+        <TextView
+          android:id="@+id/title"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerInParent="true"
+          android:text="@string/PaymentMethod"
+          android:textColor="@android:color/white"
+          android:textSize="@dimen/action_bar_title_size"
+          android:textStyle="bold" />
+      </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+  </android.support.design.widget.AppBarLayout>
+
+  <android.support.v4.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+<RelativeLayout
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content">
+
+    <android.support.v7.widget.RecyclerView
+      android:id="@+id/rv_payment_method_list"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" />
+    <View
+      android:id="@+id/cut_area1"
+      android:layout_width="match_parent"
+      android:layout_height="10dp"
+      android:layout_below="@+id/rv_payment_method_list"
+      android:background="@color/shipping_info_background_color" />
+    <RelativeLayout
+      android:id="@+id/payment_method_3rd_layout"
+      android:layout_below="@+id/cut_area1"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+      <TextView
+        android:text="@string/The_other_payment_method"
+        android:textColor="@color/text_color_gray"
+        android:textSize="14sp"
+        android:layout_marginBottom="17dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginLeft="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+      <TextView
+        android:id="@+id/payment_method_3rd"
+        android:layout_alignParentRight="true"
+        android:text="@string/PayPal"
+        android:textColor="@color/tab_layout_select_color"
+        android:textSize="14sp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="36dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+      <ImageView
+        android:layout_width="10.5dp"
+        android:layout_height="17.5dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="16dp"
+        android:src="@mipmap/forward_thin" />
+    </RelativeLayout>
+</RelativeLayout>
+  </android.support.v4.widget.NestedScrollView>
+</android.support.design.widget.CoordinatorLayout>

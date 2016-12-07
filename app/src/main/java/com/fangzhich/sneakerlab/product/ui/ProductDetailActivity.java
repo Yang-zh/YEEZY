@@ -212,6 +212,10 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
 
     @OnClick(R.id.bt_cart)
     void openCart() {
+        if (!Const.isLogin()) {
+            startActivity(new Intent(this, LoginActivity.class));
+            return;
+        }
         manager.startShoppingCartDialog();
     }
 

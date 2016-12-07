@@ -20,6 +20,7 @@
     <color name="tab_layout_select_color">#333333</color>
     <color name="tab_layout_unSelect_color">#666666</color>
     <color name="tab_layout_background_color">#E5E5E5</color>
+    <color name="background_grayEEEEEE">#EEEEEE</color>
     <color name="dialog_button_cancel">#555555</color>
 
     <color name="welcome_item_check_background">#DDFFFFFF</color>

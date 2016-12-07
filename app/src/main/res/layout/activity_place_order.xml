@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:id="@+id/main_content"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <android.support.design.widget.AppBarLayout
+    android:id="@+id/appbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:elevation="0dp">
+
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+      android:id="@+id/toolbar"
+      android:layout_width="match_parent"
+      android:layout_height="?attr/actionBarSize"
+      android:background="@color/colorPrimary">
+
+      <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="16dp">
+
+        <TextView
+          android:id="@+id/title"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerInParent="true"
+          android:text="@string/PlaceOrder"
+          android:textColor="@android:color/white"
+          android:textSize="@dimen/action_bar_title_size"
+          android:textStyle="bold" />
+      </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+  </android.support.design.widget.AppBarLayout>
+
+  <android.support.v4.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+      <RelativeLayout
+        android:id="@+id/shipping_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground">
+
+        <ImageView
+          android:id="@+id/icon_phone"
+          android:layout_width="17dp"
+          android:layout_height="17dp"
+          android:layout_marginLeft="14.5dp"
+          android:layout_marginTop="15dp"
+          android:src="@mipmap/icon_phone" />
+
+        <TextView
+          android:id="@+id/fullname"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="15dp"
+          android:layout_marginTop="17.5dp"
+          android:layout_toRightOf="@+id/icon_phone"
+          android:text="Erwin Godoy"
+          android:textColor="@color/text_color_yellowFFA057"
+          android:textSize="14sp" />
+
+        <TextView
+          android:id="@+id/phone"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="15dp"
+          android:layout_marginTop="17.5dp"
+          android:layout_toRightOf="@+id/fullname"
+          android:text="(949)351-2261"
+          android:textColor="@color/text_color_yellowFFA057"
+          android:textSize="14sp" />
+
+        <ImageView
+          android:id="@+id/icon_position"
+          android:layout_width="15dp"
+          android:layout_height="20dp"
+          android:layout_below="@+id/icon_phone"
+          android:layout_marginLeft="16.5dp"
+          android:layout_marginTop="16.5dp"
+          android:src="@mipmap/icon_position" />
+
+        <TextView
+          android:id="@+id/street"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@+id/icon_phone"
+          android:layout_marginLeft="16dp"
+          android:layout_marginTop="15dp"
+          android:layout_toRightOf="@+id/icon_position"
+          android:text="57E 57TH Street"
+          android:textColor="@color/tab_layout_select_color"
+          android:textSize="14sp" />
+
+        <TextView
+          android:id="@+id/cityAndState"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@+id/street"
+          android:layout_marginLeft="16dp"
+          android:layout_marginTop="2.5dp"
+          android:layout_toRightOf="@+id/icon_position"
+          android:text="New York,10022-2081"
+          android:textColor="@color/tab_layout_select_color"
+          android:textSize="14sp" />
+
+        <TextView
+          android:id="@+id/country"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@+id/cityAndState"
+          android:layout_marginBottom="23.5dp"
+          android:layout_marginLeft="16dp"
+          android:layout_marginTop="2.5dp"
+          android:layout_toRightOf="@+id/icon_position"
+          android:text="United States"
+          android:textColor="@color/tab_layout_select_color"
+          android:textSize="14sp" />
+
+        <ImageView
+          android:layout_width="10.5dp"
+          android:layout_height="17.5dp"
+          android:layout_alignParentRight="true"
+          android:layout_centerVertical="true"
+          android:layout_marginRight="16dp"
+          android:src="@mipmap/forward_thin" />
+      </RelativeLayout>
+
+      <View
+        android:id="@+id/cut_area1"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_below="@+id/shipping_layout"
+        android:background="@color/shipping_info_background_color" />
+
+      <RelativeLayout
+        android:id="@+id/payment_method_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cut_area1">
+
+        <ImageView
+          android:id="@+id/icon_card"
+          android:layout_width="17dp"
+          android:layout_height="13dp"
+          android:layout_marginLeft="15dp"
+          android:layout_marginTop="18.5dp"
+          android:src="@mipmap/icon_card" />
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="14.5dp"
+          android:layout_marginTop="15dp"
+          android:layout_toRightOf="@+id/icon_card"
+          android:text="@string/Payment_method"
+          android:textColor="@color/text_color_gray"
+          android:textSize="14sp" />
+
+        <TextView
+          android:id="@+id/text_credit_card"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentRight="true"
+          android:layout_marginRight="37dp"
+          android:layout_marginTop="15dp"
+          android:text="@string/CreditCard"
+          android:textColor="@color/tab_layout_select_color"
+          android:textSize="14sp" />
+
+        <TextView
+          android:id="@+id/card_type"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentRight="true"
+          android:layout_below="@+id/text_credit_card"
+          android:layout_marginRight="37dp"
+          android:layout_marginTop="6dp"
+          android:text="VISA"
+          android:textColor="@color/tab_layout_select_color"
+          android:textSize="14sp" />
+
+        <TextView
+          android:id="@+id/card_number"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentRight="true"
+          android:layout_below="@+id/card_type"
+          android:layout_marginBottom="12.5dp"
+          android:layout_marginRight="37dp"
+          android:layout_marginTop="6dp"
+          android:text="****2174"
+          android:textColor="@color/tab_layout_select_color"
+          android:textSize="14sp" />
+        <TextView
+          android:id="@+id/complete_payment_info_notice"
+          android:visibility="gone"
+          android:text="@string/complete_information"
+          android:textColor="@color/colorAccent"
+          android:textSize="14sp"
+          android:layout_marginRight="39.5dp"
+          android:layout_alignParentRight="true"
+          android:layout_marginTop="15dp"
+          android:layout_marginBottom="15dp"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
+
+        <ImageView
+          android:layout_width="10.5dp"
+          android:layout_height="17.5dp"
+          android:layout_alignParentRight="true"
+          android:layout_centerVertical="true"
+          android:layout_marginRight="16dp"
+          android:src="@mipmap/forward_thin" />
+      </RelativeLayout>
+
+      <View
+        android:id="@+id/cut_line1"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/payment_method_layout"
+        android:layout_marginLeft="28.5dp"
+        android:background="@color/background_grayEEEEEE" />
+
+      <RelativeLayout
+        android:id="@+id/billing_address_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cut_line1"
+        android:background="?attr/selectableItemBackground">
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="15dp"
+          android:layout_marginLeft="14.5dp"
+          android:layout_marginTop="15dp"
+          android:text="@string/Billing_address"
+          android:textColor="@color/text_color_gray"
+          android:textSize="14sp" />
+
+        <ImageView
+          android:layout_width="10.5dp"
+          android:layout_height="17.5dp"
+          android:layout_alignParentRight="true"
+          android:layout_centerVertical="true"
+          android:layout_marginRight="16dp"
+          android:src="@mipmap/forward_thin" />
+
+        <TextView
+          android:id="@+id/billing_address"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentRight="true"
+          android:layout_centerVertical="true"
+          android:layout_marginRight="35.5dp"
+          android:text="@string/SameAsShippingAddress"
+          android:textColor="@color/tab_layout_select_color"
+          android:textSize="14sp" />
+      </RelativeLayout>
+
+      <View
+        android:id="@+id/cut_area2"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_below="@+id/billing_address_layout"
+        android:background="@color/shipping_info_background_color" />
+
+      <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_place_order_product_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cut_area2" />
+
+      <View
+        android:id="@+id/cut_area3"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_below="@+id/rv_place_order_product_list"
+        android:background="@color/shipping_info_background_color" />
+
+      <RelativeLayout
+        android:id="@+id/place_order_detail_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cut_area3">
+
+        <TextView
+          android:id="@+id/itemsPriceIs"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="15dp"
+          android:layout_marginTop="19.5dp"
+          android:text="@string/Items_price"
+          android:textColor="@color/text_color_gray"
+          android:textSize="14sp" />
+
+        <TextView
+          android:id="@+id/ShippingPriceIs"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@+id/itemsPriceIs"
+          android:layout_marginLeft="15dp"
+          android:layout_marginTop="6.5dp"
+          android:text="@string/Shipping_price"
+          android:textColor="@color/text_color_gray"
+          android:textSize="14sp" />
+
+        <TextView
+          android:visibility="gone"
+          android:id="@+id/discount_type_short_run"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@+id/itemsPriceIs"
+          android:layout_marginLeft="10dp"
+          android:layout_marginTop="6.5dp"
+          android:layout_toRightOf="@+id/ShippingPriceIs"
+          android:background="@drawable/discount_type_background_yellow"
+          android:paddingBottom="2.5dp"
+          android:paddingLeft="5dp"
+          android:paddingRight="5dp"
+          android:paddingTop="2.5dp"
+          android:text="@string/short_run"
+          android:textColor="@android:color/white"
+          android:textSize="11sp" />
+
+        <TextView
+          android:id="@+id/TaxPriceIs"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@+id/ShippingPriceIs"
+          android:layout_marginLeft="15dp"
+          android:layout_marginTop="6.5dp"
+          android:text="@string/Tax_price"
+          android:textColor="@color/text_color_gray"
+          android:textSize="14sp" />
+
+        <TextView
+          android:id="@+id/TotalPriceIs"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@+id/TaxPriceIs"
+          android:layout_marginLeft="15dp"
+          android:layout_marginTop="6.5dp"
+          android:text="@string/Total_price"
+          android:textColor="@color/text_color_gray"
+          android:textSize="14sp" />
+        <TextView
+          android:id="@+id/sub_price"
+          android:text="$ 1509.00"
+          android:textColor="@color/tab_layout_unSelect_color"
+          android:textSize="14sp"
+          android:layout_marginTop="22dp"
+          android:layout_marginRight="15dp"
+          android:layout_alignParentRight="true"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
+        <TextView
+          android:id="@+id/shipping_price"
+          android:text="$ 0.00"
+          android:textColor="@color/tab_layout_unSelect_color"
+          android:textSize="14sp"
+          android:layout_below="@+id/sub_price"
+          android:layout_marginTop="5.5dp"
+          android:layout_marginRight="15dp"
+          android:layout_alignParentRight="true"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
+        <TextView
+          android:text="$ 20.00"
+          android:textColor="@color/text_color_gray"
+          android:textSize="14sp"
+          android:id="@+id/real_shipping_price"
+          android:layout_below="@+id/sub_price"
+          android:layout_marginRight="5dp"
+          android:layout_marginTop="5.5dp"
+          android:layout_toLeftOf="@+id/plus_icon"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
+        <TextView
+          android:text="+ "
+          android:textColor="@color/text_color_gray"
+          android:textSize="14sp"
+          android:id="@+id/plus_icon"
+          android:layout_below="@+id/sub_price"
+          android:layout_marginTop="5.5dp"
+          android:layout_toLeftOf="@+id/shipping_price"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
+        <TextView
+          android:text="+ "
+          android:textColor="@color/tab_layout_unSelect_color"
+          android:textSize="14sp"
+          android:layout_below="@+id/shipping_price"
+          android:layout_marginTop="5.5dp"
+          android:layout_toLeftOf="@+id/tax_price"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
+        <TextView
+          android:id="@+id/tax_price"
+          android:layout_below="@+id/shipping_price"
+          android:text="$ 0.00"
+          android:textColor="@color/tab_layout_unSelect_color"
+          android:textSize="14sp"
+          android:layout_marginTop="5.5dp"
+          android:layout_marginRight="15dp"
+          android:layout_alignParentRight="true"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
+        <TextView
+          android:id="@+id/total_price"
+          android:text="$ 1509.00"
+          android:layout_below="@+id/tax_price"
+          android:textColor="@color/tab_layout_select_color"
+          android:textSize="14sp"
+          android:layout_marginTop="5.5dp"
+          android:layout_marginRight="15dp"
+          android:layout_marginBottom="19dp"
+          android:layout_alignParentRight="true"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
+      </RelativeLayout>
+    </RelativeLayout>
+  </android.support.v4.widget.NestedScrollView>
+  <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+      android:id="@+id/bottomBar"
+      android:layout_width="match_parent"
+      android:layout_height="49dp"
+      android:weightSum="100"
+      android:layout_alignParentBottom="true"
+      android:background="@drawable/background_bottom_bar">
+      <RelativeLayout
+        android:layout_weight="65.6"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+
+        <TextView
+          android:text="@string/TotalIs"
+          android:layout_toLeftOf="@+id/product_price"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginRight="5dp"
+          android:layout_centerVertical="true"
+          android:textColor="@color/text_color_red"
+          android:textSize="17sp" />
+        <TextView
+          android:id="@+id/product_price"
+          android:text="$ 1509.00"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginRight="12dp"
+          android:layout_centerVertical="true"
+          android:layout_alignParentRight="true"
+          android:textColor="@color/text_color_red"
+          android:textSize="17sp" />
+      </RelativeLayout>
+      <android.support.v7.widget.CardView
+        android:id="@+id/bt_place_order"
+        android:layout_weight="34.4"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:foreground="?selectableItemBackgroundBorderless"
+        app:cardBackgroundColor="@color/colorAccent"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="0dp">
+
+        <TextView
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:gravity="center"
+          android:text="@string/Place_order"
+          android:textColor="@color/product_list_background_color"
+          android:textStyle="bold" />
+      </android.support.v7.widget.CardView>
+    </LinearLayout>
+  </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

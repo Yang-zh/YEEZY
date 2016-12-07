@@ -111,7 +111,7 @@ public class SizeDialog {
         } else {
             if (isChosenOption()) {
                 dismiss();
-                manager.startCheckOut(String.valueOf(product.product_id), String.valueOf(quantity), option, "0");
+                manager.startCheckOut(mContext,String.valueOf(product.product_id), String.valueOf(quantity), option, "0");
             } else {
                 ToastUtil.toast("Please choose product option you need");
             }

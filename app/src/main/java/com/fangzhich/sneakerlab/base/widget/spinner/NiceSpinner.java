@@ -47,7 +47,7 @@ public class NiceSpinner extends TextView {
 
     private int selectedIndex;
     private Drawable drawable;
-//    private PopupWindow popupWindow;
+    private PopupWindow popupWindow;
     private AlertDialog dialog;
     private ListView listView;
     private FrameLayout contentView;
@@ -163,44 +163,44 @@ public class NiceSpinner extends TextView {
             }
         });
 
-        contentView = new FrameLayout(context);
-        contentView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,FrameLayout.LayoutParams.WRAP_CONTENT));
-        contentView.addView(listView);
-
-        dialog = new AlertDialog.Builder(context).create();
-
-
-
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                if (!isArrowHide) {
-                    animateArrow(false);
-                }
-            }
-        });
+//        contentView = new FrameLayout(context);
+//        contentView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,FrameLayout.LayoutParams.WRAP_CONTENT));
+//        contentView.addView(listView);
 //
-//        popupWindow = new PopupWindow(context);
-//        popupWindow.setContentView(listView);
-//        popupWindow.setOutsideTouchable(true);
-//        popupWindow.setFocusable(true);
+//        dialog = new AlertDialog.Builder(context).create();
 //
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            popupWindow.setElevation(DEFAULT_ELEVATION);
-//            popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_drawable));
-//        } else {
-//            popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.drop_down_shadow));
-//        }
 //
-//        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
 //
+//        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
 //            @Override
-//            public void onDismiss() {
+//            public void onDismiss(DialogInterface dialog) {
 //                if (!isArrowHide) {
 //                    animateArrow(false);
 //                }
 //            }
 //        });
+//
+        popupWindow = new PopupWindow(context);
+        popupWindow.setContentView(listView);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            popupWindow.setElevation(DEFAULT_ELEVATION);
+            popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_drawable));
+        } else {
+            popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.drop_down_shadow));
+        }
+
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+            @Override
+            public void onDismiss() {
+                if (!isArrowHide) {
+                    animateArrow(false);
+                }
+            }
+        });
 
         isArrowHide = typedArray.getBoolean(R.styleable.NiceSpinner_hideArrow, false);
         if (!isArrowHide) {
@@ -266,8 +266,8 @@ public class NiceSpinner extends TextView {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-//        popupWindow.setWidth(MeasureSpec.getSize(widthMeasureSpec));
-//        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setWidth(MeasureSpec.getSize(widthMeasureSpec));
+        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }

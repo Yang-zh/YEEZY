@@ -3,8 +3,6 @@ package com.fangzhich.sneakerlab.cart.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.view.Gravity;
 import android.view.View;
 
@@ -12,7 +10,6 @@ import com.fangzhich.sneakerlab.App;
 import com.fangzhich.sneakerlab.base.widget.CustomDialog;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
 import com.fangzhich.sneakerlab.order.widget.AddressDialog;
-import com.fangzhich.sneakerlab.order.widget.CreditCardDialog;
 import com.fangzhich.sneakerlab.product.data.entity.ProductEntity;
 import com.fangzhich.sneakerlab.product.ui.SizeDialog;
 import com.fangzhich.sneakerlab.util.ToastUtil;
@@ -27,6 +24,7 @@ import java.util.HashMap;
 public class PaymentManager{
 
     private ProductEntity mProduct;
+    public boolean isFirstPaying = true;
 
     public enum ChargeType {
         AddCart,BuyNow
@@ -43,10 +41,6 @@ public class PaymentManager{
         activity = context;
         ((App)activity.getApplication()).mPaymentManager = this;
     }
-
-    private ShoppingCartDialog mCartDialog = new ShoppingCartDialog();
-    private CreditCardDialog mCardDialog = new CreditCardDialog();
-    private AddressDialog mAddressDialog = new AddressDialog();
     private SizeDialog mSizeDialog = new SizeDialog();
 
     public void startPayment(ChargeType type, ProductEntity product, String quantity) {
@@ -60,13 +54,24 @@ public class PaymentManager{
                 startShoppingCartDialog(mProduct.product_id,quantity,null,"0");
                 break;
             case BuyNow:
-                startCheckOut(mProduct.product_id,quantity,null,"0");
+                startCheckOut(activity,mProduct.product_id,quantity,null,"0");
                 break;
         }
     }
 
-    public void startCheckOut(String product_id, String quantity, HashMap<String,String> option, String recurring_id) {
+    public void startCheckOut(Context context, String product_id, String quantity, HashMap<String,String> option, String recurring_id) {
         ToastUtil.toast("checkout!");
+        if (!false) {// todo check if need set payment method and shipping address info
+            startAddressDialog(context, new CartEntity.Address());//todo
+        } else {
+            startPlaceOrderActivity(context);
+        }
+    }
+
+    //------------ShoppingCart-------------------
+    public void startPlaceOrderActivity(Context context) {
+        Intent intent = new Intent(context, PlaceOrderActivity.class);
+        context.startActivity(intent);
     }
     //------------ShoppingCart-------------------
 
@@ -84,40 +89,20 @@ public class PaymentManager{
         mContext.startActivity(intent);
     }
 
-    public void hideShoppingCartDialog() {
-        mCartDialog.hide();
-    }
-
-    public void reShowShoppingCartDialog() {
-        mCartDialog.show();
-    }
-
     //-----------CreditCard---------------------
 
-    public void startCreditCardDialog(CartEntity.Payment card) {
-        mCardDialog.initPopup(this, mContext).withCreditCard(card).showPopup(mContentView);
-    }
-
-    public void hideCreditCardDialog() {
-        mCardDialog.hide();
-    }
-
-    public void reShowCreditCardDialog() {
-        mCardDialog.show();
+    public void startCreditCardDialog(Context context, CartEntity.Payment card) {
+        Intent intent = new Intent(context,EditPaymentMethodActivity.class);
+        context.startActivity(intent);
+//        mCardDialog.initPopup(this, mContext).withCreditCard(card).showPopup(mContentView);
     }
 
     //-----------Address----------------------
 
-    public void startAddressDialog(CartEntity.Address address) {
-        mAddressDialog.initPopup(this, mContext).withAddress(address).showPopup(mContentView);
-    }
-
-    public void hideAddressDialog() {
-        mAddressDialog.hide();
-    }
-
-    public void reShowAddressDialog() {
-        mAddressDialog.show();
+    public void startAddressDialog(Context context, CartEntity.Address address) {
+        Intent intent = new Intent(context,EditShippingAddressActivity.class);
+        context.startActivity(intent);
+//        mAddressDialog.initPopup(this, mContext).withAddress(address).showPopup(mContentView);
     }
 
     //----------Size-----------------
@@ -125,26 +110,9 @@ public class PaymentManager{
         mSizeDialog.initPopup(this, mContext).withProductDetail(product, type, quantity).showPopup(mContentView);
     }
 
-    public void hideSizeDialog() {
-        mSizeDialog.hide();
-    }
-
-    public void reShowSizeDialog() {
-        mSizeDialog.show();
-    }
-
 
     //-----------------------other===================================
     public void closeAll() {
-        if (mCartDialog.isShowing()) {
-            mCartDialog.dismiss();
-        }
-        if (mCardDialog.isShowing()) {
-            mCardDialog.dismiss();
-        }
-        if (mAddressDialog.isShowing()) {
-            mAddressDialog.dismiss();
-        }
         if (mSizeDialog.isShowing()) {
             mSizeDialog.dismiss();
         }
@@ -156,16 +124,8 @@ public class PaymentManager{
         }
     }
 
-    public void showCustomDialog(int layout, CustomDialog.Listener listener) {
-        new CustomDialog().initPopup(mContext, layout, listener).showPopup(mContentView, Gravity.CENTER);
-    }
-
-    public void saveAddress(String id,String address) {
-        mCartDialog.saveAddress(id,address);
-    }
-
-    public void saveCreditCard(String type, String cardNumber,String year,String month,String cvv) {
-        mCartDialog.saveCreditCard(type,cardNumber,year,month,cvv);
+    public void showCustomDialog(Activity activity, int layout, CustomDialog.Listener listener) {
+        new CustomDialog().initPopup(activity, layout, listener).showPopup(activity.getWindow().getDecorView(), Gravity.CENTER);
     }
 
 }
