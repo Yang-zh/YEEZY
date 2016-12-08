@@ -11,11 +11,16 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.fangzhich.sneakerlab.R;
+import com.fangzhich.sneakerlab.base.data.event.RxBus;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.BaseRecyclerViewAdapter;
 import com.fangzhich.sneakerlab.base.widget.CustomDialog;
 import com.fangzhich.sneakerlab.base.widget.NumberView;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
+import com.fangzhich.sneakerlab.cart.data.event.MoveItemFromCartToLaterEvent;
 import com.fangzhich.sneakerlab.util.TagFormatUtil;
+import com.fangzhich.sneakerlab.util.ToastUtil;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,17 +30,13 @@ import timber.log.Timber;
  * CartListAdapter
  * Created by Khorium on 2016/9/23.
  */
-class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Product, CartListAdapter.ViewHolder> {
+class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Cart, CartListAdapter.ViewHolder> {
 
     private CartManager cartManager = new CartManager();
     private OnCartStatusChangeListener onCartStatusChangeListener;
 
     interface OnCartStatusChangeListener {
-        void loadCartData(CartEntity cart);
-
         void checkSubscribe();
-
-        void noData();
     }
 
     public void setOnCartStatusChangeListener(OnCartStatusChangeListener listener) {
@@ -45,31 +46,35 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Product, CartLi
 
     @Override
     public void loadData() {
-        if (cartManager==null) {
-            return;
-        }
-        cartManager.getCartList(new CartManager.CartListCallBack() {
-            @Override
-            public void onSuccess(CartEntity cart) {
-                mData = cart.products;
+//        if (cartManager==null) {
+//            return;
+//        }
+//        cartManager.getCartList(new CartManager.CartListCallBack() {
+//            @Override
+//            public void onSuccess(CartEntity cart) {
+//                mData = cart.products;
+//
+//                if (onCartStatusChangeListener !=null) {
+//                    onCartStatusChangeListener.loadCartData(cart);
+//                }
+//
+//                notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onError(Throwable throwable) {
+//
+//                if (onCartStatusChangeListener !=null) {
+//                    onCartStatusChangeListener.noData();
+//                }
+//
+//                Timber.e(throwable);
+//            }
+//        });
+    }
 
-                if (onCartStatusChangeListener !=null) {
-                    onCartStatusChangeListener.loadCartData(cart);
-                }
-
-                notifyDataSetChanged();
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-
-                if (onCartStatusChangeListener !=null) {
-                    onCartStatusChangeListener.noData();
-                }
-
-                Timber.e(throwable);
-            }
-        });
+    public void setData(List<CartEntity.Cart> cartEntity) {
+        mData = cartEntity;
     }
 
 
@@ -85,7 +90,7 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Product, CartLi
 
     @Override
     protected void onBindHolder(final ViewHolder holder, final int position) {
-        final CartEntity.Product cartItem = mData.get(position);
+        final CartEntity.Cart cartItem = mData.get(position);
         holder.tvProductName.setText(cartItem.name);
         Glide.with(holder.itemView.getContext())
                 .load(cartItem.image)
@@ -93,25 +98,25 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Product, CartLi
                 .fitCenter()
                 .into(holder.ivProductImage);
         holder.tvProductPrice.setText(TagFormatUtil.from(holder.itemView.getResources().getString(R.string.priceFormat))
-                .with("price",cartItem.special_price)
+                .with("price", cartItem.special_price)
                 .format());
         holder.tvProductOriginalPrice.setText(TagFormatUtil.from(holder.itemView.getResources().getString(R.string.priceFormat))
-                .with("price",cartItem.original_price)
+                .with("price", cartItem.original_price)
                 .format());
         holder.tvProductOriginalPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        for (CartEntity.Product.Option option:cartItem.options) {
-            switch (option.name) {
+        for (CartEntity.Cart.Option option : cartItem.option) {
+            switch (option.option_key) {
                 case "size":
                 case "Size":
                     holder.sizeIs.setVisibility(View.VISIBLE);
                     holder.sizeDetail.setVisibility(View.VISIBLE);
-                    holder.sizeDetail.setText(option.value);
+                    holder.sizeDetail.setText(option.option_value);
                     break;
                 case "color":
                 case "Color":
                     holder.colorIs.setVisibility(View.VISIBLE);
                     holder.colorDetail.setVisibility(View.VISIBLE);
-                    holder.colorDetail.setText(option.value);
+                    holder.colorDetail.setText(option.option_value);
                     break;
             }
         }
@@ -175,6 +180,24 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Product, CartLi
                 });
             }
         });
+        holder.numberView.setAmount(Integer.parseInt(cartItem.quantity));
+        holder.saveForLater.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cartManager.moveItemFromCartToLater(cartItem.cart_id, new CartManager.MoveItemFromCartToLaterCallBack() {
+                    @Override
+                    public void onSuccess(CartEntity.CartBack cartBack) {
+                        RxBus.getDefault().post(new MoveItemFromCartToLaterEvent(position,cartBack));
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        ToastUtil.toast("connect to server failed");
+                        Timber.e(throwable);
+                    }
+                });
+            }
+        });
 
     }
 
@@ -196,6 +219,8 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Product, CartLi
         TextView tvProductPrice;
         @BindView(R.id.tv_productOriginalPrice)
         TextView tvProductOriginalPrice;
+        @BindView(R.id.saveForLater)
+        TextView saveForLater;
         @BindView(R.id.delete)
         TextView delete;
         @BindView(R.id.quantity_view)
