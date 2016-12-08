@@ -1,23 +1,33 @@
 package com.fangzhich.sneakerlab.cart.ui;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.fangzhich.sneakerlab.App;
 import com.fangzhich.sneakerlab.R;
+import com.fangzhich.sneakerlab.base.data.event.RxBus;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.BaseRecyclerViewAdapter;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.LinearLayoutItemDecoration;
+import com.fangzhich.sneakerlab.base.widget.CustomDialog;
+import com.fangzhich.sneakerlab.base.widget.NumberView;
+import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
+import com.fangzhich.sneakerlab.cart.data.event.MoveItemFromCartToLaterEvent;
+import com.fangzhich.sneakerlab.util.TagFormatUtil;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
@@ -141,11 +151,17 @@ public class PlaceOrderActivity extends BaseActivity {
     protected void initContentView() {
         mPaymentManger = ((App) getApplication()).mPaymentManager;
 
+        checkOutAndGetDataForPlaceOrder();
+
         initPaypalService();
 
         initToolbar();
 
         initRecyclerView();
+    }
+
+    private void checkOutAndGetDataForPlaceOrder() {
+        //todo
     }
 
     private void initPaypalService() {
@@ -181,9 +197,117 @@ public class PlaceOrderActivity extends BaseActivity {
 
             @Override
             protected void onBindHolder(ViewHolder holder, int position) {
-                //todo
+//                final CartEntity.Product cartItem = mData.get(position);
+//                holder.tvProductName.setText(cartItem.name);
+//                Glide.with(holder.itemView.getContext())
+//                        .load(cartItem.image)
+//                        .placeholder(R.mipmap.product_image_placeholder)
+//                        .fitCenter()
+//                        .into(holder.ivProductImage);
+//                holder.tvProductPrice.setText(TagFormatUtil.from(holder.itemView.getResources().getString(R.string.priceFormat))
+//                        .with("price", cartItem.special_price)
+//                        .format());
+//                holder.tvProductOriginalPrice.setText(TagFormatUtil.from(holder.itemView.getResources().getString(R.string.priceFormat))
+//                        .with("price", cartItem.original_price)
+//                        .format());
+//                holder.tvProductOriginalPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+//                for (CartEntity.Product.Options option : cartItem.options) {
+//                    switch (option.name) {
+//                        case "size":
+//                        case "Size":
+//                            holder.sizeIs.setVisibility(View.VISIBLE);
+//                            holder.sizeDetail.setVisibility(View.VISIBLE);
+//                            holder.sizeDetail.setText(option.value);
+//                            break;
+//                        case "color":
+//                        case "Color":
+//                            holder.colorIs.setVisibility(View.VISIBLE);
+//                            holder.colorDetail.setVisibility(View.VISIBLE);
+//                            holder.colorDetail.setText(option.value);
+//                            break;
+//                    }
+//                }
+//                holder.delete.setOnClickListener(
+//                        new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                new CustomDialog().initPopup(v.getContext(), R.layout.dialog_shopping_cart_delete, new CustomDialog.Listener() {
+//                                    @Override
+//                                    public void onInit(final PopupWindow dialog, View content) {
+//                                        content.findViewById(R.id.bt_yes).setOnClickListener(new View.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(View v) {
+//                                                dialog.dismiss();
+//                                                cartManager.removeCartItem(cartItem.cart_id, new CartManager.RemoveItemCallBack() {
+//                                                    @Override
+//                                                    public void onSuccess() {
+//                                                        mData.remove(holder.getAdapterPosition());
+//                                                        onCartStatusChangeListener.checkSubscribe();
+//                                                        notifyItemRemoved(holder.getAdapterPosition());
+//                                                        loadData();
+//                                                    }
+//
+//                                                    @Override
+//                                                    public void onError(Throwable throwable) {
+//                                                        Timber.e(throwable);
+//                                                    }
+//                                                });
+//                                            }
+//                                        });
+//                                        content.findViewById(R.id.bt_no).setOnClickListener(new View.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(View v) {
+//                                                dialog.dismiss();
+//                                            }
+//                                        });
+//                                    }
+//
+//                                    @Override
+//                                    public void onDismiss(PopupWindow dialog, View content) {
+//
+//                                    }
+//                                }).showPopup(v.getRootView(), Gravity.CENTER);
+//                            }
+//                        });
+//                holder.numberView.setGoods_storage(99);
+//                holder.numberView.setOnAmountChangeListener(new NumberView.OnAmountChangeListener() {
+//                    @Override
+//                    public void onAmountChange(View view, int amount) {
+//                        holder.numberView.setClickable(false);
+//                        cartManager.editCartItem(cartItem.cart_id, String.valueOf(amount), new CartManager.EditItemCallBack() {
+//                            @Override
+//                            public void onSuccess() {
+//                                holder.numberView.setClickable(true);
+//                            }
+//
+//                            @Override
+//                            public void onError(Throwable throwable) {
+//                                Timber.e(throwable);
+//                            }
+//                        });
+//                    }
+//                });
+//                holder.numberView.setAmount(Integer.parseInt(cartItem.quantity));
+//                holder.saveForLater.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        cartManager.moveItemFromCartToLater(cartItem.cart_id, new CartManager.MoveItemFromCartToLaterCallBack() {
+//                            @Override
+//                            public void onSuccess(CartEntity.CartBack cartBack) {
+//                                RxBus.getDefault().post(new MoveItemFromCartToLaterEvent(position,cartBack));
+//                            }
+//
+//                            @Override
+//                            public void onError(Throwable throwable) {
+//                                ToastUtil.toast("connect to server failed");
+//                                Timber.e(throwable);
+//                            }
+//                        });
+//                    }
+//                });
             }
         };
+
         rvPlaceOrderProductList.setLayoutManager(new LinearLayoutManager(this));
         rvPlaceOrderProductList.addItemDecoration(new LinearLayoutItemDecoration(this,LinearLayoutItemDecoration.VERTICAL_LIST,R.drawable.background_less_half_line));
         rvPlaceOrderProductList.setAdapter(placeOrderProductListAdapter);

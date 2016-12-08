@@ -55,16 +55,6 @@ public interface OrderService {
             @Field("equipment_id") String imei);
 
     @FormUrlEncoded
-    @POST("index.php?route=api/checkout")
-    Single<HttpResult<ConfirmOrderEntity>> checkOut(
-            @Field("email") String email,
-            @Field("token") String token,
-            @Field("timestamp") String timestamp,
-            @Field("signature") String signature,
-            @Field("apiKey") String apiKey,
-            @Field("equipment_id") String imei);
-
-    @FormUrlEncoded
     @POST("index.php?route=api/review/addReview")
     Single<HttpResult<Object>> addReview(
             @Field("product_id") String product_id,

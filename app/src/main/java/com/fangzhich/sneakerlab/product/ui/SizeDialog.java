@@ -16,8 +16,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.fangzhich.sneakerlab.R;
-import com.fangzhich.sneakerlab.cart.ui.PaymentManager;
 import com.fangzhich.sneakerlab.base.widget.NumberView;
+import com.fangzhich.sneakerlab.cart.ui.PaymentManager;
 import com.fangzhich.sneakerlab.product.data.entity.ProductEntity;
 import com.fangzhich.sneakerlab.user.ui.LoginActivity;
 import com.fangzhich.sneakerlab.util.Const;
@@ -38,8 +38,8 @@ import butterknife.OnClick;
 
 public class SizeDialog {
 
-    enum OptionType{
-        Color,Size
+    enum OptionType {
+        Color, Size
     }
 
     private List<ProductEntity.Option.ProductOption> sizes;
@@ -89,29 +89,34 @@ public class SizeDialog {
 
     @BindView(R.id.bt_buy)
     CardView btBuy;
+
     @OnClick(R.id.bt_buy)
     void addCart() {
+        ToastUtil.toast("optionSize:" + option.size() + " colorNeed:" + colorNeed + " sizeNeed" + sizeNeed);
         if (!Const.isLogin()) {
             mContext.startActivity(new Intent(mContext, LoginActivity.class));
         } else {
             if (isChosenOption()) {
                 dismiss();
-                manager.startShoppingCartDialog(String.valueOf(product.product_id), String.valueOf(quantity), option, "0");
+                manager.addItemToCartAndStartShoppingCartActivity(String.valueOf(product.product_id), String.valueOf(quantity), option, "0");
             } else {
                 ToastUtil.toast("Please choose product option you need");
             }
         }
     }
+
     @BindView(R.id.bt_buy_now)
     CardView btBuyNow;
+
     @OnClick(R.id.bt_buy_now)
     void buyNow() {
+        ToastUtil.toast("optionSize:" + option.size() + " colorNeed:" + colorNeed + " sizeNeed" + sizeNeed);
         if (!Const.isLogin()) {
             mContext.startActivity(new Intent(mContext, LoginActivity.class));
         } else {
             if (isChosenOption()) {
                 dismiss();
-                manager.startCheckOut(mContext,String.valueOf(product.product_id), String.valueOf(quantity), option, "0");
+                manager.startCheckOut(mContext, String.valueOf(product.product_id), String.valueOf(quantity), option, "0");
             } else {
                 ToastUtil.toast("Please choose product option you need");
             }
@@ -122,19 +127,19 @@ public class SizeDialog {
     private boolean sizeNeed = false;
 
     private boolean isChosenOption() {
-        if (option.size()<=0) {
+        if (option.size() <= 0) {
             return false;
         }
-        if (colorNeed && sizeNeed && option.size()<2) {
+        if (colorNeed && sizeNeed && option.size() < 2) {
             return false;
-        } else if (option.size()<1) {
+        } else if (option.size() < 1) {
             return false;
         }
         return true;
     }
 
     private ProductEntity product;
-    private HashMap<String,String> option = new HashMap<>();
+    private HashMap<String, String> option = new HashMap<>();
 
     private PopupWindow mPopupWindow;
 
@@ -150,6 +155,8 @@ public class SizeDialog {
 
         mContext = context;
         this.manager = manager;
+
+        option.clear();
         mPopupContent = View.inflate(context, R.layout.dialog_choose_size, null);
         ButterKnife.bind(this, mPopupContent);
 
@@ -235,11 +242,11 @@ public class SizeDialog {
         if (colors != null && colors.size() != 0) {
             colorNeed = true;
             rvColor.setLayoutManager(new GridLayoutManager(mContext, 2, GridLayoutManager.HORIZONTAL, false));
-            colorAdapter = new OptionAdapter(colors,OptionType.Color);
+            colorAdapter = new OptionAdapter(colors, OptionType.Color);
             colorAdapter.setOnOptionChooseListener(new OptionAdapter.OnOptionChooseListener() {
                 @Override
                 public void onOptionChoose(OptionType type, int position, boolean isChoose) {
-                    chooseOption(type,position,isChoose);
+                    chooseOption(type, position, isChoose);
                 }
             });
             rvColor.setAdapter(colorAdapter);
@@ -254,11 +261,11 @@ public class SizeDialog {
         if (sizes != null && sizes.size() != 0) {
             sizeNeed = true;
             rvSize.setLayoutManager(new GridLayoutManager(mContext, 2, GridLayoutManager.HORIZONTAL, false));
-            sizeAdapter = new OptionAdapter(sizes,OptionType.Size);
+            sizeAdapter = new OptionAdapter(sizes, OptionType.Size);
             sizeAdapter.setOnOptionChooseListener(new OptionAdapter.OnOptionChooseListener() {
                 @Override
                 public void onOptionChoose(OptionType type, int position, boolean isChoose) {
-                    chooseOption(type,position,isChoose);
+                    chooseOption(type, position, isChoose);
                 }
             });
             rvSize.setAdapter(sizeAdapter);
@@ -276,8 +283,8 @@ public class SizeDialog {
             case Color:
                 if (isChoose) {
                     chosenOptions[0] = colors.get(position).name;
-                    option.put(colorOption.product_option_id,colors.get(position).product_option_value_id);
-                }else {
+                    option.put(colorOption.product_option_id, colors.get(position).product_option_value_id);
+                } else {
                     chosenOptions[0] = "";
                     option.remove(colorOption.product_option_id);
                 }
@@ -285,8 +292,8 @@ public class SizeDialog {
             case Size:
                 if (isChoose) {
                     chosenOptions[1] = sizes.get(position).name;
-                    option.put(sizeOption.product_option_id,sizes.get(position).product_option_value_id);
-                }else {
+                    option.put(sizeOption.product_option_id, sizes.get(position).product_option_value_id);
+                } else {
                     chosenOptions[1] = "";
                     option.remove(sizeOption.product_option_id);
                 }
@@ -297,13 +304,13 @@ public class SizeDialog {
 
     private void setChosenText() {
         StringBuilder builder = new StringBuilder();
-        for (String chosenOption:chosenOptions) {
+        for (String chosenOption : chosenOptions) {
             if (!TextUtils.isEmpty(chosenOption)) {
                 builder.append("\"").append(chosenOption).append("\",");
             }
         }
-        if (builder.length()>0) {
-            builder.deleteCharAt(builder.length()-1);
+        if (builder.length() > 0) {
+            builder.deleteCharAt(builder.length() - 1);
         }
         tvProductSizeDetail.setText(builder);
     }

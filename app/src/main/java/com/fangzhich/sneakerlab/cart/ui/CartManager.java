@@ -47,11 +47,32 @@ public class CartManager implements CartContract.View{
         mPresenter.removeItemFromCart(cart_id);
     }
 
+    public void removeLaterCartItem(String cart_id, RemoveLaterCartItemCallBack callBack) {
+        mRemoveLaterItemCallBack = callBack;
+        mPresenter.removeItemFromLaterCart(cart_id);
+    }
+
+    public void moveItemFromLaterToCart(String cart_id, MoveItemFromLaterToCartCallBack callBack) {
+        moveItemFromLaterToCartCallBack = callBack;
+        mPresenter.moveItemFromLaterToCart(cart_id);
+    }
+
+    public void moveItemFromCartToLater(String cart_id, MoveItemFromCartToLaterCallBack callBack) {
+        moveItemFromCartToLaterCallBack = callBack;
+        mPresenter.moveItemFromCartToLater(cart_id);
+    }
+
+    private CartListCallBack mCartListCallBack;
+    private AddItemCallBack mAddItemCallBack;
+    private EditItemCallBack mEditItemCallBack;
+    private RemoveItemCallBack mRemoveItemCallBack;
+    private RemoveLaterCartItemCallBack mRemoveLaterItemCallBack;
+    private MoveItemFromLaterToCartCallBack moveItemFromLaterToCartCallBack;
+    private MoveItemFromCartToLaterCallBack moveItemFromCartToLaterCallBack;
 
 
     // ------------Cart Operation CallBack------------
 
-    private CartListCallBack mCartListCallBack;
 
     @Override
     public void onLoadCartListSuccess(CartEntity cart) {
@@ -68,8 +89,6 @@ public class CartManager implements CartContract.View{
 
     }
 
-    private AddItemCallBack mAddItemCallBack;
-
     @Override
     public void onAddItemSuccess() {
         mAddItemCallBack.onSuccess();
@@ -79,8 +98,6 @@ public class CartManager implements CartContract.View{
     public void onAddItemFailed(Throwable throwable) {
         mAddItemCallBack.onError(throwable);
     }
-
-    private EditItemCallBack mEditItemCallBack;
 
     @Override
     public void onEditItemSuccess() {
@@ -92,8 +109,6 @@ public class CartManager implements CartContract.View{
         mEditItemCallBack.onError(throwable);
     }
 
-    private RemoveItemCallBack mRemoveItemCallBack;
-
     @Override
     public void onRemoveItemSuccess() {
         mRemoveItemCallBack.onSuccess();
@@ -102,6 +117,39 @@ public class CartManager implements CartContract.View{
     @Override
     public void onRemoveItemFailed(Throwable throwable) {
         mRemoveItemCallBack.onError(throwable);
+    }
+
+    // ---------------LaterList operation-------------------
+
+
+    @Override
+    public void onRemoveLaterCartItemSuccess() {
+        mRemoveLaterItemCallBack.onSuccess();
+    }
+
+    @Override
+    public void onRemoveLaterCartItemFailed(Throwable throwable) {
+        mRemoveLaterItemCallBack.onError(throwable);
+    }
+
+    @Override
+    public void onMoveItemFromLaterToCartSuccess(CartEntity.Cart product) {
+        moveItemFromLaterToCartCallBack.onSuccess(product);
+    }
+
+    @Override
+    public void onMoveItemFromLaterToCartFailed(Throwable throwable) {
+        moveItemFromLaterToCartCallBack.onError(throwable);
+    }
+
+    @Override
+    public void onMoveItemFromCartToLaterSuccess(CartEntity.CartBack cartBack) {
+        moveItemFromCartToLaterCallBack.onSuccess(cartBack);
+    }
+
+    @Override
+    public void onMoveItemFromCartToLaterFailed(Throwable throwable) {
+        moveItemFromCartToLaterCallBack.onError(throwable);
     }
 
     //-------------Callback interface----------
@@ -123,6 +171,21 @@ public class CartManager implements CartContract.View{
 
     interface RemoveItemCallBack {
         void onSuccess();
+        void onError(Throwable throwable);
+    }
+
+    interface RemoveLaterCartItemCallBack {
+        void onSuccess();
+        void onError(Throwable throwable);
+    }
+
+    interface MoveItemFromLaterToCartCallBack {
+        void onSuccess(CartEntity.Cart product);
+        void onError(Throwable throwable);
+    }
+
+    interface MoveItemFromCartToLaterCallBack {
+        void onSuccess(CartEntity.CartBack cartBack);
         void onError(Throwable throwable);
     }
 }

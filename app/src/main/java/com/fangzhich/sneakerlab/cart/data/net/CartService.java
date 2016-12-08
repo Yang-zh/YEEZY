@@ -2,6 +2,7 @@ package com.fangzhich.sneakerlab.cart.data.net;
 
 import com.fangzhich.sneakerlab.base.data.net.HttpResult;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
+import com.fangzhich.sneakerlab.order.data.entity.ConfirmOrderEntity;
 import com.fangzhich.sneakerlab.order.data.entity.CountryEntity;
 import com.fangzhich.sneakerlab.order.data.entity.DistrictEntity;
 
@@ -65,6 +66,39 @@ interface CartService {
                 @Field("equipment_id") String imei);
 
         @FormUrlEncoded
+        @POST("index.php?route=api/cartback/removeCartback")
+        Single<HttpResult<Object>> removeItemFromLaterCart(
+                @Field("cart_back_id") String cart_back_id,
+                @Field("email") String email,
+                @Field("token") String token,
+                @Field("timestamp") String timestamp,
+                @Field("signature") String signature,
+                @Field("apiKey") String apiKey,
+                @Field("equipment_id") String imei);
+
+        @FormUrlEncoded
+        @POST("index.php?route=api/cartback/moveToCart")
+        Single<HttpResult<CartEntity.Cart>> moveItemFromLaterToCart(
+                @Field("cart_back_id") String cart_back_id,
+                @Field("email") String email,
+                @Field("token") String token,
+                @Field("timestamp") String timestamp,
+                @Field("signature") String signature,
+                @Field("apiKey") String apiKey,
+                @Field("equipment_id") String imei);
+
+        @FormUrlEncoded
+        @POST("index.php?route=api/cartback/moveOutCart")
+        Single<HttpResult<CartEntity.CartBack>> moveItemFromCartToLater(
+                @Field("cart_id") String cart_id,
+                @Field("email") String email,
+                @Field("token") String token,
+                @Field("timestamp") String timestamp,
+                @Field("signature") String signature,
+                @Field("apiKey") String apiKey,
+                @Field("equipment_id") String imei);
+
+        @FormUrlEncoded
         @POST("index.php?route=api/common/country")
         Single<HttpResult<ArrayList<CountryEntity>>> getCountries(
                 @Field("timestamp") String timestamp,
@@ -76,6 +110,16 @@ interface CartService {
         @POST("index.php?route=api/common/zone")
         Single<HttpResult<ArrayList<DistrictEntity>>> getDistricts(
                 @Field("country_id") String country_Id,
+                @Field("timestamp") String timestamp,
+                @Field("signature") String signature,
+                @Field("apiKey") String apiKey,
+                @Field("equipment_id") String imei);
+
+        @FormUrlEncoded
+        @POST("index.php?route=api/checkout")
+        Single<HttpResult<ConfirmOrderEntity>> checkOut(
+                @Field("email") String email,
+                @Field("token") String token,
                 @Field("timestamp") String timestamp,
                 @Field("signature") String signature,
                 @Field("apiKey") String apiKey,

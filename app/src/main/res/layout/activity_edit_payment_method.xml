@@ -182,7 +182,7 @@
         android:orientation="horizontal">
 
         <com.fangzhich.sneakerlab.base.widget.spinner.NiceSpinner
-          android:id="@+id/spinner_country"
+          android:id="@+id/spinner_month"
           android:layout_width="0dp"
           android:layout_height="40dp"
           android:layout_marginRight="16dp"
@@ -193,7 +193,7 @@
           app:textTint="@color/tab_layout_select_color" />
 
         <com.fangzhich.sneakerlab.base.widget.spinner.NiceSpinner
-          android:id="@+id/spinner_state"
+          android:id="@+id/spinner_year"
           android:layout_width="0dp"
           android:layout_height="40dp"
           android:layout_marginLeft="16dp"
@@ -313,24 +313,25 @@
         android:layout_below="@+id/paypal_layout"
         android:background="@color/shipping_info_background_color" />
 
-      <ImageView
-        android:id="@+id/icon_medal_safe"
-        android:layout_width="59.5dp"
-        android:layout_height="59.5dp"
-        android:layout_below="@+id/paypal_layout"
-        android:layout_marginLeft="11.5dp"
-        android:layout_marginTop="4.5dp"
-        android:src="@mipmap/icon_medal_safe" />
-
       <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/space_holder"
         android:background="@color/background_grayEEEEEE"
         android:padding="20dp"
+        android:layout_marginTop="180dp"
         android:text="@string/SafeIntro"
         android:textColor="@color/tab_layout_unSelect_color"
         android:textSize="13sp" />
+      <ImageView
+        android:id="@+id/icon_medal_safe"
+        android:layout_width="59.5dp"
+        android:layout_height="59.5dp"
+        android:layout_below="@+id/paypal_layout"
+        android:layout_marginLeft="11.5dp"
+        android:layout_marginTop="200dp"
+        android:src="@mipmap/icon_medal_safe" />
+
     </RelativeLayout>
   </android.support.v4.widget.NestedScrollView>
 

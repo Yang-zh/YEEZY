@@ -120,24 +120,6 @@ public class OrderApi extends BaseApi {
                 .subscribe(singleSubscriber);
     }
 
-    public static void checkOut(SingleSubscriber<ConfirmOrderEntity> singleSubscriber) {
-        String timestamp = getTimeStamp();
-
-        HashMap<String,String> params = new HashMap<>();
-        params.put("email", email);
-        params.put("token", token);
-        params.put("timestamp", timestamp);
-
-        String signature = getSignature(params);
-
-        createService(OrderService.class)
-                .checkOut(email,token,timestamp,signature,API_KEY, Const.IMEI)
-                .map(new HttpResultFunc<ConfirmOrderEntity>())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(singleSubscriber);
-    }
-
     public static void addReview(String product_id,String rating,String text,SingleSubscriber<Object> singleSubscriber) {
         String timestamp = getTimeStamp();
 

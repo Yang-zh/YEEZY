@@ -168,7 +168,7 @@ public class MainActivity extends BaseActivity {
                         if (!Const.isLogin()) {
                             startActivityForResult(new Intent(MainActivity.this, LoginActivity.class), LoginActivity.IS_LOGIN);
                         } else {
-                            new PaymentManager(MainActivity.this, getWindow().getDecorView()).startShoppingCartDialog();
+                            new PaymentManager(MainActivity.this, getWindow().getDecorView()).startShoppingCartActivity();
                         }
                         break;
                     case R.id.history:

@@ -97,19 +97,19 @@ public class OrderConfirmedActivity extends BaseActivity {
 
         tvEstimatedShippingFake.setText("$ 25.00");
         tvEstimatedShippingFake.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        shipping.setText(cart.shiping.text);
-        for (CartEntity.Totals total : cart.totals) {
-            switch (total.title) {
-                case "Sub-Total": {
-                    itemTotal.setText(total.text);
-                    break;
-                }
-                case "Total": {
-                    orderTotal.setText(total.text);
-                    break;
-                }
-            }
-        }
+//        shipping.setText(cart.shipping.text);
+//        for (CartEntity.Totals total : cart.totals) {
+//            switch (total.title) {
+//                case "Sub-Total": {
+//                    itemTotal.setText(total.text);
+//                    break;
+//                }
+//                case "Total": {
+//                    orderTotal.setText(total.text);
+//                    break;
+//                }
+//            }
+//        }
     }
 
     @Override

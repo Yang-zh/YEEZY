@@ -281,6 +281,7 @@
     <string name="The_other_payment_method">The other payment method</string>
     <string name="WarnIfChoosePaypalAndClearInfo">If you choose to continue with paypal then any information about your credit card will be deleted.</string>
     <string name="WarnIfDeleteItemInCart">Would you want delete these items?</string>
+    <string name="MoveToWishList">Move to wishlist</string>
 
     <string-array name = "currencies">
         <item>USD($)</item>
@@ -334,5 +335,42 @@
         <item>47.5</item>
         <item>49</item>
         <item>50</item>
+    </string-array>
+    <string-array name = "month">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+    <string-array name = "year">
+        <item>2016</item>
+        <item>2017</item>
+        <item>2018</item>
+        <item>2019</item>
+        <item>2020</item>
+        <item>2021</item>
+        <item>2022</item>
+        <item>2023</item>
+        <item>2024</item>
+        <item>2025</item>
+        <item>2026</item>
+        <item>2027</item>
+        <item>2028</item>
+        <item>2029</item>
+        <item>2030</item>
+        <item>2031</item>
+        <item>2032</item>
+        <item>2033</item>
+        <item>2034</item>
+        <item>2035</item>
+        <item>2036</item>
     </string-array>
 </resources>

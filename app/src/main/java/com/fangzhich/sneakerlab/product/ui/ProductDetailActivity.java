@@ -216,7 +216,7 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
             startActivity(new Intent(this, LoginActivity.class));
             return;
         }
-        manager.startShoppingCartDialog();
+        manager.startShoppingCartActivity();
     }
 
     @OnClick(R.id.bt_buy)
@@ -397,11 +397,6 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
         Timber.e(throwable.getMessage());
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        manager.closeAll();
-    }
 
     @Override
     public void onBackPressed() {

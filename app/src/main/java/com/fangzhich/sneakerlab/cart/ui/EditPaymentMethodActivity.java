@@ -1,8 +1,9 @@
 package com.fangzhich.sneakerlab.cart.ui;
 
-import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,12 +14,22 @@ import android.widget.TextView;
 
 import com.fangzhich.sneakerlab.App;
 import com.fangzhich.sneakerlab.R;
+import com.fangzhich.sneakerlab.base.data.event.RxBus;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.base.widget.CustomDialog;
+import com.fangzhich.sneakerlab.base.widget.ProgressBar;
 import com.fangzhich.sneakerlab.base.widget.spinner.NiceSpinner;
+import com.fangzhich.sneakerlab.cart.data.event.GuideFlowFinishEvent;
+import com.fangzhich.sneakerlab.user.data.net.UserApi;
+import com.fangzhich.sneakerlab.util.ToastUtil;
+
+import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.SingleSubscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 /**
  * PaymentMethodActivity
@@ -26,17 +37,16 @@ import butterknife.OnClick;
  */
 public class EditPaymentMethodActivity extends BaseActivity {
 
-    private static final int SUCCESS = 1001;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.et_credit_card_number)
     EditText etCreditCardNumber;
     @BindView(R.id.et_security_code)
     EditText etSecurityCode;
-    @BindView(R.id.spinner_country)
-    NiceSpinner spinnerCountry;
-    @BindView(R.id.spinner_state)
-    NiceSpinner spinnerState;
+    @BindView(R.id.spinner_month)
+    NiceSpinner spinnerMonth;
+    @BindView(R.id.spinner_year)
+    NiceSpinner spinnerYear;
     @BindView(R.id.et_billing_postal_code)
     EditText etBillingPostalCode;
 
@@ -46,9 +56,10 @@ public class EditPaymentMethodActivity extends BaseActivity {
     TextView textPaypal;
     @BindView(R.id.check_paypal)
     ImageView paypalCheck;
+
     @OnClick(R.id.paypal_layout)
     void chooseThirdPartyPaymentMethod() {
-        mPaymentManger.showCustomDialog(this,R.layout.dialog_edit_payment_method_choose_paypal, new CustomDialog.Listener() {
+        mPaymentManger.showCustomDialog(this, R.layout.dialog_edit_payment_method_choose_paypal, new CustomDialog.Listener() {
             @Override
             public void onInit(final PopupWindow dialog, View content) {
                 content.findViewById(R.id.bt_yes).setOnClickListener(new View.OnClickListener() {
@@ -78,20 +89,86 @@ public class EditPaymentMethodActivity extends BaseActivity {
 
     @OnClick(R.id.bt_save_info)
     void saveOrCheckout() {
-
-        if (!checkPaymentInfo()) {
+        final String cardNumber = etCreditCardNumber.getText().toString();
+        if (TextUtils.isEmpty(cardNumber)) {
+            ToastUtil.toast("Input Card number please");
             return;
+        }
+
+        final String securityCode = etSecurityCode.getText().toString();
+        if (TextUtils.isEmpty(securityCode)) {
+            ToastUtil.toast("Input Security code please");
+            return;
+        }
+
+
+        String month = spinnerMonth.getSelectedItemText();
+        if (TextUtils.isEmpty(month)) {
+            ToastUtil.toast("Choose month of expiry date please");
+            return;
+        }
+        String year = spinnerYear.getSelectedItemText();
+        if (TextUtils.isEmpty(year)) {
+            ToastUtil.toast("Choose year of expiry date please");
+            return;
+        }
+
+        String[] date = DateFormat.format("yyyy-MM", System.currentTimeMillis()).toString().split("-");
+
+        if (Integer.valueOf(date[0]) > Integer.valueOf(year)
+                || (Integer.valueOf(date[0]).equals(Integer.valueOf(year)) && Integer.valueOf(date[1]) > Integer.valueOf(month))) {
+            ToastUtil.toast("Your credit card may out of date");
+            return;
+        }
+
+        String zipPostalCode = etBillingPostalCode.getText().toString();
+        if (TextUtils.isEmpty(zipPostalCode)) {
+            ToastUtil.toast("Input Zip/PostalCode please");
+        }
+
+        final ProgressBar progressBar = ProgressBar.getInstance();
+        progressBar.init(this, new ProgressBar.Callback() {
+            @Override
+            public void onProgressBarClick(View v) {
+
+            }
+        }).show();
+
+        if (cardNumber != null) {
+            UserApi.addCreditCard(cardNumber, month, year.substring(year.length() - 2, year.length()), securityCode, zipPostalCode, new SingleSubscriber<String>() {
+                @Override
+                public void onSuccess(String value) {
+                    progressBar.cancel();
+                    ToastUtil.toast("save credit card info success");
+                }
+
+                @Override
+                public void onError(Throwable error) {
+                    progressBar.cancel();
+                    ToastUtil.toast(error.getMessage());
+                }
+            });
+        } else {
+            UserApi.editCreditCard(cardNumber, month, year, securityCode, zipPostalCode, new SingleSubscriber<Object>() {
+                @Override
+                public void onSuccess(Object value) {
+                    progressBar.cancel();
+                    ToastUtil.toast("save credit card info success");
+                }
+
+                @Override
+                public void onError(Throwable error) {
+                    progressBar.cancel();
+                    ToastUtil.toast(error.getMessage());
+                }
+            });
         }
 
         if (mPaymentManger.isFirstPaying) {
             mPaymentManger.startPlaceOrderActivity(this);
+        } else {
+            onBackPressed();
         }
-        onBackPressed();
-    }
-
-    private boolean checkPaymentInfo() {
-        //todo
-        return true;
     }
 
     private PaymentManager mPaymentManger;
@@ -106,6 +183,16 @@ public class EditPaymentMethodActivity extends BaseActivity {
         mPaymentManger = ((App) getApplication()).mPaymentManager;
 
         initToolbar();
+
+        RxBus.getDefault()
+                .toObservable(GuideFlowFinishEvent.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<GuideFlowFinishEvent>() {
+                    @Override
+                    public void call(GuideFlowFinishEvent guideFlowFinishEvent) {
+                        onBackPressed();
+                    }
+                });
     }
 
 
@@ -114,10 +201,17 @@ public class EditPaymentMethodActivity extends BaseActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
-            if (mPaymentManger.isFirstPaying)
-            actionBar.setDisplayShowHomeEnabled(true);
-            actionBar.setDisplayHomeAsUpEnabled(true);
+            if (mPaymentManger.isFirstPaying) {
+                actionBar.setDisplayShowHomeEnabled(true);
+                actionBar.setDisplayHomeAsUpEnabled(true);
+            }
         }
+    }
+
+    @Override
+    protected void loadData() {
+        spinnerMonth.attachDataSource(Arrays.asList(getResources().getStringArray(R.array.month)));
+        spinnerYear.attachDataSource(Arrays.asList(getResources().getStringArray(R.array.year)));
     }
 
     @Override
@@ -159,7 +253,7 @@ public class EditPaymentMethodActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (getIntent().getBooleanExtra("isFirstRegister", false)) {
+        if (mPaymentManger.isFirstPaying) {
             getMenuInflater().inflate(R.menu.menu_edit_payment_info, menu);
         }
         return true;

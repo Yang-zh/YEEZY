@@ -7,9 +7,9 @@ import android.view.Gravity;
 import android.view.View;
 
 import com.fangzhich.sneakerlab.App;
+import com.fangzhich.sneakerlab.base.data.event.RxBus;
 import com.fangzhich.sneakerlab.base.widget.CustomDialog;
-import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
-import com.fangzhich.sneakerlab.order.widget.AddressDialog;
+import com.fangzhich.sneakerlab.cart.data.event.GuideFlowFinishEvent;
 import com.fangzhich.sneakerlab.product.data.entity.ProductEntity;
 import com.fangzhich.sneakerlab.product.ui.SizeDialog;
 import com.fangzhich.sneakerlab.util.ToastUtil;
@@ -18,17 +18,27 @@ import java.util.HashMap;
 
 /**
  * PaymentManager
+ *
+ * AddCart:
+ * ProductDetailActivity->startSizeDialog()->startPayment()->startShoppingCartActivity()->startCheckout()->Guide Flow(optional)->startPlaceOrder()
+ *
+ * BuyNow:
+ * ProductDetailActivity->startSizeDialog()->startPayment()->Guide Flow(optional)->startPlaceOrder()
+ *
+ * Guide FLow:
+ * startEditShippingAddressActivity()->startEditPaymentInfoActivity()(can skip)->place order...
+ *
  * Created by Khorium on 2016/9/29.
  */
-
 public class PaymentManager{
-
-    private ProductEntity mProduct;
-    public boolean isFirstPaying = true;
 
     public enum ChargeType {
         AddCart,BuyNow
     }
+
+    private ProductEntity mProduct;
+
+    public boolean isFirstPaying = true;
 
 
     private Context mContext;
@@ -51,7 +61,7 @@ public class PaymentManager{
         }
         switch (type) {
             case AddCart:
-                startShoppingCartDialog(mProduct.product_id,quantity,null,"0");
+                addItemToCartAndStartShoppingCartActivity(mProduct.product_id,quantity,null,"0");
                 break;
             case BuyNow:
                 startCheckOut(activity,mProduct.product_id,quantity,null,"0");
@@ -62,7 +72,7 @@ public class PaymentManager{
     public void startCheckOut(Context context, String product_id, String quantity, HashMap<String,String> option, String recurring_id) {
         ToastUtil.toast("checkout!");
         if (!false) {// todo check if need set payment method and shipping address info
-            startAddressDialog(context, new CartEntity.Address());//todo
+            startEditAddressActivity(context);//todo
         } else {
             startPlaceOrderActivity(context);
         }
@@ -70,17 +80,20 @@ public class PaymentManager{
 
     //------------ShoppingCart-------------------
     public void startPlaceOrderActivity(Context context) {
+        if (isFirstPaying) {
+            closeGuideFlow();
+        }
         Intent intent = new Intent(context, PlaceOrderActivity.class);
         context.startActivity(intent);
     }
     //------------ShoppingCart-------------------
 
-    public void startShoppingCartDialog() {
+    public void startShoppingCartActivity() {
         Intent intent = new Intent(activity,ShoppingCartActivity.class);
         mContext.startActivity(intent);
     }
 
-    public void startShoppingCartDialog(String product_id, String quantity, HashMap<String,String> option, String recurring_id) {
+    public void addItemToCartAndStartShoppingCartActivity(String product_id, String quantity, HashMap<String,String> option, String recurring_id) {
         Intent intent = new Intent(activity,ShoppingCartActivity.class);
         intent.putExtra("product_id",product_id);
         intent.putExtra("quantity",quantity);
@@ -91,7 +104,7 @@ public class PaymentManager{
 
     //-----------CreditCard---------------------
 
-    public void startCreditCardDialog(Context context, CartEntity.Payment card) {
+    public void startEditPaymentInfoActivity(Context context) {
         Intent intent = new Intent(context,EditPaymentMethodActivity.class);
         context.startActivity(intent);
 //        mCardDialog.initPopup(this, mContext).withCreditCard(card).showPopup(mContentView);
@@ -99,7 +112,7 @@ public class PaymentManager{
 
     //-----------Address----------------------
 
-    public void startAddressDialog(Context context, CartEntity.Address address) {
+    public void startEditAddressActivity(Context context) {
         Intent intent = new Intent(context,EditShippingAddressActivity.class);
         context.startActivity(intent);
 //        mAddressDialog.initPopup(this, mContext).withAddress(address).showPopup(mContentView);
@@ -112,10 +125,11 @@ public class PaymentManager{
 
 
     //-----------------------other===================================
-    public void closeAll() {
+    public void closeGuideFlow() {
         if (mSizeDialog.isShowing()) {
             mSizeDialog.dismiss();
         }
+        RxBus.getDefault().post(new GuideFlowFinishEvent());
     }
 
     public void closeProductDetail() {
@@ -127,5 +141,4 @@ public class PaymentManager{
     public void showCustomDialog(Activity activity, int layout, CustomDialog.Listener listener) {
         new CustomDialog().initPopup(activity, layout, listener).showPopup(activity.getWindow().getDecorView(), Gravity.CENTER);
     }
-
 }

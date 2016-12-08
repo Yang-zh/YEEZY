@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  android:id="@+id/main_content"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent">
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 android:id="@+id/main_content"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent">
 
   <android.support.design.widget.AppBarLayout
     android:id="@+id/appbar"
@@ -12,10 +12,10 @@
     app:elevation="0dp">
 
     <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-      android:id="@+id/toolbar"
-      android:layout_width="match_parent"
-      android:layout_height="?attr/actionBarSize"
-      android:background="@color/colorPrimary">
+                                       android:id="@+id/toolbar"
+                                       android:layout_width="match_parent"
+                                       android:layout_height="?attr/actionBarSize"
+                                       android:background="@color/colorPrimary">
 
       <RelativeLayout
         android:layout_width="match_parent"
@@ -30,7 +30,7 @@
           android:text="@string/EditShippingInfo"
           android:textColor="@android:color/white"
           android:textSize="@dimen/action_bar_title_size"
-          android:textStyle="bold" />
+          android:textStyle="bold"/>
       </RelativeLayout>
     </android.support.v7.widget.Toolbar>
   </android.support.design.widget.AppBarLayout>
@@ -56,7 +56,7 @@
         android:paddingTop="10dp"
         android:text="@string/EditShippingInfoIntro"
         android:textColor="@color/text_color_yellowFFA057"
-        android:textSize="12sp" />
+        android:textSize="12sp"/>
 
       <TextView
         android:id="@+id/inputIndicate"
@@ -67,7 +67,7 @@
         android:layout_marginTop="15dp"
         android:text="@string/InputIndicate"
         android:textColor="@color/tab_layout_select_color"
-        android:textSize="12sp" />
+        android:textSize="12sp"/>
 
       <EditText
         android:id="@+id/et_address_bay"
@@ -81,7 +81,7 @@
         android:hint="@string/FullName"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:textSize="14sp" />
+        android:textSize="14sp"/>
 
       <EditText
         android:id="@+id/et_address_street"
@@ -95,7 +95,7 @@
         android:hint="@string/StreetAddress"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:textSize="14sp" />
+        android:textSize="14sp"/>
 
       <EditText
         android:id="@+id/et_address_unit"
@@ -109,7 +109,7 @@
         android:hint="@string/Unit"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:textSize="14sp" />
+        android:textSize="14sp"/>
 
       <LinearLayout
         android:id="@+id/country_layout"
@@ -130,7 +130,7 @@
           android:textSize="14sp"
           app:paddingEnd="5dp"
           app:paddingStart="5dp"
-          app:textTint="@color/tab_layout_select_color" />
+          app:textTint="@color/tab_layout_select_color"/>
 
         <com.fangzhich.sneakerlab.base.widget.spinner.NiceSpinner
           android:id="@+id/spinner_state"
@@ -141,7 +141,7 @@
           android:textSize="12sp"
           app:paddingEnd="5dp"
           app:paddingStart="5dp"
-          app:textTint="@color/tab_layout_select_color" />
+          app:textTint="@color/tab_layout_select_color"/>
       </LinearLayout>
 
       <EditText
@@ -156,7 +156,7 @@
         android:hint="@string/City"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:textSize="14sp" />
+        android:textSize="14sp"/>
 
       <EditText
         android:id="@+id/et_address_code"
@@ -168,9 +168,10 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="10dp"
         android:hint="@string/ZipPostalCodeIndicate"
+        android:inputType="number"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:textSize="14sp" />
+        android:textSize="14sp"/>
 
       <EditText
         android:id="@+id/et_address_phone"
@@ -185,7 +186,7 @@
         android:inputType="phone"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:textSize="14sp" />
+        android:textSize="14sp"/>
     </RelativeLayout>
   </android.support.v4.widget.NestedScrollView>
 
@@ -211,7 +212,7 @@
         android:text="@string/SaveAndNext"
         android:textColor="@color/product_list_background_color"
         android:textSize="15sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
     </android.support.v7.widget.CardView>
   </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

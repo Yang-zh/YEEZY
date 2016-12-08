@@ -5,8 +5,10 @@ import android.util.SparseIntArray;
 
 import com.fangzhich.sneakerlab.base.data.net.BaseApi;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
+import com.fangzhich.sneakerlab.order.data.entity.ConfirmOrderEntity;
 import com.fangzhich.sneakerlab.order.data.entity.CountryEntity;
 import com.fangzhich.sneakerlab.order.data.entity.DistrictEntity;
+import com.fangzhich.sneakerlab.order.data.net.OrderService;
 import com.fangzhich.sneakerlab.util.Const;
 
 import java.util.ArrayList;
@@ -130,6 +132,99 @@ public class CartApi extends BaseApi {
         createService(CartService.class)
                 .removeItemFromCart(cart_id,email,token,timestamp,signature,API_KEY, Const.IMEI)
                 .map(new HttpResultFunc<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(singleSubscriber);
+    }
+
+    /**
+     * Remove Item From Later List in Cart request
+     *
+     * @param cart_back_id item's id in Cart
+     * @param singleSubscriber SingleSubscriber in RxJava (Callback)
+     */
+    public static void removeItemFromLaterCart(String cart_back_id, SingleSubscriber<Object> singleSubscriber) {
+        String timestamp = getTimeStamp();
+
+        HashMap<String,String> params = new HashMap<>();
+        params.put("cart_back_id", cart_back_id);
+        params.put("email", email);
+        params.put("token", token);
+        params.put("timestamp", timestamp);
+
+        String signature = getSignature(params);
+
+        createService(CartService.class)
+                .removeItemFromLaterCart(cart_back_id,email,token,timestamp,signature,API_KEY, Const.IMEI)
+                .map(new HttpResultFunc<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(singleSubscriber);
+    }
+
+    /**
+     * Move Item From Later List to Cart List request
+     *
+     * @param cart_back_id item's id in Cart
+     * @param singleSubscriber SingleSubscriber in RxJava (Callback)
+     */
+    public static void moveItemFromLaterToCart(String cart_back_id, SingleSubscriber<CartEntity.Cart> singleSubscriber) {
+        String timestamp = getTimeStamp();
+
+        HashMap<String,String> params = new HashMap<>();
+        params.put("cart_back_id", cart_back_id);
+        params.put("email", email);
+        params.put("token", token);
+        params.put("timestamp", timestamp);
+
+        String signature = getSignature(params);
+
+        createService(CartService.class)
+                .moveItemFromLaterToCart(cart_back_id,email,token,timestamp,signature,API_KEY, Const.IMEI)
+                .map(new HttpResultFunc<CartEntity.Cart>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(singleSubscriber);
+    }
+
+    /**
+     * Move Item From Cart List to Later List request
+     *
+     * @param cart_id item's id in Cart
+     * @param singleSubscriber SingleSubscriber in RxJava (Callback)
+     */
+    public static void moveItemFromCartToLater(String cart_id, SingleSubscriber<CartEntity.CartBack> singleSubscriber) {
+        String timestamp = getTimeStamp();
+
+        HashMap<String,String> params = new HashMap<>();
+        params.put("cart_id", cart_id);
+        params.put("email", email);
+        params.put("token", token);
+        params.put("timestamp", timestamp);
+
+        String signature = getSignature(params);
+
+        createService(CartService.class)
+                .moveItemFromCartToLater(cart_id,email,token,timestamp,signature,API_KEY, Const.IMEI)
+                .map(new HttpResultFunc<CartEntity.CartBack>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(singleSubscriber);
+    }
+
+    public static void checkOut(SingleSubscriber<ConfirmOrderEntity> singleSubscriber) {
+        String timestamp = getTimeStamp();
+
+        HashMap<String,String> params = new HashMap<>();
+        params.put("email", email);
+        params.put("token", token);
+        params.put("timestamp", timestamp);
+
+        String signature = getSignature(params);
+
+        createService(CartService.class)
+                .checkOut(email,token,timestamp,signature,API_KEY, Const.IMEI)
+                .map(new HttpResultFunc<ConfirmOrderEntity>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(singleSubscriber);

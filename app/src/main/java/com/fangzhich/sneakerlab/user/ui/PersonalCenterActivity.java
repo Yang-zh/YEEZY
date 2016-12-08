@@ -145,7 +145,7 @@ public class PersonalCenterActivity extends BaseActivity {
     //list
     @OnClick(R.id.shoppingCart)
     void shoppingCart() {
-        new PaymentManager(this, getWindow().getDecorView()).startShoppingCartDialog();
+        new PaymentManager(this, getWindow().getDecorView()).startShoppingCartActivity();
     }
 
     @OnClick(R.id.orderHistory)

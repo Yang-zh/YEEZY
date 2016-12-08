@@ -222,6 +222,10 @@ public class NiceSpinner extends TextView {
         return selectedIndex;
     }
 
+    public String getSelectedItemText() {
+        return adapter.getItemInDataset(selectedIndex).toString();
+    }
+
     /**
      * Set the default spinner item using its index
      * 

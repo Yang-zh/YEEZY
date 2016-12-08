@@ -7,22 +7,31 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fangzhich.sneakerlab.App;
 import com.fangzhich.sneakerlab.R;
+import com.fangzhich.sneakerlab.base.data.event.RxBus;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.LinearLayoutItemDecoration;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
+import com.fangzhich.sneakerlab.cart.data.event.MoveItemFromCartToLaterEvent;
+import com.fangzhich.sneakerlab.cart.data.event.MoveItemFromLaterToCartEvent;
 import com.fangzhich.sneakerlab.util.TagFormatUtil;
 import com.fangzhich.sneakerlab.util.ToastUtil;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import timber.log.Timber;
 
 /**
@@ -65,10 +74,9 @@ public class ShoppingCartActivity extends BaseActivity {
 
     private PaymentManager mPaymentManger;
     private CartManager cartManager = new CartManager();
-    private boolean isAddingToCart;
 
     CartListAdapter checkoutListAdapter = new CartListAdapter();
-//    CartListAdapter laterListAdapter = new CartListAdapter();
+    CartListLaterAdapter laterListAdapter = new CartListLaterAdapter();
 
     @Override
     public int setContentLayout() {
@@ -79,13 +87,34 @@ public class ShoppingCartActivity extends BaseActivity {
     protected void initContentView() {
         mPaymentManger = ((App)getApplication()).mPaymentManager;
 
+        initRxBus();
+
         initToolbar();
 
         checkIfNeedAddToCart();
 
         initRecyclerView();
+    }
 
-        initOthers();
+    private void initRxBus() {
+        fromLaterToCartObserver = RxBus.getDefault().toObservable(MoveItemFromLaterToCartEvent.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<MoveItemFromLaterToCartEvent>() {
+                    @Override
+                    public void call(MoveItemFromLaterToCartEvent event) {
+                        checkoutListAdapter.addItem(event.cartItem);
+                        laterListAdapter.notifyItemRemoved(event.position);
+                    }
+                });
+        formCartToLaterObserver = RxBus.getDefault().toObservable(MoveItemFromCartToLaterEvent.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<MoveItemFromCartToLaterEvent>() {
+                    @Override
+                    public void call(MoveItemFromCartToLaterEvent event) {
+                        laterListAdapter.addItem(event.cartItem);
+                        checkoutListAdapter.notifyItemRemoved(event.position);
+                    }
+                });
     }
 
 
@@ -104,69 +133,65 @@ public class ShoppingCartActivity extends BaseActivity {
         rvCheckoutList.setNestedScrollingEnabled(false);
         rvCheckoutList.addItemDecoration(new LinearLayoutItemDecoration(this,LinearLayoutItemDecoration.VERTICAL_LIST,R.drawable.background_less_half_line));
         rvCheckoutList.setAdapter(checkoutListAdapter);
+
         rvLaterList.setLayoutManager(new LinearLayoutManager(this));
         rvLaterList.setNestedScrollingEnabled(false);
-//        rvLaterList.setAdapter(laterListAdapter);
-    }
-
-    private void initOthers() {
-        //todo
+        rvLaterList.addItemDecoration(new LinearLayoutItemDecoration(this,LinearLayoutItemDecoration.VERTICAL_LIST,R.drawable.background_less_half_line));
+        rvLaterList.setAdapter(laterListAdapter);
     }
 
     @Override
     protected void loadData() {
-        checkoutListAdapter.loadData();
-        checkoutListAdapter.setOnCartStatusChangeListener(new CartListAdapter.OnCartStatusChangeListener() {
+        cartManager.getCartList(new CartManager.CartListCallBack() {
             @Override
-            public void loadCartData(CartEntity cart) {
+            public void onSuccess(CartEntity cart) {
+                if (cart.cart==null || cart.cart.size()==0) {
+                    rvCheckoutList.setVisibility(View.GONE);
+                    noDataNotice.setVisibility(View.VISIBLE);
+                    continueShopping.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onBackPressed();
+                        }
+                    });
+                    return;
+                }
+
+                //no data notice
                 shoppingCartNotice.setVisibility(View.VISIBLE);
                 rvCheckoutList.setVisibility(View.VISIBLE);
                 noDataNotice.setVisibility(View.GONE);
 
-                for (CartEntity.Totals total: cart.totals) {
-                    switch (total.title) {
-                        case "Sub-Total": {
-                            //todo
-                            productPrice.setText("Total:" +total.text);
-                            break;
-                        }
-                        case "Total": {
-                            //todo
-                            productPriceOriginal.setText("Cost saving: "+total.text);
-                            break;
-                        }
-                    }
+                //recycler view
+                checkoutListAdapter.setData(cart.cart);
+                checkoutListAdapter.notifyDataSetChanged();
+                laterListAdapter.setData(cart.cartback);
+                laterListAdapter.notifyDataSetChanged();
+
+                //bottom bar
+                int total = 0;
+                int original = 0;
+                for (CartEntity.Cart product: cart.cart) {
+                    total += Integer.valueOf(product.special_price);
+                    original += Integer.valueOf(product.original_price);
                 }
+                productPrice.setText("Total:" +total);
+                productPriceOriginal.setText("Cost saving: "+original);
             }
 
+            @Override
+            public void onError(Throwable throwable) {
+                ToastUtil.toast("connect to server failed");
+                Timber.e(throwable);
+            }
+        });
+        checkoutListAdapter.loadData();
+        checkoutListAdapter.setOnCartStatusChangeListener(new CartListAdapter.OnCartStatusChangeListener() {
             @Override
             public void checkSubscribe() {
                 checkIfSubscribe();
             }
-
-            @Override
-            public void noData() {
-                rvCheckoutList.setVisibility(View.GONE);
-                noDataNotice.setVisibility(View.VISIBLE);
-                continueShopping.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onBackPressed();
-                    }
-                });
-            }
         });
-//        cartManager.getCartList(new CartManager.CartListCallBack() {
-//            @Override
-//            public void onSuccess(CartEntity cart) {
-//                //todo
-//            }
-//
-//            @Override
-//            public void onError(Throwable throwable) {
-//                //todo
-//            }
-//        });
     }
 
     private void checkIfNeedAddToCart() {
@@ -182,23 +207,18 @@ public class ShoppingCartActivity extends BaseActivity {
         HashMap<String,String> option = (HashMap<String, String>) intent.getSerializableExtra("option");
         String recurring_id = intent.getStringExtra("recurring_id");
 
-
-        isAddingToCart = true;
-
         //if adding to cart, dialog will waiting for response,and load newest list after that.
         cartManager.addCartItem(product_id, quantity, option, recurring_id, new CartManager.AddItemCallBack() {
 
             //synchronized promise atomic
             @Override
             public synchronized void onSuccess() {
-                isAddingToCart = false;
                 checkIfSubscribe();
                 loadData();
             }
 
             @Override
             public synchronized void onError(Throwable throwable) {
-                isAddingToCart = false;
                 loadData();
                 ToastUtil.toast(throwable.getMessage());
                 Timber.e(throwable);
@@ -207,10 +227,35 @@ public class ShoppingCartActivity extends BaseActivity {
     }
 
     private void checkIfSubscribe() {
-//        if (adapter.getData()!=null&&adapter.getData().size()>=0) {
-//            FirebaseMessaging.getInstance().subscribeToTopic("cart");
-//        } else {
-//            FirebaseMessaging.getInstance().unsubscribeFromTopic("cart");
-//        }
+        boolean isItemsInCart = checkoutListAdapter.getData()!=null&&checkoutListAdapter.getData().size()>=0;
+        boolean isItemsInLater = laterListAdapter.getData()!=null&&laterListAdapter.getData().size()>=0;
+        if (isItemsInCart || isItemsInLater) {
+            FirebaseMessaging.getInstance().subscribeToTopic("cart");
+        } else {
+            FirebaseMessaging.getInstance().unsubscribeFromTopic("cart");
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private Subscription fromLaterToCartObserver;
+    private Subscription formCartToLaterObserver;
+
+    @Override
+    protected void onDestroy() {
+        if (fromLaterToCartObserver.isUnsubscribed()){
+            fromLaterToCartObserver.unsubscribe();
+        }
+        if (formCartToLaterObserver.isUnsubscribed()){
+            formCartToLaterObserver.unsubscribe();
+        }
+        super.onDestroy();
     }
 }

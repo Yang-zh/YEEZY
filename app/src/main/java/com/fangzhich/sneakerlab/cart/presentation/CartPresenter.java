@@ -83,4 +83,49 @@ public class CartPresenter implements CartContract.Presenter{
             }
         });
     }
+
+    @Override
+    public void removeItemFromLaterCart(String cart_back_id) {
+        CartApi.removeItemFromLaterCart(cart_back_id, new SingleSubscriber<Object>() {
+            @Override
+            public void onSuccess(Object value) {
+                mView.onRemoveLaterCartItemSuccess();
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                mView.onRemoveLaterCartItemFailed(throwable);
+            }
+        });
+    }
+
+    @Override
+    public void moveItemFromLaterToCart(String cart_back_id) {
+        CartApi.moveItemFromLaterToCart(cart_back_id, new SingleSubscriber<CartEntity.Cart>() {
+            @Override
+            public void onSuccess(CartEntity.Cart product) {
+                mView.onMoveItemFromLaterToCartSuccess(product);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                mView.onMoveItemFromLaterToCartFailed(throwable);
+            }
+        });
+    }
+
+    @Override
+    public void moveItemFromCartToLater(String cart_id) {
+        CartApi.moveItemFromCartToLater(cart_id, new SingleSubscriber<CartEntity.CartBack>() {
+            @Override
+            public void onSuccess(CartEntity.CartBack cartBack) {
+                mView.onMoveItemFromCartToLaterSuccess(cartBack);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                mView.onMoveItemFromCartToLaterFailed(throwable);
+            }
+        });
+    }
 }
