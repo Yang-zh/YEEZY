@@ -61,6 +61,10 @@ public abstract class BaseRecyclerViewAdapter<T, VH extends RecyclerView.ViewHol
         mData.add(entity);
         notifyItemInserted(mData.size());
     }
+    public void removeItem(int position) {
+        mData.remove(position);
+        notifyItemRemoved(position);
+    }
 
     protected OnLoadFinishListener onLoadFinishListener;
     public void setOnLoadFinishListener(OnLoadFinishListener listener) {

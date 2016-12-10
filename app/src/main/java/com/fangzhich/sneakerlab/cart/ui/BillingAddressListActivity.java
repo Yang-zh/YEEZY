@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
  */
 public class BillingAddressListActivity extends BaseActivity {
 
-    public static final int CHOOSE_BILLING_ADDRESS = 1001;
+    public static final int CHOOSE_BILLING_ADDRESS = 1005;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.rv_billing_address_list)

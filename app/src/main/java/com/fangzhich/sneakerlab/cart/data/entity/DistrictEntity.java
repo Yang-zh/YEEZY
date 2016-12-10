@@ -1,4 +1,4 @@
-package com.fangzhich.sneakerlab.order.data.entity;
+package com.fangzhich.sneakerlab.cart.data.entity;
 
 /**
  * DistrictEntity

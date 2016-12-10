@@ -1,14 +1,11 @@
 package com.fangzhich.sneakerlab.cart.data.net;
 
-import android.content.Intent;
-import android.util.SparseIntArray;
-
 import com.fangzhich.sneakerlab.base.data.net.BaseApi;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
+import com.fangzhich.sneakerlab.cart.data.entity.CheckOutInfoEntity;
 import com.fangzhich.sneakerlab.order.data.entity.ConfirmOrderEntity;
-import com.fangzhich.sneakerlab.order.data.entity.CountryEntity;
-import com.fangzhich.sneakerlab.order.data.entity.DistrictEntity;
-import com.fangzhich.sneakerlab.order.data.net.OrderService;
+import com.fangzhich.sneakerlab.cart.data.entity.CountryEntity;
+import com.fangzhich.sneakerlab.cart.data.entity.DistrictEntity;
 import com.fangzhich.sneakerlab.util.Const;
 
 import java.util.ArrayList;
@@ -212,7 +209,7 @@ public class CartApi extends BaseApi {
                 .subscribe(singleSubscriber);
     }
 
-    public static void checkOut(SingleSubscriber<ConfirmOrderEntity> singleSubscriber) {
+    public static void checkOut(SingleSubscriber<CheckOutInfoEntity> singleSubscriber) {
         String timestamp = getTimeStamp();
 
         HashMap<String,String> params = new HashMap<>();
@@ -224,6 +221,24 @@ public class CartApi extends BaseApi {
 
         createService(CartService.class)
                 .checkOut(email,token,timestamp,signature,API_KEY, Const.IMEI)
+                .map(new HttpResultFunc<CheckOutInfoEntity>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(singleSubscriber);
+    }
+
+    public static void placeOrder(SingleSubscriber<ConfirmOrderEntity> singleSubscriber) {
+        String timestamp = getTimeStamp();
+
+        HashMap<String,String> params = new HashMap<>();
+        params.put("email", email);
+        params.put("token", token);
+        params.put("timestamp", timestamp);
+
+        String signature = getSignature(params);
+
+        createService(CartService.class)
+                .placeOrder(email,token,timestamp,signature,API_KEY, Const.IMEI)
                 .map(new HttpResultFunc<ConfirmOrderEntity>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

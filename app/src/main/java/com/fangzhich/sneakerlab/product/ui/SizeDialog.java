@@ -92,7 +92,7 @@ public class SizeDialog {
 
     @OnClick(R.id.bt_buy)
     void addCart() {
-        ToastUtil.toast("optionSize:" + option.size() + " colorNeed:" + colorNeed + " sizeNeed" + sizeNeed);
+//        ToastUtil.toast("optionSize:" + option.size() + " colorNeed:" + colorNeed + " sizeNeed" + sizeNeed);
         if (!Const.isLogin()) {
             mContext.startActivity(new Intent(mContext, LoginActivity.class));
         } else {
@@ -110,7 +110,7 @@ public class SizeDialog {
 
     @OnClick(R.id.bt_buy_now)
     void buyNow() {
-        ToastUtil.toast("optionSize:" + option.size() + " colorNeed:" + colorNeed + " sizeNeed" + sizeNeed);
+//        ToastUtil.toast("optionSize:" + option.size() + " colorNeed:" + colorNeed + " sizeNeed" + sizeNeed);
         if (!Const.isLogin()) {
             mContext.startActivity(new Intent(mContext, LoginActivity.class));
         } else {

@@ -1,10 +1,12 @@
 package com.fangzhich.sneakerlab.cart.data.net;
 
 import com.fangzhich.sneakerlab.base.data.net.HttpResult;
+import com.fangzhich.sneakerlab.cart.data.entity.CheckOutInfoEntity;
+import com.fangzhich.sneakerlab.user.data.entity.AddressEntity;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
 import com.fangzhich.sneakerlab.order.data.entity.ConfirmOrderEntity;
-import com.fangzhich.sneakerlab.order.data.entity.CountryEntity;
-import com.fangzhich.sneakerlab.order.data.entity.DistrictEntity;
+import com.fangzhich.sneakerlab.cart.data.entity.CountryEntity;
+import com.fangzhich.sneakerlab.cart.data.entity.DistrictEntity;
 
 import java.util.ArrayList;
 
@@ -117,7 +119,17 @@ interface CartService {
 
         @FormUrlEncoded
         @POST("index.php?route=api/checkout")
-        Single<HttpResult<ConfirmOrderEntity>> checkOut(
+        Single<HttpResult<CheckOutInfoEntity>> checkOut(
+                @Field("email") String email,
+                @Field("token") String token,
+                @Field("timestamp") String timestamp,
+                @Field("signature") String signature,
+                @Field("apiKey") String apiKey,
+                @Field("equipment_id") String imei);
+
+        @FormUrlEncoded
+        @POST("index.php?route=api/placeOrder")
+        Single<HttpResult<ConfirmOrderEntity>> placeOrder(
                 @Field("email") String email,
                 @Field("token") String token,
                 @Field("timestamp") String timestamp,

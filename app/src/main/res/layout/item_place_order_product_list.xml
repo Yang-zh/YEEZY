@@ -75,7 +75,6 @@
   </RelativeLayout>
   <TextView
     android:id="@+id/tv_productPrice"
-    android:text="$ 1058.94"
     android:textColor="@color/colorAccent"
     android:textSize="15sp"
     android:layout_toRightOf="@+id/iv_productImage"
@@ -86,7 +85,6 @@
     android:layout_height="wrap_content" />
   <TextView
     android:id="@+id/tv_productOriginalPrice"
-    android:text="$ 1058.94"
     android:textColor="@color/text_color_gray"
     android:textSize="13sp"
     android:layout_toRightOf="@+id/tv_productPrice"
@@ -97,7 +95,6 @@
     android:layout_height="wrap_content" />
   <TextView
     android:id="@+id/quantity"
-    android:text="x1"
     android:textColor="@color/tab_layout_unSelect_color"
     android:textSize="15sp"
     android:layout_width="wrap_content"

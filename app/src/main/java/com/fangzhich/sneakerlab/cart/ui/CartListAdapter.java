@@ -163,10 +163,12 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Cart, CartListA
                     }
                 });
         holder.numberView.setGoods_storage(99);
+        holder.numberView.setAmount(Integer.parseInt(cartItem.quantity));
         holder.numberView.setOnAmountChangeListener(new NumberView.OnAmountChangeListener() {
             @Override
             public void onAmountChange(View view, int amount) {
                 holder.numberView.setClickable(false);
+
                 cartManager.editCartItem(cartItem.cart_id, String.valueOf(amount), new CartManager.EditItemCallBack() {
                     @Override
                     public void onSuccess() {
@@ -180,14 +182,13 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Cart, CartListA
                 });
             }
         });
-        holder.numberView.setAmount(Integer.parseInt(cartItem.quantity));
         holder.saveForLater.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cartManager.moveItemFromCartToLater(cartItem.cart_id, new CartManager.MoveItemFromCartToLaterCallBack() {
                     @Override
                     public void onSuccess(CartEntity.CartBack cartBack) {
-                        RxBus.getDefault().post(new MoveItemFromCartToLaterEvent(position,cartBack));
+                        RxBus.getDefault().post(new MoveItemFromCartToLaterEvent(holder.getAdapterPosition(),cartBack));
                     }
 
                     @Override
@@ -200,6 +201,7 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Cart, CartListA
         });
 
     }
+    
 
     class ViewHolder extends RecyclerView.ViewHolder {
 

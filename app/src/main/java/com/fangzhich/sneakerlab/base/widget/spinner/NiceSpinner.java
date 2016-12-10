@@ -302,18 +302,20 @@ public class NiceSpinner extends TextView {
         if (!isArrowHide) {
             animateArrow(false);
         }
-        dialog.dismiss();
+        popupWindow.dismiss();
+//        dialog.dismiss();
     }
 
     public void showDropDown() {
         if (!isArrowHide) {
             animateArrow(true);
         }
-        dialog.show();
-        Window window = dialog.getWindow();
-        if (window!=null) {
-            window.setContentView(contentView);
-        }
+//        dialog.show();
+        popupWindow.showAsDropDown(this);
+//        Window window = dialog.getWindow();
+//        if (window!=null) {
+//            window.setContentView(contentView);
+//        }
     }
 
     public void setTintColor(@ColorRes int resId) {

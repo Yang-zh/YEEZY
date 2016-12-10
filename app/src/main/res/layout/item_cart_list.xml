@@ -117,6 +117,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_productImage"
         android:layout_marginTop="44dp"
+        android:layout_marginBottom="15dp"
         android:layout_toLeftOf="@+id/saveForLater"
         android:layout_marginRight="15dp"/>
     <TextView

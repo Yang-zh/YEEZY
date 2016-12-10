@@ -209,15 +209,15 @@ public class MainActivity extends BaseActivity {
                     Bundle args = new Bundle();
                     args.putString("category_id", category.category_id);
 
-                    if (category.name.equals("Recommended")) {
-                        ProductRecommendListFragment fragment = new ProductRecommendListFragment();
-                        fragment.setArguments(args);
-                        fragments.add(fragment);
-                    } else {
+//                    if (category.name.equals("Recommended")) {
+//                        ProductRecommendListFragment fragment = new ProductRecommendListFragment();
+//                        fragment.setArguments(args);
+//                        fragments.add(fragment);
+//                    } else {
                         ProductListFragment fragment = new ProductListFragment();
                         fragment.setArguments(args);
                         fragments.add(fragment);
-                    }
+//                    }
 
                     fragmentTitles.add(category.name);
                 }

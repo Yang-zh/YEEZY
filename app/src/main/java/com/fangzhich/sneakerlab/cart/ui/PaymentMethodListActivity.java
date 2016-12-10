@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,10 +16,19 @@ import com.fangzhich.sneakerlab.App;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.BaseRecyclerViewAdapter;
+import com.fangzhich.sneakerlab.user.data.entity.CreditCardEntity;
+import com.fangzhich.sneakerlab.user.data.net.UserApi;
+import com.fangzhich.sneakerlab.util.ToastUtil;
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.SingleSubscriber;
+import timber.log.Timber;
 
 /**
  * ThirdPartyPaymentMethodActivity
@@ -26,7 +36,6 @@ import butterknife.OnClick;
  */
 public class PaymentMethodListActivity extends BaseActivity {
 
-    public static final int SUCCESS = 1001;
     public static final int CHOOSE_PAYMENT_METHOD = 1002;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -70,21 +79,68 @@ public class PaymentMethodListActivity extends BaseActivity {
     }
 
     private void initRecyclerView() {
-        paymentMethodAdapter = new BaseRecyclerViewAdapter<String,ViewHolder>() {
+        paymentMethodAdapter = new BaseRecyclerViewAdapter<CreditCardEntity,ViewHolder>() {
             @Override
             public void loadData() {
-                //todo
+                UserApi.getCreditCardList(new SingleSubscriber<ArrayList<CreditCardEntity>>() {
+                    @Override
+                    public void onSuccess(ArrayList<CreditCardEntity> value) {
+                        mData = value;
+                        notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        Timber.e(error);
+                        ToastUtil.toast(error.getMessage());
+                    }
+                });
             }
 
             @Override
             public ViewHolder onCreateHolder(ViewGroup parent, int viewType) {
                 View itemView = View.inflate(parent.getContext(),R.layout.item_payment_method,null);
-                return new ViewHolder(itemView){};
+                return new ViewHolder(itemView);
             }
 
             @Override
-            protected void onBindHolder(ViewHolder holder, int position) {
-                //todo
+            protected void onBindHolder(final ViewHolder holder, int position) {
+                final CreditCardEntity card = mData.get(position);
+                holder.cardType.setText("CreditCard");
+                holder.cardNumber.setText("****"+ card.card_number.substring(card.card_number.length()-3,card.card_number.length()));
+                holder.cardDate.setText(card.card_month+"/20"+card.card_year);
+                holder.btEdit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(PaymentMethodListActivity.this, EditPaymentMethodActivity.class);
+                        intent.putExtra("card", card);
+                        startActivityForResult(intent,EditPaymentMethodActivity.CHOOSE_PAYMENT_METHOD);
+                    }
+                });
+                holder.btDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        UserApi.deleteCreditCard(card.credit_id, new SingleSubscriber<Object>() {
+                            @Override
+                            public void onSuccess(Object value) {
+                                removeItem(holder.getAdapterPosition());
+                            }
+
+                            @Override
+                            public void onError(Throwable error) {
+                                Timber.e(error);
+                                ToastUtil.toast(error.getMessage());
+                            }
+                        });
+                    }
+                });
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setResult(RESULT_OK);
+                        onBackPressed();
+                    }
+                });
             }
         };
         rvPaymentMethodList.setLayoutManager(new LinearLayoutManager(this));
@@ -94,15 +150,15 @@ public class PaymentMethodListActivity extends BaseActivity {
     class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.card_type)
-        ImageView cardType;
+        TextView cardType;
         @BindView(R.id.card_number)
-        ImageView cardNumber;
+        TextView cardNumber;
         @BindView(R.id.card_date)
-        ImageView cardDate;
+        TextView cardDate;
         @BindView(R.id.bt_edit)
-        ImageView btEdit;
+        TextView btEdit;
         @BindView(R.id.bt_delete)
-        ImageView btDelete;
+        TextView btDelete;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -117,7 +173,13 @@ public class PaymentMethodListActivity extends BaseActivity {
         }
         switch (requestCode) {
             case PaymentMethodList3rdActivity.CHOOSE_3rd_PAYMENT_METHOD:
-                //todo
+                mPaymentManger.isUsingPaypal = true;
+                setResult(RESULT_OK);
+                onBackPressed();
+                break;
+            case EditPaymentMethodActivity.EDIT_PAYMENT_METHOD:
+                mPaymentManger.isUsingPaypal = false;
+                paymentMethodAdapter.loadData();
                 break;
         }
     }

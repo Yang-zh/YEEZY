@@ -1,6 +1,7 @@
 package com.fangzhich.sneakerlab.base.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,6 +32,7 @@ public class NumberView extends LinearLayout implements View.OnClickListener, Te
     private EditText etAmount;
     private Button btnDecrease;
     private Button btnIncrease;
+    private Integer oldAmount;
 
     public NumberView(Context context) {
         this(context, null);
@@ -108,9 +110,13 @@ public class NumberView extends LinearLayout implements View.OnClickListener, Te
         }
     }
 
+    public int getAmount() {
+        return amount;
+    }
+
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+        this.oldAmount = Integer.valueOf(s.toString());
     }
 
     @Override
@@ -128,7 +134,7 @@ public class NumberView extends LinearLayout implements View.OnClickListener, Te
             return;
         }
 
-        if (mListener != null) {
+        if (mListener != null && oldAmount != amount) {
             mListener.onAmountChange(this, amount);
         }
     }

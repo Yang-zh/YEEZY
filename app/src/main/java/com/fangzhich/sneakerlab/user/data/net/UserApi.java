@@ -7,6 +7,7 @@ import com.fangzhich.sneakerlab.base.data.net.BaseApi;
 import com.fangzhich.sneakerlab.main.data.entity.MessageEntity;
 import com.fangzhich.sneakerlab.main.data.entity.NotificationEntity;
 import com.fangzhich.sneakerlab.base.data.net.FireBaseInitializeException;
+import com.fangzhich.sneakerlab.user.data.entity.AddressEntity;
 import com.fangzhich.sneakerlab.user.data.entity.AvatarEntity;
 import com.fangzhich.sneakerlab.user.data.entity.CreditCardEntity;
 import com.fangzhich.sneakerlab.user.data.entity.PersonalInfoEntity;
@@ -361,9 +362,35 @@ public class UserApi extends BaseApi {
     /**
      * Get credit card info request
      *
+     * @param credit_id credit card's id in database
      * @param singleSubscriber SingleSubscriber in RxJava (Callback)
      */
-    public static void getCreditCard(SingleSubscriber<CreditCardEntity> singleSubscriber) {
+    public static void getCreditCard(String credit_id, SingleSubscriber<CreditCardEntity> singleSubscriber) {
+        String timestamp = getTimeStamp();
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("credit_id", credit_id);
+        params.put("email", email);
+        params.put("token", token);
+        params.put("timestamp", timestamp);
+
+        String signature = getSignature(params);
+
+        createService(UserService.class)
+                .getCreditCard(credit_id,email, token,
+                        timestamp, signature, API_KEY, Const.IMEI)
+                .map(new HttpResultFunc<CreditCardEntity>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(singleSubscriber);
+    }
+
+    /**
+     * Get credit card List request
+     *
+     * @param singleSubscriber SingleSubscriber in RxJava (Callback)
+     */
+    public static void getCreditCardList(SingleSubscriber<ArrayList<CreditCardEntity>> singleSubscriber) {
         String timestamp = getTimeStamp();
 
         HashMap<String, String> params = new HashMap<>();
@@ -374,9 +401,9 @@ public class UserApi extends BaseApi {
         String signature = getSignature(params);
 
         createService(UserService.class)
-                .getCreditCard(email, token,
+                .getCreditCardList(email, token,
                         timestamp, signature, API_KEY, Const.IMEI)
-                .map(new HttpResultFunc<CreditCardEntity>())
+                .map(new HttpResultFunc<ArrayList<CreditCardEntity>>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(singleSubscriber);
@@ -394,6 +421,7 @@ public class UserApi extends BaseApi {
      */
     public static void addCreditCard(String card_number, String card_month, String card_year, String card_cvv, String zip_code, SingleSubscriber<String> singleSubscriber) {
         String timestamp = getTimeStamp();
+        String set_default = "0";
 
         HashMap<String, String> params = new HashMap<>();
         params.put("card_number", card_number);
@@ -401,6 +429,7 @@ public class UserApi extends BaseApi {
         params.put("card_year", card_year);
         params.put("card_cvv", card_cvv);
         params.put("zip_code", zip_code);
+        params.put("set_default", set_default);
         params.put("email", email);
         params.put("token", token);
         params.put("timestamp", timestamp);
@@ -408,7 +437,7 @@ public class UserApi extends BaseApi {
         String signature = getSignature(params);
 
         createService(UserService.class)
-                .addCreditCard(card_number, card_month, card_year, card_cvv, zip_code,
+                .addCreditCard(card_number, card_month, card_year, card_cvv, zip_code,set_default,
                         email, token,
                         timestamp, signature, API_KEY, Const.IMEI)
                 .map(new HttpResultFunc<String>())
@@ -420,6 +449,7 @@ public class UserApi extends BaseApi {
     /**
      * Edit credit card request
      *
+     * @param credit_id credit card's id in database
      * @param card_number      credit card number
      * @param card_month       credit card expiry month
      * @param card_year        credit card expiry year
@@ -427,15 +457,18 @@ public class UserApi extends BaseApi {
      * @param zip_code         credit card postcode
      * @param singleSubscriber SingleSubscriber in RxJava (Callback)
      */
-    public static void editCreditCard(String card_number, String card_month, String card_year, String card_cvv, String zip_code, SingleSubscriber<Object> singleSubscriber) {
+    public static void editCreditCard(String credit_id, String card_number, String card_month, String card_year, String card_cvv, String zip_code, SingleSubscriber<Object> singleSubscriber) {
         String timestamp = getTimeStamp();
+        String set_default = "0";
 
         HashMap<String, String> params = new HashMap<>();
+        params.put("credit_id", credit_id);
         params.put("card_number", card_number);
         params.put("card_month", card_month);
         params.put("card_year", card_year);
         params.put("card_cvv", card_cvv);
         params.put("zip_code", zip_code);
+        params.put("set_default", set_default);
         params.put("email", email);
         params.put("token", token);
         params.put("timestamp", timestamp);
@@ -443,7 +476,34 @@ public class UserApi extends BaseApi {
         String signature = getSignature(params);
 
         createService(UserService.class)
-                .editCreditCard(card_number, card_month, card_year, card_cvv, zip_code,
+                .editCreditCard(credit_id,card_number, card_month, card_year, card_cvv, zip_code,set_default,
+                        email, token,
+                        timestamp, signature, API_KEY, Const.IMEI)
+                .map(new HttpResultFunc<Object>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(singleSubscriber);
+    }
+
+    /**
+     * delete credit card request
+     *
+     * @param credit_id credit card's id in database
+     * @param singleSubscriber SingleSubscriber in RxJava (Callback)
+     */
+    public static void deleteCreditCard(String credit_id, SingleSubscriber<Object> singleSubscriber) {
+        String timestamp = getTimeStamp();
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("credit_id", credit_id);
+        params.put("email", email);
+        params.put("token", token);
+        params.put("timestamp", timestamp);
+
+        String signature = getSignature(params);
+
+        createService(UserService.class)
+                .deleteCreditCard(credit_id,
                         email, token,
                         timestamp, signature, API_KEY, Const.IMEI)
                 .map(new HttpResultFunc<Object>())
@@ -455,6 +515,57 @@ public class UserApi extends BaseApi {
     //--------------------------------------------------------------------------
     //---------------------------Address----------------------------------------
     //--------------------------------------------------------------------------
+
+    /**
+     * Get address request
+     *
+     * @param address_id         address_id
+     * @param singleSubscriber SingleSubscriber in RxJava (Callback)
+     */
+    public static void getAddress(String address_id, SingleSubscriber<AddressEntity> singleSubscriber) {
+        String timestamp = getTimeStamp();
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("address_id", address_id);
+        params.put("email", email);
+        params.put("token", token);
+        params.put("timestamp", timestamp);
+
+        String signature = getSignature(params);
+
+        createService(UserService.class)
+                .getAddress(address_id,
+                        email, token,
+                        timestamp, signature, API_KEY, Const.IMEI)
+                .map(new HttpResultFunc<AddressEntity>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(singleSubscriber);
+    }
+
+    /**
+     * Get address list request
+     *
+     * @param singleSubscriber SingleSubscriber in RxJava (Callback)
+     */
+    public static void getAddressList(SingleSubscriber<ArrayList<AddressEntity>> singleSubscriber) {
+        String timestamp = getTimeStamp();
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("email", email);
+        params.put("token", token);
+        params.put("timestamp", timestamp);
+
+        String signature = getSignature(params);
+
+        createService(UserService.class)
+                .getAddressList(email, token,
+                        timestamp, signature, API_KEY, Const.IMEI)
+                .map(new HttpResultFunc<ArrayList<AddressEntity>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(singleSubscriber);
+    }
 
     /**
      * Add address request
@@ -473,6 +584,7 @@ public class UserApi extends BaseApi {
                                   String city, String postcode, String country_id, String zone_id,
                                   SingleSubscriber<String> singleSubscriber) {
         String timestamp = getTimeStamp();
+        String set_default = "0";
 
         HashMap<String, String> params = new HashMap<>();
         params.put("fullname", fullname);
@@ -483,6 +595,7 @@ public class UserApi extends BaseApi {
         params.put("postcode", postcode);
         params.put("country_id", country_id);
         params.put("zone_id", zone_id);
+        params.put("set_default", set_default);
         params.put("email", email);
         params.put("token", token);
         params.put("timestamp", timestamp);
@@ -490,7 +603,7 @@ public class UserApi extends BaseApi {
         String signature = getSignature(params);
 
         createService(UserService.class)
-                .addAddress(fullname, phone, address, suite, city, postcode, country_id, zone_id,
+                .addAddress(fullname, phone, address, suite, city, postcode, country_id, zone_id,set_default,
                         email, token,
                         timestamp, signature, API_KEY, Const.IMEI)
                 .map(new HttpResultFunc<String>())
@@ -518,6 +631,7 @@ public class UserApi extends BaseApi {
                                    String city, String postcode, String country_id, String zone_id,
                                    SingleSubscriber<Object> singleSubscriber) {
         String timestamp = getTimeStamp();
+        String set_default = "0";
 
         HashMap<String, String> params = new HashMap<>();
         params.put("address_id", address_id);
@@ -529,6 +643,7 @@ public class UserApi extends BaseApi {
         params.put("postcode", postcode);
         params.put("country_id", country_id);
         params.put("zone_id", zone_id);
+        params.put("set_default", set_default);
         params.put("email", email);
         params.put("token", token);
         params.put("timestamp", timestamp);
@@ -536,7 +651,35 @@ public class UserApi extends BaseApi {
         String signature = getSignature(params);
 
         createService(UserService.class)
-                .editAddress(address_id, fullname, phone, address, suite, city, postcode, country_id, zone_id,
+                .editAddress(address_id, fullname, phone, address, suite, city, postcode, country_id, zone_id,set_default,
+                        email, token,
+                        timestamp, signature, API_KEY, Const.IMEI)
+                .map(new HttpResultFunc<Object>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(singleSubscriber);
+    }
+
+    /**
+     * Edit address request
+     *
+     * @param address_id       address_id
+     * @param singleSubscriber SingleSubscriber in RxJava (Callback)
+     */
+    public static void deleteAddress(String address_id, SingleSubscriber<Object> singleSubscriber) {
+        String timestamp = getTimeStamp();
+        String set_default = "0";
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("address_id", address_id);
+        params.put("email", email);
+        params.put("token", token);
+        params.put("timestamp", timestamp);
+
+        String signature = getSignature(params);
+
+        createService(UserService.class)
+                .deleteAddress(address_id,
                         email, token,
                         timestamp, signature, API_KEY, Const.IMEI)
                 .map(new HttpResultFunc<Object>())

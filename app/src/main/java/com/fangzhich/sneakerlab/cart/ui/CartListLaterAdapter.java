@@ -137,9 +137,8 @@ class CartListLaterAdapter extends BaseRecyclerViewAdapter<CartEntity.CartBack, 
                                         cartManager.removeLaterCartItem(cartItem.cart_back_id, new CartManager.RemoveLaterCartItemCallBack() {
                                             @Override
                                             public void onSuccess() {
-                                                mData.remove(holder.getAdapterPosition());
+                                                removeItem(holder.getAdapterPosition());
                                                 onCartStatusChangeListener.checkSubscribe();
-                                                notifyItemRemoved(holder.getAdapterPosition());
                                                 loadData();
                                             }
 
@@ -171,7 +170,7 @@ class CartListLaterAdapter extends BaseRecyclerViewAdapter<CartEntity.CartBack, 
                 cartManager.moveItemFromLaterToCart(cartItem.cart_back_id, new CartManager.MoveItemFromLaterToCartCallBack() {
                     @Override
                     public void onSuccess(CartEntity.Cart product) {
-                        RxBus.getDefault().post(new MoveItemFromLaterToCartEvent(position,product));
+                        RxBus.getDefault().post(new MoveItemFromLaterToCartEvent(holder.getAdapterPosition(),product));
                     }
 
                     @Override

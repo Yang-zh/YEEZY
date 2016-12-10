@@ -1,5 +1,6 @@
 package com.fangzhich.sneakerlab.cart.ui;
 
+import android.os.Parcelable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -20,6 +21,7 @@ import com.fangzhich.sneakerlab.base.widget.CustomDialog;
 import com.fangzhich.sneakerlab.base.widget.ProgressBar;
 import com.fangzhich.sneakerlab.base.widget.spinner.NiceSpinner;
 import com.fangzhich.sneakerlab.cart.data.event.GuideFlowFinishEvent;
+import com.fangzhich.sneakerlab.user.data.entity.CreditCardEntity;
 import com.fangzhich.sneakerlab.user.data.net.UserApi;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 
@@ -37,6 +39,8 @@ import rx.functions.Action1;
  */
 public class EditPaymentMethodActivity extends BaseActivity {
 
+    public static final int CHOOSE_PAYMENT_METHOD = 1003;
+    public static final int EDIT_PAYMENT_METHOD = 1005;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.et_credit_card_number)
@@ -56,6 +60,7 @@ public class EditPaymentMethodActivity extends BaseActivity {
     TextView textPaypal;
     @BindView(R.id.check_paypal)
     ImageView paypalCheck;
+    private CreditCardEntity card;
 
     @OnClick(R.id.paypal_layout)
     void chooseThirdPartyPaymentMethod() {
@@ -66,10 +71,14 @@ public class EditPaymentMethodActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         dialog.dismiss();
-                        //todo
+                        mPaymentManger.isUsingPaypal = true;
                         paypalCheck.setVisibility(View.VISIBLE);
-                        saveOrCheckout();
                         onBackPressed();
+                        if (mPaymentManger.isFirstPaying) {
+                            mPaymentManger.startPlaceOrderActivity(EditPaymentMethodActivity.this);
+                        } else {
+                            onBackPressed();
+                        }
                     }
                 });
                 content.findViewById(R.id.bt_no).setOnClickListener(new View.OnClickListener() {
@@ -134,7 +143,7 @@ public class EditPaymentMethodActivity extends BaseActivity {
             }
         }).show();
 
-        if (cardNumber != null) {
+        if (card == null) {
             UserApi.addCreditCard(cardNumber, month, year.substring(year.length() - 2, year.length()), securityCode, zipPostalCode, new SingleSubscriber<String>() {
                 @Override
                 public void onSuccess(String value) {
@@ -149,7 +158,7 @@ public class EditPaymentMethodActivity extends BaseActivity {
                 }
             });
         } else {
-            UserApi.editCreditCard(cardNumber, month, year, securityCode, zipPostalCode, new SingleSubscriber<Object>() {
+            UserApi.editCreditCard(card.credit_id, cardNumber, month, year, securityCode, zipPostalCode, new SingleSubscriber<Object>() {
                 @Override
                 public void onSuccess(Object value) {
                     progressBar.cancel();
@@ -167,6 +176,7 @@ public class EditPaymentMethodActivity extends BaseActivity {
         if (mPaymentManger.isFirstPaying) {
             mPaymentManger.startPlaceOrderActivity(this);
         } else {
+            setResult(RESULT_OK);
             onBackPressed();
         }
     }
@@ -181,6 +191,8 @@ public class EditPaymentMethodActivity extends BaseActivity {
     @Override
     protected void initContentView() {
         mPaymentManger = ((App) getApplication()).mPaymentManager;
+
+        card = getIntent().getParcelableExtra("card");
 
         initToolbar();
 
@@ -210,6 +222,7 @@ public class EditPaymentMethodActivity extends BaseActivity {
 
     @Override
     protected void loadData() {
+
         spinnerMonth.attachDataSource(Arrays.asList(getResources().getStringArray(R.array.month)));
         spinnerYear.attachDataSource(Arrays.asList(getResources().getStringArray(R.array.year)));
     }

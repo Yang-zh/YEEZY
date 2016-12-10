@@ -1,8 +1,11 @@
 package com.fangzhich.sneakerlab.user.data.net;
 
+import android.support.v4.view.ViewCompat;
+
 import com.fangzhich.sneakerlab.base.data.net.HttpResult;
 import com.fangzhich.sneakerlab.main.data.entity.MessageEntity;
 import com.fangzhich.sneakerlab.main.data.entity.NotificationEntity;
+import com.fangzhich.sneakerlab.user.data.entity.AddressEntity;
 import com.fangzhich.sneakerlab.user.data.entity.AvatarEntity;
 import com.fangzhich.sneakerlab.user.data.entity.CreditCardEntity;
 import com.fangzhich.sneakerlab.user.data.entity.PersonalInfoEntity;
@@ -148,6 +151,27 @@ interface UserService {
             @Part MultipartBody.Part imei);
 
     @FormUrlEncoded
+    @POST("index.php?route=api/address/show")
+    Single<HttpResult<AddressEntity>> getAddress(
+            @Field("address_id") String address_id,
+            @Field("email") String email,
+            @Field("token") String token,
+            @Field("timestamp") String timestamp,
+            @Field("signature") String signature,
+            @Field("apiKey") String apiKey,
+            @Field("equipment_id") String imei);
+
+    @FormUrlEncoded
+    @POST("index.php?route=api/address")
+    Single<HttpResult<ArrayList<AddressEntity>>> getAddressList(
+            @Field("email") String email,
+            @Field("token") String token,
+            @Field("timestamp") String timestamp,
+            @Field("signature") String signature,
+            @Field("apiKey") String apiKey,
+            @Field("equipment_id") String imei);
+
+    @FormUrlEncoded
     @POST("index.php?route=api/address/add")
     Single<HttpResult<String>> addAddress(
             @Field("fullname") String fullname,
@@ -158,6 +182,7 @@ interface UserService {
             @Field("postcode") String postcode,
             @Field("country_id") String country_id,
             @Field("zone_id") String zone_id,
+            @Field("set_default") String set_default,
             @Field("email") String email,
             @Field("token") String token,
             @Field("timestamp") String timestamp,
@@ -177,6 +202,29 @@ interface UserService {
             @Field("postcode") String postcode,
             @Field("country_id") String country_id,
             @Field("zone_id") String zone_id,
+            @Field("set_default") String set_default,
+            @Field("email") String email,
+            @Field("token") String token,
+            @Field("timestamp") String timestamp,
+            @Field("signature") String signature,
+            @Field("apiKey") String apiKey,
+            @Field("equipment_id") String imei);
+
+    @FormUrlEncoded
+    @POST("index.php?route=api/address/delete")
+    Single<HttpResult<Object>> deleteAddress(
+            @Field("address_id") String address_id,
+            @Field("email") String email,
+            @Field("token") String token,
+            @Field("timestamp") String timestamp,
+            @Field("signature") String signature,
+            @Field("apiKey") String apiKey,
+            @Field("equipment_id") String imei);
+
+    @FormUrlEncoded
+    @POST("index.php?route=api/credit/show")
+    Single<HttpResult<CreditCardEntity>> getCreditCard(
+            @Field("credit_id") String credit_id,
             @Field("email") String email,
             @Field("token") String token,
             @Field("timestamp") String timestamp,
@@ -186,7 +234,7 @@ interface UserService {
 
     @FormUrlEncoded
     @POST("index.php?route=api/credit")
-    Single<HttpResult<CreditCardEntity>> getCreditCard(
+    Single<HttpResult<ArrayList<CreditCardEntity>>> getCreditCardList(
             @Field("email") String email,
             @Field("token") String token,
             @Field("timestamp") String timestamp,
@@ -202,6 +250,7 @@ interface UserService {
             @Field("card_year") String card_year,
             @Field("card_cvv") String card_cvv,
             @Field("zip_code") String zip_code,
+            @Field("set_default") String set_default,
             @Field("email") String email,
             @Field("token") String token,
             @Field("timestamp") String timestamp,
@@ -212,11 +261,24 @@ interface UserService {
     @FormUrlEncoded
     @POST("index.php?route=api/credit/edit")
     Single<HttpResult<Object>> editCreditCard(
+            @Field("credit_id") String credit_id,
             @Field("card_number") String card_number,
             @Field("card_month") String card_month,
             @Field("card_year") String card_year,
             @Field("card_cvv") String card_cvv,
             @Field("zip_code") String zip_code,
+            @Field("set_default") String set_default,
+            @Field("email") String email,
+            @Field("token") String token,
+            @Field("timestamp") String timestamp,
+            @Field("signature") String signature,
+            @Field("apiKey") String apiKey,
+            @Field("equipment_id") String imei);
+
+    @FormUrlEncoded
+    @POST("index.php?route=api/credit/delete")
+    Single<HttpResult<Object>> deleteCreditCard(
+            @Field("credit_id") String credit_id,
             @Field("email") String email,
             @Field("token") String token,
             @Field("timestamp") String timestamp,

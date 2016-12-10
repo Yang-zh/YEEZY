@@ -15,10 +15,11 @@ import com.fangzhich.sneakerlab.base.data.event.RxBus;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.base.widget.ProgressBar;
 import com.fangzhich.sneakerlab.base.widget.spinner.NiceSpinner;
+import com.fangzhich.sneakerlab.cart.data.entity.CountryEntity;
+import com.fangzhich.sneakerlab.cart.data.entity.DistrictEntity;
 import com.fangzhich.sneakerlab.cart.data.event.GuideFlowFinishEvent;
 import com.fangzhich.sneakerlab.cart.data.net.CartApi;
-import com.fangzhich.sneakerlab.order.data.entity.CountryEntity;
-import com.fangzhich.sneakerlab.order.data.entity.DistrictEntity;
+import com.fangzhich.sneakerlab.user.data.entity.AddressEntity;
 import com.fangzhich.sneakerlab.user.data.entity.UserInfoEntity;
 import com.fangzhich.sneakerlab.user.data.net.UserApi;
 import com.fangzhich.sneakerlab.util.Const;
@@ -39,6 +40,7 @@ import timber.log.Timber;
  */
 public class EditShippingAddressActivity extends BaseActivity {
 
+    public static final int EDIT_ADDRESS = 1001;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.et_address_bay)
@@ -62,6 +64,7 @@ public class EditShippingAddressActivity extends BaseActivity {
     private ArrayList<DistrictEntity> districtList;
 
     private PaymentManager mPaymentManger;
+    private AddressEntity address;
 
     @Override
     public int setContentLayout() {
@@ -71,6 +74,9 @@ public class EditShippingAddressActivity extends BaseActivity {
     @Override
     protected void initContentView() {
         mPaymentManger = ((App) getApplication()).mPaymentManager;
+
+        address = getIntent().getParcelableExtra("address");
+
 
         initToolbar();
 
@@ -97,6 +103,15 @@ public class EditShippingAddressActivity extends BaseActivity {
 
     @Override
     protected void loadData() {
+        if (address!=null) {
+            etAddressBay.setText(address.fullname);
+            etAddressStreet.setText(address.address_1);
+            etAddressUnit.setText(address.suite);
+            etAddressCity.setText(address.city);
+            etAddressCode.setText(address.postcode);
+            etAddressPhone.setText(address.phone);
+        }
+
         spinnerCountry.setClickable(false);
         spinnerState.setClickable(false);
 
@@ -122,14 +137,14 @@ public class EditShippingAddressActivity extends BaseActivity {
                     list.add(entity.name);
                 }
                 spinnerCountry.attachDataSource(list);
-//                if (address != null) {
-//                    for (int i = 0; i < countryList.size(); i++) {
-//                        if (countryList.get(i).country_id.equals(address.country_id)) {
-//                            spinnerCountry.setSelectedIndex(i);
-//                            loadDistrictForPosition(i);
-//                        }
-//                    }
-//                }
+                if (address!=null) {
+                    for (int i=0;i<countryList.size();i++) {
+                        if (countryList.get(i).country_id.equals(address.country_id)) {
+                            spinnerCountry.setSelectedIndex(i);
+                        }
+                    }
+                }
+                loadDistrictForPosition(spinnerCountry.getSelectedIndex());
                 Timber.d("load countries success");
             }
 
@@ -153,13 +168,13 @@ public class EditShippingAddressActivity extends BaseActivity {
                 spinnerState.setClickable(true);
                 spinnerState.attachDataSource(list);
 
-//                if (address != null) {
-//                    for (int i = 0; i < districtList.size(); i++) {
-//                        if (districtList.get(i).zone_id.equals(address.zone_id)) {
-//                            spinnerState.setSelectedIndex(i);
-//                        }
-//                    }
-//                }
+                if (address != null) {
+                    for (int i = 0; i < districtList.size(); i++) {
+                        if (districtList.get(i).zone_id.equals(address.zone_id)) {
+                            spinnerState.setSelectedIndex(i);
+                        }
+                    }
+                }
                 Timber.d("load districts success");
             }
 
@@ -190,18 +205,18 @@ public class EditShippingAddressActivity extends BaseActivity {
 
         String suite = etAddressUnit.getText().toString();
 
-        if (spinnerCountry.getSelectedIndex()<0) {
+        if (spinnerCountry.getSelectedIndex() < 0) {
             ToastUtil.toast("Choose country please");
             return;
         }
 
         String country = null;
-        if (countryList!=null && countryList.size()!=0) {
+        if (countryList != null && countryList.size() != 0) {
             country = countryList.get(spinnerCountry.getSelectedIndex()).country_id;
         }
 
         String state = null;
-        if (districtList!=null && districtList.size()!=0) {
+        if (districtList != null && districtList.size() != 0) {
             state = districtList.get(spinnerState.getSelectedIndex()).zone_id;
         }
 
@@ -223,7 +238,7 @@ public class EditShippingAddressActivity extends BaseActivity {
             ToastUtil.toast("Input phone please");
             return;
         }
-        if (phone.length()<13||phone.length()>16) {
+        if (phone.length() < 13 || phone.length() > 16) {
             ToastUtil.toast("Not a valid phone number");
         }
 
@@ -235,7 +250,7 @@ public class EditShippingAddressActivity extends BaseActivity {
             }
         }).show();
 
-        if (Const.getUserInfo().shipping_address==null) {
+        if (Const.getUserInfo().shipping_address == null) {
             UserApi.addAddress(fullname, phone, address, suite, city, code, country, state, new SingleSubscriber<String>() {
                 @Override
                 public void onSuccess(String value) {
@@ -252,7 +267,7 @@ public class EditShippingAddressActivity extends BaseActivity {
                 }
             });
         } else {
-            UserApi.editAddress(Const.getUserInfo().shipping_address.address_id,fullname, phone, address, suite, city, code, country, state, new SingleSubscriber<Object>() {
+            UserApi.editAddress(Const.getUserInfo().shipping_address.address_id, fullname, phone, address, suite, city, code, country, state, new SingleSubscriber<Object>() {
                 @Override
                 public void onSuccess(Object value) {
                     progressBar.cancel();
@@ -269,6 +284,7 @@ public class EditShippingAddressActivity extends BaseActivity {
         if (mPaymentManger.isFirstPaying) {
             mPaymentManger.startEditPaymentInfoActivity(this);
         } else {
+            setResult(RESULT_OK);
             onBackPressed();
         }
     }

@@ -14,6 +14,8 @@ import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.BaseRecyclerViewAdapter;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -62,18 +64,26 @@ public class PaymentMethodList3rdActivity extends BaseActivity {
         thirdPartyPaymentMethodAdapter = new BaseRecyclerViewAdapter<String,ViewHolder>() {
             @Override
             public void loadData() {
-                //todo
+                mData = new ArrayList<>();
+                mData.add("paypal");
             }
 
             @Override
             public ViewHolder onCreateHolder(ViewGroup parent, int viewType) {
                 View itemView = View.inflate(parent.getContext(),R.layout.item_payment_method_third_party,null);
-                return new ViewHolder(itemView){};
+                return new ViewHolder(itemView);
             }
 
             @Override
-            protected void onBindHolder(ViewHolder holder, int position) {
-                //todo
+            protected void onBindHolder(final ViewHolder holder, int position) {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        holder.check.setVisibility(View.VISIBLE);
+                        setResult(RESULT_OK);
+                        onBackPressed();
+                    }
+                });
             }
         };
         rvThirdPartyPaymentMethod.setLayoutManager(new LinearLayoutManager(this));
