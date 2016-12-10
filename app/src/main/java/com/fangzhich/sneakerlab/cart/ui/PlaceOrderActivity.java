@@ -3,30 +3,25 @@ package com.fangzhich.sneakerlab.cart.ui;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.fangzhich.sneakerlab.App;
 import com.fangzhich.sneakerlab.R;
-import com.fangzhich.sneakerlab.base.data.event.RxBus;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.BaseRecyclerViewAdapter;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.LinearLayoutItemDecoration;
-import com.fangzhich.sneakerlab.base.widget.CustomDialog;
-import com.fangzhich.sneakerlab.base.widget.NumberView;
-import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
-import com.fangzhich.sneakerlab.cart.data.event.MoveItemFromCartToLaterEvent;
+import com.fangzhich.sneakerlab.cart.data.entity.CheckOutInfoEntity;
+import com.fangzhich.sneakerlab.cart.data.net.CartApi;
+import com.fangzhich.sneakerlab.order.data.entity.ConfirmOrderEntity;
 import com.fangzhich.sneakerlab.util.TagFormatUtil;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
@@ -42,6 +37,7 @@ import java.math.BigDecimal;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.SingleSubscriber;
 import timber.log.Timber;
 
 /**
@@ -73,34 +69,43 @@ public class PlaceOrderActivity extends BaseActivity {
     TextView cityAndState;
     @BindView(R.id.country)
     TextView country;
+
     @OnClick(R.id.shipping_layout)
     void openShippingAddressList() {
-        Intent intent = new Intent(this,ShippingAddressListActivity.class);
+        Intent intent = new Intent(this, ShippingAddressListActivity.class);
         startActivityForResult(intent, ShippingAddressListActivity.CHOOSE_SHIPPING_ADDRESS);
     }
 
-    @BindView(R.id.card_type)
-    TextView cardType;
+    //    @BindView(R.id.card_type)
+//    TextView cardType;
+    @BindView(R.id.text_credit_card)
+    TextView textCreditCard;
     @BindView(R.id.card_number)
     TextView cardNumber;
     @BindView(R.id.complete_payment_info_notice)
     TextView completePaymentInfoNotice;
+    @BindView(R.id.paypal_notice)
+    TextView payPalNotice;
+
+
     @OnClick(R.id.payment_method_layout)
     void openPaymentMethodList() {
-        Intent intent = new Intent(this,BillingAddressListActivity.class);
-        startActivityForResult(intent,BillingAddressListActivity.CHOOSE_BILLING_ADDRESS);
+        Intent intent = new Intent(this, PaymentMethodListActivity.class);
+        startActivityForResult(intent, PaymentMethodListActivity.CHOOSE_PAYMENT_METHOD);
     }
 
     @BindView(R.id.billing_address)
     TextView billingAddress;
+
     @OnClick(R.id.billing_address_layout)
     void openBillingAddressList() {
-
+        Intent intent = new Intent(this, BillingAddressListActivity.class);
+        startActivityForResult(intent, BillingAddressListActivity.CHOOSE_BILLING_ADDRESS);
     }
 
     @BindView(R.id.rv_place_order_product_list)
     RecyclerView rvPlaceOrderProductList;
-    private BaseRecyclerViewAdapter<Object, ViewHolder> placeOrderProductListAdapter;
+    private BaseRecyclerViewAdapter<CheckOutInfoEntity.Products, ViewHolder> placeOrderProductListAdapter;
 
 
     @BindView(R.id.discount_type_short_run)
@@ -122,8 +127,22 @@ public class PlaceOrderActivity extends BaseActivity {
 
     @OnClick(R.id.bt_place_order)
     void placeOrder() {
-        //todo
-        payPal();
+        if (mPaymentManger.isUsingPaypal) {
+            payPal();
+        } else {
+            // todo
+//            CartApi.placeOrder(new SingleSubscriber<ConfirmOrderEntity>() {
+//                @Override
+//                public void onSuccess(ConfirmOrderEntity value) {
+//
+//                }
+//
+//                @Override
+//                public void onError(Throwable error) {
+//
+//                }
+//            });
+        }
     }
 
     private void payPal() {
@@ -141,6 +160,7 @@ public class PlaceOrderActivity extends BaseActivity {
     }
 
     private PaymentManager mPaymentManger;
+    public CheckOutInfoEntity checkOutInfo;
 
     @Override
     public int setContentLayout() {
@@ -151,8 +171,6 @@ public class PlaceOrderActivity extends BaseActivity {
     protected void initContentView() {
         mPaymentManger = ((App) getApplication()).mPaymentManager;
 
-        checkOutAndGetDataForPlaceOrder();
-
         initPaypalService();
 
         initToolbar();
@@ -160,8 +178,61 @@ public class PlaceOrderActivity extends BaseActivity {
         initRecyclerView();
     }
 
-    private void checkOutAndGetDataForPlaceOrder() {
-        //todo
+    @Override
+    protected void loadData() {
+        CartApi.checkOut(new SingleSubscriber<CheckOutInfoEntity>() {
+
+            @Override
+            public void onSuccess(CheckOutInfoEntity value) {
+                checkOutInfo = value;
+                placeOrderProductListAdapter.loadData();
+
+                fullname.setText(value.address.fullname);
+                phone.setText(value.address.phone);
+                street.setText(value.address.address_1);
+                cityAndState.setText(value.address.city + value.address.suite);
+                country.setText(value.address.country);
+
+                if (mPaymentManger.isUsingPaypal) {
+                    textCreditCard.setVisibility(View.GONE);
+                    cardNumber.setVisibility(View.GONE);
+                    payPalNotice.setVisibility(View.VISIBLE);
+                } else if (value.payment != null) {
+                    cardNumber.setText("****" + value.payment.card_number.substring(value.payment.card_number.length() - 3, value.payment.card_number.length()));
+                } else {
+                    textCreditCard.setVisibility(View.GONE);
+                    cardNumber.setVisibility(View.GONE);
+                    completePaymentInfoNotice.setVisibility(View.VISIBLE);
+                }
+
+                shippingPrice.setText(value.shiping.text);
+                shippingPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                realShippingPrice.setText("$0.00");
+                for (CheckOutInfoEntity.Totals total : value.totals) {
+                    switch (total.title) {
+                        case "Sub-Total": {
+                            subPrice.setText(total.text);
+                            break;
+                        }
+                        case "Tax": {
+                            taxPrice.setText(total.text);
+                            break;
+                        }
+                        case "Total": {
+                            totalPrice.setText(total.text);
+                            productPrice.setText(total.text);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                Timber.e(error);
+                ToastUtil.toast(error.getMessage());
+            }
+        });
     }
 
     private void initPaypalService() {
@@ -182,134 +253,58 @@ public class PlaceOrderActivity extends BaseActivity {
     }
 
     private void initRecyclerView() {
-        placeOrderProductListAdapter = new BaseRecyclerViewAdapter<Object,ViewHolder>() {
+        placeOrderProductListAdapter = new BaseRecyclerViewAdapter<CheckOutInfoEntity.Products, ViewHolder>() {
 
             @Override
             public void loadData() {
-                //todo
+                mData = checkOutInfo.products;
+                notifyDataSetChanged();
             }
 
             @Override
             public ViewHolder onCreateHolder(ViewGroup parent, int viewType) {
-                View itemView = View.inflate(parent.getContext(),R.layout.item_place_order_product_list,null);
+                View itemView = View.inflate(parent.getContext(), R.layout.item_place_order_product_list, null);
                 return new ViewHolder(itemView);
             }
 
             @Override
             protected void onBindHolder(ViewHolder holder, int position) {
-//                final CartEntity.Product cartItem = mData.get(position);
-//                holder.tvProductName.setText(cartItem.name);
-//                Glide.with(holder.itemView.getContext())
-//                        .load(cartItem.image)
-//                        .placeholder(R.mipmap.product_image_placeholder)
-//                        .fitCenter()
-//                        .into(holder.ivProductImage);
-//                holder.tvProductPrice.setText(TagFormatUtil.from(holder.itemView.getResources().getString(R.string.priceFormat))
-//                        .with("price", cartItem.special_price)
-//                        .format());
-//                holder.tvProductOriginalPrice.setText(TagFormatUtil.from(holder.itemView.getResources().getString(R.string.priceFormat))
-//                        .with("price", cartItem.original_price)
-//                        .format());
-//                holder.tvProductOriginalPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-//                for (CartEntity.Product.Options option : cartItem.options) {
-//                    switch (option.name) {
-//                        case "size":
-//                        case "Size":
-//                            holder.sizeIs.setVisibility(View.VISIBLE);
-//                            holder.sizeDetail.setVisibility(View.VISIBLE);
-//                            holder.sizeDetail.setText(option.value);
-//                            break;
-//                        case "color":
-//                        case "Color":
-//                            holder.colorIs.setVisibility(View.VISIBLE);
-//                            holder.colorDetail.setVisibility(View.VISIBLE);
-//                            holder.colorDetail.setText(option.value);
-//                            break;
-//                    }
-//                }
-//                holder.delete.setOnClickListener(
-//                        new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                new CustomDialog().initPopup(v.getContext(), R.layout.dialog_shopping_cart_delete, new CustomDialog.Listener() {
-//                                    @Override
-//                                    public void onInit(final PopupWindow dialog, View content) {
-//                                        content.findViewById(R.id.bt_yes).setOnClickListener(new View.OnClickListener() {
-//                                            @Override
-//                                            public void onClick(View v) {
-//                                                dialog.dismiss();
-//                                                cartManager.removeCartItem(cartItem.cart_id, new CartManager.RemoveItemCallBack() {
-//                                                    @Override
-//                                                    public void onSuccess() {
-//                                                        mData.remove(holder.getAdapterPosition());
-//                                                        onCartStatusChangeListener.checkSubscribe();
-//                                                        notifyItemRemoved(holder.getAdapterPosition());
-//                                                        loadData();
-//                                                    }
-//
-//                                                    @Override
-//                                                    public void onError(Throwable throwable) {
-//                                                        Timber.e(throwable);
-//                                                    }
-//                                                });
-//                                            }
-//                                        });
-//                                        content.findViewById(R.id.bt_no).setOnClickListener(new View.OnClickListener() {
-//                                            @Override
-//                                            public void onClick(View v) {
-//                                                dialog.dismiss();
-//                                            }
-//                                        });
-//                                    }
-//
-//                                    @Override
-//                                    public void onDismiss(PopupWindow dialog, View content) {
-//
-//                                    }
-//                                }).showPopup(v.getRootView(), Gravity.CENTER);
-//                            }
-//                        });
-//                holder.numberView.setGoods_storage(99);
-//                holder.numberView.setOnAmountChangeListener(new NumberView.OnAmountChangeListener() {
-//                    @Override
-//                    public void onAmountChange(View view, int amount) {
-//                        holder.numberView.setClickable(false);
-//                        cartManager.editCartItem(cartItem.cart_id, String.valueOf(amount), new CartManager.EditItemCallBack() {
-//                            @Override
-//                            public void onSuccess() {
-//                                holder.numberView.setClickable(true);
-//                            }
-//
-//                            @Override
-//                            public void onError(Throwable throwable) {
-//                                Timber.e(throwable);
-//                            }
-//                        });
-//                    }
-//                });
-//                holder.numberView.setAmount(Integer.parseInt(cartItem.quantity));
-//                holder.saveForLater.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        cartManager.moveItemFromCartToLater(cartItem.cart_id, new CartManager.MoveItemFromCartToLaterCallBack() {
-//                            @Override
-//                            public void onSuccess(CartEntity.CartBack cartBack) {
-//                                RxBus.getDefault().post(new MoveItemFromCartToLaterEvent(position,cartBack));
-//                            }
-//
-//                            @Override
-//                            public void onError(Throwable throwable) {
-//                                ToastUtil.toast("connect to server failed");
-//                                Timber.e(throwable);
-//                            }
-//                        });
-//                    }
-//                });
+                final CheckOutInfoEntity.Products cartItem = mData.get(position);
+                holder.tvProductName.setText(cartItem.name);
+                Glide.with(holder.itemView.getContext())
+                        .load(cartItem.image)
+                        .placeholder(R.mipmap.product_image_placeholder)
+                        .fitCenter()
+                        .into(holder.ivProductImage);
+                holder.tvProductPrice.setText(TagFormatUtil.from(holder.itemView.getResources().getString(R.string.priceFormat))
+                        .with("price", cartItem.special_price)
+                        .format());
+                holder.tvProductOriginalPrice.setText(TagFormatUtil.from(holder.itemView.getResources().getString(R.string.priceFormat))
+                        .with("price", cartItem.original_price)
+                        .format());
+                holder.tvProductOriginalPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                for (CheckOutInfoEntity.Products.Options option : cartItem.options) {
+                    switch (option.name) {
+                        case "size":
+                        case "Size":
+                            holder.sizeIs.setVisibility(View.VISIBLE);
+                            holder.sizeDetail.setVisibility(View.VISIBLE);
+                            holder.sizeDetail.setText(option.value);
+                            break;
+                        case "color":
+                        case "Color":
+                            holder.colorIs.setVisibility(View.VISIBLE);
+                            holder.colorDetail.setVisibility(View.VISIBLE);
+                            holder.colorDetail.setText(option.value);
+                            break;
+                    }
+                }
+                holder.quantity.setText("x" + cartItem.quantity);
             }
         };
 
         rvPlaceOrderProductList.setLayoutManager(new LinearLayoutManager(this));
-        rvPlaceOrderProductList.addItemDecoration(new LinearLayoutItemDecoration(this,LinearLayoutItemDecoration.VERTICAL_LIST,R.drawable.background_less_half_line));
+        rvPlaceOrderProductList.addItemDecoration(new LinearLayoutItemDecoration(this, LinearLayoutItemDecoration.VERTICAL_LIST, R.drawable.background_less_half_line));
         rvPlaceOrderProductList.setAdapter(placeOrderProductListAdapter);
     }
 
@@ -336,7 +331,7 @@ public class PlaceOrderActivity extends BaseActivity {
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 
@@ -349,7 +344,7 @@ public class PlaceOrderActivity extends BaseActivity {
         }
         switch (item.getItemId()) {
             case R.id.cancel:
-                //todo
+                onBackPressed();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -367,7 +362,7 @@ public class PlaceOrderActivity extends BaseActivity {
             return;
         }
 
-        if (resultCode== PaymentActivity.RESULT_EXTRAS_INVALID) {
+        if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
             ToastUtil.toast("invalid payment");
         }
 
@@ -387,6 +382,13 @@ public class PlaceOrderActivity extends BaseActivity {
 
         switch (requestCode) {
             case PaymentMethodListActivity.CHOOSE_PAYMENT_METHOD:
+                loadData();
+                break;
+            case ShippingAddressListActivity.CHOOSE_SHIPPING_ADDRESS:
+                loadData();
+                break;
+            case BillingAddressListActivity.CHOOSE_BILLING_ADDRESS:
+                loadData();
                 break;
         }
     }
