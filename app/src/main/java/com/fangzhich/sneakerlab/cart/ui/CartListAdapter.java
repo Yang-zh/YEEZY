@@ -74,7 +74,9 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Cart, CartListA
     }
 
     public void setData(List<CartEntity.Cart> cartEntity) {
-        mData = cartEntity;
+        if (cartEntity!=null) {
+            mData = cartEntity;
+        }
     }
 
 
@@ -134,10 +136,8 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Cart, CartListA
                                         cartManager.removeCartItem(cartItem.cart_id, new CartManager.RemoveItemCallBack() {
                                             @Override
                                             public void onSuccess() {
-                                                mData.remove(holder.getAdapterPosition());
+                                                removeItem(holder.getAdapterPosition());
                                                 onCartStatusChangeListener.checkSubscribe();
-                                                notifyItemRemoved(holder.getAdapterPosition());
-                                                loadData();
                                             }
 
                                             @Override
@@ -188,7 +188,9 @@ class CartListAdapter extends BaseRecyclerViewAdapter<CartEntity.Cart, CartListA
                 cartManager.moveItemFromCartToLater(cartItem.cart_id, new CartManager.MoveItemFromCartToLaterCallBack() {
                     @Override
                     public void onSuccess(CartEntity.CartBack cartBack) {
-                        RxBus.getDefault().post(new MoveItemFromCartToLaterEvent(holder.getAdapterPosition(),cartBack));
+                        Timber.e("size: "+mData.size());
+                        removeItem(holder.getAdapterPosition());
+                        RxBus.getDefault().post(new MoveItemFromCartToLaterEvent(holder.getAdapterPosition(),cartBack,mData.size()==0));
                     }
 
                     @Override

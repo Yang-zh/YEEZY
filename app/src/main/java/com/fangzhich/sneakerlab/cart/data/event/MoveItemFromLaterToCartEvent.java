@@ -10,9 +10,11 @@ public class MoveItemFromLaterToCartEvent {
 
     public int position;
     public CartEntity.Cart cartItem;
+    public boolean isLaterListEmpty;
 
-    public MoveItemFromLaterToCartEvent(int position, CartEntity.Cart cartItem) {
+    public MoveItemFromLaterToCartEvent(int position, CartEntity.Cart cartItem, boolean isLaterListEmpty) {
         this.position = position;
         this.cartItem = cartItem;
+        this.isLaterListEmpty = isLaterListEmpty;
     }
 }

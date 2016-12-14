@@ -15,7 +15,9 @@ import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.GridSpaceItemDecoration;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.OnScrollLoadMoreHelper;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
+import com.fangzhich.sneakerlab.cart.data.entity.PlaceOrderEntity;
 import com.fangzhich.sneakerlab.product.ui.adapter.RelateProductListAdapter;
+import com.twitter.sdk.android.core.models.Place;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -36,7 +38,7 @@ public class OrderConfirmedActivity extends BaseActivity {
     TextView shipping;
     @BindView(R.id.order_total)
     TextView orderTotal;
-    private CartEntity cart;
+    private PlaceOrderEntity placeOrder;
 
     @OnClick(R.id.bt_viewOrders)
     void viewOrders() {
@@ -62,7 +64,7 @@ public class OrderConfirmedActivity extends BaseActivity {
 
     @Override
     protected void initContentView() {
-        cart = getIntent().getParcelableExtra("cart");
+        placeOrder = getIntent().getParcelableExtra("place_order");
         initToolbar();
         initRecyclerView();
     }

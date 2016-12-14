@@ -3,9 +3,9 @@ package com.fangzhich.sneakerlab.cart.data.net;
 import com.fangzhich.sneakerlab.base.data.net.BaseApi;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
 import com.fangzhich.sneakerlab.cart.data.entity.CheckOutInfoEntity;
-import com.fangzhich.sneakerlab.order.data.entity.ConfirmOrderEntity;
 import com.fangzhich.sneakerlab.cart.data.entity.CountryEntity;
 import com.fangzhich.sneakerlab.cart.data.entity.DistrictEntity;
+import com.fangzhich.sneakerlab.cart.data.entity.PlaceOrderEntity;
 import com.fangzhich.sneakerlab.util.Const;
 
 import java.util.ArrayList;
@@ -227,10 +227,12 @@ public class CartApi extends BaseApi {
                 .subscribe(singleSubscriber);
     }
 
-    public static void placeOrder(SingleSubscriber<ConfirmOrderEntity> singleSubscriber) {
+    public static void placeOrder(String payment, String address_id, String credit_id, String client_data, SingleSubscriber<PlaceOrderEntity> singleSubscriber) {
         String timestamp = getTimeStamp();
 
         HashMap<String,String> params = new HashMap<>();
+        params.put("payment", payment);
+        params.put("address_id", address_id);
         params.put("email", email);
         params.put("token", token);
         params.put("timestamp", timestamp);
@@ -238,8 +240,8 @@ public class CartApi extends BaseApi {
         String signature = getSignature(params);
 
         createService(CartService.class)
-                .placeOrder(email,token,timestamp,signature,API_KEY, Const.IMEI)
-                .map(new HttpResultFunc<ConfirmOrderEntity>())
+                .placeOrder(payment,address_id,credit_id,client_data,email,token,timestamp,signature,API_KEY, Const.IMEI)
+                .map(new HttpResultFunc<PlaceOrderEntity>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(singleSubscriber);

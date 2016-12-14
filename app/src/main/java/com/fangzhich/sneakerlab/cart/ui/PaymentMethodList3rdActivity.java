@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.fangzhich.sneakerlab.App;
 import com.fangzhich.sneakerlab.R;
@@ -80,6 +81,7 @@ public class PaymentMethodList3rdActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         holder.check.setVisibility(View.VISIBLE);
+                        mPaymentManger.isUsingPaypal = true;
                         setResult(RESULT_OK);
                         onBackPressed();
                     }
@@ -90,6 +92,11 @@ public class PaymentMethodList3rdActivity extends BaseActivity {
         rvThirdPartyPaymentMethod.setAdapter(thirdPartyPaymentMethodAdapter);
     }
 
+    @Override
+    protected void loadData() {
+        thirdPartyPaymentMethodAdapter.loadData();
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.check_paypal)
@@ -97,7 +104,7 @@ public class PaymentMethodList3rdActivity extends BaseActivity {
         @BindView(R.id.icon_paypal)
         ImageView icon;
         @BindView(R.id.text_paypal)
-        ImageView text;
+        TextView text;
 
         public ViewHolder(View itemView) {
             super(itemView);

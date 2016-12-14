@@ -2,6 +2,7 @@ package com.fangzhich.sneakerlab.cart.ui;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.fangzhich.sneakerlab.App;
 import com.fangzhich.sneakerlab.R;
@@ -41,5 +42,13 @@ public class EditBillingAddressActivity extends BaseActivity {
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

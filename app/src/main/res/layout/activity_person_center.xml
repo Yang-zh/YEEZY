@@ -123,6 +123,7 @@
                         tools:ignore="UseCompoundDrawables">
 
                         <ImageView
+                          android:id="@+id/cart_image"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:src="@mipmap/cart_empty"

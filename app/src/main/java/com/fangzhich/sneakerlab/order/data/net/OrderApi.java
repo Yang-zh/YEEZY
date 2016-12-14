@@ -1,7 +1,6 @@
 package com.fangzhich.sneakerlab.order.data.net;
 
 import com.fangzhich.sneakerlab.base.data.net.BaseApi;
-import com.fangzhich.sneakerlab.order.data.entity.ConfirmOrderEntity;
 import com.fangzhich.sneakerlab.order.data.entity.OrderEntity;
 import com.fangzhich.sneakerlab.order.data.entity.OrderItemEntity;
 import com.fangzhich.sneakerlab.util.Const;

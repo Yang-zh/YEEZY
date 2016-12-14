@@ -16,6 +16,7 @@ import com.fangzhich.sneakerlab.App;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.BaseRecyclerViewAdapter;
+import com.fangzhich.sneakerlab.cart.data.entity.CheckOutInfoEntity;
 import com.fangzhich.sneakerlab.user.data.entity.CreditCardEntity;
 import com.fangzhich.sneakerlab.user.data.net.UserApi;
 import com.fangzhich.sneakerlab.util.ToastUtil;
@@ -48,6 +49,12 @@ public class PaymentMethodListActivity extends BaseActivity {
     void openPaymentMethod3rdList() {
         Intent intent = new Intent(this,PaymentMethodList3rdActivity.class);
         startActivityForResult(intent,PaymentMethodList3rdActivity.CHOOSE_3rd_PAYMENT_METHOD);
+    }
+    @OnClick(R.id.bt_add_payment)
+    void btAddPaymentMethod() {
+        Intent intent = new Intent(this,EditPaymentMethodActivity.class);
+        intent.putExtra("action",EditPaymentMethodActivity.ADD_PAYMENT_METHOD);
+        startActivityForResult(intent,EditPaymentMethodActivity.ADD_PAYMENT_METHOD);
     }
 
     private PaymentManager mPaymentManger;
@@ -114,7 +121,8 @@ public class PaymentMethodListActivity extends BaseActivity {
                     public void onClick(View v) {
                         Intent intent = new Intent(PaymentMethodListActivity.this, EditPaymentMethodActivity.class);
                         intent.putExtra("card", card);
-                        startActivityForResult(intent,EditPaymentMethodActivity.CHOOSE_PAYMENT_METHOD);
+                        intent.putExtra("action",EditPaymentMethodActivity.EDIT_PAYMENT_METHOD);
+                        startActivityForResult(intent,EditPaymentMethodActivity.EDIT_PAYMENT_METHOD);
                     }
                 });
                 holder.btDelete.setOnClickListener(new View.OnClickListener() {
@@ -137,7 +145,10 @@ public class PaymentMethodListActivity extends BaseActivity {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        setResult(RESULT_OK);
+                        Intent data = new Intent();
+                        CheckOutInfoEntity.Payment payment = new CheckOutInfoEntity.Payment(card);
+                        data.putExtra("payment", payment);
+                        setResult(RESULT_OK,data);
                         onBackPressed();
                     }
                 });
@@ -145,6 +156,11 @@ public class PaymentMethodListActivity extends BaseActivity {
         };
         rvPaymentMethodList.setLayoutManager(new LinearLayoutManager(this));
         rvPaymentMethodList.setAdapter(paymentMethodAdapter);
+    }
+
+    @Override
+    protected void loadData() {
+        paymentMethodAdapter.loadData();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -156,9 +172,9 @@ public class PaymentMethodListActivity extends BaseActivity {
         @BindView(R.id.card_date)
         TextView cardDate;
         @BindView(R.id.bt_edit)
-        TextView btEdit;
+        ImageView btEdit;
         @BindView(R.id.bt_delete)
-        TextView btDelete;
+        ImageView btDelete;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -175,12 +191,16 @@ public class PaymentMethodListActivity extends BaseActivity {
             case PaymentMethodList3rdActivity.CHOOSE_3rd_PAYMENT_METHOD:
                 mPaymentManger.isUsingPaypal = true;
                 setResult(RESULT_OK);
-                onBackPressed();
+                finish();
                 break;
             case EditPaymentMethodActivity.EDIT_PAYMENT_METHOD:
                 mPaymentManger.isUsingPaypal = false;
                 paymentMethodAdapter.loadData();
                 break;
+            case EditPaymentMethodActivity.ADD_PAYMENT_METHOD:
+                paymentMethodAdapter.loadData();
+                break;
+
         }
     }
 

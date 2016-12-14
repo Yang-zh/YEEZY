@@ -45,6 +45,7 @@
     android:id="@+id/bt_delete"
     android:src="@mipmap/icon_delete"
     android:layout_marginTop="42dp"
+    android:layout_marginBottom="15dp"
     android:layout_marginRight="20dp"
     android:layout_toLeftOf="@+id/bt_edit"
     android:layout_width="17.5dp"

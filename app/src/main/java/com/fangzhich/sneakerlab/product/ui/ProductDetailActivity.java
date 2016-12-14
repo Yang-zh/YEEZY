@@ -37,9 +37,14 @@ import com.facebook.share.model.ShareHashtag;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.fangzhich.sneakerlab.R;
+import com.fangzhich.sneakerlab.base.data.event.RxBus;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.LinearLayoutItemDecoration;
 import com.fangzhich.sneakerlab.base.widget.CustomDialog;
+import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
+import com.fangzhich.sneakerlab.cart.data.event.CartStatusChangeEvent;
+import com.fangzhich.sneakerlab.cart.data.event.PaymentSuccessEvent;
+import com.fangzhich.sneakerlab.cart.data.net.CartApi;
 import com.fangzhich.sneakerlab.cart.ui.PaymentManager;
 import com.fangzhich.sneakerlab.main.ui.SupportActivity;
 import com.fangzhich.sneakerlab.product.data.entity.ProductEntity;
@@ -60,6 +65,9 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.OnClick;
 import rx.SingleSubscriber;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import timber.log.Timber;
 
 /**
@@ -219,6 +227,11 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
         manager.startShoppingCartActivity();
     }
 
+    @BindView(R.id.count_background)
+    ImageView countBackground;
+    @BindView(R.id.count_number)
+    TextView count_number;
+
     @OnClick(R.id.bt_buy)
     void buy() {
         startChooseSize(PaymentManager.ChargeType.AddCart);
@@ -254,13 +267,42 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
     protected void initContentView() {
         setPresenter(new ProductDetailPresenter(this));
         productId = getIntent().getStringExtra("product_id");
+
         initToolbar();
         initBottomBarAndPopup();
+        initRxBus();
 
         //dynamic set banner height
         ViewGroup.LayoutParams layoutParams = banner.getLayoutParams();
         layoutParams.height = ScreenUtils.getScreenWidth(this);
         banner.setLayoutParams(layoutParams);
+    }
+
+    private void initRxBus() {
+        paymentSuccessObserver = RxBus.getDefault().toObservable(PaymentSuccessEvent.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<PaymentSuccessEvent>() {
+                    @Override
+                    public void call(PaymentSuccessEvent event) {
+                        finish();
+                    }
+                });
+        cartStatusObserver = RxBus.getDefault().toObservable(CartStatusChangeEvent.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<CartStatusChangeEvent>() {
+                    @Override
+                    public void call(CartStatusChangeEvent cartStatusChangeEvent) {
+                        Timber.e("cart count change: " + cartStatusChangeEvent.count);
+                        if (cartStatusChangeEvent.count==0) {
+                            count_number.setVisibility(View.GONE);
+                            countBackground.setVisibility(View.GONE);
+                        } else {
+                            countBackground.setVisibility(View.VISIBLE);
+                            count_number.setText(String.valueOf(cartStatusChangeEvent.count));
+                            count_number.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
     }
 
     private void initToolbar() {
@@ -387,6 +429,24 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
                 }
             });
         }
+        CartApi.getCartList(new SingleSubscriber<CartEntity>() {
+            @Override
+            public void onSuccess(CartEntity value) {
+                if (value!=null && value.cart!=null &&value.cart.size()!=0) {
+                    count_number.setText(String.valueOf(value.cart.size()));
+                    count_number.setVisibility(View.VISIBLE);
+                    countBackground.setVisibility(View.VISIBLE);
+                } else {
+                    count_number.setVisibility(View.GONE);
+                    countBackground.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                Timber.e(error);
+            }
+        });
 //        productPriceBottom.setText(TagFormatUtil.from(getResources().getString(R.string.priceFormat))
 //                .with("price", String.valueOf(mProduct.special_price))
 //                .format());
@@ -582,5 +642,18 @@ public class ProductDetailActivity extends BaseActivity implements ProductDetail
                     .crossFade()
                     .into(imageView);
         }
+    }
+    private Subscription paymentSuccessObserver;
+
+    private Subscription cartStatusObserver;
+    @Override
+    protected void onDestroy() {
+        if (paymentSuccessObserver!=null && !paymentSuccessObserver.isUnsubscribed()) {
+            paymentSuccessObserver.unsubscribe();
+        }
+        if (paymentSuccessObserver!=null && !cartStatusObserver.isUnsubscribed()) {
+            cartStatusObserver.unsubscribe();
+        }
+        super.onDestroy();
     }
 }

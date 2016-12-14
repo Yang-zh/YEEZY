@@ -280,7 +280,7 @@ public class NiceSpinner extends TextView {
     public boolean onTouchEvent(@NonNull MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_UP) {
             if (adapter.getCount()>1) {
-                if (!dialog.isShowing()) {
+                if (!popupWindow.isShowing()) {
                     showDropDown();
                 } else {
                     dismissDropDown();

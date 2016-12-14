@@ -33,6 +33,9 @@ import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.GridSpaceItemDecoration;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.OnScrollLoadMoreHelper;
 import com.fangzhich.sneakerlab.base.widget.CustomDialog;
+import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
+import com.fangzhich.sneakerlab.cart.data.event.CartStatusChangeEvent;
+import com.fangzhich.sneakerlab.cart.data.net.CartApi;
 import com.fangzhich.sneakerlab.cart.ui.PaymentManager;
 import com.fangzhich.sneakerlab.main.data.event.UserInfoRefreshEvent;
 import com.fangzhich.sneakerlab.main.ui.SettingActivity;
@@ -142,6 +145,8 @@ public class PersonalCenterActivity extends BaseActivity {
         startActivity(new Intent(this, UserEditInfoActivity.class));
     }
 
+    @BindView(R.id.cart_image)
+    ImageView cartImage;
     //list
     @OnClick(R.id.shoppingCart)
     void shoppingCart() {
@@ -221,6 +226,31 @@ public class PersonalCenterActivity extends BaseActivity {
 
     @Override
     protected void loadData() {
+        CartApi.getCartList(new SingleSubscriber<CartEntity>() {
+            @Override
+            public void onSuccess(CartEntity value) {
+                if (value != null && value.cart.size() != 0) {
+                    cartImage.setImageResource(R.mipmap.cart_full);
+                }
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                Timber.e(error);
+            }
+        });
+        cartStatusObserver = RxBus.getDefault().toObservable(CartStatusChangeEvent.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<CartStatusChangeEvent>() {
+                    @Override
+                    public void call(CartStatusChangeEvent cartStatusChangeEvent) {
+                        if (cartStatusChangeEvent.count == 0) {
+                            cartImage.setImageResource(R.mipmap.cart_empty);
+                        } else {
+                            cartImage.setImageResource(R.mipmap.cart_full);
+                        }
+                    }
+                });
         refreshUserInfo();
         rxBus = RxBus.getDefault()
                 .toObservable(UserInfoRefreshEvent.class)
@@ -307,12 +337,16 @@ public class PersonalCenterActivity extends BaseActivity {
     }
 
     Subscription rxBus;
+    Subscription cartStatusObserver;
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         if (rxBus != null && !rxBus.isUnsubscribed()) {
             rxBus.unsubscribe();
+        }
+        if (cartStatusObserver != null && !cartStatusObserver.isUnsubscribed()) {
+            cartStatusObserver.unsubscribe();
         }
     }
 

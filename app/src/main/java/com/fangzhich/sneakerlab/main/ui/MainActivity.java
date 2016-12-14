@@ -31,21 +31,23 @@ import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.data.event.RxBus;
 import com.fangzhich.sneakerlab.base.data.log.GLogManager;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
+import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
+import com.fangzhich.sneakerlab.cart.data.event.CartStatusChangeEvent;
+import com.fangzhich.sneakerlab.cart.data.net.CartApi;
 import com.fangzhich.sneakerlab.cart.ui.PaymentManager;
 import com.fangzhich.sneakerlab.main.data.entity.CategoryEntity;
 import com.fangzhich.sneakerlab.main.data.event.UserInfoRefreshEvent;
 import com.fangzhich.sneakerlab.main.data.net.MainApi;
+import com.fangzhich.sneakerlab.order.ui.OrderHistoryActivity;
 import com.fangzhich.sneakerlab.product.ui.ProductDetailActivity;
 import com.fangzhich.sneakerlab.product.ui.ProductListFragment;
-import com.fangzhich.sneakerlab.order.ui.OrderHistoryActivity;
-import com.fangzhich.sneakerlab.product.ui.ProductRecommendListFragment;
 import com.fangzhich.sneakerlab.user.ui.LoginActivity;
 import com.fangzhich.sneakerlab.user.ui.NotificationActivity;
 import com.fangzhich.sneakerlab.user.ui.PersonalCenterActivity;
 import com.fangzhich.sneakerlab.user.ui.SplashActivity;
 import com.fangzhich.sneakerlab.util.Const;
-import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.fangzhich.sneakerlab.util.MyUtil;
+import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
@@ -99,6 +101,7 @@ public class MainActivity extends BaseActivity {
         if (BuildConfig.BASE_URL.equals("http://api.fangzhich.com")) {
             debug.setVisibility(View.VISIBLE);
         }
+
 
         if (getIntent().getBooleanExtra("fromSplash", false)) {
             Intent intent = new Intent(this, ProductDetailActivity.class);
@@ -195,6 +198,31 @@ public class MainActivity extends BaseActivity {
                 return true;
             }
         });
+        CartApi.getCartList(new SingleSubscriber<CartEntity>() {
+            @Override
+            public void onSuccess(CartEntity value) {
+                if (value != null && value.cart.size() != 0) {
+                    navigationView.getMenu().getItem(2).setIcon(getResources().getDrawable(R.mipmap.shopping_cart_notify));
+                }
+            }
+
+            @Override
+            public void onError(Throwable error) {
+                Timber.e(error);
+            }
+        });
+        cartStatusObserver = RxBus.getDefault().toObservable(CartStatusChangeEvent.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<CartStatusChangeEvent>() {
+                    @Override
+                    public void call(CartStatusChangeEvent cartStatusChangeEvent) {
+                        if (cartStatusChangeEvent.count == 0) {
+                            navigationView.getMenu().getItem(2).setIcon(getResources().getDrawable(R.mipmap.shopping_cart));
+                        } else {
+                            navigationView.getMenu().getItem(2).setIcon(getResources().getDrawable(R.mipmap.shopping_cart_notify));
+                        }
+                    }
+                });
     }
 
     private void initViewPager() {
@@ -214,9 +242,9 @@ public class MainActivity extends BaseActivity {
 //                        fragment.setArguments(args);
 //                        fragments.add(fragment);
 //                    } else {
-                        ProductListFragment fragment = new ProductListFragment();
-                        fragment.setArguments(args);
-                        fragments.add(fragment);
+                    ProductListFragment fragment = new ProductListFragment();
+                    fragment.setArguments(args);
+                    fragments.add(fragment);
 //                    }
 
                     fragmentTitles.add(category.name);
@@ -307,7 +335,7 @@ public class MainActivity extends BaseActivity {
 
     private void refreshUserInfo() {
         if (Const.isLogin()) {
-            if (Const.getUserInfo().user_info.facebook_id!=null) {
+            if (Const.getUserInfo().user_info.facebook_id != null) {
                 Glide.with(this)
                         .load(Const.getUserInfo().user_info.avatarimage)
                         .asBitmap()
@@ -374,6 +402,21 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        if (navigationView!=null) {
+            CartApi.getCartList(new SingleSubscriber<CartEntity>() {
+                @Override
+                public void onSuccess(CartEntity value) {
+                    if (value != null && value.cart.size() != 0) {
+                        navigationView.getMenu().getItem(2).setIcon(getResources().getDrawable(R.mipmap.shopping_cart_notify));
+                    }
+                }
+
+                @Override
+                public void onError(Throwable error) {
+                    Timber.e(error);
+                }
+            });
+        }
         return true;
     }
 
@@ -413,12 +456,16 @@ public class MainActivity extends BaseActivity {
     }
 
     Subscription rxBus;
+    Subscription cartStatusObserver;
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (rxBus!=null && !rxBus.isUnsubscribed()) {
+        if (rxBus != null && !rxBus.isUnsubscribed()) {
             rxBus.unsubscribe();
+        }
+        if (cartStatusObserver != null && !cartStatusObserver.isUnsubscribed()) {
+            cartStatusObserver.unsubscribe();
         }
     }
 }

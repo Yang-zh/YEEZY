@@ -2,9 +2,8 @@ package com.fangzhich.sneakerlab.cart.data.net;
 
 import com.fangzhich.sneakerlab.base.data.net.HttpResult;
 import com.fangzhich.sneakerlab.cart.data.entity.CheckOutInfoEntity;
-import com.fangzhich.sneakerlab.user.data.entity.AddressEntity;
+import com.fangzhich.sneakerlab.cart.data.entity.PlaceOrderEntity;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
-import com.fangzhich.sneakerlab.order.data.entity.ConfirmOrderEntity;
 import com.fangzhich.sneakerlab.cart.data.entity.CountryEntity;
 import com.fangzhich.sneakerlab.cart.data.entity.DistrictEntity;
 
@@ -128,8 +127,12 @@ interface CartService {
                 @Field("equipment_id") String imei);
 
         @FormUrlEncoded
-        @POST("index.php?route=api/placeOrder")
-        Single<HttpResult<ConfirmOrderEntity>> placeOrder(
+        @POST("index.php?route=api/placeorder")
+        Single<HttpResult<PlaceOrderEntity>> placeOrder(
+                @Field("payment") String payment,
+                @Field("address_id") String address_id,
+                @Field("credit_id") String credit_id,
+                @Field("client_data") String client_date,
                 @Field("email") String email,
                 @Field("token") String token,
                 @Field("timestamp") String timestamp,

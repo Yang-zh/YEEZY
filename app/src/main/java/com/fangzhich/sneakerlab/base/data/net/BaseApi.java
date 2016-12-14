@@ -111,7 +111,6 @@ public abstract class BaseApi {
      * @param params params of request in HashMap
      * @return Signature
      */
-
     protected static String getSignature(HashMap<String, String> params) {
         params.put("apiKey",API_KEY);
         params.put("appKey",APP_KEY);

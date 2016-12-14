@@ -75,7 +75,9 @@ class CartListLaterAdapter extends BaseRecyclerViewAdapter<CartEntity.CartBack, 
     }
 
     public void setData(List<CartEntity.CartBack> cartEntity) {
-        mData = cartEntity;
+        if (cartEntity!=null) {
+            mData = cartEntity;
+        }
     }
 
 
@@ -170,7 +172,8 @@ class CartListLaterAdapter extends BaseRecyclerViewAdapter<CartEntity.CartBack, 
                 cartManager.moveItemFromLaterToCart(cartItem.cart_back_id, new CartManager.MoveItemFromLaterToCartCallBack() {
                     @Override
                     public void onSuccess(CartEntity.Cart product) {
-                        RxBus.getDefault().post(new MoveItemFromLaterToCartEvent(holder.getAdapterPosition(),product));
+                        removeItem(holder.getAdapterPosition());
+                        RxBus.getDefault().post(new MoveItemFromLaterToCartEvent(holder.getAdapterPosition(),product,mData.size()==0));
                     }
 
                     @Override

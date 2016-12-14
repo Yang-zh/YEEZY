@@ -18,8 +18,10 @@ import com.fangzhich.sneakerlab.base.data.event.RxBus;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.LinearLayoutItemDecoration;
 import com.fangzhich.sneakerlab.cart.data.entity.CartEntity;
+import com.fangzhich.sneakerlab.cart.data.event.CartStatusChangeEvent;
 import com.fangzhich.sneakerlab.cart.data.event.MoveItemFromCartToLaterEvent;
 import com.fangzhich.sneakerlab.cart.data.event.MoveItemFromLaterToCartEvent;
+import com.fangzhich.sneakerlab.cart.data.event.PaymentSuccessEvent;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -53,7 +55,7 @@ public class ShoppingCartActivity extends BaseActivity {
     TextView continueShopping;
 
     @BindView(R.id.later_for_shopping)
-    TextView laterForShopping;
+    RelativeLayout laterForShopping;
     @BindView(R.id.rv_later_list)
     RecyclerView rvLaterList;
 
@@ -69,6 +71,9 @@ public class ShoppingCartActivity extends BaseActivity {
 
     @OnClick(R.id.bt_checkout)
     void checkOut() {
+        if (mPaymentManger == null) {
+            mPaymentManger = ((App) getApplication()).mPaymentManager = new PaymentManager(this, getWindow().getDecorView());
+        }
         mPaymentManger.startCheckOut(this, "", "", null, "");
     }
 
@@ -102,9 +107,11 @@ public class ShoppingCartActivity extends BaseActivity {
                 .subscribe(new Action1<MoveItemFromLaterToCartEvent>() {
                     @Override
                     public void call(MoveItemFromLaterToCartEvent event) {
-                        checkoutListAdapter.addItem(event.cartItem);
-                        laterListAdapter.removeItem(event.position);
-                        changePrice(Float.parseFloat(event.cartItem.special_price),Float.parseFloat(event.cartItem.original_price));
+                        setLaterListStatusEmpty(event.isLaterListEmpty);
+                        setCartListStatusEmpty(false);
+                        checkoutListAdapter.addItemAtEnd(event.cartItem);
+                        changePrice(Float.parseFloat(event.cartItem.special_price), Float.parseFloat(event.cartItem.original_price));
+                        RxBus.getDefault().post(new CartStatusChangeEvent(checkoutListAdapter.getData().size()));
                     }
                 });
         formCartToLaterObserver = RxBus.getDefault().toObservable(MoveItemFromCartToLaterEvent.class)
@@ -112,16 +119,30 @@ public class ShoppingCartActivity extends BaseActivity {
                 .subscribe(new Action1<MoveItemFromCartToLaterEvent>() {
                     @Override
                     public void call(MoveItemFromCartToLaterEvent event) {
-                        laterListAdapter.addItem(event.cartItem);
-                        checkoutListAdapter.removeItem(event.position);
-                        changePrice(-Float.parseFloat(event.cartItem.special_price),-Float.parseFloat(event.cartItem.original_price));
+                        Timber.e("size: "+ checkoutListAdapter.getData().size());
+                        laterListAdapter.addItemAtFirst(event.cartItem);
+                        setCartListStatusEmpty(event.isCartListEmpty);
+                        setLaterListStatusEmpty(false);
+                        changePrice(-Float.parseFloat(event.cartItem.special_price), -Float.parseFloat(event.cartItem.original_price));
+                        RxBus.getDefault().post(new CartStatusChangeEvent(checkoutListAdapter.getData().size()));
+                    }
+                });
+        paymentSuccessObserver = RxBus.getDefault().toObservable(PaymentSuccessEvent.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<PaymentSuccessEvent>() {
+                    @Override
+                    public void call(PaymentSuccessEvent event) {
+                        finish();
                     }
                 });
     }
 
     private void changePrice(float priceChange, float priceOriginalChange) {
-        oldProductPrice +=priceChange;
-        oldProductPriceOriginal+=priceOriginalChange;
+        oldProductPrice += priceChange;
+        oldProductPriceOriginal += priceOriginalChange;
+        if (oldProductPriceOriginal == 0) {
+            setCartListStatusEmpty(true);
+        }
         productPrice.setText("Total:" + oldProductPrice + "0");
         productPriceOriginal.setText("Cost saving: " + oldProductPriceOriginal + "0");
     }
@@ -160,15 +181,8 @@ public class ShoppingCartActivity extends BaseActivity {
                         onBackPressed();
                     }
                 });
-                if (cart.cart == null || cart.cart.size() == 0) {
-                    setCartListStatusEmpty(true);
-                    return;
-                }
-
-                //no data notice
-                shoppingCartNotice.setVisibility(View.VISIBLE);
-                rvCheckoutList.setVisibility(View.VISIBLE);
-                noDataNotice.setVisibility(View.GONE);
+                setCartListStatusEmpty(cart.cart == null || cart.cart.size() == 0);
+                setLaterListStatusEmpty(cart.cartback == null || cart.cartback.size() == 0);
 
                 //recycler view
                 checkoutListAdapter.setData(cart.cart);
@@ -187,6 +201,8 @@ public class ShoppingCartActivity extends BaseActivity {
                 oldProductPriceOriginal = original;
                 productPrice.setText("Total:" + total + "0");
                 productPriceOriginal.setText("Cost saving: " + original + "0");
+
+                RxBus.getDefault().post(new CartStatusChangeEvent(checkoutListAdapter.getData().size()));
             }
 
             @Override
@@ -195,8 +211,13 @@ public class ShoppingCartActivity extends BaseActivity {
                 Timber.e(throwable);
             }
         });
-        checkoutListAdapter.loadData();
         checkoutListAdapter.setOnCartStatusChangeListener(new CartListAdapter.OnCartStatusChangeListener() {
+            @Override
+            public void checkSubscribe() {
+                checkIfSubscribe();
+            }
+        });
+        laterListAdapter.setOnCartStatusChangeListener(new CartListLaterAdapter.OnCartStatusChangeListener() {
             @Override
             public void checkSubscribe() {
                 checkIfSubscribe();
@@ -204,9 +225,15 @@ public class ShoppingCartActivity extends BaseActivity {
         });
     }
 
+    private void setLaterListStatusEmpty(boolean isEmpty) {
+        laterForShopping.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
+        rvLaterList.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
+    }
+
     private void setCartListStatusEmpty(boolean isEmpty) {
         rvCheckoutList.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
         noDataNotice.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+        shoppingCartNotice.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
     }
 
     private void checkIfNeedAddToCart() {
@@ -242,10 +269,11 @@ public class ShoppingCartActivity extends BaseActivity {
     }
 
     private void checkIfSubscribe() {
-        boolean isItemsInCart = checkoutListAdapter.getData() != null && checkoutListAdapter.getData().size() >= 0;
-        setCartListStatusEmpty(isItemsInCart);
-        boolean isItemsInLater = laterListAdapter.getData() != null && laterListAdapter.getData().size() >= 0;
-        if (isItemsInCart || isItemsInLater) {
+        boolean isCartListEmpty = checkoutListAdapter.getData() == null || checkoutListAdapter.getData().size() == 0;
+        setCartListStatusEmpty(isCartListEmpty);
+        boolean isLaterListEmpty = laterListAdapter.getData() == null || laterListAdapter.getData().size() == 0;
+        setLaterListStatusEmpty(isCartListEmpty);
+        if (isCartListEmpty || isLaterListEmpty) {
             FirebaseMessaging.getInstance().subscribeToTopic("cart");
         } else {
             FirebaseMessaging.getInstance().unsubscribeFromTopic("cart");
@@ -263,6 +291,7 @@ public class ShoppingCartActivity extends BaseActivity {
 
     private Subscription fromLaterToCartObserver;
     private Subscription formCartToLaterObserver;
+    private Subscription paymentSuccessObserver;
 
     @Override
     protected void onDestroy() {
@@ -271,6 +300,9 @@ public class ShoppingCartActivity extends BaseActivity {
         }
         if (formCartToLaterObserver.isUnsubscribed()) {
             formCartToLaterObserver.unsubscribe();
+        }
+        if (paymentSuccessObserver.isUnsubscribed()) {
+            paymentSuccessObserver.unsubscribe();
         }
         super.onDestroy();
     }

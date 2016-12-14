@@ -2,9 +2,11 @@ package com.fangzhich.sneakerlab.cart.ui;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -14,6 +16,7 @@ import com.fangzhich.sneakerlab.App;
 import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.BaseRecyclerViewAdapter;
+import com.fangzhich.sneakerlab.cart.data.entity.CheckOutInfoEntity;
 import com.fangzhich.sneakerlab.user.data.entity.AddressEntity;
 import com.fangzhich.sneakerlab.user.data.net.UserApi;
 import com.fangzhich.sneakerlab.util.ToastUtil;
@@ -22,6 +25,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import rx.SingleSubscriber;
 import timber.log.Timber;
 
@@ -36,6 +40,11 @@ public class ShippingAddressListActivity extends BaseActivity {
     Toolbar toolbar;
     @BindView(R.id.rv_shipping_address_list)
     RecyclerView rvShippingAddressList;
+
+    @OnClick(R.id.bt_add_address)
+    void btAddAddress() {
+        startActivityForResult(new Intent(this,EditShippingAddressActivity.class),EditShippingAddressActivity.ADD_ADDRESS);
+    }
 
     private PaymentManager mPaymentManger;
     private BaseRecyclerViewAdapter shippingAddressAdapter;
@@ -125,7 +134,10 @@ public class ShippingAddressListActivity extends BaseActivity {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        setResult(RESULT_OK);
+                        Intent data = new Intent();
+                        CheckOutInfoEntity.Address address2 = new CheckOutInfoEntity.Address(address);
+                        data.putExtra("address", address2);
+                        setResult(RESULT_OK,data);
                         onBackPressed();
                     }
                 });
@@ -136,10 +148,17 @@ public class ShippingAddressListActivity extends BaseActivity {
     }
 
     @Override
+    protected void loadData() {
+        shippingAddressAdapter.loadData();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != RESULT_OK) return;
         switch (requestCode) {
             case EditShippingAddressActivity.EDIT_ADDRESS:
+                shippingAddressAdapter.loadData();
+            case EditShippingAddressActivity.ADD_ADDRESS:
                 shippingAddressAdapter.loadData();
                 break;
         }
@@ -158,13 +177,21 @@ public class ShippingAddressListActivity extends BaseActivity {
         @BindView(R.id.country)
         TextView country;
         @BindView(R.id.bt_delete)
-        TextView btDelete;
+        ImageView btDelete;
         @BindView(R.id.bt_edit)
-        TextView btEdit;
+        ImageView btEdit;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

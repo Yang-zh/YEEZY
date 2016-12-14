@@ -1,6 +1,5 @@
 package com.fangzhich.sneakerlab.cart.ui;
 
-import android.os.Parcelable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -11,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fangzhich.sneakerlab.App;
@@ -41,6 +41,7 @@ public class EditPaymentMethodActivity extends BaseActivity {
 
     public static final int CHOOSE_PAYMENT_METHOD = 1003;
     public static final int EDIT_PAYMENT_METHOD = 1005;
+    public static final int ADD_PAYMENT_METHOD = 1006;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.et_credit_card_number)
@@ -53,6 +54,11 @@ public class EditPaymentMethodActivity extends BaseActivity {
     NiceSpinner spinnerYear;
     @BindView(R.id.et_billing_postal_code)
     EditText etBillingPostalCode;
+
+    @BindView(R.id.divide_layout)
+    RelativeLayout divideLayout;
+    @BindView(R.id.paypal_layout)
+    RelativeLayout paypalLayout;
 
     @BindView(R.id.icon_paypal)
     ImageView iconPaypal;
@@ -205,6 +211,8 @@ public class EditPaymentMethodActivity extends BaseActivity {
                         onBackPressed();
                     }
                 });
+
+
     }
 
 
@@ -222,6 +230,11 @@ public class EditPaymentMethodActivity extends BaseActivity {
 
     @Override
     protected void loadData() {
+        int action = getIntent().getIntExtra("action",0);
+        if (action==ADD_PAYMENT_METHOD || action == EDIT_PAYMENT_METHOD) {
+            divideLayout.setVisibility(View.GONE);
+            paypalLayout.setVisibility(View.GONE);
+        }
 
         spinnerMonth.attachDataSource(Arrays.asList(getResources().getStringArray(R.array.month)));
         spinnerYear.attachDataSource(Arrays.asList(getResources().getStringArray(R.array.year)));

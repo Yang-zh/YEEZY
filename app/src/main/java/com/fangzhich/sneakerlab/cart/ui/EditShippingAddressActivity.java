@@ -41,6 +41,7 @@ import timber.log.Timber;
 public class EditShippingAddressActivity extends BaseActivity {
 
     public static final int EDIT_ADDRESS = 1001;
+    public static final int ADD_ADDRESS = 1002;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.et_address_bay)
@@ -250,7 +251,7 @@ public class EditShippingAddressActivity extends BaseActivity {
             }
         }).show();
 
-        if (Const.getUserInfo().shipping_address == null) {
+        if (this.address == null) {
             UserApi.addAddress(fullname, phone, address, suite, city, code, country, state, new SingleSubscriber<String>() {
                 @Override
                 public void onSuccess(String value) {
@@ -267,7 +268,7 @@ public class EditShippingAddressActivity extends BaseActivity {
                 }
             });
         } else {
-            UserApi.editAddress(Const.getUserInfo().shipping_address.address_id, fullname, phone, address, suite, city, code, country, state, new SingleSubscriber<Object>() {
+            UserApi.editAddress(this.address.address_id, fullname, phone, address, suite, city, code, country, state, new SingleSubscriber<Object>() {
                 @Override
                 public void onSuccess(Object value) {
                     progressBar.cancel();

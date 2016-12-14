@@ -49,7 +49,7 @@ public class SupportActivity extends BaseActivity {
                 @Override
                 public void onSuccess(Object value) {
                     MessageEntity entity = new MessageEntity(message.getText().toString(),0);
-                    adapter.addItem(entity);
+                    adapter.addItemAtEnd(entity);
                     message.setText("");
                 }
 
@@ -110,7 +110,7 @@ public class SupportActivity extends BaseActivity {
                     public void onSuccess(Object value) {
                         Timber.d("text is "+text);
                         MessageEntity entity = new MessageEntity(text,1);
-                        adapter.addItem(entity);
+                        adapter.addItemAtEnd(entity);
                     }
 
                     @Override

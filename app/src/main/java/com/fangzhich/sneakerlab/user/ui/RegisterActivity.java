@@ -227,7 +227,7 @@ public class RegisterActivity extends BaseActivity implements UserRegisterContra
 
     @Override
     public void onRegisterFailed(Throwable throwable) {
-        ToastUtil.toast(Const.User.REGISTER_FAILED);
+        ToastUtil.toast(throwable.getMessage());
         btCreateAccount.setClickable(true);
     }
 

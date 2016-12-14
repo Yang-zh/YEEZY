@@ -11,6 +11,7 @@ import com.fangzhich.sneakerlab.base.data.event.RxBus;
 import com.fangzhich.sneakerlab.base.widget.CustomDialog;
 import com.fangzhich.sneakerlab.cart.data.entity.CheckOutInfoEntity;
 import com.fangzhich.sneakerlab.cart.data.event.GuideFlowFinishEvent;
+import com.fangzhich.sneakerlab.cart.data.event.PaymentSuccessEvent;
 import com.fangzhich.sneakerlab.cart.data.net.CartApi;
 import com.fangzhich.sneakerlab.product.data.entity.ProductEntity;
 import com.fangzhich.sneakerlab.product.ui.SizeDialog;
@@ -150,6 +151,10 @@ public class PaymentManager {
             mSizeDialog.dismiss();
         }
         RxBus.getDefault().post(new GuideFlowFinishEvent());
+    }
+
+    public void sendPaymentSuccessEvent() {
+        RxBus.getDefault().post(new PaymentSuccessEvent());
     }
 
     public void closeProductDetail() {

@@ -19,9 +19,11 @@ import com.fangzhich.sneakerlab.R;
 import com.fangzhich.sneakerlab.base.ui.BaseActivity;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.BaseRecyclerViewAdapter;
 import com.fangzhich.sneakerlab.base.ui.recyclerview.LinearLayoutItemDecoration;
+import com.fangzhich.sneakerlab.base.widget.ProgressBar;
 import com.fangzhich.sneakerlab.cart.data.entity.CheckOutInfoEntity;
+import com.fangzhich.sneakerlab.cart.data.entity.PlaceOrderEntity;
 import com.fangzhich.sneakerlab.cart.data.net.CartApi;
-import com.fangzhich.sneakerlab.order.data.entity.ConfirmOrderEntity;
+import com.fangzhich.sneakerlab.order.ui.OrderConfirmedActivity;
 import com.fangzhich.sneakerlab.util.TagFormatUtil;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
@@ -47,15 +49,15 @@ import timber.log.Timber;
 public class PlaceOrderActivity extends BaseActivity {
 
 
+    private static final int PAYPAL_PAYMENT_REQUEST = 1234;
     private static PayPalConfiguration config = new PayPalConfiguration()
 
             // Start with mock environment.  When ready, switch to sandbox (ENVIRONMENT_SANDBOX)
             // or live (ENVIRONMENT_PRODUCTION)
-            .environment(PayPalConfiguration.ENVIRONMENT_NO_NETWORK)
+            .environment(PayPalConfiguration.ENVIRONMENT_PRODUCTION)
+            .clientId("AdHjPzu6SGZIwnWKNHn7nXh4DDGOcStAttubBkFnTNlFvWf0IRS5tv3IDU6tYej5HTh7arRWR63VknEu");
+//            .clientId("AVODZnzbtsZpms59_ymaPSVweZxTtrir8tw058SzhtjjLdomfZAqKrG71sgvHIneqdWEwe9bQG41Szy6");
 
-            .clientId("AXW45ZT-wBhh3i5k98TP3hBOPCbpQp-h8jaDfzyKHI6tPuNq2gW7EpOAyz_5bisrtpz8h-3Mep4DlgT6");
-
-    private static final int SUCCESS = 1001;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -125,28 +127,45 @@ public class PlaceOrderActivity extends BaseActivity {
     @BindView(R.id.product_price)
     TextView productPrice;
 
+    final ProgressBar progressBar = ProgressBar.getInstance();
+
     @OnClick(R.id.bt_place_order)
     void placeOrder() {
+
+
         if (mPaymentManger.isUsingPaypal) {
             payPal();
         } else {
-            // todo
-//            CartApi.placeOrder(new SingleSubscriber<ConfirmOrderEntity>() {
-//                @Override
-//                public void onSuccess(ConfirmOrderEntity value) {
-//
-//                }
-//
-//                @Override
-//                public void onError(Throwable error) {
-//
-//                }
-//            });
+
+            progressBar.init(this, new ProgressBar.Callback() {
+                @Override
+                public void onProgressBarClick(View v) {
+
+                }
+            }).show();
+            CartApi.placeOrder("2",checkOutInfo.address.address_id,checkOutInfo.payment.credit_id,"", new SingleSubscriber<PlaceOrderEntity>() {
+                @Override
+                public void onSuccess(PlaceOrderEntity value) {
+                    Intent intent = new Intent(PlaceOrderActivity.this, OrderConfirmedActivity.class);
+                    intent.putExtra("place_order",value);
+                    startActivity(intent);
+                    progressBar.cancel();
+                    mPaymentManger.sendPaymentSuccessEvent();
+                    finish();
+                }
+
+                @Override
+                public void onError(Throwable error) {
+                    progressBar.cancel();
+                    ToastUtil.toast(error.getMessage());
+                    Timber.e(error);
+                }
+            });
         }
     }
 
     private void payPal() {
-        PayPalPayment payment = new PayPalPayment(new BigDecimal("1.75"), "USD", "sample item",
+        PayPalPayment payment = new PayPalPayment(new BigDecimal("0.01"), "USD", "sample item",
                 PayPalPayment.PAYMENT_INTENT_SALE);
 
         Intent intent = new Intent(this, PaymentActivity.class);
@@ -156,7 +175,7 @@ public class PlaceOrderActivity extends BaseActivity {
 
         intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
 
-        startActivityForResult(intent, 0);
+        startActivityForResult(intent, PAYPAL_PAYMENT_REQUEST);
     }
 
     private PaymentManager mPaymentManger;
@@ -185,46 +204,7 @@ public class PlaceOrderActivity extends BaseActivity {
             @Override
             public void onSuccess(CheckOutInfoEntity value) {
                 checkOutInfo = value;
-                placeOrderProductListAdapter.loadData();
-
-                fullname.setText(value.address.fullname);
-                phone.setText(value.address.phone);
-                street.setText(value.address.address_1);
-                cityAndState.setText(value.address.city + value.address.suite);
-                country.setText(value.address.country);
-
-                if (mPaymentManger.isUsingPaypal) {
-                    textCreditCard.setVisibility(View.GONE);
-                    cardNumber.setVisibility(View.GONE);
-                    payPalNotice.setVisibility(View.VISIBLE);
-                } else if (value.payment != null) {
-                    cardNumber.setText("****" + value.payment.card_number.substring(value.payment.card_number.length() - 3, value.payment.card_number.length()));
-                } else {
-                    textCreditCard.setVisibility(View.GONE);
-                    cardNumber.setVisibility(View.GONE);
-                    completePaymentInfoNotice.setVisibility(View.VISIBLE);
-                }
-
-                shippingPrice.setText(value.shiping.text);
-                shippingPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                realShippingPrice.setText("$0.00");
-                for (CheckOutInfoEntity.Totals total : value.totals) {
-                    switch (total.title) {
-                        case "Sub-Total": {
-                            subPrice.setText(total.text);
-                            break;
-                        }
-                        case "Tax": {
-                            taxPrice.setText(total.text);
-                            break;
-                        }
-                        case "Total": {
-                            totalPrice.setText(total.text);
-                            productPrice.setText(total.text);
-                            break;
-                        }
-                    }
-                }
+                applyData();
             }
 
             @Override
@@ -233,6 +213,49 @@ public class PlaceOrderActivity extends BaseActivity {
                 ToastUtil.toast(error.getMessage());
             }
         });
+    }
+
+    private void applyData() {
+        placeOrderProductListAdapter.loadData();
+
+        fullname.setText(checkOutInfo.address.fullname);
+        phone.setText(checkOutInfo.address.phone);
+        street.setText(checkOutInfo.address.address_1);
+        cityAndState.setText(checkOutInfo.address.city + checkOutInfo.address.suite);
+        country.setText(checkOutInfo.address.country);
+
+        if (mPaymentManger.isUsingPaypal) {
+            textCreditCard.setVisibility(View.GONE);
+            cardNumber.setVisibility(View.GONE);
+            payPalNotice.setVisibility(View.VISIBLE);
+        } else if (checkOutInfo.payment != null) {
+            cardNumber.setText("****" + checkOutInfo.payment.card_number.substring(checkOutInfo.payment.card_number.length() - 3, checkOutInfo.payment.card_number.length()));
+        } else {
+            textCreditCard.setVisibility(View.GONE);
+            cardNumber.setVisibility(View.GONE);
+            completePaymentInfoNotice.setVisibility(View.VISIBLE);
+        }
+
+        shippingPrice.setText(checkOutInfo.shiping.text);
+        shippingPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        realShippingPrice.setText("$0.00");
+        for (CheckOutInfoEntity.Totals total : checkOutInfo.totals) {
+            switch (total.title) {
+                case "Sub-Total": {
+                    subPrice.setText(total.text);
+                    break;
+                }
+                case "Tax": {
+                    taxPrice.setText(total.text);
+                    break;
+                }
+                case "Total": {
+                    totalPrice.setText(total.text);
+                    productPrice.setText(total.text);
+                    break;
+                }
+            }
+        }
     }
 
     private void initPaypalService() {
@@ -358,37 +381,71 @@ public class PlaceOrderActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != RESULT_OK) {
-            return;
-        }
-
         if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
             ToastUtil.toast("invalid payment");
         }
 
-        PaymentConfirmation confirm = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
-        if (confirm != null) {
-            try {
-                Timber.e(confirm.toJSONObject().toString(4));
-                ToastUtil.toast("Paypal Success");
-                // TODO: send 'confirm' to your server for verification.
-                // see https://developer.paypal.com/webapps/developer/docs/integration/mobile/verify-mobile-payment/
-                // for more details.
-
-            } catch (JSONException e) {
-                Timber.e(e);
-            }
+        if (resultCode == RESULT_CANCELED) {
+            progressBar.cancel();
         }
 
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+
+
         switch (requestCode) {
+            case PAYPAL_PAYMENT_REQUEST:
+                PaymentConfirmation confirm = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+                if (confirm != null) {
+                    try {
+                        Timber.e(confirm.toJSONObject().toString(4));
+//                        ToastUtil.toast("Paypal Success");
+                        // see https://developer.paypal.com/webapps/developer/docs/integration/mobile/verify-mobile-payment/
+                        // for more details.
+                        progressBar.init(this, new ProgressBar.Callback() {
+                            @Override
+                            public void onProgressBarClick(View v) {
+
+                            }
+                        }).show();
+                        CartApi.placeOrder("1",checkOutInfo.address.address_id,"",confirm.toJSONObject().toString(), new SingleSubscriber<PlaceOrderEntity>() {
+                            @Override
+                            public void onSuccess(PlaceOrderEntity value) {
+                                Intent intent = new Intent(PlaceOrderActivity.this, OrderConfirmedActivity.class);
+                                intent.putExtra("place_order",value);
+                                startActivity(intent);
+                                progressBar.cancel();
+                                mPaymentManger.sendPaymentSuccessEvent();
+                                finish();
+                            }
+
+                            @Override
+                            public void onError(Throwable error) {
+                                progressBar.cancel();
+                                ToastUtil.toast(error.getMessage());
+                                Timber.e(error);
+                            }
+                        });
+                    } catch (JSONException e) {
+                        Timber.e(e);
+                    }
+                }
+                break;
             case PaymentMethodListActivity.CHOOSE_PAYMENT_METHOD:
-                loadData();
+                if (data!=null) {
+                    checkOutInfo.payment = data.getParcelableExtra("payment");
+                }
+                applyData();
                 break;
             case ShippingAddressListActivity.CHOOSE_SHIPPING_ADDRESS:
-                loadData();
+                if (data!=null) {
+                    checkOutInfo.address = data.getParcelableExtra("address");
+                }
+                applyData();
                 break;
             case BillingAddressListActivity.CHOOSE_BILLING_ADDRESS:
-                loadData();
+                applyData();
                 break;
         }
     }
