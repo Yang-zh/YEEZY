@@ -113,6 +113,7 @@ public class PaymentMethodListActivity extends BaseActivity {
             @Override
             protected void onBindHolder(final ViewHolder holder, int position) {
                 final CreditCardEntity card = mData.get(position);
+                holder.check.setVisibility(card.is_default.equals("1")?View.VISIBLE:View.GONE);
                 holder.cardType.setText("CreditCard");
                 holder.cardNumber.setText("****"+ card.card_number.substring(card.card_number.length()-3,card.card_number.length()));
                 holder.cardDate.setText(card.card_month+"/20"+card.card_year);
@@ -145,10 +146,23 @@ public class PaymentMethodListActivity extends BaseActivity {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        UserApi.setDefaultCreditCard(card.credit_id, new SingleSubscriber<Object>() {
+                            @Override
+                            public void onSuccess(Object value) {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable error) {
+                                Timber.e(error);
+                                ToastUtil.toast(error.getMessage());
+                            }
+                        });
                         Intent data = new Intent();
                         CheckOutInfoEntity.Payment payment = new CheckOutInfoEntity.Payment(card);
                         data.putExtra("payment", payment);
                         setResult(RESULT_OK,data);
+                        mPaymentManger.isUsingPaypal = false;
                         onBackPressed();
                     }
                 });
@@ -165,6 +179,8 @@ public class PaymentMethodListActivity extends BaseActivity {
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.icon_check)
+        ImageView check;
         @BindView(R.id.card_type)
         TextView cardType;
         @BindView(R.id.card_number)

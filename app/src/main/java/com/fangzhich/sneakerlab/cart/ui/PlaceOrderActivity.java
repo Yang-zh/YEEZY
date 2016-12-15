@@ -228,11 +228,17 @@ public class PlaceOrderActivity extends BaseActivity {
             textCreditCard.setVisibility(View.GONE);
             cardNumber.setVisibility(View.GONE);
             payPalNotice.setVisibility(View.VISIBLE);
+            completePaymentInfoNotice.setVisibility(View.GONE);
         } else if (checkOutInfo.payment != null) {
+            textCreditCard.setVisibility(View.VISIBLE);
+            cardNumber.setVisibility(View.VISIBLE);
+            payPalNotice.setVisibility(View.GONE);
+            completePaymentInfoNotice.setVisibility(View.GONE);
             cardNumber.setText("****" + checkOutInfo.payment.card_number.substring(checkOutInfo.payment.card_number.length() - 3, checkOutInfo.payment.card_number.length()));
         } else {
             textCreditCard.setVisibility(View.GONE);
             cardNumber.setVisibility(View.GONE);
+            payPalNotice.setVisibility(View.GONE);
             completePaymentInfoNotice.setVisibility(View.VISIBLE);
         }
 

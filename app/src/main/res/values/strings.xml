@@ -281,7 +281,7 @@
     <string name="The_other_payment_method">The other payment method</string>
     <string name="WarnIfChoosePaypalAndClearInfo">If you choose to continue with paypal then any information about your credit card will be deleted.</string>
     <string name="WarnIfDeleteItemInCart">Would you want delete these items?</string>
-    <string name="MoveToWishList">Move to wishlist</string>
+    <string name="MoveToCart">Move to cart</string>
     <string name="BillingAddress">Billing Address</string>
     <string name="PlusAddBillingAddress">+ Add Billing Address</string>
     <string name="PlusAddPaymentMethod">+ Add Payment Method</string>

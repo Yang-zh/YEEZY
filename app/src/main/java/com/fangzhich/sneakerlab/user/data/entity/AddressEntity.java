@@ -26,6 +26,7 @@ public class AddressEntity implements Parcelable {
     public String iso_code_3;
     public String address_format;
     public String phone;
+    public String is_default;
 
     @Override
     public int describeContents() {

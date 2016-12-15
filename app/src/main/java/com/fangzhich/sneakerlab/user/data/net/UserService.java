@@ -209,6 +209,16 @@ interface UserService {
             @Field("signature") String signature,
             @Field("apiKey") String apiKey,
             @Field("equipment_id") String imei);
+    @FormUrlEncoded
+    @POST("index.php?route=api/address/setDefault")
+    Single<HttpResult<Object>> setDefaultAddress(
+            @Field("address_id") String address_id,
+            @Field("email") String email,
+            @Field("token") String token,
+            @Field("timestamp") String timestamp,
+            @Field("signature") String signature,
+            @Field("apiKey") String apiKey,
+            @Field("equipment_id") String imei);
 
     @FormUrlEncoded
     @POST("index.php?route=api/address/delete")
@@ -278,6 +288,16 @@ interface UserService {
     @FormUrlEncoded
     @POST("index.php?route=api/credit/delete")
     Single<HttpResult<Object>> deleteCreditCard(
+            @Field("credit_id") String credit_id,
+            @Field("email") String email,
+            @Field("token") String token,
+            @Field("timestamp") String timestamp,
+            @Field("signature") String signature,
+            @Field("apiKey") String apiKey,
+            @Field("equipment_id") String imei);
+    @FormUrlEncoded
+    @POST("index.php?route=api/credit/setDefault")
+    Single<HttpResult<Object>> setDefaultCreditCard(
             @Field("credit_id") String credit_id,
             @Field("email") String email,
             @Field("token") String token,

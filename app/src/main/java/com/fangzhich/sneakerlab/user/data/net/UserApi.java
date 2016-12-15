@@ -511,6 +511,32 @@ public class UserApi extends BaseApi {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(singleSubscriber);
     }
+    /**
+     * set default credit card request
+     *
+     * @param credit_id credit card's id in database
+     * @param singleSubscriber SingleSubscriber in RxJava (Callback)
+     */
+    public static void setDefaultCreditCard(String credit_id, SingleSubscriber<Object> singleSubscriber) {
+        String timestamp = getTimeStamp();
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("credit_id", credit_id);
+        params.put("email", email);
+        params.put("token", token);
+        params.put("timestamp", timestamp);
+
+        String signature = getSignature(params);
+
+        createService(UserService.class)
+                .setDefaultCreditCard(credit_id,
+                        email, token,
+                        timestamp, signature, API_KEY, Const.IMEI)
+                .map(new HttpResultFunc<Object>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(singleSubscriber);
+    }
 
     //--------------------------------------------------------------------------
     //---------------------------Address----------------------------------------
@@ -680,6 +706,33 @@ public class UserApi extends BaseApi {
 
         createService(UserService.class)
                 .deleteAddress(address_id,
+                        email, token,
+                        timestamp, signature, API_KEY, Const.IMEI)
+                .map(new HttpResultFunc<Object>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(singleSubscriber);
+    }
+
+    /**
+     * set default address request
+     *
+     * @param address_id       address_id
+     * @param singleSubscriber SingleSubscriber in RxJava (Callback)
+     */
+    public static void setDefaultAddress(String address_id, SingleSubscriber<Object> singleSubscriber) {
+        String timestamp = getTimeStamp();
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("address_id", address_id);
+        params.put("email", email);
+        params.put("token", token);
+        params.put("timestamp", timestamp);
+
+        String signature = getSignature(params);
+
+        createService(UserService.class)
+                .setDefaultAddress(address_id,
                         email, token,
                         timestamp, signature, API_KEY, Const.IMEI)
                 .map(new HttpResultFunc<Object>())

@@ -87,7 +87,7 @@ public class EditShippingAddressActivity extends BaseActivity {
                 .subscribe(new Action1<GuideFlowFinishEvent>() {
                     @Override
                     public void call(GuideFlowFinishEvent guideFlowFinishEvent) {
-                        onBackPressed();
+                        finish();
                     }
                 });
     }
@@ -241,6 +241,7 @@ public class EditShippingAddressActivity extends BaseActivity {
         }
         if (phone.length() < 13 || phone.length() > 16) {
             ToastUtil.toast("Not a valid phone number");
+            return;
         }
 
         final ProgressBar progressBar = ProgressBar.getInstance();

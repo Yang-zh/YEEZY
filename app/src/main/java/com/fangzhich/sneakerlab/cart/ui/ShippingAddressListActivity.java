@@ -102,6 +102,7 @@ public class ShippingAddressListActivity extends BaseActivity {
             @Override
             protected void onBindHolder(final ViewHolder holder, int position) {
                 final AddressEntity address = mData.get(position);
+                holder.check.setVisibility(address.is_default.equals("1")?View.VISIBLE:View.GONE);
                 holder.fullname.setText(address.fullname);
                 holder.street.setText(address.address_1);
                 holder.cityAndState.setText(address.city + address.suite);
@@ -134,6 +135,18 @@ public class ShippingAddressListActivity extends BaseActivity {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        UserApi.setDefaultAddress(address.address_id, new SingleSubscriber<Object>() {
+                            @Override
+                            public void onSuccess(Object value) {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable error) {
+                                Timber.e(error);
+                                ToastUtil.toast(error.getMessage());
+                            }
+                        });
                         Intent data = new Intent();
                         CheckOutInfoEntity.Address address2 = new CheckOutInfoEntity.Address(address);
                         data.putExtra("address", address2);

@@ -15,6 +15,7 @@ public class CreditCardEntity implements Parcelable {
     public String card_year;
     public String card_cvv;
     public String zip_code;
+    public String is_default;
 
     @Override
     public int describeContents() {

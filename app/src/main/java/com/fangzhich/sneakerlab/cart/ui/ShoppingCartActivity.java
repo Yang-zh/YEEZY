@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -59,6 +60,8 @@ public class ShoppingCartActivity extends BaseActivity {
     @BindView(R.id.rv_later_list)
     RecyclerView rvLaterList;
 
+    @BindView(R.id.bottomBar)
+    LinearLayout bottomBar;
     @BindView(R.id.product_price)
     TextView productPrice;
     @BindView(R.id.product_price_original)
@@ -139,12 +142,12 @@ public class ShoppingCartActivity extends BaseActivity {
 
     private void changePrice(float priceChange, float priceOriginalChange) {
         oldProductPrice += priceChange;
-        oldProductPriceOriginal += priceOriginalChange;
-        if (oldProductPriceOriginal == 0) {
+        if (oldProductPrice == 0) {
             setCartListStatusEmpty(true);
         }
+        Timber.e("old:"+oldProductPrice+"oldori"+oldProductPriceOriginal+" new"+priceChange+"newori"+priceOriginalChange);
         productPrice.setText("Total:" + oldProductPrice + "0");
-        productPriceOriginal.setText("Cost saving: " + oldProductPriceOriginal + "0");
+        productPriceOriginal.setText("Cost saving: " + (oldProductPriceOriginal+(priceOriginalChange-priceChange)) + "0");
     }
 
 
@@ -198,9 +201,9 @@ public class ShoppingCartActivity extends BaseActivity {
                     original += Float.valueOf(product.original_price);
                 }
                 oldProductPrice = total;
-                oldProductPriceOriginal = original;
+                oldProductPriceOriginal = original-total;
                 productPrice.setText("Total:" + total + "0");
-                productPriceOriginal.setText("Cost saving: " + original + "0");
+                productPriceOriginal.setText("Cost saving: " + (original-total) + "0");
 
                 RxBus.getDefault().post(new CartStatusChangeEvent(checkoutListAdapter.getData().size()));
             }
@@ -231,6 +234,7 @@ public class ShoppingCartActivity extends BaseActivity {
     }
 
     private void setCartListStatusEmpty(boolean isEmpty) {
+        bottomBar.setVisibility(isEmpty?View.GONE:View.VISIBLE);
         rvCheckoutList.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
         noDataNotice.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
         shoppingCartNotice.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
@@ -272,7 +276,7 @@ public class ShoppingCartActivity extends BaseActivity {
         boolean isCartListEmpty = checkoutListAdapter.getData() == null || checkoutListAdapter.getData().size() == 0;
         setCartListStatusEmpty(isCartListEmpty);
         boolean isLaterListEmpty = laterListAdapter.getData() == null || laterListAdapter.getData().size() == 0;
-        setLaterListStatusEmpty(isCartListEmpty);
+        setLaterListStatusEmpty(isLaterListEmpty);
         if (isCartListEmpty || isLaterListEmpty) {
             FirebaseMessaging.getInstance().subscribeToTopic("cart");
         } else {

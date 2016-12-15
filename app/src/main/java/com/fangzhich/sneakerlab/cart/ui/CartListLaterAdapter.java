@@ -20,7 +20,6 @@ import com.fangzhich.sneakerlab.cart.data.event.MoveItemFromLaterToCartEvent;
 import com.fangzhich.sneakerlab.util.TagFormatUtil;
 import com.fangzhich.sneakerlab.util.ToastUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -89,7 +88,7 @@ class CartListLaterAdapter extends BaseRecyclerViewAdapter<CartEntity.CartBack, 
     public ViewHolder onCreateHolder(ViewGroup parent, int viewType) {
         View itemView = View.inflate(parent.getContext(), R.layout.item_cart_list, null);
         itemView.findViewById(R.id.quantity_view).setVisibility(View.GONE);
-        ((TextView)itemView.findViewById(R.id.saveForLater)).setText(parent.getContext().getString(R.string.MoveToWishList));
+        ((TextView)itemView.findViewById(R.id.saveForLater)).setText(parent.getContext().getString(R.string.MoveToCart));
         return new ViewHolder(itemView);
     }
 
